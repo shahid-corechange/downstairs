@@ -2,5 +2,84 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.github
-/.vs/Downstairs
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build outputs
+bin/
+obj/
+out/
+**/bin/
+**/obj/
+
+# Rider
+.idea/
+
+# ASP.NET / Blazor / Web
+wwwroot/lib/
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+project.lock.json
+project.fragment.lock.json
+
+# Publish outputs
+*.publish/
+*.deploy/
+
+# User-specific files
+*.rsuser
+*.userprefs
+*.local
+
+# Logs
+*.log
+*.tlog
+*.log.*
+
+# Docker
+docker-compose.override.yml
+**/docker-compose.override.yml
+*.dockerfile
+Dockerfile.*
+**/bin/Docker
+
+# Dapr components / state files
+**/components/*.yaml
+*.dapr
+
+# Node / NPM (if Blazor WebAssembly uses npm)
+node_modules/
+npm-debug.log
+package-lock.json
+yarn.lock
+
+# Redis / cache / temp
+*.rdb
+*.aof
+temp/
+cache/
+
+# GitHub
+.github/
+
+# JetBrains / Rider
+.idea/
+*.iml
+
+# Visual Studio Code
+.vscode/
+.history/
+
+# AspNet / Entity Framework
+*.db
+*.db-journal
+*.sqlite
+Migrations/

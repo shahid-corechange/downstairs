@@ -1,0 +1,6 @@
+@Downstairs.Api_HostAddress = http://localhost:5177
+
+GET {{Downstairs.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
