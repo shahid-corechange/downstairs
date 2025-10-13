@@ -5,6 +5,9 @@ using Quartz;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add Aspire service defaults
+builder.AddServiceDefaults();
+
 // Add services to the container
 builder.Services.AddControllers().AddDapr();
 
@@ -64,6 +67,9 @@ builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
+// Map Aspire service defaults  
+app.MapDefaultEndpoints();
+
 // Configure the HTTP request pipeline
 app.UseRouting();
 
@@ -72,9 +78,6 @@ app.UseCloudEvents();
 app.MapSubscribeHandler();
 
 app.MapControllers();
-
-// Add health check endpoint
-app.MapHealthChecks("/health");
 
 // Add status endpoint
 app.MapGet("/", () => new

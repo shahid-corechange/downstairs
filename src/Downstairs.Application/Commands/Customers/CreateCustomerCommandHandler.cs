@@ -8,18 +8,12 @@ namespace Downstairs.Application.Commands.Customers;
 /// <summary>
 /// Handler for creating a new customer
 /// </summary>
-public class CreateCustomerCommandHandler : ICommandHandler<CreateCustomerCommand, Guid>
+public class CreateCustomerCommandHandler(
+    ICustomerRepository customerRepository,
+    IUnitOfWork unitOfWork) : ICommandHandler<CreateCustomerCommand, Guid>
 {
-    private readonly ICustomerRepository _customerRepository;
-    private readonly IUnitOfWork _unitOfWork;
-
-    public CreateCustomerCommandHandler(
-        ICustomerRepository customerRepository,
-        IUnitOfWork unitOfWork)
-    {
-        _customerRepository = customerRepository;
-        _unitOfWork = unitOfWork;
-    }
+    private readonly ICustomerRepository _customerRepository = customerRepository;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
     public async Task<Guid> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
     {

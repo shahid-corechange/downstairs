@@ -9,21 +9,14 @@ namespace Downstairs.Application.Commands.Invoices;
 /// <summary>
 /// Handler for creating a new invoice
 /// </summary>
-public class CreateInvoiceCommandHandler : IRequestHandler<CreateInvoiceCommand, Guid>
+public class CreateInvoiceCommandHandler(
+    IInvoiceRepository invoiceRepository,
+    ICustomerRepository customerRepository,
+    IUnitOfWork unitOfWork) : IRequestHandler<CreateInvoiceCommand, Guid>
 {
-    private readonly IInvoiceRepository _invoiceRepository;
-    private readonly ICustomerRepository _customerRepository;
-    private readonly IUnitOfWork _unitOfWork;
-
-    public CreateInvoiceCommandHandler(
-        IInvoiceRepository invoiceRepository,
-        ICustomerRepository customerRepository,
-        IUnitOfWork unitOfWork)
-    {
-        _invoiceRepository = invoiceRepository;
-        _customerRepository = customerRepository;
-        _unitOfWork = unitOfWork;
-    }
+    private readonly IInvoiceRepository _invoiceRepository = invoiceRepository;
+    private readonly ICustomerRepository _customerRepository = customerRepository;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
     public async Task<Guid> Handle(CreateInvoiceCommand request, CancellationToken cancellationToken)
     {

@@ -8,14 +8,9 @@ namespace Downstairs.Infrastructure.Persistence.Repositories;
 /// <summary>
 /// Repository implementation for Invoice entity
 /// </summary>
-public class InvoiceRepository : IInvoiceRepository
+public class InvoiceRepository(DownstairsDbContext context) : IInvoiceRepository
 {
-    private readonly DownstairsDbContext _context;
-
-    public InvoiceRepository(DownstairsDbContext context)
-    {
-        _context = context;
-    }
+    private readonly DownstairsDbContext _context = context;
 
     public async Task<Invoice?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {

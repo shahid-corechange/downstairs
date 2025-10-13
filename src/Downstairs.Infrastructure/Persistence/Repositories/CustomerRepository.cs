@@ -8,14 +8,9 @@ namespace Downstairs.Infrastructure.Persistence.Repositories;
 /// <summary>
 /// Repository implementation for Customer entity
 /// </summary>
-public class CustomerRepository : ICustomerRepository
+public class CustomerRepository(DownstairsDbContext context) : ICustomerRepository
 {
-    private readonly DownstairsDbContext _context;
-
-    public CustomerRepository(DownstairsDbContext context)
-    {
-        _context = context;
-    }
+    private readonly DownstairsDbContext _context = context;
 
     public async Task<Customer?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {

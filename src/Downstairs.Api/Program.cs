@@ -4,6 +4,9 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add Aspire service defaults
+builder.AddServiceDefaults();
+
 // Add services to the container
 builder.Services.AddControllers().AddDapr();
 
@@ -26,7 +29,7 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = "Downstairs API",
         Version = "v1",
-        Description = "Modern event-driven .NET 8 API for Downstairs solution"
+        Description = "Modern event-driven .NET 9 API for Downstairs solution"
     });
     
     // Include XML comments
@@ -42,10 +45,10 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
-// Add health checks
-builder.Services.AddHealthChecks();
-
 var app = builder.Build();
+
+// Map Aspire service defaults
+app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
@@ -70,8 +73,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapSubscribeHandler();
-
-// Add health check endpoint
-app.MapHealthChecks("/health");
 
 app.Run();
