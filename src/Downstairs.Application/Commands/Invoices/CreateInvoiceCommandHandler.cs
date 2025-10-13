@@ -1,4 +1,5 @@
 using Downstairs.Application.Commands.Invoices;
+using Downstairs.Application.Common.Constants;
 using Downstairs.Application.Common.Interfaces;
 using Downstairs.Domain.Entities;
 using Downstairs.Domain.ValueObjects;
@@ -7,16 +8,18 @@ using MediatR;
 namespace Downstairs.Application.Commands.Invoices;
 
 /// <summary>
-/// Handler for creating a new invoice
+/// Handler for creating a new invoice with cache invalidation
 /// </summary>
 public class CreateInvoiceCommandHandler(
     IInvoiceRepository invoiceRepository,
     ICustomerRepository customerRepository,
-    IUnitOfWork unitOfWork) : IRequestHandler<CreateInvoiceCommand, Guid>
+    IUnitOfWork unitOfWork,
+    ICacheService cacheService) : IRequestHandler<CreateInvoiceCommand, Guid>
 {
     private readonly IInvoiceRepository _invoiceRepository = invoiceRepository;
     private readonly ICustomerRepository _customerRepository = customerRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly ICacheService _cacheService = cacheService;
 
     public async Task<Guid> Handle(CreateInvoiceCommand request, CancellationToken cancellationToken)
     {
@@ -57,6 +60,10 @@ public class CreateInvoiceCommandHandler(
         // Save to repository
         await _invoiceRepository.AddAsync(invoice, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        // Invalidate invoice-related cache entries
+        await _cacheService.RemoveAsync(CacheKeys.AllInvoices, cancellationToken);
+        await _cacheService.RemoveAsync(CacheKeys.Format(CacheKeys.InvoicesByCustomer, request.CustomerId), cancellationToken);
 
         return invoice.Id;
     }

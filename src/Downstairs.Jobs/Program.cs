@@ -15,10 +15,12 @@ builder.Services.AddControllers().AddDapr();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
+// Configure Redis distributed locking for Quartz jobs
+// The distributed lock service is already registered in Infrastructure
+
 // Configure Quartz.NET
 builder.Services.AddQuartz(q =>
 {
-    
     // Configure job store (in-memory for this demo)
     q.UseInMemoryStore();
     

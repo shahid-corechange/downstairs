@@ -7,6 +7,11 @@ var mysql = builder.AddMySql("mysql", port: 3306)
 
 var mysqldb = mysql.AddDatabase("downstairsdb");
 
+// Add Redis cache for distributed caching and state management
+var redis = builder.AddRedis("redis", port: 6379)
+    .WithDataVolume()
+    .WithLifetime(ContainerLifetime.Persistent);
+
 // Add Azure Service Bus (using connection string from user secrets/config)
 var serviceBus = builder.AddConnectionString("ServiceBus");
 
@@ -17,11 +22,13 @@ var apiGateway = builder.AddProject<Projects.Downstairs_ApiGateway>("api-gateway
 
 var api = builder.AddProject<Projects.Downstairs_Api>("api")
     .WithReference(mysqldb)
+    .WithReference(redis)
     .WithReference(serviceBus)
     .WithHttpHealthCheck("/health");
 
 var jobs = builder.AddProject<Projects.Downstairs_Jobs>("jobs")
     .WithReference(mysqldb)
+    .WithReference(redis)
     .WithReference(serviceBus)
     .WithHttpHealthCheck("/health");
 
@@ -39,8 +46,8 @@ apiGateway
     .WithReference(logPortal);
 
 // Wait for dependencies
-api.WaitFor(mysqldb);
-jobs.WaitFor(mysqldb).WaitFor(api);
+api.WaitFor(mysqldb).WaitFor(redis);
+jobs.WaitFor(mysqldb).WaitFor(redis).WaitFor(api);
 admin.WaitFor(api);
 
 builder.Build().Run();

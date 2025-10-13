@@ -1,5 +1,7 @@
 using Downstairs.Application.Common.Interfaces;
+using Downstairs.Infrastructure.Caching;
 using Downstairs.Infrastructure.Dapr;
+using Downstairs.Infrastructure.Locking;
 using Downstairs.Infrastructure.Persistence;
 using Downstairs.Infrastructure.Persistence.Repositories;
 using Downstairs.Infrastructure.Resilience;
@@ -7,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using StackExchange.Redis;
 
 namespace Downstairs.Infrastructure;
 
@@ -47,6 +50,33 @@ public static class DependencyInjection
         services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<IInvoiceRepository, InvoiceRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        // Add distributed caching and locking (Redis)
+        var redisConnectionString = configuration.GetConnectionString("redis");
+        if (!string.IsNullOrEmpty(redisConnectionString))
+        {
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = redisConnectionString;
+                options.InstanceName = "Downstairs";
+            });
+            
+            // Add Redis connection for distributed locking
+            services.AddSingleton<IConnectionMultiplexer>(sp =>
+            {
+                return ConnectionMultiplexer.Connect(redisConnectionString);
+            });
+            
+            services.AddScoped<ICacheService, RedisCacheService>();
+            services.AddScoped<IDistributedLockService, RedisDistributedLockService>();
+        }
+        else
+        {
+            // Fallback to in-memory cache if Redis is not available
+            services.AddMemoryCache();
+            services.AddScoped<ICacheService, MemoryCacheService>();
+            // No distributed locking service available without Redis
+        }
 
         // Add Dapr client (will be registered by the host application)
 

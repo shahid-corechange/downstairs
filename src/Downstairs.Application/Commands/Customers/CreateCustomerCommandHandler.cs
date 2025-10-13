@@ -1,4 +1,5 @@
 using Downstairs.Application.Commands.Customers;
+using Downstairs.Application.Common.Constants;
 using Downstairs.Application.Common.Interfaces;
 using Downstairs.Domain.Entities;
 using Downstairs.Domain.ValueObjects;
@@ -6,14 +7,16 @@ using Downstairs.Domain.ValueObjects;
 namespace Downstairs.Application.Commands.Customers;
 
 /// <summary>
-/// Handler for creating a new customer
+/// Handler for creating a new customer with cache invalidation
 /// </summary>
 public class CreateCustomerCommandHandler(
     ICustomerRepository customerRepository,
-    IUnitOfWork unitOfWork) : ICommandHandler<CreateCustomerCommand, Guid>
+    IUnitOfWork unitOfWork,
+    ICacheService cacheService) : ICommandHandler<CreateCustomerCommand, Guid>
 {
     private readonly ICustomerRepository _customerRepository = customerRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly ICacheService _cacheService = cacheService;
 
     public async Task<Guid> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
     {
@@ -40,6 +43,9 @@ public class CreateCustomerCommandHandler(
         // Save to repository
         await _customerRepository.AddAsync(customer, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        // Invalidate customer-related cache entries
+        await _cacheService.RemoveAsync(CacheKeys.AllCustomers, cancellationToken);
 
         return customer.Id;
     }
