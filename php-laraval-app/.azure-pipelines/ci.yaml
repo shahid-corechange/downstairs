@@ -1,0 +1,74 @@
+trigger:
+  - staging
+  - main
+
+pool:
+  vmImage: ubuntu-latest
+
+resources:
+  repositories:
+    - repository: Resources
+      type: git
+      name: DevOps-Utils
+
+parameters:
+  - name: release
+    displayName: Release to a new stage
+    type: boolean
+    default: "false"
+
+variables:
+  - group: laravel-app
+  - name: PHP_VERSION
+    value: "8.1"
+  - name: NODE_VERSION
+    value: "18.16.0"
+  - name: ACR_STAGING_SERVICE_CONNECTION
+    value: ACR-staging-downstairs
+  - name: ACR_PRODUCTION_SERVICE_CONNECTION
+    value: ACR-production-downstairs
+  - name: ARM_STAGING_SERVICE_CONNECTION
+    value: ARM-staging-downstairs
+  - name: ARM_PRODUCTION_SERVICE_CONNECTION
+    value: ARM-production-downstairs
+  - name: CONTAINER_REGISTRY_STAGING
+    value: registrystagingdownstairs.azurecr.io
+  - name: CONTAINER_REGISTRY_PRODUCTION
+    value: registryproductiondownstairs.azurecr.io
+
+extends:
+  template: templates/environment-ci.yaml
+  parameters:
+    nodeVersion: $(NODE_VERSION)
+    phpVersion: $(PHP_VERSION)
+    release: ${{ parameters.release }}
+    ${{ if eq(variables['Build.SourceBranchName'], 'staging') }}:
+      appName: $(STAGING_APP_NAME)
+      ACRServiceConnection: $(ACR_STAGING_SERVICE_CONNECTION)
+      ARMServiceConnection: $(ARM_STAGING_SERVICE_CONNECTION)
+      containerRegistry: $(CONTAINER_REGISTRY_STAGING)
+      redisHost: $(STAGING_REDIS_HOST)
+      redisPort: $(STAGING_REDIS_PORT)
+      redisPassword: $(STAGING_REDIS_PASSWORD)
+      environment: staging
+      stage: beta
+    ${{ elseif eq(variables['Build.SourceBranchName'], 'laundry') }}:
+      appName: $(STAGING_APP_NAME)
+      ACRServiceConnection: $(ACR_STAGING_SERVICE_CONNECTION)
+      ARMServiceConnection: $(ARM_STAGING_SERVICE_CONNECTION)
+      containerRegistry: $(CONTAINER_REGISTRY_STAGING)
+      redisHost: $(STAGING_REDIS_HOST)
+      redisPort: $(STAGING_REDIS_PORT)
+      redisPassword: $(STAGING_REDIS_PASSWORD)
+      environment: staging
+      stage: beta
+    ${{ else }}:
+      appName: $(PRODUCTION_APP_NAME)
+      ACRServiceConnection: $(ACR_PRODUCTION_SERVICE_CONNECTION)
+      ARMServiceConnection: $(ARM_PRODUCTION_SERVICE_CONNECTION)
+      containerRegistry: $(CONTAINER_REGISTRY_PRODUCTION)
+      redisHost: $(PRODUCTION_REDIS_HOST)
+      redisPort: $(PRODUCTION_REDIS_PORT)
+      redisPassword: $(PRODUCTION_REDIS_PASSWORD)
+      environment: production
+      stage: stable

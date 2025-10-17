@@ -1,0 +1,40 @@
+<mjml>
+  <mj-head>
+    <mj-attributes>
+      <mj-class
+        name="text"
+        color="#718096"
+        font-size="16px"
+        font-family="helvetica"
+        line-height="1.75"
+      />
+      <mj-divider border-color="#e2e8f0" border-width="1px" />
+    </mj-attributes>
+  </mj-head>
+  <mj-body>
+    <mj-section>
+      <mj-column>
+        <mj-image width="100px" src="/images/logo.png" />
+
+        <mj-divider />
+
+        <mj-text mj-class="text">
+          Hi :worker! The booking on :date at :time has been canceled by the
+          customer. Please adjust your schedule accordingly. Thank you!
+        </mj-text>
+
+        <mj-text mj-class="text">
+          Regards, <br />
+          Downstairs
+        </mj-text>
+
+        <mj-divider />
+
+        <mj-text mj-class="text">
+          If you have any issue regarding this notification, please contact our
+          support team.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

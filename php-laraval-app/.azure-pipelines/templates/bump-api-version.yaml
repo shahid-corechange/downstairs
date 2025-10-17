@@ -1,0 +1,11 @@
+parameters:
+  - name: version
+    type: string
+
+steps:
+  - bash: |
+      API_VERSION=v$(echo $NEW_VERSION | cut -d '.' -f1)
+      sed -i "/'apiVersions'/,/]/ s/'$API_VERSION'.*/'$API_VERSION' => '$NEW_VERSION',/" config/downstairs.php
+    env:
+      NEW_VERSION: ${{ parameters.version }}
+    displayName: Bump API version

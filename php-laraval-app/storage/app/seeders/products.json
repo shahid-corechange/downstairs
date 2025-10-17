@@ -1,0 +1,2892 @@
+[
+  {
+    "unit": "st",
+    "price": 0.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Product Sales Misc.",
+      "sv_SE": "Produkt Försäljning Div."
+    },
+    "description": {
+      "en_US": "Product Sales Misc.",
+      "sv_SE": "Produkt Försäljning Div."
+    },
+    "category": 4,
+    "is_laundry": false
+  },
+  {
+    "unit": "st",
+    "price": 64.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "A-Shirt Stain Removal",
+      "sv_SE": "A-Skjorta Fläckborttagning"
+    },
+    "description": {
+      "en_US": "A-Shirt Stain Removal",
+      "sv_SE": "A-Skjorta Fläckborttagning"
+    },
+    "category": 5,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 72.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Water Washed - Dried - Folded/PRICE PER KILO",
+      "sv_SE": "Vattentvättas - Torkas - Viks/KILOPRIS"
+    },
+    "description": {
+      "en_US": "Regular Wash & Dry",
+      "sv_SE": "Vanlig Tvätt & Tork"
+    },
+    "category": 6,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 200.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Home Delivery",
+      "sv_SE": "Hemleverans"
+    },
+    "description": {
+      "en_US": "Home Delivery",
+      "sv_SE": "Hemleverans"
+    },
+    "category": 10,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 720.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Evening Gown",
+      "sv_SE": "Aftonklänning"
+    },
+    "description": {
+      "en_US": "Evening Gown",
+      "sv_SE": "Aftonklänning"
+    },
+    "category": 6,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 560.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Cleaning Machine Rental",
+      "sv_SE": "Uthyrning Städmaskiner"
+    },
+    "description": {
+      "en_US": "Cleaning Machine Rental",
+      "sv_SE": "Uthyrning Städmaskiner"
+    },
+    "category": 10,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 64.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "A-Shirt Folded",
+      "sv_SE": "A-Skjorta Vikt"
+    },
+    "description": {
+      "en_US": "A-Shirt Folded",
+      "sv_SE": "A-Skjorta Vikt"
+    },
+    "category": 5,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 396.23,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Inner Lining in Shoes",
+      "sv_SE": "Bakfoder I Skor"
+    },
+    "description": {
+      "en_US": "Inner Lining in Shoes",
+      "sv_SE": "Bakfoder I Skor"
+    },
+    "category": 8,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 584.91,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Inner Lining in Boots",
+      "sv_SE": "Bakfoder I Stövlar"
+    },
+    "description": {
+      "en_US": "Inner Lining in Boots",
+      "sv_SE": "Bakfoder I Stövlar"
+    },
+    "category": 8,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 707.55,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Leg Width Adjustment Both Sides",
+      "sv_SE": "Benvidd Intag Båda Sidor"
+    },
+    "description": {
+      "en_US": "Leg Width Adjustment Both Sides",
+      "sv_SE": "Benvidd Intag Båda Sidor"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 471.70,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Leg Width Adjustment One Side",
+      "sv_SE": "Benvidd Intag En Sida"
+    },
+    "description": {
+      "en_US": "Leg Width Adjustment One Side",
+      "sv_SE": "Benvidd Intag En Sida"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 76.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Mixed Restaurant Laundry",
+      "sv_SE": "Blandad Restaurangtvätt"
+    },
+    "description": {
+      "en_US": "Mixed Restaurant Laundry",
+      "sv_SE": "Blandad Restaurangtvätt"
+    },
+    "category": 10,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 72.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Blouse",
+      "sv_SE": "Blus"
+    },
+    "description": {
+      "en_US": "Blouse",
+      "sv_SE": "Blus"
+    },
+    "category": 5,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 176.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Blouse Dry Cleaning",
+      "sv_SE": "Blus Kemtvätt"
+    },
+    "description": {
+      "en_US": "Dry cleaning, stain removal and pressing. Delivered on hanger.",
+      "sv_SE": "Kemtvätt. fläckborttagning och press. Levereras på galge."
+    },
+    "category": 5,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 128.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "1 pc. Embroidered Tablecloth (lpm)",
+      "sv_SE": "1 st. Broderad Duk (lpm)"
+    },
+    "description": {
+      "en_US": "1 pc. Embroidered Tablecloth (lpm)",
+      "sv_SE": "1 st. Broderad Duk (lpm)"
+    },
+    "category": 11,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 1200.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Wedding Dress",
+      "sv_SE": "Brudklänning"
+    },
+    "description": {
+      "en_US": "Starting price",
+      "sv_SE": "Från pris"
+    },
+    "category": 6,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 192.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Pants",
+      "sv_SE": "Byxa"
+    },
+    "description": {
+      "en_US": "Pants",
+      "sv_SE": "Byxa"
+    },
+    "category": 6,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 424.53,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Pants Lengthening",
+      "sv_SE": "Byxförlängning"
+    },
+    "description": {
+      "en_US": "Pants Lengthening",
+      "sv_SE": "Byxförlängning"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 273.58,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Pants Hemming",
+      "sv_SE": "Byxuppläggning"
+    },
+    "description": {
+      "en_US": "Pants Hemming",
+      "sv_SE": "Byxuppläggning"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 283.02,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Women's Heeling",
+      "sv_SE": "Dam Klackning"
+    },
+    "description": {
+      "en_US": "Heeling with durable rubber heel",
+      "sv_SE": "Klackning med hållbar gummiklack"
+    },
+    "category": 8,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 330.19,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Resoling",
+      "sv_SE": "Sulning"
+    },
+    "description": {
+      "en_US": "Resoling",
+      "sv_SE": "Sulning"
+    },
+    "category": 8,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 943.40,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Leather Resoling with Welt Stitching",
+      "sv_SE": "Lädersulning med randsöm"
+    },
+    "description": {
+      "en_US": "Leather Resoling with Welt Stitching",
+      "sv_SE": "Lädersulning med randsöm"
+    },
+    "category": 8,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 556.60,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Heel & Resoling",
+      "sv_SE": "Klack & Sulning"
+    },
+    "description": {
+      "en_US": "Heel & Resoling",
+      "sv_SE": "Klack & Sulning"
+    },
+    "category": 8,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 520.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Christening Gown",
+      "sv_SE": "Dopklänning"
+    },
+    "description": {
+      "en_US": "Christening Gown",
+      "sv_SE": "Dopklänning"
+    },
+    "category": 6,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 415.09,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Pants Zipper Replacement",
+      "sv_SE": "Dragkedjebyte Byxa"
+    },
+    "description": {
+      "en_US": "Pants Zipper Replacement",
+      "sv_SE": "Dragkedjebyte Byxa"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 396.23,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Child Jacket Zipper Replacement",
+      "sv_SE": "Dragkedjebyte Barnjacka"
+    },
+    "description": {
+      "en_US": "Child Jacket Zipper Replacement",
+      "sv_SE": "Dragkedjebyte Barnjacka"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 566.04,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Jacket Zipper Replacement",
+      "sv_SE": "Dragkedjebyte Jacka"
+    },
+    "description": {
+      "en_US": "Jacket zipper replacement including zipper",
+      "sv_SE": "Byte dragkedja jacka inkl. dragkedja"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 424.53,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Skirt Zipper Replacement",
+      "sv_SE": "Dragkedjebyte Kjol"
+    },
+    "description": {
+      "en_US": "Skirt Zipper Replacement",
+      "sv_SE": "Dragkedjebyte Kjol"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 112.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "1 pc. Tablecloth (lpm)",
+      "sv_SE": "1 st. Duk (lpm)"
+    },
+    "description": {
+      "en_US": "1 pc. Tablecloth (lpm)",
+      "sv_SE": "1 st. Duk (lpm)"
+    },
+    "category": 11,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 480.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Down Jacket",
+      "sv_SE": "Dunjacka"
+    },
+    "description": {
+      "en_US": "Down Jacket",
+      "sv_SE": "Dunjacka"
+    },
+    "category": 6,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 640.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Down Jacket Canada Model",
+      "sv_SE": "Dunjacka Canadamodell"
+    },
+    "description": {
+      "en_US": "Down Jacket Canada Model",
+      "sv_SE": "Dunjacka Canadamodell"
+    },
+    "category": 6,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 358.49,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Golf Shoes New Spikes",
+      "sv_SE": "Golfsko nya spikar"
+    },
+    "description": {
+      "en_US": "Golf Shoes New Spikes",
+      "sv_SE": "Golfsko nya spikar"
+    },
+    "category": 8,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 226.42,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Heel Attachment",
+      "sv_SE": "Fastsättning Av Klack"
+    },
+    "description": {
+      "en_US": "Heel Attachment",
+      "sv_SE": "Fastsättning Av Klack"
+    },
+    "category": 8,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 377.36,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Pocket Lining Replacement",
+      "sv_SE": "Fickfoder Byte"
+    },
+    "description": {
+      "en_US": "Pocket Lining Replacement",
+      "sv_SE": "Fickfoder Byte"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 240.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Blanket Small",
+      "sv_SE": "Filt Liten"
+    },
+    "description": {
+      "en_US": "Blanket Small",
+      "sv_SE": "Filt Liten"
+    },
+    "category": 9,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 320.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Blanket Large",
+      "sv_SE": "Filt Stor"
+    },
+    "description": {
+      "en_US": "Blanket Large",
+      "sv_SE": "Filt Stor"
+    },
+    "category": 9,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 235.85,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Misc. Shoe Repair",
+      "sv_SE": "Div Skomakeri"
+    },
+    "description": {
+      "en_US": "Misc. Shoe Repair",
+      "sv_SE": "Div Skomakeri"
+    },
+    "category": 10,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 1698.11,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Lining Replacement",
+      "sv_SE": "Foderbyte"
+    },
+    "description": {
+      "en_US": "Lining Replacement",
+      "sv_SE": "Foderbyte"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 235.85,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Misc. Tailoring",
+      "sv_SE": "Div Skrädderi"
+    },
+    "description": {
+      "en_US": "Misc. Tailoring",
+      "sv_SE": "Div Skrädderi"
+    },
+    "category": 10,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 448.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Tailcoat/Tuxedo",
+      "sv_SE": "Frack/Smoking"
+    },
+    "description": {
+      "en_US": "Tailcoat/Tuxedo",
+      "sv_SE": "Frack/Smoking"
+    },
+    "category": 6,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 160.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Tailcoat/Tuxedo/Shirt",
+      "sv_SE": "Frack/Smoking/Skjorta"
+    },
+    "description": {
+      "en_US": "Tailcoat/Tuxedo/Shirt",
+      "sv_SE": "Frack/Smoking/Skjorta"
+    },
+    "category": 5,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 160.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Tailcoat Vest",
+      "sv_SE": "Frackväst"
+    },
+    "description": {
+      "en_US": "Tailcoat Vest",
+      "sv_SE": "Frackväst"
+    },
+    "category": 5,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 283.02,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Dress Pants Hemming (Damaged Hem)",
+      "sv_SE": "Fålla Finbyxa (Trasig Fåll)"
+    },
+    "description": {
+      "en_US": "Dress Pants Hemming (Damaged Hem)",
+      "sv_SE": "Fålla Finbyxa (Trasig Fåll)"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 235.85,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Reinforcement of Wear",
+      "sv_SE": "Förstärkning Av Slitning"
+    },
+    "description": {
+      "en_US": "Reinforcement of Wear",
+      "sv_SE": "Förstärkning Av Slitning"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 1415.09,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Bally Rubber Coating",
+      "sv_SE": "Galoschering Bally"
+    },
+    "description": {
+      "en_US": "Bally Rubber Coating",
+      "sv_SE": "Galoschering Bally"
+    },
+    "category": 8,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 160.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "1 pc. Lined Curtain (m²) (Environmental)",
+      "sv_SE": "1 st. Gardin Fodrad (m²) (Miljö)"
+    },
+    "description": {
+      "en_US": "1 pc. Lined Curtain (m²) (Environmental)",
+      "sv_SE": "1 st. Gardin Fodrad (m²) (Miljö)"
+    },
+    "category": 9,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 112.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "1 pc. Curtains (m²) (Environmental)",
+      "sv_SE": "1 st. Gardiner (m²) (Miljö)"
+    },
+    "description": {
+      "en_US": "1 pc. Curtains (m²) (Environmental)",
+      "sv_SE": "1 st. Gardiner (m²) (Miljö)"
+    },
+    "category": 9,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 144.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Scarf",
+      "sv_SE": "Halsduk"
+    },
+    "description": {
+      "en_US": "Scarf",
+      "sv_SE": "Halsduk"
+    },
+    "category": 6,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 339.62,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Crotch Repair",
+      "sv_SE": "Gren lagning"
+    },
+    "description": {
+      "en_US": "Crotch Repair",
+      "sv_SE": "Gren lagning"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 1132.08,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Bally Original Complete Resoling",
+      "sv_SE": "Helsulning Bally orginal"
+    },
+    "description": {
+      "en_US": "Bally Original Complete Resoling",
+      "sv_SE": "Helsulning Bally orginal"
+    },
+    "category": 8,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 200.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Misc. Laundry",
+      "sv_SE": "Div Tvätt"
+    },
+    "description": {
+      "en_US": "Misc. Laundry",
+      "sv_SE": "Div Tvätt"
+    },
+    "category": 10,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 283.02,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Men's Heeling",
+      "sv_SE": "Herr Klackning"
+    },
+    "description": {
+      "en_US": "Heeling with durable rubber heel",
+      "sv_SE": "Klackning med hållbar gummiklack"
+    },
+    "category": 8,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 566.04,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Leather Heel",
+      "sv_SE": "Läderklack"
+    },
+    "description": {
+      "en_US": "Leather Heel",
+      "sv_SE": "Läderklack"
+    },
+    "category": 8,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 141.51,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Hook And Eye. Per Pair",
+      "sv_SE": "Hyska Och Hake. Per Par"
+    },
+    "description": {
+      "en_US": "Hook And Eye. Per Pair",
+      "sv_SE": "Hyska Och Hake. Per Par"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 132.08,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Belt Loops. Newly Made. Per Piece",
+      "sv_SE": "Hällor. Nytillverkade. Per Styck"
+    },
+    "description": {
+      "en_US": "Belt Loops. Newly Made. Per Piece",
+      "sv_SE": "Hällor. Nytillverkade. Per Styck"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 330.19,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Crotch Point Adjustment",
+      "sv_SE": "Intag Grenspets"
+    },
+    "description": {
+      "en_US": "Crotch Point Adjustment",
+      "sv_SE": "Intag Grenspets"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 452.83,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Pants Waist Adjustment",
+      "sv_SE": "Intag Lividd Byxa"
+    },
+    "description": {
+      "en_US": "Pants Waist Adjustment",
+      "sv_SE": "Intag Lividd Byxa"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 452.83,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Waist Adjustment",
+      "sv_SE": "Intag Midja"
+    },
+    "description": {
+      "en_US": "Waist Adjustment",
+      "sv_SE": "Intag midja"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 352.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Jacket",
+      "sv_SE": "Jacka"
+    },
+    "description": {
+      "en_US": "Jacket",
+      "sv_SE": "Jacka"
+    },
+    "category": 6,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 141.51,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Special Button from",
+      "sv_SE": "Specialknapp fr."
+    },
+    "description": {
+      "en_US": "Special Button from",
+      "sv_SE": "Specialknapp fr."
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 235.85,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Jeans Repair",
+      "sv_SE": "Jeanslagning"
+    },
+    "description": {
+      "en_US": "Jeans Repair",
+      "sv_SE": "Jeanslagning"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 416.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Coat/Jacket",
+      "sv_SE": "Kappa/Rock"
+    },
+    "description": {
+      "en_US": "Coat/Jacket",
+      "sv_SE": "Kappa/Rock"
+    },
+    "category": 6,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 192.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Blazer",
+      "sv_SE": "Kavaj"
+    },
+    "description": {
+      "en_US": "Dry cleaning, stain removal and pressing. <br>Delivered on hanger.",
+      "sv_SE": "Kemtvätt. fläckborttagning och press. <br>Levereras på galge."
+    },
+    "category": 6,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 754.72,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Bally Original Heeling",
+      "sv_SE": "Klackning Bally Original"
+    },
+    "description": {
+      "en_US": "Bally Original Heeling",
+      "sv_SE": "Klackning Bally Original"
+    },
+    "category": 8,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 400.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Dress",
+      "sv_SE": "Klänning"
+    },
+    "description": {
+      "en_US": "Dress",
+      "sv_SE": "Klänning"
+    },
+    "category": 6,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 169.81,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Buttons Sewn In Leather",
+      "sv_SE": "Knappar Isydd I Skinn"
+    },
+    "description": {
+      "en_US": "Buttons Sewn In Leather",
+      "sv_SE": "Knappar Isydd I Skinn"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 94.34,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Buttons. Per Piece",
+      "sv_SE": "Knappar. Per Styck"
+    },
+    "description": {
+      "en_US": "Buttons. Per Piece",
+      "sv_SE": "Knappar. Per Styck"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 424.53,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Shorten Shirt",
+      "sv_SE": "Korta Ner Skjorta"
+    },
+    "description": {
+      "en_US": "Shorten Shirt",
+      "sv_SE": "Korta Ner Skjorta"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 377.36,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Pants Shortening With Cuffs",
+      "sv_SE": "Kortning Byxa M. Slag"
+    },
+    "description": {
+      "en_US": "Pants Shortening With Cuffs",
+      "sv_SE": "Kortning Byxa M. Slag"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 377.36,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Pants Shortening With Wear Band Only Back",
+      "sv_SE": "Kortning Byxa M. Slitband Endast Bak"
+    },
+    "description": {
+      "en_US": "Pants Shortening With Wear Band Only Back",
+      "sv_SE": "Kortning Byxa M. Slitband Endast Bak"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 377.36,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Shortening With Wear Band All Around",
+      "sv_SE": "Kortning M. Slitband Runt Hela"
+    },
+    "description": {
+      "en_US": "Shortening With Wear Band All Around",
+      "sv_SE": "Kortning M. Slitband Runt Hela"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 754.72,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Jacket Shortening With Lining",
+      "sv_SE": "Kavaj Kortning Med Foder"
+    },
+    "description": {
+      "en_US": "Jacket Shortening With Lining",
+      "sv_SE": "Kavaj Kortning Med Foder"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 754.72,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Jacket Shortening Below With One Vent",
+      "sv_SE": "Kortning Kavaj Nedan Med Ett Sprund"
+    },
+    "description": {
+      "en_US": "Jacket Shortening Below With One Vent",
+      "sv_SE": "Kortning Kavaj Nedan Med Ett Sprund"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 754.72,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Jacket Shortening Below With Two Vents",
+      "sv_SE": "Kortning Kavaj Nedan Med Två Sprund"
+    },
+    "description": {
+      "en_US": null,
+      "sv_SE": null
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 754.72,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Jacket Shortening Below Without Vent",
+      "sv_SE": "Kortning Kavaj Nedan Utan Sprund"
+    },
+    "description": {
+      "en_US": "Jacket Shortening Below Without Vent",
+      "sv_SE": "Kortning Kavaj Nedan Utan Sprund"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 754.72,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Jacket Shortening Without Lining",
+      "sv_SE": "Kortning Kavaj Utan Foder"
+    },
+    "description": {
+      "en_US": "Jacket Shortening Without Lining",
+      "sv_SE": "Kortning Kavaj Utan Foder"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 312.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Suit",
+      "sv_SE": "Kostym"
+    },
+    "description": {
+      "en_US": "Dry cleaning, stain removal and pressing. Delivered on hanger.",
+      "sv_SE": "Kemtvätt. fläckborttagning och press. Levereras på galge."
+    },
+    "category": 6,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 1839.62,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "RM Williams Heel+Sole Complete Resoling New Cork etc.",
+      "sv_SE": "RM Williams Klack+Sula helombottning ny kork mm."
+    },
+    "description": {
+      "en_US": "RM Williams Heel+Sole Complete Resoling New Cork etc.",
+      "sv_SE": "RM Williams Klack+Sula helombottning ny kork mm."
+    },
+    "category": 8,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 320.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Pillow",
+      "sv_SE": "Kudde"
+    },
+    "description": {
+      "en_US": "Pillow",
+      "sv_SE": "Kudde"
+    },
+    "category": 9,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 396.23,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Inner Heel Repair",
+      "sv_SE": "Lagning Insida Häl"
+    },
+    "description": {
+      "en_US": "Inner heel repair",
+      "sv_SE": "Lagning insida häl"
+    },
+    "category": 8,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 72.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Sheet",
+      "sv_SE": "Lakan"
+    },
+    "description": {
+      "en_US": "Sheet",
+      "sv_SE": "Lakan"
+    },
+    "category": 11,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 96.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Double Sheet",
+      "sv_SE": "Lakan Dubbel"
+    },
+    "description": {
+      "en_US": "Double Sheet",
+      "sv_SE": "Lakan Dubbel"
+    },
+    "category": 11,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 66.04,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Shoe Cost Estimate",
+      "sv_SE": "Kostnadsförslag Sko"
+    },
+    "description": {
+      "en_US": "Shoe Cost Estimate",
+      "sv_SE": "Kostnadsförslag Sko"
+    },
+    "category": 8,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 66.04,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Tailoring Cost Estimate",
+      "sv_SE": "Kostnadsförslag Skrädderi"
+    },
+    "description": {
+      "en_US": "Tailoring Cost Estimate",
+      "sv_SE": "Kostnadsförslag Skrädderi"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 400.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Linen/Silk Suit",
+      "sv_SE": "Linne/Siden Kostym"
+    },
+    "description": {
+      "en_US": "Linen/Silk Suit",
+      "sv_SE": "Linne/Siden Kostym"
+    },
+    "category": 6,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 188.68,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Hole",
+      "sv_SE": "Hål"
+    },
+    "description": {
+      "en_US": "Hole",
+      "sv_SE": "Hål"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 283.02,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Shoe Stretching",
+      "sv_SE": "Lästning Av Sko"
+    },
+    "description": {
+      "en_US": "Stretching. Write down where the shoe should be stretched. E.g. instep, wide toe or entire shoe.",
+      "sv_SE": "Lästning.Skriv ner var skon ska lästas. Tex. vrist. tå bred alt hela."
+    },
+    "category": 8,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 377.36,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Boot Stretching",
+      "sv_SE": "Lästning Stövel"
+    },
+    "description": {
+      "en_US": "Boot Stretching",
+      "sv_SE": "Lästning Stövel"
+    },
+    "category": 8,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 800.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Mattress 100cm",
+      "sv_SE": "Madrass 100cm"
+    },
+    "description": {
+      "en_US": "Mattress 100cm",
+      "sv_SE": "Madrass 100cm"
+    },
+    "category": 9,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 1200.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Mattress 100cm-200cm",
+      "sv_SE": "Madrass 100cm-200cm"
+    },
+    "description": {
+      "en_US": "Mattress 100cm-200cm",
+      "sv_SE": "Madrass 100cm-200cm"
+    },
+    "category": 9,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 800.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Suede",
+      "sv_SE": "Mocka"
+    },
+    "description": {
+      "en_US": "Suede",
+      "sv_SE": "Mocka"
+    },
+    "category": 6,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 240.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Furniture Upholstery (Dry Cleaning)",
+      "sv_SE": "Möbelklädsel (Kem)"
+    },
+    "description": {
+      "en_US": "Furniture Upholstery (Dry Cleaning)",
+      "sv_SE": "Möbelklädsel (Kem)"
+    },
+    "category": 9,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 179.25,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Polishing",
+      "sv_SE": "Putsning"
+    },
+    "description": {
+      "en_US": "Polishing",
+      "sv_SE": "Putsning"
+    },
+    "category": 8,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 80.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Duvet Cover",
+      "sv_SE": "Påslakan"
+    },
+    "description": {
+      "en_US": "Duvet Cover",
+      "sv_SE": "Påslakan"
+    },
+    "category": 11,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 104.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Double Duvet Cover",
+      "sv_SE": "Påslakan Dubbel"
+    },
+    "description": {
+      "en_US": "Double Duvet Cover",
+      "sv_SE": "Påslakan Dubbel"
+    },
+    "category": 11,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 1600.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Fur",
+      "sv_SE": "Päls"
+    },
+    "description": {
+      "en_US": "Fur",
+      "sv_SE": "Päls"
+    },
+    "category": 6,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 720.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Leather",
+      "sv_SE": "Skinn"
+    },
+    "description": {
+      "en_US": "Leather",
+      "sv_SE": "Skinn"
+    },
+    "category": 6,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 32.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Standard Shirt",
+      "sv_SE": "Standard Skjorta"
+    },
+    "description": {
+      "en_US": "Standard Shirt",
+      "sv_SE": "Standard Skjorta"
+    },
+    "category": 5,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 471.70,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Shoes Cracked At Sole Edge",
+      "sv_SE": "Skor Spruckna I Sulkanten"
+    },
+    "description": {
+      "en_US": "Shoes Cracked At Sole Edge",
+      "sv_SE": "Skor Spruckna I Sulkanten"
+    },
+    "category": 8,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 144.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Tie/Bow Tie/Scarf",
+      "sv_SE": "Slips/Fluga/Scarf"
+    },
+    "description": {
+      "en_US": "Tie/Bow Tie/Scarf",
+      "sv_SE": "Slips/Fluga/Scarf"
+    },
+    "category": 6,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 400.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Sleeping Bag",
+      "sv_SE": "Sovsäck"
+    },
+    "description": {
+      "en_US": "Sleeping Bag",
+      "sv_SE": "Sovsäck"
+    },
+    "category": 9,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 176.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Key Copying",
+      "sv_SE": "Nycklelkopiering"
+    },
+    "description": {
+      "en_US": "Key Copying",
+      "sv_SE": "Nycklelkopiering"
+    },
+    "category": 10,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 19.20,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Cleaning Supplies",
+      "sv_SE": "Städmaterial"
+    },
+    "description": {
+      "en_US": "Cleaning Supplies",
+      "sv_SE": "Städmaterial"
+    },
+    "category": 10,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 283.02,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Large Hole",
+      "sv_SE": "Stort Hål"
+    },
+    "description": {
+      "en_US": "Large Hole",
+      "sv_SE": "Stort Hål"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 471.70,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Boot Resoling",
+      "sv_SE": "Sulning Stövlar"
+    },
+    "description": {
+      "en_US": "Boot Resoling",
+      "sv_SE": "Sulning Stövlar"
+    },
+    "category": 8,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 377.36,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Take In With Darts",
+      "sv_SE": "Sy In Med Insnitt"
+    },
+    "description": {
+      "en_US": "Take In With Darts",
+      "sv_SE": "Sy In Med Insnitt"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 424.53,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Take In Back Seam",
+      "sv_SE": "Sy In Ryggsöm"
+    },
+    "description": {
+      "en_US": "Take In Back Seam",
+      "sv_SE": "Sy In Ryggsöm"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 433.96,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Take In Sides",
+      "sv_SE": "Sy In Sidor"
+    },
+    "description": {
+      "en_US": "Take In Sides",
+      "sv_SE": "Sy In Sidor"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 471.70,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Take In Sides With Sleeve With Stitching",
+      "sv_SE": "Sy In Sidor M. Ärm M. Stickning"
+    },
+    "description": {
+      "en_US": "Take In Sides With Sleeve With Stitching",
+      "sv_SE": "Sy In Sidor M. Ärm M. Stickning"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 32.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Placemat/Napkin",
+      "sv_SE": "Tablett/Servett"
+    },
+    "description": {
+      "en_US": "Placemat/Napkin",
+      "sv_SE": "Tablett/Servett"
+    },
+    "category": 11,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 192.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "1 pc. Rag Rug (m²)",
+      "sv_SE": "1 st. Trasmatta (m²)"
+    },
+    "description": {
+      "en_US": "1 pc. Rag Rug (m²)",
+      "sv_SE": "1 st. Trasmatta (m²)"
+    },
+    "category": 12,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 132.08,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Snap Button",
+      "sv_SE": "Tryckknapp"
+    },
+    "description": {
+      "en_US": "Snap Button",
+      "sv_SE": "Tryckknapp"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 176.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Sweater/Cardigan",
+      "sv_SE": "Tröja/Kofta"
+    },
+    "description": {
+      "en_US": "Sweater/Cardigan",
+      "sv_SE": "Tröja/Kofta"
+    },
+    "category": 6,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 188.68,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Toe Pieces",
+      "sv_SE": "Tåbitar"
+    },
+    "description": {
+      "en_US": "Toe Pieces",
+      "sv_SE": "Tåbitar"
+    },
+    "category": 8,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 640.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Double Duvet",
+      "sv_SE": "Täcke Dubbel"
+    },
+    "description": {
+      "en_US": "Professional washing and drying according to care instructions.",
+      "sv_SE": "Proffesionell Tvätt och torkning enligt tvättråd."
+    },
+    "category": 9,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 440.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Single Duvet",
+      "sv_SE": "Täcke Enkel"
+    },
+    "description": {
+      "en_US": "Professional washing and drying according to care instructions.",
+      "sv_SE": "Proffesionell Tvätt och torkning enligt tvättråd."
+    },
+    "category": 9,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 188.68,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Rebuilding of Heavily Worn Heels",
+      "sv_SE": "Uppbyggnad Av Hårt Nedslitna Klackar"
+    },
+    "description": {
+      "en_US": "Rebuilding of Heavily Worn Heels",
+      "sv_SE": "Uppbyggnad Av Hårt Nedslitna Klackar"
+    },
+    "category": 8,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 452.83,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Let Out Waist Pants",
+      "sv_SE": "Uttag Lividd Byxa"
+    },
+    "description": {
+      "en_US": "Let Out Waist Pants",
+      "sv_SE": "Uttag Lividd Byxa"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 273.58,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Standard Shortening",
+      "sv_SE": "Vanlig Kortning"
+    },
+    "description": {
+      "en_US": "Standard Shortening",
+      "sv_SE": "Vanlig Kortning"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 377.36,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Collar Turning",
+      "sv_SE": "Vändning Av Krage"
+    },
+    "description": {
+      "en_US": "Collar Turning",
+      "sv_SE": "Vändning Av Krage"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 160.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Suit Vest",
+      "sv_SE": "Kostymväst"
+    },
+    "description": {
+      "en_US": "Suit Vest",
+      "sv_SE": "Kostymväst"
+    },
+    "category": 6,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 232.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "1 pc. Wool Carpet/Rya (m²)",
+      "sv_SE": "1 st. Ullmatta/Rya (m²)"
+    },
+    "description": {
+      "en_US": "1 pc. Wool Carpet/Rya (m²)",
+      "sv_SE": "1 st. Ullmatta/Rya (m²)"
+    },
+    "category": 12,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 256.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "1 pc. Authentic/Chinese (m²)",
+      "sv_SE": "1 st. Äkta/Kina (m²)"
+    },
+    "description": {
+      "en_US": "1 pc. Authentic/Chinese (m²)",
+      "sv_SE": "1 st. Äkta/Kina (m²)"
+    },
+    "category": 12,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 613.21,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Sleeve Lengthening Advanced",
+      "sv_SE": "Ärmförlängning Avancerad"
+    },
+    "description": {
+      "en_US": "Sleeve Lengthening Advanced",
+      "sv_SE": "Ärmförlängning Avancerad"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 613.21,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Sleeve Lengthening Plain Sleeve",
+      "sv_SE": "Ärmförlängning Slät Ärm"
+    },
+    "description": {
+      "en_US": "Sleeve Lengthening Plain Sleeve",
+      "sv_SE": "Ärmförlängning Slät Ärm"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 849.06,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Sleeve Shortening in Leather",
+      "sv_SE": "Ärmkortning I Skinn"
+    },
+    "description": {
+      "en_US": "Sleeve Shortening in Leather",
+      "sv_SE": "Ärmkortning I Skinn"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 613.21,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Jacket Sleeve Shortening",
+      "sv_SE": "Ärmkortning Kavaj"
+    },
+    "description": {
+      "en_US": "Jacket sleeve shortening",
+      "sv_SE": "Ärmkortning kavaj"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 471.70,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Sleeve Shortening to Short Sleeve",
+      "sv_SE": "Ärmkortning Till Kortärmad"
+    },
+    "description": {
+      "en_US": "Sleeve Shortening to Short Sleeve",
+      "sv_SE": "Ärmkortning Till Kortärmad"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 32.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Pillowcase",
+      "sv_SE": "Örngott"
+    },
+    "description": {
+      "en_US": "Pillowcase",
+      "sv_SE": "Örngott"
+    },
+    "category": 11,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 640.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Double Bedspread",
+      "sv_SE": "Överkast Dubbel"
+    },
+    "description": {
+      "en_US": "Professional washing and drying according to care instructions.",
+      "sv_SE": "Proffesionell Tvätt och torkning enligt tvättråd."
+    },
+    "category": 9,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 440.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Single Bedspread",
+      "sv_SE": "Överkast Enkel"
+    },
+    "description": {
+      "en_US": "Professional washing and drying according to care instructions.",
+      "sv_SE": "Proffesionell Tvätt och torkning enligt tvättråd."
+    },
+    "category": 9,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 160.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Express Laundry",
+      "sv_SE": "Expresstvätt"
+    },
+    "description": {
+      "en_US": "Express Laundry",
+      "sv_SE": "Expresstvätt"
+    },
+    "category": 10,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 240.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "24h Laundry",
+      "sv_SE": "24h tvätt"
+    },
+    "description": {
+      "en_US": "24h Laundry",
+      "sv_SE": "24h tvätt"
+    },
+    "category": 10,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 128.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Collonil Shoe Polish",
+      "sv_SE": "Skokräm Collonil"
+    },
+    "description": {
+      "en_US": "Collonil Shoe Polish",
+      "sv_SE": "Skokräm Collonil"
+    },
+    "category": 4,
+    "is_laundry": false
+  },
+  {
+    "unit": "st",
+    "price": 89.29,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Guaranteed Delivery Day",
+      "sv_SE": "Garanterad leveransdag"
+    },
+    "description": {
+      "en_US": "Price applies for delivery production in own store - costs more in other stores.",
+      "sv_SE": "Priset gäller för leverans produktion i egen butik - i annansbutik kostar det mer."
+    },
+    "category": 10,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 135.20,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Washology Fabric Softener",
+      "sv_SE": "Washologi Sköljmedel"
+    },
+    "description": {
+      "en_US": "Washology Fabric Softener",
+      "sv_SE": "Washologi Sköljmedel"
+    },
+    "category": 4,
+    "is_laundry": false
+  },
+  {
+    "unit": "st",
+    "price": 135.20,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Washology Fabric Softener Cotton Flower",
+      "sv_SE": "Washologi Sköljmedel Bomullsblomma"
+    },
+    "description": {
+      "en_US": "Washology Fabric Softener Cotton Flower",
+      "sv_SE": "Washologi Sköljmedel Bomullsblomma"
+    },
+    "category": 4,
+    "is_laundry": false
+  },
+  {
+    "unit": "st",
+    "price": 127.20,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Washology Hand Soap",
+      "sv_SE": "Washologi Handtvål"
+    },
+    "description": {
+      "en_US": "Washology Hand Soap",
+      "sv_SE": "Washologi Handtvål"
+    },
+    "category": 4,
+    "is_laundry": false
+  },
+  {
+    "unit": "st",
+    "price": 143.20,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Washology Linen Water",
+      "sv_SE": "Washologi Linnevatten"
+    },
+    "description": {
+      "en_US": "Washology Linen Water",
+      "sv_SE": "Washologi Linnevatten"
+    },
+    "category": 4,
+    "is_laundry": false
+  },
+  {
+    "unit": "st",
+    "price": 240.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Saphir Shoe Polish",
+      "sv_SE": "Saphir Skokräm"
+    },
+    "description": {
+      "en_US": "Saphir Shoe Polish",
+      "sv_SE": "Saphir Skokräm"
+    },
+    "category": 4,
+    "is_laundry": false
+  },
+  {
+    "unit": "st",
+    "price": 320.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Long Shoe Horn",
+      "sv_SE": "Skohorn Långt"
+    },
+    "description": {
+      "en_US": "Long Shoe Horn",
+      "sv_SE": "Skohorn Långt"
+    },
+    "category": 4,
+    "is_laundry": false
+  },
+  {
+    "unit": "st",
+    "price": 4720.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Crocket and Jones",
+      "sv_SE": "Crocket and Jones"
+    },
+    "description": {
+      "en_US": "Crocket and Jones",
+      "sv_SE": "Crocket and Jones"
+    },
+    "category": 4,
+    "is_laundry": false
+  },
+  {
+    "unit": "st",
+    "price": 240.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Saphir Suede Spray",
+      "sv_SE": "Saphir Mockaspray"
+    },
+    "description": {
+      "en_US": "Saphir Suede Spray",
+      "sv_SE": "Saphir Mockaspray"
+    },
+    "category": 4,
+    "is_laundry": false
+  },
+  {
+    "unit": "st",
+    "price": 120.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Textile Brush",
+      "sv_SE": "Textilborste"
+    },
+    "description": {
+      "en_US": "Textile Brush",
+      "sv_SE": "Textilborste"
+    },
+    "category": 4,
+    "is_laundry": false
+  },
+  {
+    "unit": "st",
+    "price": 160.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Tarrago Sneakers Cleaner",
+      "sv_SE": "Tarrago Sneakers Cleaner"
+    },
+    "description": {
+      "en_US": "Tarrago Sneakers Cleaner",
+      "sv_SE": "Tarrago Sneakers Cleaner"
+    },
+    "category": 4,
+    "is_laundry": false
+  },
+  {
+    "unit": "st",
+    "price": 400.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Metal Boot Jack",
+      "sv_SE": "Stövelknekt metall"
+    },
+    "description": {
+      "en_US": "Metal Boot Jack",
+      "sv_SE": "Stövelknekt metall"
+    },
+    "category": 4,
+    "is_laundry": false
+  },
+  {
+    "unit": "st",
+    "price": 280.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Wooden Boot Jack",
+      "sv_SE": "Stövelknekt Trä"
+    },
+    "description": {
+      "en_US": "Wooden Boot Jack",
+      "sv_SE": "Stövelknekt Trä"
+    },
+    "category": 4,
+    "is_laundry": false
+  },
+  {
+    "unit": "st",
+    "price": 480.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Boot Trees",
+      "sv_SE": "Skoblock Stövel"
+    },
+    "description": {
+      "en_US": "Boot Trees",
+      "sv_SE": "Skoblock Stövel"
+    },
+    "category": 4,
+    "is_laundry": false
+  },
+  {
+    "unit": "st",
+    "price": 64.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Gall Soap Cleaning Soap",
+      "sv_SE": "Galltvål Rengöringstvål"
+    },
+    "description": {
+      "en_US": "Gall Soap Cleaning Soap",
+      "sv_SE": "Galltvål Rengöringstvål"
+    },
+    "category": 4,
+    "is_laundry": false
+  },
+  {
+    "unit": "st",
+    "price": 220.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Saphir Suede Cleaner",
+      "sv_SE": "Saphir Mocka cleaner"
+    },
+    "description": {
+      "en_US": "Saphir Suede Cleaner",
+      "sv_SE": "Saphir Mocka renare"
+    },
+    "category": 4,
+    "is_laundry": false
+  },
+  {
+    "unit": "st",
+    "price": 192.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Skirt",
+      "sv_SE": "Kjol"
+    },
+    "description": {
+      "en_US": "Skirt",
+      "sv_SE": "Kjol"
+    },
+    "category": 6,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 135.20,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Washology Laundry Detergent",
+      "sv_SE": "Washologi Tvättmedel"
+    },
+    "description": {
+      "en_US": "Washology Laundry Detergent",
+      "sv_SE": "Washologi Tvättmedel"
+    },
+    "category": 4,
+    "is_laundry": false
+  },
+  {
+    "unit": "st",
+    "price": 360.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Ski Clothing incl. Waterproofing",
+      "sv_SE": "Skidkläder inkl. impregnering"
+    },
+    "description": {
+      "en_US": "Ski Clothing incl. Waterproofing",
+      "sv_SE": "Skidkläder inkl. impregnering"
+    },
+    "category": 6,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 235.85,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Shoe Stitching",
+      "sv_SE": "Skosömnad"
+    },
+    "description": {
+      "en_US": "Shoe Stitching",
+      "sv_SE": "Skosömnad"
+    },
+    "category": 8,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 452.83,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Suede Shoes Cleaning",
+      "sv_SE": "Mockaskor Tvätt"
+    },
+    "description": {
+      "en_US": "Suede Shoes Cleaning",
+      "sv_SE": "Mockaskor Tvätt"
+    },
+    "category": 8,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 226.42,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": false,
+    "name": {
+      "en_US": "Gluing",
+      "sv_SE": "Limning"
+    },
+    "description": {
+      "en_US": "Gluing",
+      "sv_SE": "Limning"
+    },
+    "category": 8,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 52.80,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Clean Garments Extra Kilo",
+      "sv_SE": "Rena Plagg Extra kilo"
+    },
+    "description": {
+      "en_US": "Clean Garments Extra Kilo",
+      "sv_SE": "Rena Plagg Extra kilo"
+    },
+    "category": 13,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 716.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Clean Garments Extra/One-time Pickup",
+      "sv_SE": "Rena Plagg Extra/Engångsupphämtning"
+    },
+    "description": {
+      "en_US": "Clean Garments Extra/One-time Pickup",
+      "sv_SE": "Rena Plagg Extra/Engångsupphämtning"
+    },
+    "category": 13,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 240.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Furniture Upholstery (Environmental)",
+      "sv_SE": "Möbelklädsel (Miljö)"
+    },
+    "description": {
+      "en_US": "Furniture Upholstery (Environmental)",
+      "sv_SE": "Möbelklädsel (Miljö)"
+    },
+    "category": 9,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 112.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "1 pc. Curtains (m²) (Dry Cleaning)",
+      "sv_SE": "1 st. Gardiner (m²) (Kem)"
+    },
+    "description": {
+      "en_US": "1 pc. Curtains (m²) (Dry Cleaning)",
+      "sv_SE": "1 st. Gardiner (m²) (Kem)"
+    },
+    "category": 9,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 160.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "1 pc. Lined Curtain (m²) (Dry Cleaning)",
+      "sv_SE": "1 st. Gardin Fodrad (m²) (Kem)"
+    },
+    "description": {
+      "en_US": "1 pc. Lined Curtain (m²) (Dry Cleaning)",
+      "sv_SE": "1 st. Gardin Fodrad (m²) (Kem)"
+    },
+    "category": 9,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 176.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Key",
+      "sv_SE": "Nyckel"
+    },
+    "description": {
+      "en_US": "Key",
+      "sv_SE": "Nyckel"
+    },
+    "category": 4,
+    "is_laundry": false
+  },
+  {
+    "unit": "st",
+    "price": 400.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Entrance Mat",
+      "sv_SE": "Entrématta"
+    },
+    "description": {
+      "en_US": "Entrance Mat",
+      "sv_SE": "Entrématta"
+    },
+    "category": 12,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 312.50,
+    "credit_price": 1,
+    "vat_group": 12,
+    "has_rut": true,
+    "name": {
+      "en_US": "Elbow Patches",
+      "sv_SE": "Armbågslappar"
+    },
+    "description": {
+      "en_US": "Elbow Patches",
+      "sv_SE": "Armbågslappar"
+    },
+    "category": 7,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 39.20,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Blomstermåla KG Tablecloths + Napkins",
+      "sv_SE": "Blomstermåla KG Dukar + servetter"
+    },
+    "description": {
+      "en_US": "Blomstermåla KG Tablecloths + Napkins",
+      "sv_SE": "Blomstermåla KG Dukar + servetter"
+    },
+    "category": 14,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 32.00,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": true,
+    "name": {
+      "en_US": "Pique/T-shirt",
+      "sv_SE": "Pike/ T-shirt"
+    },
+    "description": {
+      "en_US": "Pique/T-shirt",
+      "sv_SE": "Pike/ T-shirt"
+    },
+    "category": 5,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 57.60,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Tablecloths KG",
+      "sv_SE": "Dukar KG"
+    },
+    "description": {
+      "en_US": "Tablecloths KG",
+      "sv_SE": "Dukar KG"
+    },
+    "category": 14,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 44.80,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Kitchen Laundry KG",
+      "sv_SE": "Kökstvätt KG"
+    },
+    "description": {
+      "en_US": "Kitchen Laundry KG",
+      "sv_SE": "Kökstvätt KG"
+    },
+    "category": 14,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 23.20,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Chef Coats Per Piece",
+      "sv_SE": "Kockrockar styckpris"
+    },
+    "description": {
+      "en_US": "Chef Coats Per Piece",
+      "sv_SE": "Kockrockar styckpris"
+    },
+    "category": 14,
+    "is_laundry": true
+  },
+  {
+    "unit": "st",
+    "price": 57.60,
+    "credit_price": 1,
+    "vat_group": 25,
+    "has_rut": false,
+    "name": {
+      "en_US": "Orange Volvo Tablecloths KG",
+      "sv_SE": "Orange Volvo Dukar KG"
+    },
+    "description": {
+      "en_US": "Orange Volvo Tablecloths KG",
+      "sv_SE": "Orange Volvo Dukar KG"
+    },
+    "category": 14,
+    "is_laundry": true
+  }
+]

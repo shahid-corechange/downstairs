@@ -1,0 +1,7 @@
+vendor/
+resources/assets/
+public/downstairs/
+storage/
+public/mix-manifest.json
+CHANGELOG.md
+docker-compose.yml

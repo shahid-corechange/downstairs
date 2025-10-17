@@ -1,0 +1,17 @@
+parameters:
+  - name: containerRegistry
+    type: string
+
+  - name: version
+    type: string
+
+steps:
+  - bash: |
+      yq e -i ".services.nginx.image = \"$CR/laravel/nginx:$TAG\"" docker-compose.yml
+      yq e -i ".services.app.image = \"$CR/laravel/php-fpm:$TAG\"" docker-compose.yml
+      yq e -i ".services.scheduler.image = \"$CR/laravel/php-fpm:$TAG\"" docker-compose.yml
+      yq e -i ".services.queue-worker.image = \"$CR/laravel/php-fpm:$TAG\"" docker-compose.yml
+    env:
+      CR: ${{ parameters.containerRegistry }}
+      TAG: ${{ parameters.version }}
+    displayName: Update docker-compose.yml

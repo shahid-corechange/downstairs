@@ -1,0 +1,66 @@
+<mjml>
+  <mj-head>
+    <mj-attributes>
+      <mj-class
+        name="heading"
+        color="#1a202c"
+        font-size="20px"
+        font-family="helvetica"
+        font-weight="bold"
+      />
+      <mj-class
+        name="text"
+        color="#718096"
+        font-size="16px"
+        font-family="helvetica"
+        line-height="1.75"
+      />
+      <mj-divider border-color="#e2e8f0" border-width="1px" />
+    </mj-attributes>
+  </mj-head>
+  <mj-body>
+    <mj-section>
+      <mj-column>
+        <mj-image width="100px" src="/images/logo.png" />
+
+        <mj-divider />
+
+        <mj-text mj-class="heading">Welcome to Downstairs</mj-text>
+
+        <mj-text mj-class="text">Thanks for joining us!</mj-text>
+
+        <mj-text mj-class="text">
+          You can download our app "DS" on App Store and Google Play to manage
+          all your job.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section padding="8px 0">
+      <mj-column>
+        <mj-image
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Download_on_the_App_Store_Badge.svg/1024px-Download_on_the_App_Store_Badge.svg.png"
+          width="160px"
+          href="https://apps.apple.com/us/app/downstairs-employee/id6450975877"
+          padding="4px"
+        />
+        <mj-image
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/1024px-Google_Play_Store_badge_EN.svg.png"
+          width="160px"
+          href="https://play.google.com/store/apps/details?id=se.downstairs.employee"
+          padding="4px"
+        />
+      </mj-column>
+    </mj-section>
+    <mj-section padding="8px 0">
+      <mj-column>
+        <mj-divider />
+        <mj-text mj-class="text">
+          By joining downstairs, you've agreed to our
+          <a href="https://www.downstairs.se/villkor/" target="_blank"
+            >Terms of Use and Privacy Policy</a
+          >
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

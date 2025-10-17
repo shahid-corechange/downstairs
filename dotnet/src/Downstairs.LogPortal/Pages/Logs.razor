@@ -1,0 +1,311 @@
+@page "/logs"
+@using Downstairs.LogPortal.Models
+@using Downstairs.LogPortal.Services
+@inject ILogService LogService
+
+<PageTitle>Downstairs - Log Viewer</PageTitle>
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="text-primary">
+                <i class="fas fa-list-alt"></i> Log Viewer
+            </h1>
+            <p class="text-muted">View and search logs from all services</p>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">
+                <i class="fas fa-filter"></i> Filters
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="form-label">Service</label>
+                    <select class="form-select" @bind="selectedService">
+                        <option value="">All Services</option>
+                        <option value="api">API</option>
+                        <option value="api-gateway">API Gateway</option>
+                        <option value="jobs">Jobs</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Log Level</label>
+                    <select class="form-select" @bind="selectedLogLevel">
+                        <option value="">All Levels</option>
+                        <option value="@((int)LogLevel.Critical)">Critical</option>
+                        <option value="@((int)LogLevel.Error)">Error</option>
+                        <option value="@((int)LogLevel.Warning)">Warning</option>
+                        <option value="@((int)LogLevel.Information)">Information</option>
+                        <option value="@((int)LogLevel.Debug)">Debug</option>
+                        <option value="@((int)LogLevel.Trace)">Trace</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">From Date</label>
+                    <input type="datetime-local" class="form-control" @bind="fromDate" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">To Date</label>
+                    <input type="datetime-local" class="form-control" @bind="toDate" />
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <button class="btn btn-primary" @onclick="ApplyFilters">
+                        <i class="fas fa-search"></i> Apply Filters
+                    </button>
+                    <button class="btn btn-outline-secondary ms-2" @onclick="ClearFilters">
+                        <i class="fas fa-times"></i> Clear
+                    </button>
+                    <button class="btn btn-outline-primary ms-2" @onclick="RefreshLogs">
+                        <i class="fas fa-sync"></i> Refresh
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logs Table -->
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">
+                <i class="fas fa-table"></i> Log Entries
+            </h5>
+            <span class="badge bg-secondary">@(logs?.Count ?? 0) entries</span>
+        </div>
+        <div class="card-body">
+            @if (isLoading)
+            {
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2">Loading logs...</p>
+                </div>
+            }
+            else if (logs?.Any() == true)
+            {
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Service</th>
+                                <th>Level</th>
+                                <th>Message</th>
+                                <th>Correlation ID</th>
+                                <th>User</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var log in logs)
+                            {
+                                <tr class="@GetRowClass(log.Level)">
+                                    <td class="text-nowrap">
+                                        @log.Timestamp.ToString("yyyy-MM-dd HH:mm:ss")
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-info">@log.ServiceName</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge @GetLogLevelBadgeClass(log.Level)">
+                                            @log.Level
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="text-truncate" style="max-width: 400px;" title="@log.Message">
+                                            @log.Message
+                                        </div>
+                                        @if (!string.IsNullOrEmpty(log.Exception))
+                                        {
+                                            <small class="text-danger">
+                                                <i class="fas fa-exclamation-triangle"></i> Has Exception
+                                            </small>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(log.CorrelationId))
+                                        {
+                                            <code class="small">@log.CorrelationId</code>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(log.UserId))
+                                        {
+                                            <small class="text-muted">@log.UserId</small>
+                                        }
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary" @onclick="() => ShowLogDetails(log)">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                @if (selectedLogId == log.Id)
+                                {
+                                    <tr class="table-light">
+                                        <td colspan="7">
+                                            <div class="p-3">
+                                                <h6>Full Message</h6>
+                                                <pre class="bg-light p-2 rounded">@log.Message</pre>
+                                                
+                                                @if (!string.IsNullOrEmpty(log.Exception))
+                                                {
+                                                    <h6 class="mt-3">Exception</h6>
+                                                    <pre class="bg-danger text-white p-2 rounded small">@log.Exception</pre>
+                                                }
+                                                
+                                                @if (!string.IsNullOrEmpty(log.StackTrace))
+                                                {
+                                                    <h6 class="mt-3">Stack Trace</h6>
+                                                    <pre class="bg-dark text-white p-2 rounded small">@log.StackTrace</pre>
+                                                }
+                                                
+                                                @if (log.Properties?.Any() == true)
+                                                {
+                                                    <h6 class="mt-3">Properties</h6>
+                                                    <div class="row">
+                                                        @foreach (var prop in log.Properties)
+                                                        {
+                                                            <div class="col-md-6 mb-1">
+                                                                <strong>@prop.Key:</strong> @prop.Value
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                }
+                                                
+                                                <div class="mt-3">
+                                                    <button class="btn btn-sm btn-secondary" @onclick="HideLogDetails">
+                                                        <i class="fas fa-times"></i> Close
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">No logs found</h5>
+                    <p class="text-muted">Try adjusting your filters or check back later.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<LogEntry>? logs;
+    private bool isLoading = true;
+    private int? selectedLogId;
+
+    // Filter properties
+    private string selectedService = "";
+    private string selectedLogLevel = "";
+    private DateTime? fromDate;
+    private DateTime? toDate;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Set default date range to last 24 hours
+        toDate = DateTime.Now;
+        fromDate = DateTime.Now.AddDays(-1);
+        
+        await LoadLogs();
+    }
+
+    private async Task LoadLogs()
+    {
+        isLoading = true;
+        StateHasChanged();
+
+        try
+        {
+            var logLevel = !string.IsNullOrEmpty(selectedLogLevel) 
+                ? (LogLevel)int.Parse(selectedLogLevel) 
+                : (LogLevel?)null;
+
+            logs = await LogService.GetLogsAsync(
+                from: fromDate,
+                to: toDate,
+                serviceName: string.IsNullOrEmpty(selectedService) ? null : selectedService,
+                level: logLevel
+            );
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading logs: {ex.Message}");
+            logs = new List<LogEntry>();
+        }
+        finally
+        {
+            isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task ApplyFilters()
+    {
+        await LoadLogs();
+    }
+
+    private async Task ClearFilters()
+    {
+        selectedService = "";
+        selectedLogLevel = "";
+        fromDate = DateTime.Now.AddDays(-1);
+        toDate = DateTime.Now;
+        selectedLogId = null;
+        
+        await LoadLogs();
+    }
+
+    private async Task RefreshLogs()
+    {
+        await LoadLogs();
+    }
+
+    private void ShowLogDetails(LogEntry log)
+    {
+        selectedLogId = selectedLogId == log.Id ? null : log.Id;
+        StateHasChanged();
+    }
+
+    private void HideLogDetails()
+    {
+        selectedLogId = null;
+        StateHasChanged();
+    }
+
+    private static string GetLogLevelBadgeClass(LogLevel level) => level switch
+    {
+        LogLevel.Critical => "bg-danger",
+        LogLevel.Error => "bg-danger",
+        LogLevel.Warning => "bg-warning text-dark",
+        LogLevel.Information => "bg-info",
+        LogLevel.Debug => "bg-secondary",
+        LogLevel.Trace => "bg-light text-dark",
+        _ => "bg-secondary"
+    };
+
+    private static string GetRowClass(LogLevel level) => level switch
+    {
+        LogLevel.Critical => "table-danger",
+        LogLevel.Error => "table-danger",
+        LogLevel.Warning => "table-warning",
+        _ => ""
+    };
+}

@@ -1,0 +1,36 @@
+trigger: none
+
+pool:
+  vmImage: ubuntu-latest
+
+resources:
+  containers:
+    - container: mysql
+      image: mysql:8.0
+      ports:
+        - 3306:3306
+      env:
+        MYSQL_DATABASE: downstairs
+        MYSQL_USER: mysql
+        MYSQL_PASSWORD: mysql
+        MYSQL_ROOT_PASSWORD: mysql
+
+    - container: redis
+      image: redis:alpine3.17
+      ports:
+        - 6379:6379
+
+  repositories:
+    - repository: Resources
+      type: git
+      name: DevOps-Utils
+
+variables:
+  PHP_VERSION: 8.1
+  NODE_VERSION: 18.16.0
+
+extends:
+  template: templates/check-and-test.yaml
+  parameters:
+    nodeVersion: $(NODE_VERSION)
+    phpVersion: $(PHP_VERSION)

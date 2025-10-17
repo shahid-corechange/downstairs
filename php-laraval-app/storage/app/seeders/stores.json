@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Butik Hovås (B32)",
+    "company_number": "559132-3539",
+    "phone": "46317219660",
+    "dial_code": "46",
+    "email": "ekonomi@downstairs.se",
+    "address": {
+      "address": "Billdalsvägen 2",
+      "postal_code": "44266",
+      "city_id": 55947,
+      "latitude": 57.8915039,
+      "longitude": 11.59952295
+    }
+  },
+  {
+    "name": "Butik Heden (C13)",
+    "company_number": "559132-3497",
+    "phone": "46317219660",
+    "dial_code": "46",
+    "email": "ekonomi@downstairs.se",
+    "address": {
+      "address": "Södra Vägen 27",
+      "postal_code": "41135",
+      "city_id": 55871,
+      "latitude": 57.699857300000005,
+      "longitude": 11.978588654034674
+    }
+  },
+  {
+    "name": "Butik Kungsbacka (KB1)",
+    "company_number": "559122-2178",
+    "phone": "46317219660",
+    "dial_code": "46",
+    "email": "ekonomi@downstairs.se",
+    "address": {
+      "address": "Borgmästaregatan 5",
+      "postal_code": "43442",
+      "city_id": 56028,
+      "latitude": 57.4913545,
+      "longitude": 12.0741369
+    }
+  }
+]

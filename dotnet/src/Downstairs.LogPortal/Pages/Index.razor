@@ -1,0 +1,414 @@
+﻿@page "/"
+@using Downstairs.LogPortal.Models
+@using Downstairs.LogPortal.Services
+@using Microsoft.AspNetCore.SignalR.Client
+@implements IAsyncDisposable
+@inject ILogService LogService
+@inject IMetricsService MetricsService
+@inject IHealthCheckService HealthCheckService
+@inject IAlertService AlertService
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Downstairs - Business Dashboard</PageTitle>
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="text-primary">
+                <i class="fas fa-tachometer-alt"></i> Business Dashboard
+            </h1>
+            <p class="text-muted">Real-time monitoring and metrics for Downstairs solution</p>
+        </div>
+    </div>
+
+    @if (isLoading)
+    {
+        <div class="text-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Loading dashboard data...</p>
+        </div>
+    }
+    else
+    {
+        <!-- Business Metrics Cards -->
+        <div class="row mb-4">
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1">
+                                <h6 class="card-title">Customers Today</h6>
+                                <h2 class="mb-0">@businessMetrics?.CustomersCreatedToday</h2>
+                            </div>
+                            <div class="ms-3">
+                                <i class="fas fa-users fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1">
+                                <h6 class="card-title">Invoices Today</h6>
+                                <h2 class="mb-0">@businessMetrics?.InvoicesCreatedToday</h2>
+                            </div>
+                            <div class="ms-3">
+                                <i class="fas fa-file-invoice fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="card bg-info text-white">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1">
+                                <h6 class="card-title">Total Customers</h6>
+                                <h2 class="mb-0">@businessMetrics?.TotalActiveCustomers</h2>
+                            </div>
+                            <div class="ms-3">
+                                <i class="fas fa-user-friends fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="card bg-warning text-dark">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1">
+                                <h6 class="card-title">Avg Invoice Amount</h6>
+                                <h2 class="mb-0">@businessMetrics?.AverageInvoiceAmount?.ToString("C")</h2>
+                            </div>
+                            <div class="ms-3">
+                                <i class="fas fa-dollar-sign fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <!-- Service Health Status -->
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="fas fa-heartbeat"></i> Service Health
+                        </h5>
+                        <small class="text-muted">Last updated: @DateTime.Now.ToString("HH:mm:ss")</small>
+                    </div>
+                    <div class="card-body">
+                        @if (serviceHealth?.Any() == true)
+                        {
+                            @foreach (var service in serviceHealth)
+                            {
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <div class="d-flex align-items-center">
+                                        <span class="badge me-2 @GetHealthBadgeClass(service.Status)">
+                                            @service.Status
+                                        </span>
+                                        <span>@service.ServiceName</span>
+                                    </div>
+                                    <div class="text-end">
+                                        @if (service.ResponseTime.HasValue)
+                                        {
+                                            <small class="text-muted">@service.ResponseTime ms</small>
+                                        }
+                                        @if (!string.IsNullOrEmpty(service.ErrorMessage))
+                                        {
+                                            <br />
+                                            <small class="text-danger">@service.ErrorMessage</small>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- API Metrics -->
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-chart-line"></i> API Performance
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        @if (apiMetrics?.Any() == true)
+                        {
+                            @foreach (var api in apiMetrics)
+                            {
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between">
+                                        <strong>@api.ServiceName</strong>
+                                        <span class="badge bg-secondary">@api.RequestCount requests</span>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col-6">
+                                            <small class="text-muted">Avg Response: @api.AverageResponseTime.ToString("F0")ms</small>
+                                        </div>
+                                        <div class="col-6">
+                                            <small class="text-muted">Success Rate: @api.SuccessRate.ToString("P1")</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Job Metrics and Cache Stats -->
+        <div class="row mb-4">
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-cogs"></i> Job Execution
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        @if (jobMetrics != null)
+                        {
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="text-center">
+                                        <h4 class="text-success">@jobMetrics.JobsSucceededToday</h4>
+                                        <small class="text-muted">Succeeded</small>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="text-center">
+                                        <h4 class="text-danger">@jobMetrics.JobsFailedToday</h4>
+                                        <small class="text-muted">Failed</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-12">
+                                    <p class="mb-1"><strong>Success Rate:</strong> @((double)jobMetrics.JobsSucceededToday / Math.Max(1, jobMetrics.JobsExecutedToday)).ToString("P1")</p>
+                                    <p class="mb-1"><strong>Avg Execution Time:</strong> @jobMetrics.AverageExecutionTime.ToString("F0")ms</p>
+                                    <p class="mb-0"><strong>Last Execution:</strong> @jobMetrics.LastJobExecution?.ToString("yyyy-MM-dd HH:mm:ss")</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-database"></i> Cache Performance
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        @if (cacheMetrics?.Any() == true)
+                        {
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="text-center">
+                                        <h4 class="text-success">@cacheMetrics["HitRatio"].ToString("P1")</h4>
+                                        <small class="text-muted">Hit Rate</small>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="text-center">
+                                        <h4 class="text-warning">@cacheMetrics["MissRatio"].ToString("P1")</h4>
+                                        <small class="text-muted">Miss Rate</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <p class="mb-1"><strong>Total Requests:</strong> @cacheMetrics["TotalRequests"].ToString("N0")</p>
+                            <p class="mb-0"><strong>Memory Usage:</strong> @cacheMetrics["MemoryUsageMB"].ToString("F0") MB</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Logs -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="fas fa-list-alt"></i> Recent Logs
+                        </h5>
+                        <div>
+                            <button class="btn btn-sm btn-outline-primary" @onclick="RefreshLogs">
+                                <i class="fas fa-sync"></i> Refresh
+                            </button>
+                            <a class="btn btn-sm btn-primary ms-2" href="/logs">
+                                <i class="fas fa-external-link-alt"></i> View All
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @if (recentLogs?.Any() == true)
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-sm table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Time</th>
+                                            <th>Service</th>
+                                            <th>Level</th>
+                                            <th>Message</th>
+                                            <th>Correlation ID</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var log in recentLogs.Take(10))
+                                        {
+                                            <tr>
+                                                <td class="text-nowrap">@log.Timestamp.ToString("HH:mm:ss")</td>
+                                                <td>@log.ServiceName</td>
+                                                <td>
+                                                    <span class="badge @GetLogLevelBadgeClass(log.Level)">@log.Level</span>
+                                                </td>
+                                                <td class="text-truncate" style="max-width: 400px;" title="@log.Message">@log.Message</td>
+                                                <td class="text-muted"><small>@log.CorrelationId</small></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="text-muted">No recent logs available.</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private HubConnection? hubConnection;
+    private BusinessMetrics? businessMetrics;
+    private List<ServiceHealth>? serviceHealth;
+    private List<ApiMetrics>? apiMetrics;
+    private JobMetrics? jobMetrics;
+    private Dictionary<string, double>? cacheMetrics;
+    private List<LogEntry>? recentLogs;
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Load initial data
+        await LoadDashboardData();
+
+        // Setup SignalR connection
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(Navigation.ToAbsoluteUri("/dashboardHub"))
+            .Build();
+
+        // Handle real-time updates
+        hubConnection.On<BusinessMetrics>("MetricsUpdate", (metrics) =>
+        {
+            businessMetrics = metrics;
+            InvokeAsync(StateHasChanged);
+        });
+
+        hubConnection.On<List<ServiceHealth>>("HealthUpdate", (health) =>
+        {
+            serviceHealth = health;
+            InvokeAsync(StateHasChanged);
+        });
+
+        hubConnection.On<LogEntry>("NewLog", (log) =>
+        {
+            recentLogs?.Insert(0, log);
+            if (recentLogs?.Count > 100)
+            {
+                recentLogs.RemoveAt(recentLogs.Count - 1);
+            }
+            InvokeAsync(StateHasChanged);
+        });
+
+        hubConnection.On<string>("NewAlert", (alertJson) =>
+        {
+            InvokeAsync(async () =>
+            {
+                await JSRuntime.InvokeVoidAsync("showAlert", alertJson, "Alert");
+            });
+        });
+
+        await hubConnection.StartAsync();
+        isLoading = false;
+    }
+
+    private async Task LoadDashboardData()
+    {
+        try
+        {
+            // Load all dashboard data in parallel
+            businessMetrics = await MetricsService.GetBusinessMetricsAsync();
+            serviceHealth = await HealthCheckService.GetAllServiceHealthAsync();
+            apiMetrics = await MetricsService.GetAllApiMetricsAsync();
+            jobMetrics = await MetricsService.GetJobMetricsAsync();
+            cacheMetrics = await MetricsService.GetCacheMetricsAsync();
+            recentLogs = await LogService.GetRealtimeLogsAsync(20);
+        }
+        catch (Exception ex)
+        {
+            // Handle loading errors gracefully
+            Console.WriteLine($"Error loading dashboard data: {ex.Message}");
+        }
+    }
+
+    private async Task RefreshLogs()
+    {
+        recentLogs = await LogService.GetRealtimeLogsAsync(20);
+        StateHasChanged();
+    }
+
+    private static string GetHealthBadgeClass(HealthStatus status) => status switch
+    {
+        HealthStatus.Healthy => "bg-success",
+        HealthStatus.Degraded => "bg-warning text-dark",
+        HealthStatus.Unhealthy => "bg-danger",
+        _ => "bg-secondary"
+    };
+
+    private static string GetLogLevelBadgeClass(LogLevel level) => level switch
+    {
+        LogLevel.Critical => "bg-danger",
+        LogLevel.Error => "bg-danger",
+        LogLevel.Warning => "bg-warning text-dark",
+        LogLevel.Information => "bg-info",
+        LogLevel.Debug => "bg-secondary",
+        LogLevel.Trace => "bg-light text-dark",
+        _ => "bg-secondary"
+    };
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+}

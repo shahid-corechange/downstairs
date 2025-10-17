@@ -1,0 +1,59 @@
+parameters:
+  - name: ACRServiceConnection
+    type: string
+
+  - name: containerRegistry
+    type: string
+
+  - name: nodeVersion
+    type: string
+
+  - name: stage
+    type: string
+    default: beta
+    values:
+      - beta
+      - stable
+
+  - name: version
+    type: string
+
+steps:
+  - task: UseNode@1
+    displayName: Set Node version to ${{ parameters.nodeVersion }}
+    inputs:
+      version: ${{ parameters.nodeVersion }}
+
+  - template: azure-pipelines/cache/restore.yaml@Resources
+    parameters:
+      isRestoreNodeModules: true
+      isErrorOnFail: false
+
+  - bash: yarn install
+    condition: ne(variables.NODE_MODULES_RESTORED, 'true')
+    displayName: Install NPM dependencies
+
+  - bash: |
+      rm -rf resources/js/lang
+      cp -r lang resources/js/lang
+    displayName: Copy language files
+
+  - bash: yarn build
+    displayName: Build static files
+
+  - template: azure-pipelines/steps/builder.yaml@Resources
+    parameters:
+      serviceConnection: ${{ parameters.ACRServiceConnection }}
+      buildContext: .
+      containerRegistry: ${{ parameters.containerRegistry }}
+      dockerfile: docker/nginx/Dockerfile
+      push: true
+      repository: laravel/nginx
+      ${{ if eq(parameters.stage, 'beta') }}:
+        tags: |
+          beta
+          ${{ parameters.version }}
+      ${{ else }}:
+        tags: |
+          latest
+          ${{ parameters.version }}

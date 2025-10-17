@@ -1,0 +1,16 @@
+# Ignore all excepts core dir
+*
+!app
+!bootstrap
+!config
+!database
+!docker
+!lang
+!public
+!resources
+!routes
+!ssl
+!storage
+!artisan
+!composer.json
+!entrypoint.sh

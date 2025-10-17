@@ -1,0 +1,177 @@
+parameters:
+  - name: appName
+    type: string
+
+  - name: ACRServiceConnection
+    type: string
+
+  - name: ARMServiceConnection
+    type: string
+
+  - name: containerRegistry
+    type: string
+
+  - name: redisHost
+    type: string
+
+  - name: redisPort
+    type: string
+
+  - name: redisPassword
+    type: string
+
+  - name: environment
+    type: string
+    default: staging
+    values:
+      - staging
+      - production
+
+  - name: nodeVersion
+    type: string
+
+  - name: phpVersion
+    type: string
+
+  - name: release
+    type: boolean
+    default: "false"
+
+  - name: stage
+    type: string
+    default: beta
+    values:
+      - beta
+      - stable
+
+stages:
+  - stage: preparation
+    displayName: Preparation before deployment to ${{ parameters.environment }}
+    jobs:
+      - job: preparation
+        displayName: Preparation
+        steps:
+          - template: azure-pipelines/steps/checkout.yaml@Resources
+
+          - template: azure-pipelines/steps/verify-build.yaml@Resources
+            parameters:
+              ${{ if eq(parameters.environment, 'staging') }}:
+                commitTypes: build feat fix refactor
+              ${{ else }}:
+                commitTypes: feat fix
+              stage: ${{ parameters.stage }}
+
+          - template: azure-pipelines/version/generate.yaml@Resources
+            parameters:
+              stage: ${{ parameters.stage }}
+
+  - stage: deploy
+    displayName: Deployment to ${{ parameters.environment }} environment
+    dependsOn: preparation
+    variables:
+      newVersion: $[ stageDependencies.preparation.preparation.outputs['generate_version.newVersion'] ]
+      shouldBuild: $[ stageDependencies.preparation.preparation.outputs['verify_build.shouldBuild'] ]
+    jobs:
+      - job: build_php_fpm
+        displayName: Build and deploy the PHP-FPM
+        condition: and(ne(variables.newVersion, ''), eq(variables.shouldBuild, 'true'))
+        steps:
+          - template: bump-api-version.yaml
+            parameters:
+              version: $(newVersion)
+
+          - template: build-php-fpm.yaml
+            parameters:
+              ACRServiceConnection: ${{ parameters.ACRServiceConnection }}
+              containerRegistry: ${{ parameters.containerRegistry }}
+              stage: ${{ parameters.stage }}
+              version: $(newVersion)
+
+      - job: build_nginx
+        displayName: Build and deploy the Nginx
+        condition: and(succeeded(), ne(variables.newVersion, ''), eq(variables.shouldBuild, 'true'))
+        dependsOn: build_php_fpm
+        steps:
+          - template: build-nginx.yaml
+            parameters:
+              ACRServiceConnection: ${{ parameters.ACRServiceConnection }}
+              containerRegistry: ${{ parameters.containerRegistry }}
+              nodeVersion: ${{ parameters.nodeVersion }}
+              stage: ${{ parameters.stage }}
+              version: $(newVersion)
+
+      - job: deploy_docker_compose
+        displayName: Deploy the new docker-compose
+        condition: and(succeeded(), ne(variables.newVersion, ''), eq(variables.shouldBuild, 'true'))
+        dependsOn:
+          - build_php_fpm
+          - build_nginx
+        steps:
+          - template: bump-docker-compose.yaml
+            parameters:
+              containerRegistry: ${{ parameters.containerRegistry }}
+              version: $(newVersion)
+
+          - task: AzureWebAppContainer@1
+            displayName: Deploy to Azure App Service
+            inputs:
+              azureSubscription: ${{ parameters.ARMServiceConnection }}
+              appName: ${{ parameters.appName }}
+              multicontainerConfigFile: docker-compose.yml
+
+  - stage: clean_up
+    displayName: Clean up in ${{ parameters.environment }} environment
+    condition: succeeded()
+    dependsOn:
+      - preparation
+      - deploy
+    variables:
+      initialRelease: $[ stageDependencies.preparation.preparation.outputs['generate_version.initialRelease'] ]
+      newVersion: $[ stageDependencies.preparation.preparation.outputs['generate_version.newVersion'] ]
+      shortVersion: $[ stageDependencies.preparation.preparation.outputs['generate_version.shortVersion'] ]
+      shouldBuild: $[ stageDependencies.preparation.preparation.outputs['verify_build.shouldBuild'] ]
+      forceRelease: $[ or(eq(variables.initialRelease, 'true'), eq(variables.shouldBuild, 'true')) ]
+    jobs:
+      - job: clear_redis_caches
+        displayName: Clear Redis caches
+        steps:
+          - bash: |
+              sudo apt update
+              sudo apt install redis
+              redis-cli -h $REDIS_HOST -p $REDIS_PORT --tls -n 1 flushdb
+            displayName: Clear the Redis cache
+            env:
+              REDIS_HOST: ${{ parameters.redisHost }}
+              REDIS_PORT: ${{ parameters.redisPort }}
+              REDISCLI_AUTH: ${{ parameters.redisPassword }}
+
+      - job: git_flow
+        displayName: Adjust the repository following the GitFlow rules
+        steps:
+          - template: azure-pipelines/steps/checkout.yaml@Resources
+
+          - ${{ if eq(parameters.stage, 'stable') }}:
+              - template: bump-api-version.yaml
+                parameters:
+                  version: $(newVersion)
+
+              - template: bump-docker-compose.yaml
+                parameters:
+                  containerRegistry: ${{ parameters.containerRegistry }}
+                  version: $(newVersion)
+
+          - template: azure-pipelines/steps/git-flow.yaml@Resources
+            parameters:
+              force: $(forceRelease)
+              release: ${{ parameters.release }}
+              version: $(newVersion)
+
+      - job: publish_version
+        displayName: Publish a new version
+        condition: and(ne(variables.newVersion, ''), eq(variables.shouldBuild, 'true'))
+        steps:
+          - template: azure-pipelines/version/publish.yaml@Resources
+            parameters:
+              stage: ${{ parameters.stage }}
+              version: $(newVersion)
+              shortVersion: $(shortVersion)

@@ -1,0 +1,45 @@
+#nprogress .spinner {
+  top: calc(57px - 17px) !important;
+  left: 50%;
+  right: unset !important;
+  transform: translate(-50%);
+  padding: 8px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: var(--chakra-shadows-md);
+}
+
+/* Custom styles for react-datepicker */
+.react-datepicker {
+  background-color: inherit !important;
+  color: inherit !important;
+}
+
+.react-datepicker__header {
+  background-color: inherit !important;
+  border-bottom: none !important;
+  padding: 8px 0;
+}
+
+.react-datepicker__current-month {
+  font-weight: bold;
+  color: inherit !important;
+}
+
+.react-datepicker__navigation--previous,
+.react-datepicker__navigation--next {
+  top: 16px;
+}
+
+.react-datepicker__navigation-icon::before {
+  border-color: inherit !important; /* Adjust arrow color */
+}
+
+.react-datepicker__day-name,
+.react-datepicker__day {
+  color: inherit !important; /* Adjust weekday color */
+}
+
+.react-datepicker__day--in-range {
+  color: #fff !important;
+}

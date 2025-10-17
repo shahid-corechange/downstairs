@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.1/phpunit.xsd" bootstrap="vendor/autoload.php" colors="true" cacheDirectory=".phpunit.cache">
+  <testsuites>
+    <!-- <testsuite name="Unit">
+      <directory suffix="Test.php">./tests/Unit</directory>
+    </testsuite> -->
+    <!-- <testsuite name="Portal.Authentication">
+      <directory suffix="Test.php">./tests/Portal/Authentication</directory>
+    </testsuite> -->
+    <!-- <testsuite name="Portal.Company">
+      <directory suffix="Test.php">./tests/Portal/Company*</directory>
+    </testsuite> -->
+    <!-- <testsuite name="Portal.Customer">
+      <directory suffix="Test.php">./tests/Portal/Customer*</directory>
+    </testsuite> -->
+    <!-- <testsuite name="Portal.Employee">
+      <directory suffix="Test.php">./tests/Portal/Employee</directory>
+    </testsuite> -->
+    <!-- <testsuite name="Portal.Management">
+      <directory suffix="Test.php">./tests/Portal/Management</directory>
+    </testsuite> -->
+    <!-- <testsuite name="Portal.Misc">
+      <directory suffix="Test.php">./tests/Portal/Misc</directory>
+    </testsuite> -->
+    <!-- <testsuite name="Portal.Monitoring">
+      <directory suffix="Test.php">./tests/Portal/Monitoring</directory>
+    </testsuite> -->
+    <!-- <testsuite name="Portal.Operation">
+      <directory suffix="Test.php">./tests/Portal/Operation</directory>
+    </testsuite> -->
+    <!-- <testsuite name="Api">
+      <directory suffix="Test.php">./tests/Api</directory>
+    </testsuite> -->
+    <testsuite name="Model">
+      <directory suffix="Test.php">./tests/Model</directory>
+    </testsuite>
+  </testsuites>
+  <coverage>
+    <report>
+      <cobertura outputFile="cobertura.xml"/>
+      <html outputDirectory="html_coverage" lowUpperBound="50" highLowerBound="90"/>
+      <text outputFile="php://stdout" showUncoveredFiles="false" showOnlySummary="true"/>
+      <php outputFile="coverage.cov"/>
+    </report>
+  </coverage>
+  <php>
+    <env name="APP_ENV" value="testing"/>
+    <env name="BCRYPT_ROUNDS" value="4"/>
+    <env name="CACHE_DRIVER" value="array"/>
+    <env name="DB_CONNECTION" value="mysql"/>
+    <env name="DB_DATABASE" value="test_downstairs"/>
+    <env name="MAIL_MAILER" value="array"/>
+    <env name="QUEUE_CONNECTION" value="sync"/>
+    <env name="SESSION_DRIVER" value="array"/>
+    <env name="TELESCOPE_ENABLED" value="false"/>
+  </php>
+  <source>
+    <include>
+      <directory suffix=".php">./app</directory>
+    </include>
+  </source>
+</phpunit>

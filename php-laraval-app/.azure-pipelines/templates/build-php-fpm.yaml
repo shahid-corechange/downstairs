@@ -1,0 +1,61 @@
+parameters:
+  - name: ACRServiceConnection
+    type: string
+
+  - name: containerRegistry
+    type: string
+
+  - name: stage
+    type: string
+    default: beta
+    values:
+      - beta
+      - stable
+
+  - name: version
+    type: string
+
+steps:
+  - template: azure-pipelines/version/bump.yaml@Resources
+    parameters:
+      push: false
+      version: ${{ parameters.version }}
+
+  - task: DownloadSecureFile@1
+    name: mysqlRootCA
+    inputs:
+      secureFile: MySQLRootCA.crt.pem
+
+  - bash: |
+      mkdir -p ssl/mysql
+      cp $CA_PATH ssl/mysql/MySQLRootCA.crt.pem
+    env:
+      CA_PATH: $(mysqlRootCA.secureFilePath)
+    displayName: Add SSL certificate
+
+  - bash: |
+      # Clear composer post-update scripts
+      yq e -i -o json \
+        '.scripts.post-update-cmd = ["Illuminate\Foundation\ComposerScripts::postUpdate"]' \
+        composer.json
+    displayName: Remove development configuration
+
+  - bash: mv docker/php-fpm/.dockerignore .dockerignore
+    displayName: Move .dockerignore
+
+  - template: azure-pipelines/steps/builder.yaml@Resources
+    parameters:
+      serviceConnection: ${{ parameters.ACRServiceConnection }}
+      buildContext: .
+      containerRegistry: ${{ parameters.containerRegistry }}
+      dockerfile: docker/php-fpm/Dockerfile
+      push: true
+      repository: laravel/php-fpm
+      ${{ if eq(parameters.stage, 'beta') }}:
+        tags: |
+          beta
+          ${{ parameters.version }}
+      ${{ else }}:
+        tags: |
+          latest
+          ${{ parameters.version }}

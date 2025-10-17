@@ -1,0 +1,34 @@
+{
+  "useTabs": false,
+  "tabWidth": 2,
+  "quoteProps": "consistent",
+  "importOrder": [
+    "<THIRD_PARTY_MODULES>",
+    "^@/components/(.*)$",
+    "^@/constants/(.*)$",
+    "^@/data/(.*)$",
+    "^@/hooks/(.*)$",
+    "^@/layouts/(.*)$",
+    "^@/pages/(.*)$",
+    "^@/services/(.*)$",
+    "^@/stores/(.*)$",
+    "^@/types/(.*)$",
+    "^@/utils/(.*)$",
+    "^@/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "plugins": [
+    "@shufo/prettier-plugin-blade",
+    "@trivago/prettier-plugin-sort-imports"
+  ],
+  "overrides": [
+    {
+      "files": ["*.blade.php"],
+      "options": {
+        "parser": "blade"
+      }
+    }
+  ]
+}

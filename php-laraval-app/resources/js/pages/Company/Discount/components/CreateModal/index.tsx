@@ -1,0 +1,246 @@
+import { Button, Checkbox, Flex, Text } from "@chakra-ui/react";
+import { Page } from "@inertiajs/core";
+import { router, usePage } from "@inertiajs/react";
+import { useEffect, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+
+import Alert from "@/components/Alert";
+import Autocomplete from "@/components/Autocomplete";
+import Input from "@/components/Input";
+import Modal from "@/components/Modal";
+
+import { useGetCompanyUsers } from "@/services/company";
+
+import { DiscountType } from "@/types/customerDiscount";
+
+import { PageProps } from "@/types";
+
+type FormValues = {
+  userId: number;
+  type: string;
+  value: number;
+  usageLimit: number;
+  startDate: string;
+  endDate: string;
+};
+
+export interface CreateModalProps {
+  discountType: DiscountType;
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const CreateModal = ({ discountType, isOpen, onClose }: CreateModalProps) => {
+  const { t } = useTranslation();
+
+  const [unlimitedUsageToggle, setUnlimitedUsageToggle] = useState(false);
+  const [indefinitelyDateToggle, setIndefinetlyDateToggle] = useState(false);
+
+  const { errors: serverErrors } = usePage<PageProps>().props;
+  const {
+    register,
+    reset,
+    watch,
+    handleSubmit: formSubmitHandler,
+    formState: { errors },
+  } = useForm<FormValues>();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const customers = useGetCompanyUsers({
+    request: {
+      size: -1,
+      show: "active",
+      only: ["id", "fullname"],
+    },
+    query: {
+      enabled: isOpen,
+      staleTime: Infinity,
+    },
+  });
+
+  const customerOptions = useMemo(
+    () =>
+      customers.data
+        ? customers.data.map(({ id, fullname }) => ({
+            label: fullname,
+            value: id,
+          }))
+        : [],
+    [customers.data],
+  );
+
+  const typeOptions = useMemo(
+    () =>
+      Object.entries(discountType).map(([value, label]) => ({
+        value,
+        label: t(label),
+      })),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [discountType],
+  );
+
+  const handleSubmit = formSubmitHandler((values) => {
+    setIsSubmitting(true);
+    router.post(
+      "/companies/discounts",
+      {
+        ...values,
+        usageLimit: unlimitedUsageToggle ? null : values.usageLimit,
+        startDate: indefinitelyDateToggle ? null : values.startDate,
+        endDate: indefinitelyDateToggle ? null : values.endDate,
+      },
+      {
+        onFinish: () => {
+          setIsSubmitting(false);
+        },
+        onSuccess: (page) => {
+          const {
+            flash: { error },
+          } = (page as Page<PageProps>).props;
+
+          if (error) {
+            return;
+          }
+
+          onClose();
+        },
+      },
+    );
+  });
+
+  useEffect(() => {
+    if (isOpen) {
+      reset();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
+
+  return (
+    <Modal
+      title={t("create company discount")}
+      size="5xl"
+      isOpen={isOpen}
+      onClose={onClose}
+    >
+      <Alert
+        status="info"
+        title={t("info")}
+        message={
+          t("input customer discount info") +
+          "\n" +
+          t("customer discount info") +
+          "\n" +
+          t("customer discount invoice info")
+        }
+        fontSize="small"
+        mb={6}
+      />
+      <Flex
+        as="form"
+        direction="column"
+        gap={4}
+        onSubmit={handleSubmit}
+        autoComplete="off"
+        noValidate
+      >
+        <Autocomplete
+          options={customerOptions}
+          labelText={t("customer")}
+          errorText={errors.userId?.message || serverErrors.userId}
+          value={watch("userId")}
+          {...register("userId", {
+            required: t("validation field required"),
+          })}
+          isRequired
+        />
+        <Autocomplete
+          options={typeOptions}
+          labelText={t("type")}
+          errorText={errors.type?.message || serverErrors.type}
+          value={watch("type")}
+          {...register("type", {
+            required: t("validation field required"),
+          })}
+          isRequired
+        />
+
+        <Input
+          labelText={t("discount percentage")}
+          errorText={errors.value?.message || serverErrors.value}
+          type="number"
+          {...register("value", {
+            required: t("validation field required"),
+          })}
+          suffix="%"
+          isRequired
+        />
+        <Input
+          labelText={t("usage limit")}
+          errorText={errors.usageLimit?.message || serverErrors.usageLimit}
+          type="number"
+          {...register("usageLimit", {
+            required: !unlimitedUsageToggle && t("validation field required"),
+          })}
+          isRequired={!unlimitedUsageToggle}
+          isReadOnly={unlimitedUsageToggle}
+        />
+
+        <Checkbox
+          isChecked={unlimitedUsageToggle}
+          onChange={(e) => setUnlimitedUsageToggle(e.target.checked)}
+        >
+          <Text fontSize="sm">{t("unlimited usage limit")}</Text>
+        </Checkbox>
+
+        <Flex gap={4}>
+          <Input
+            labelText={t("start date")}
+            errorText={errors.startDate?.message || serverErrors.startDate}
+            type="date"
+            {...register("startDate", {
+              required:
+                !indefinitelyDateToggle && t("validation field required"),
+            })}
+            isRequired={!indefinitelyDateToggle}
+            isReadOnly={indefinitelyDateToggle}
+          />
+          <Input
+            labelText={t("end date")}
+            errorText={errors.endDate?.message || serverErrors.endDate}
+            type="date"
+            {...register("endDate", {
+              required:
+                !indefinitelyDateToggle && t("validation field required"),
+            })}
+            isRequired={!indefinitelyDateToggle}
+            isReadOnly={indefinitelyDateToggle}
+          />
+        </Flex>
+
+        <Checkbox
+          isChecked={indefinitelyDateToggle}
+          onChange={(e) => setIndefinetlyDateToggle(e.target.checked)}
+        >
+          <Text fontSize="sm">{t("indefinitely discount")}</Text>
+        </Checkbox>
+
+        <Flex justify="right" mt={4} gap={4}>
+          <Button colorScheme="gray" fontSize="sm" onClick={onClose}>
+            {t("close")}
+          </Button>
+          <Button
+            type="submit"
+            fontSize="sm"
+            isLoading={isSubmitting}
+            loadingText={t("please wait")}
+          >
+            {t("submit")}
+          </Button>
+        </Flex>
+      </Flex>
+    </Modal>
+  );
+};
+
+export default CreateModal;

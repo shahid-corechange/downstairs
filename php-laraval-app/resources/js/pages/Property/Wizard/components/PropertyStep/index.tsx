@@ -1,0 +1,79 @@
+import { Button, Flex, Textarea } from "@chakra-ui/react";
+import { usePage } from "@inertiajs/react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+
+import Input from "@/components/Input";
+import { useWizard } from "@/components/Wizard/hooks";
+
+import { PropertyFormValues, StepsValues } from "@/pages/Property/Wizard/types";
+
+const PropertyStep = () => {
+  const { t } = useTranslation();
+
+  const { errors: serverErrors } = usePage().props;
+
+  const {
+    stepsValues,
+    isValidating,
+    moveTo,
+    onValidateSuccess,
+    onValidateError,
+  } = useWizard<StepsValues, PropertyFormValues>();
+
+  const {
+    register,
+    handleSubmit: formSubmitHandler,
+    formState: { errors },
+  } = useForm<PropertyFormValues>({ defaultValues: stepsValues[1] });
+
+  const handleSubmit = formSubmitHandler(onValidateSuccess, onValidateError);
+
+  useEffect(() => {
+    if (isValidating) {
+      handleSubmit();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isValidating]);
+
+  return (
+    <Flex
+      as="form"
+      w="full"
+      direction="column"
+      gap={4}
+      onSubmit={(e) => {
+        e.preventDefault();
+        moveTo("next");
+      }}
+      autoComplete="off"
+      noValidate
+    >
+      <Input
+        type="number"
+        min={1}
+        labelText={t("square meter")}
+        errorText={errors.squareMeter?.message || serverErrors.squareMeter}
+        {...register("squareMeter", {
+          required: t("validation field required"),
+          min: { value: 1, message: t("validation field min", { min: 1 }) },
+          valueAsNumber: true,
+        })}
+        isRequired
+      />
+      <Input
+        as={Textarea}
+        labelText={t("note")}
+        helperText={t("property note helper text")}
+        errorText={errors.note?.message || serverErrors.note}
+        {...register("note")}
+        resize="none"
+      />
+      <Button type="submit" opacity={0} visibility="hidden" />
+    </Flex>
+  );
+};
+
+export default PropertyStep;

@@ -1,0 +1,31 @@
+﻿@inherits LayoutComponentBase
+
+<PageTitle>Downstairs LogPortal</PageTitle>
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4 d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <h5 class="mb-0 text-primary">
+                    <i class="fas fa-chart-line"></i> Downstairs LogPortal
+                </h5>
+            </div>
+            <div class="d-flex align-items-center">
+                <span class="badge bg-success me-2" id="connection-status">
+                    <i class="fas fa-wifi"></i> Connected
+                </span>
+                <small class="text-muted" id="last-update">
+                    Last Update: <span>@DateTime.Now.ToString("HH:mm:ss")</span>
+                </small>
+            </div>
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>

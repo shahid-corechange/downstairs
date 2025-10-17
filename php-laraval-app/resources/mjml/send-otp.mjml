@@ -1,0 +1,67 @@
+<mjml>
+  <mj-head>
+    <mj-attributes>
+      <mj-class
+        name="heading"
+        color="#1a202c"
+        font-size="20px"
+        font-family="helvetica"
+        font-weight="bold"
+      />
+      <mj-class
+        name="text"
+        color="#718096"
+        font-size="16px"
+        font-family="helvetica"
+        line-height="1.75"
+      />
+      <mj-divider border-color="#e2e8f0" border-width="1px" />
+    </mj-attributes>
+  </mj-head>
+  <mj-body>
+    <mj-section>
+      <mj-column>
+        <mj-image width="100px" src="/images/logo.png" />
+
+        <mj-divider />
+
+        <mj-text mj-class="heading">Hello!</mj-text>
+
+        <mj-text mj-class="text">
+          Please use the OTP code below to proceed with your verification
+          process.
+        </mj-text>
+
+        <mj-button
+          mj-class="heading"
+          align="center"
+          color="white"
+          letter-spacing="4px"
+          background-color="#244A31"
+        >
+          12312
+        </mj-button>
+
+        <mj-text mj-class="text">
+          This OTP code is valid for 10 minutes.
+        </mj-text>
+
+        <mj-text mj-class="text">
+          If you didn't request this code, please disregard this email.
+        </mj-text>
+
+        <mj-text mj-class="text">
+          Regards, <br />
+          Downstairs
+        </mj-text>
+
+        <mj-divider />
+
+        <mj-text mj-class="text">
+          If you're having trouble using the OTP, please contact our support
+          team.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

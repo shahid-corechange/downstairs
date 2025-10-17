@@ -1,0 +1,214 @@
+parameters:
+  - name: nodeVersion
+    type: string
+
+  - name: phpVersion
+    type: string
+
+jobs:
+  - job: preparation
+    displayName: Preparing the dependencies
+    steps:
+      - template: setup-php.yaml
+        parameters:
+          phpVersion: ${{ parameters.phpVersion }}
+
+      - task: UseNode@1
+        displayName: Set Node version to ${{ parameters.nodeVersion }}
+        inputs:
+          version: ${{ parameters.nodeVersion }}
+
+      - template: azure-pipelines/cache/restore.yaml@Resources
+        parameters:
+          isRestoreComposer: true
+          isRestoreNodeModules: true
+          isErrorOnFail: false
+
+      - bash: composer install --no-interaction --prefer-dist
+        condition: ne(variables.COMPOSER_VENDOR_RESTORED, 'true')
+        displayName: Install Composer dependencies
+
+      - bash: yarn install
+        condition: ne(variables.NODE_MODULES_RESTORED, 'true')
+        displayName: Install NPM dependencies
+
+  - job: code_checks
+    displayName: Run code checks
+    condition: succeeded()
+    dependsOn: preparation
+    strategy:
+      matrix:
+        prettier:
+          command: yarn && npx prettier --check .
+        pint:
+          command: vendor/bin/pint --test .
+        phplint:
+          command: vendor/bin/phplint --exclude vendor .
+        phpcs:
+          command: vendor/bin/phpcs .
+    steps:
+      - template: setup-php.yaml
+        parameters:
+          phpVersion: ${{ parameters.phpVersion }}
+
+      - task: UseNode@1
+        displayName: Set Node version to ${{ parameters.nodeVersion }}
+        inputs:
+          version: ${{ parameters.nodeVersion }}
+
+      - template: azure-pipelines/cache/restore.yaml@Resources
+        parameters:
+          isRestoreComposer: true
+
+      - bash: $(command)
+        displayName: Run checker
+
+  # - job: tests
+  #   displayName: "Run tests:"
+  #   condition: succeeded()
+  #   dependsOn: preparation
+  #   services:
+  #     mysql: mysql
+  #     redis: redis
+  #   strategy:
+  #     matrix:
+  #       Model:
+  #         testsuite: Model
+  #   steps:
+  #     - template: setup-php.yaml
+  #       parameters:
+  #         phpVersion: ${{ parameters.phpVersion }}
+
+  #     - template: azure-pipelines/cache/restore.yaml@Resources
+  #       parameters:
+  #         isRestoreComposer: true
+
+  #     - bash: |
+  #         echo "APP_KEY=$(php artisan key:generate --show)" > .env
+  #         echo "CIPHERSWEET_KEY=$(php artisan ciphersweet:generate-key --show)" >> .env
+  #         echo "DB_CONNECTION=$DB_CONNECTION" >> .env
+  #         echo "DB_HOST=$DB_HOST" >> .env
+  #         echo "DB_PORT=$DB_PORT" >> .env
+  #         echo "DB_DATABASE=$DB_DATABASE" >> .env
+  #         echo "DB_USERNAME=$DB_USERNAME" >> .env
+  #         echo "DB_PASSWORD=$DB_PASSWORD" >> .env
+  #         echo "REDIS_HOST=$REDIS_HOST" >> .env
+  #         echo "REDIS_PORT=$REDIS_PORT" >> .env
+  #         echo "FORTNOX_APP_CLIENT_ID=$FORTNOX_APP_CLIENT_ID" >> .env
+  #         echo "FORTNOX_APP_CLIENT_SECRET=$FORTNOX_APP_CLIENT_SECRET" >> .env
+  #         echo "E46ELKS_USERNAME=$E46ELKS_USERNAME" >> .env
+  #         echo "E46ELKS_PASSWORD=$E46ELKS_PASSWORD" >> .env
+
+  #         php artisan test --filter $TEST_SUITE
+  #       env:
+  #         DB_CONNECTION: mysql
+  #         DB_HOST: 127.0.0.1
+  #         DB_PORT: 3306
+  #         DB_DATABASE: downstairs
+  #         DB_USERNAME: mysql
+  #         DB_PASSWORD: mysql
+  #         REDIS_HOST: 127.0.0.1
+  #         REDIS_PORT: 6379
+  #         FORTNOX_APP_CLIENT_ID:
+  #         FORTNOX_APP_CLIENT_SECRET:
+  #         E46ELKS_USERNAME:
+  #         E46ELKS_PASSWORD:
+  #         TEST_SUITE: $(testsuite)
+  #         XDEBUG_MODE: coverage
+  #       displayName: Run tests
+
+  #     - bash: cp coverage.cov $BUILD_ARTIFACTSTAGINGDIRECTORY/$TEST_SUITE.cov
+  #       env:
+  #         TEST_SUITE: $(testsuite)
+  #       displayName: Copy coverage report files
+
+  #     - publish: $(Build.ArtifactStagingDirectory)/$(testsuite).cov
+  #       artifact: coverage-$(testsuite)
+  #       displayName: Publish $(testsuite) coverage report
+
+  # - job: coverage
+  #   displayName: Generate coverage report
+  #   condition: succeeded()
+  #   dependsOn: tests
+  #   timeoutInMinutes: "0"
+  #   cancelTimeoutInMinutes: "1"
+  #   steps:
+  #     - template: setup-php.yaml
+  #       parameters:
+  #         phpVersion: ${{ parameters.phpVersion }}
+
+  #     - template: azure-pipelines/cache/restore.yaml@Resources
+  #       parameters:
+  #         isRestoreComposer: true
+
+  #     - download: current
+  #       artifact: coverage-Api
+  #       displayName: Download API coverage report
+
+  #     - download: current
+  #       artifact: coverage-Portal.Authentication
+  #       displayName: Download Portal/Authentication coverage report
+
+  #     - download: current
+  #       artifact: coverage-Portal.Company
+  #       displayName: Download Portal/Company coverage report
+
+  #     - download: current
+  #       artifact: coverage-Portal.Customer
+  #       displayName: Download Portal/Customer coverage report
+
+  #     - download: current
+  #       artifact: coverage-Portal.Employee
+  #       displayName: Download Portal/Employee coverage report
+
+  #     - download: current
+  #       artifact: coverage-Portal.Management
+  #       displayName: Download Portal/Management coverage report
+
+  #     - download: current
+  #       artifact: coverage-Portal.Misc
+  #       displayName: Download Portal/Misc coverage report
+
+  #     - download: current
+  #       artifact: coverage-Portal.Monitoring
+  #       displayName: Download Portal/Monitoring coverage report
+
+  #     - download: current
+  #       artifact: coverage-Portal.Operation
+  #       displayName: Download Portal/Operation coverage report
+
+  #     - download: current
+  #       artifact: coverage-Model
+  #       displayName: Download Model coverage report
+
+  #     - download: current
+  #       artifact: coverage-Unit
+  #       displayName: Download Unit coverage report
+
+  #     - bash: |
+  #         mkdir -p php_coverage
+  #         cp $PIPELINE_WORKSPACE/coverage-Api/Api.cov \
+  #           $PIPELINE_WORKSPACE/coverage-Portal.Authentication/Portal.Authentication.cov \
+  #           $PIPELINE_WORKSPACE/coverage-Portal.Company/Portal.Company.cov \
+  #           $PIPELINE_WORKSPACE/coverage-Portal.Customer/Portal.Customer.cov \
+  #           $PIPELINE_WORKSPACE/coverage-Portal.Employee/Portal.Employee.cov \
+  #           $PIPELINE_WORKSPACE/coverage-Portal.Management/Portal.Management.cov \
+  #           $PIPELINE_WORKSPACE/coverage-Portal.Misc/Portal.Misc.cov \
+  #           $PIPELINE_WORKSPACE/coverage-Portal.Monitoring/Portal.Monitoring.cov \
+  #           $PIPELINE_WORKSPACE/coverage-Portal.Operation/Portal.Operation.cov \
+  #           $PIPELINE_WORKSPACE/coverage-Model/Model.cov \
+  #           $PIPELINE_WORKSPACE/coverage-Unit/Unit.cov \
+  #           php_coverage
+  #         ./vendor/bin/phpcov merge --cobertura cobertura.xml php_coverage
+  #         ./vendor/bin/phpcov merge --html html_coverage php_coverage
+  #       displayName: Generate merged coverage report
+
+  #     - publish: $(Build.SourcesDirectory)/html_coverage
+  #       artifact: coverage-html
+  #       displayName: Publish HTML coverage report
+
+  #     - task: PublishCodeCoverageResults@1
+  #       displayName: Publish Cobertura coverage report
+  #       inputs:
+  #         codeCoverageTool: Cobertura
+  #         summaryFileLocation: $(Build.SourcesDirectory)/cobertura.xml
