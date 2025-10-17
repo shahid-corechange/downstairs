@@ -1,5 +1,5 @@
-using StackExchange.Redis;
 using System.Diagnostics;
+using StackExchange.Redis;
 
 namespace Downstairs.Infrastructure.Locking;
 
@@ -54,7 +54,7 @@ public class RedisDistributedLockService(IConnectionMultiplexer redis) : IDistri
 
             var result = await _database.ScriptEvaluateAsync(script, new RedisKey[] { lockKey }, new RedisValue[] { lockId });
             var released = result.ToString() == "1";
-            
+
             activity?.SetTag("lock.released", released);
             return released;
         }
@@ -95,7 +95,9 @@ internal class RedisDistributedLock(IDatabase database, string lockKey, string l
     public async Task<bool> ExtendAsync(TimeSpan newExpiry)
     {
         if (_disposed)
+        {
             return false;
+        }
 
         const string script = @"
             if redis.call('GET', KEYS[1]) == ARGV[1] then
@@ -104,8 +106,8 @@ internal class RedisDistributedLock(IDatabase database, string lockKey, string l
                 return 0
             end";
 
-        var result = await _database.ScriptEvaluateAsync(script, 
-            new RedisKey[] { _lockKey }, 
+        var result = await _database.ScriptEvaluateAsync(script,
+            new RedisKey[] { _lockKey },
             new RedisValue[] { _lockId, (int)newExpiry.TotalSeconds });
 
         return result.ToString() == "1";

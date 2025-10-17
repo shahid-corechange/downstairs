@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -14,7 +15,7 @@ internal sealed class ModelHasPermissionConfiguration : IEntityTypeConfiguration
 
         entity
             .ToTable("model_has_permissions")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => new { e.ModelId, e.ModelType }, "model_has_permissions_model_id_model_type_index");
 
@@ -27,4 +28,3 @@ internal sealed class ModelHasPermissionConfiguration : IEntityTypeConfiguration
             .HasConstraintName("model_has_permissions_permission_id_foreign");
     }
 }
-

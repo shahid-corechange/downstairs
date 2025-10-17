@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class UserDiscountConfiguration : IEntityTypeConfiguration<UserD
 
         entity
             .ToTable("user_discounts")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.Property(e => e.Id).HasColumnName("id");
         entity.Property(e => e.CreatedAt)
@@ -47,4 +48,3 @@ internal sealed class UserDiscountConfiguration : IEntityTypeConfiguration<UserD
             .HasColumnName("valid_to_at");
     }
 }
-

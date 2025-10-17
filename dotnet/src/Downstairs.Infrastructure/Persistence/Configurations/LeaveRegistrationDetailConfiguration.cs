@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class LeaveRegistrationDetailConfiguration : IEntityTypeConfigur
 
         entity
             .ToTable("leave_registration_details")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.LeaveRegistrationId, "leave_registration_details_leave_registration_id_foreign");
 
@@ -39,4 +40,3 @@ internal sealed class LeaveRegistrationDetailConfiguration : IEntityTypeConfigur
             .HasConstraintName("leave_registration_details_leave_registration_id_foreign");
     }
 }
-

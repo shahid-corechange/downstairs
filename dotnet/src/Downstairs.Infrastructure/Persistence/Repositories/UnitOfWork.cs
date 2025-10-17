@@ -1,5 +1,4 @@
 using Downstairs.Application.Common.Interfaces;
-using Downstairs.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Downstairs.Infrastructure.Persistence.Repositories;

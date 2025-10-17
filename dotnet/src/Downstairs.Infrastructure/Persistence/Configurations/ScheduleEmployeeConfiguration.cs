@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class ScheduleEmployeeConfiguration : IEntityTypeConfiguration<S
 
         entity
             .ToTable("schedule_employees")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => new { e.ScheduleableType, e.ScheduleableId }, "schedule_employeeableable_index");
 
@@ -77,4 +78,3 @@ internal sealed class ScheduleEmployeeConfiguration : IEntityTypeConfiguration<S
             .HasConstraintName("schedule_employees_work_hour_id_foreign");
     }
 }
-

@@ -14,8 +14,8 @@ public class GetInvoiceByIdQueryHandler : IRequestHandler<GetInvoiceByIdQuery, I
 
     public async Task<InvoiceDto?> Handle(GetInvoiceByIdQuery request, CancellationToken cancellationToken)
     {
-    var invoice = await _invoiceRepository.GetByIdAsync(request.Id, cancellationToken);
-        
+        var invoice = await _invoiceRepository.GetByIdAsync(request.Id, cancellationToken);
+
         if (invoice == null)
         {
             return null;

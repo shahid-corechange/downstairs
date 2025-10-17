@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class OrderRowConfiguration : IEntityTypeConfiguration<OrderRow>
 
         entity
             .ToTable("order_rows")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.OrderId, "order_rows_order_id_foreign");
 
@@ -53,4 +54,3 @@ internal sealed class OrderRowConfiguration : IEntityTypeConfiguration<OrderRow>
             .HasConstraintName("order_rows_order_id_foreign");
     }
 }
-

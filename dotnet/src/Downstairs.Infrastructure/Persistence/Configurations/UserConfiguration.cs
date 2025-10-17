@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 
         entity
             .ToTable("users")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.Cellphone, "users_cellphone_index");
 
@@ -65,4 +66,3 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
             .HasColumnName("updated_at");
     }
 }
-

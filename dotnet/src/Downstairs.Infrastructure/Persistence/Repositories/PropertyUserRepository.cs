@@ -5,4 +5,3 @@ namespace Downstairs.Infrastructure.Persistence.Repositories;
 internal sealed class PropertyUserRepository(DownstairsDbContext context) : RepositoryBase<PropertyUser>(context)
 {
 }
-

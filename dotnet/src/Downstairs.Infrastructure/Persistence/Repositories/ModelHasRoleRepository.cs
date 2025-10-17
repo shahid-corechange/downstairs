@@ -5,4 +5,3 @@ namespace Downstairs.Infrastructure.Persistence.Repositories;
 internal sealed class ModelHasRoleRepository(DownstairsDbContext context) : RepositoryBase<ModelHasRole>(context)
 {
 }
-

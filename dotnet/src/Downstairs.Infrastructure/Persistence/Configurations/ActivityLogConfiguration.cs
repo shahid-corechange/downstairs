@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class ActivityLogConfiguration : IEntityTypeConfiguration<Activi
 
         entity
             .ToTable("activity_log")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.CreatedAt, "activity_log_created_at_index");
 
@@ -46,4 +47,3 @@ internal sealed class ActivityLogConfiguration : IEntityTypeConfiguration<Activi
             .HasColumnName("updated_at");
     }
 }
-

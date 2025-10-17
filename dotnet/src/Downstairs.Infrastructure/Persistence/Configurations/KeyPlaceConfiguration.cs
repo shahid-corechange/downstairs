@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class KeyPlaceConfiguration : IEntityTypeConfiguration<KeyPlace>
 
         entity
             .ToTable("key_places")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.PropertyId, "key_places_property_id_foreign");
 
@@ -34,4 +35,3 @@ internal sealed class KeyPlaceConfiguration : IEntityTypeConfiguration<KeyPlace>
             .HasConstraintName("key_places_property_id_foreign");
     }
 }
-

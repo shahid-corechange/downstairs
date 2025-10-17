@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class OldCustomerConfiguration : IEntityTypeConfiguration<OldCus
 
         entity
             .ToTable("old_customers")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.CustomerId, "old_customers_customer_id_foreign");
 
@@ -25,4 +26,3 @@ internal sealed class OldCustomerConfiguration : IEntityTypeConfiguration<OldCus
             .HasConstraintName("old_customers_customer_id_foreign");
     }
 }
-

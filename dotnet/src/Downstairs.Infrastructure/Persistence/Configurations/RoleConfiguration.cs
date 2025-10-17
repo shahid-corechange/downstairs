@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class RoleConfiguration : IEntityTypeConfiguration<Role>
 
         entity
             .ToTable("roles")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => new { e.Name, e.GuardName }, "roles_name_guard_name_unique").IsUnique();
 
@@ -27,4 +28,3 @@ internal sealed class RoleConfiguration : IEntityTypeConfiguration<Role>
             .HasColumnName("updated_at");
     }
 }
-

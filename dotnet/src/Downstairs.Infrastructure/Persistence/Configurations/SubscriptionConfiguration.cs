@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class SubscriptionConfiguration : IEntityTypeConfiguration<Subsc
 
         entity
             .ToTable("subscriptions")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.CustomerId, "subscriptions_customer_id_foreign");
 
@@ -88,4 +89,3 @@ internal sealed class SubscriptionConfiguration : IEntityTypeConfiguration<Subsc
             .HasConstraintName("subscriptions_user_id_foreign");
     }
 }
-

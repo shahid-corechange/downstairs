@@ -5,4 +5,3 @@ namespace Downstairs.Infrastructure.Persistence.Repositories;
 internal sealed class MigrationRepository(DownstairsDbContext context) : RepositoryBase<Migration>(context)
 {
 }
-

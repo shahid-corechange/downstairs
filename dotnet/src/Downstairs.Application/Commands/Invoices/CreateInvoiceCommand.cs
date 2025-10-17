@@ -1,4 +1,3 @@
-using Downstairs.Application.Common.Interfaces;
 using Downstairs.Application.Queries.Invoices;
 using MediatR;
 

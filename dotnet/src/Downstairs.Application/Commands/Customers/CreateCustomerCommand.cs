@@ -1,5 +1,4 @@
 using Downstairs.Application.Common.Interfaces;
-using Downstairs.Domain.ValueObjects;
 
 namespace Downstairs.Application.Commands.Customers;
 

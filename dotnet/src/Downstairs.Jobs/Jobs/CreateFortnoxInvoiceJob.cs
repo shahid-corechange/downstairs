@@ -3,6 +3,7 @@ using Downstairs.Application.Commands.Customers;
 using Downstairs.Application.Commands.Invoices;
 using Downstairs.Application.Queries.Customers;
 using Downstairs.Application.Queries.Invoices;
+using Downstairs.Domain.Shared;
 using MediatR;
 using Quartz;
 
@@ -37,11 +38,11 @@ public class CreateFortnoxInvoiceJob : IJob
             // Get a random customer to create invoice for
             var customers = await _mediator.Send(new GetCustomersQuery());
             var customerList = customers.ToList();
-            
+
             if (!customerList.Any())
             {
                 _logger.LogWarning("No customers found to create invoice for. Creating a customer first.");
-                
+
                 // Create a customer first
                 var customerCommand = new CreateCustomerCommand(
                     Name: $"Invoice Customer {DateTime.UtcNow:yyyy-MM-dd HH:mm}",
@@ -49,7 +50,7 @@ public class CreateFortnoxInvoiceJob : IJob
                     OrganizationNumber: $"556{Random.Shared.Next(100000, 999999)}-{Random.Shared.Next(1000, 9999)}",
                     Phone: "+46701234568",
                     Street: "Fakturagatan 456",
-                    City: "Gothenburg", 
+                    City: "Gothenburg",
                     PostalCode: "41234",
                     Country: "Sweden");
 
@@ -63,9 +64,9 @@ public class CreateFortnoxInvoiceJob : IJob
             // Create invoice lines
             var lines = new List<InvoiceLineDto>
             {
-                new("Consulting Services - System Integration", 10, 1500.00m, "SEK", 15000.00m),
-                new("License Fee - Monthly", 1, 2500.00m, "SEK", 2500.00m),
-                new("Support & Maintenance", 1, 800.00m, "SEK", 800.00m)
+                new("Consulting Services - System Integration", 10, 1500.00m, DomainConstants.Currency.SEK, 15000.00m),
+                new("License Fee - Monthly", 1, 2500.00m, DomainConstants.Currency.SEK, 2500.00m),
+                new("Support & Maintenance", 1, 800.00m, DomainConstants.Currency.SEK, 800.00m)
             };
 
             var totalAmount = lines.Sum(l => l.TotalAmount);
@@ -75,14 +76,14 @@ public class CreateFortnoxInvoiceJob : IJob
                 CustomerId: selectedCustomer.Id,
                 InvoiceNumber: invoiceNumber,
                 TotalAmount: totalAmount,
-                Currency: "SEK",
+                Currency: DomainConstants.Currency.SEK,
                 InvoiceDate: DateOnly.FromDateTime(DateTime.UtcNow.Date),
-                DueDate: DateOnly.FromDateTime(DateTime.UtcNow.Date.AddDays(30)),
+                DueDate: DateOnly.FromDateTime(DateTime.UtcNow.Date.AddDays(DomainConstants.Invoice.DefaultDueDays)),
                 Lines: lines);
 
             var invoiceId = await _mediator.Send(invoiceCommand);
 
-            _logger.LogInformation("Successfully created invoice {InvoiceId} ({InvoiceNumber}) for customer {CustomerId} in Fortnox integration", 
+            _logger.LogInformation("Successfully created invoice {InvoiceId} ({InvoiceNumber}) for customer {CustomerId} in Fortnox integration",
                 invoiceId, invoiceNumber, selectedCustomer.Id);
 
             // Publish event via Dapr
@@ -96,7 +97,7 @@ public class CreateFortnoxInvoiceJob : IJob
                     CustomerId = selectedCustomer.Id,
                     CustomerName = selectedCustomer.Name,
                     TotalAmount = totalAmount,
-                    Currency = "SEK",
+                    Currency = DomainConstants.Currency.SEK,
                     CreatedAt = DateTime.UtcNow,
                     JobType = "CreateFortnoxInvoice"
                 });

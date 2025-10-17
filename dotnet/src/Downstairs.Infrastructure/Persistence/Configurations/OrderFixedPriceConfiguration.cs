@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,8 +13,8 @@ internal sealed class OrderFixedPriceConfiguration : IEntityTypeConfiguration<Or
 
         entity
             .ToTable("order_fixed_prices")
-            .HasCharSet("utf8mb3")
-            .UseCollation("utf8mb3_general_ci");
+            .HasCharSet(DatabaseConstants.CharSets.Utf8mb4)
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.FixedPriceId, "order_fixed_prices_fixed_price_id_foreign");
 
@@ -36,4 +37,3 @@ internal sealed class OrderFixedPriceConfiguration : IEntityTypeConfiguration<Or
             .HasConstraintName("order_fixed_prices_fixed_price_id_foreign");
     }
 }
-

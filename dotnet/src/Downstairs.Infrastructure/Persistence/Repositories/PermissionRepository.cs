@@ -5,4 +5,3 @@ namespace Downstairs.Infrastructure.Persistence.Repositories;
 internal sealed class PermissionRepository(DownstairsDbContext context) : RepositoryBase<Permission>(context)
 {
 }
-

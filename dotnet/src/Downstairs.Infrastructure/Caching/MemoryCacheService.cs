@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Downstairs.Application.Common.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;

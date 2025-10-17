@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
 
         entity
             .ToTable("invoices")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.CustomerId, "invoices_customer_id_foreign");
 
@@ -77,4 +78,3 @@ internal sealed class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
             .HasConstraintName("invoices_user_id_foreign");
     }
 }
-

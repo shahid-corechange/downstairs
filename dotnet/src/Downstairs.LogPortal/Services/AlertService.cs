@@ -1,5 +1,4 @@
 using Downstairs.LogPortal.Models;
-using System.Net.Mail;
 using LogLevel = Downstairs.LogPortal.Models.LogLevel;
 
 namespace Downstairs.LogPortal.Services;
@@ -52,20 +51,20 @@ public class AlertService : IAlertService
     public async Task<AlertRule> CreateAlertRuleAsync(AlertRule rule)
     {
         await Task.CompletedTask;
-        
+
         rule.Id = _alertRules.Count > 0 ? _alertRules.Max(r => r.Id) + 1 : 1;
         rule.CreatedAt = DateTime.UtcNow;
-        
+
         _alertRules.Add(rule);
         _logger.LogInformation("Created alert rule: {RuleName}", rule.Name);
-        
+
         return rule;
     }
 
     public async Task<AlertRule> UpdateAlertRuleAsync(AlertRule rule)
     {
         await Task.CompletedTask;
-        
+
         var existingRule = _alertRules.FirstOrDefault(r => r.Id == rule.Id);
         if (existingRule == null)
         {
@@ -75,7 +74,7 @@ public class AlertService : IAlertService
         var index = _alertRules.IndexOf(existingRule);
         rule.CreatedAt = existingRule.CreatedAt;
         _alertRules[index] = rule;
-        
+
         _logger.LogInformation("Updated alert rule: {RuleName}", rule.Name);
         return rule;
     }
@@ -83,7 +82,7 @@ public class AlertService : IAlertService
     public async Task DeleteAlertRuleAsync(int id)
     {
         await Task.CompletedTask;
-        
+
         var rule = _alertRules.FirstOrDefault(r => r.Id == id);
         if (rule != null)
         {
@@ -101,7 +100,7 @@ public class AlertService : IAlertService
             try
             {
                 var shouldAlert = await EvaluateAlertConditionAsync(rule);
-                
+
                 if (shouldAlert && ShouldSendAlert(rule))
                 {
                     await SendAlertAsync(
@@ -133,7 +132,7 @@ public class AlertService : IAlertService
             // 1. Configure SMTP settings
             // 2. Send emails to configured recipients
             // 3. Potentially integrate with Slack, Teams, or other notification systems
-            
+
             var emailEnabled = _configuration.GetValue<bool>("Alerts:EmailEnabled", false);
             if (emailEnabled)
             {
@@ -166,9 +165,12 @@ public class AlertService : IAlertService
         var logs = await _logService.GetLogsAsync(DateTime.UtcNow.AddHours(-1), DateTime.UtcNow);
         var errorLogs = logs.Where(l => l.Level >= LogLevel.Error).Count();
         var totalLogs = logs.Count;
-        
-        if (totalLogs == 0) return false;
-        
+
+        if (totalLogs == 0)
+        {
+            return false;
+        }
+
         var errorRate = (double)errorLogs / totalLogs;
         return errorRate > rule.Threshold;
     }
@@ -178,7 +180,7 @@ public class AlertService : IAlertService
         // Check if average response time exceeds threshold
         var apiMetrics = await _metricsService.GetAllApiMetricsAsync();
         var avgResponseTime = apiMetrics.Average(m => m.AverageResponseTime);
-        
+
         return avgResponseTime > rule.Threshold;
     }
 
@@ -193,8 +195,11 @@ public class AlertService : IAlertService
     {
         // Check job failure rate
         var jobMetrics = await _metricsService.GetJobMetricsAsync();
-        if (jobMetrics.JobsExecutedToday == 0) return false;
-        
+        if (jobMetrics.JobsExecutedToday == 0)
+        {
+            return false;
+        }
+
         var failureRate = (double)jobMetrics.JobsFailedToday / jobMetrics.JobsExecutedToday;
         return failureRate > rule.Threshold;
     }
@@ -207,7 +212,7 @@ public class AlertService : IAlertService
             var timeSinceLastAlert = DateTime.UtcNow - rule.LastTriggered.Value;
             return timeSinceLastAlert > TimeSpan.FromMinutes(30); // 30-minute cooldown
         }
-        
+
         return true;
     }
 
@@ -227,15 +232,18 @@ public class AlertService : IAlertService
             return;
         }
 
-        _logger.LogInformation("Would send email alert to {Recipients}: {Subject}", 
+        _logger.LogInformation("Would send email alert to {Recipients}: {Subject}",
             string.Join(", ", recipients), subject);
-        
+
         await Task.CompletedTask;
     }
 
     private void InitializeDefaultAlertRules()
     {
-        if (_alertRules.Any()) return;
+        if (_alertRules.Any())
+        {
+            return;
+        }
 
         _alertRules.AddRange(new[]
         {

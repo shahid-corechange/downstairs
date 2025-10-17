@@ -1,5 +1,4 @@
 using Downstairs.LogPortal.Models;
-using System.Diagnostics.Metrics;
 
 namespace Downstairs.LogPortal.Services;
 

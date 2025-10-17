@@ -14,7 +14,7 @@ public class RedisCacheService(IDistributedCache cache, ILogger<RedisCacheServic
 {
     private readonly IDistributedCache _cache = cache;
     private readonly ILogger<RedisCacheService> _logger = logger;
-    
+
     private static readonly ActivitySource ActivitySource = new("Downstairs.Cache");
     private static readonly Meter Meter = new("Downstairs.Cache");
     private static readonly Counter<int> CacheHits = Meter.CreateCounter<int>("cache_hits_total", "count", "Number of cache hits");
@@ -38,7 +38,7 @@ public class RedisCacheService(IDistributedCache cache, ILogger<RedisCacheServic
         try
         {
             var cachedData = await _cache.GetStringAsync(key, cancellationToken);
-            
+
             if (cachedData is null)
             {
                 CacheMisses.Add(1, new KeyValuePair<string, object?>("cache.key", key));
@@ -51,7 +51,7 @@ public class RedisCacheService(IDistributedCache cache, ILogger<RedisCacheServic
             CacheHits.Add(1, new KeyValuePair<string, object?>("cache.key", key));
             activity?.SetTag("cache.hit", true);
             _logger.LogDebug("Cache hit for key: {Key}", key);
-            
+
             CacheOperationDuration.Record(stopwatch.ElapsedMilliseconds);
             return result;
         }
@@ -75,7 +75,7 @@ public class RedisCacheService(IDistributedCache cache, ILogger<RedisCacheServic
         try
         {
             var serializedData = JsonSerializer.Serialize(value, _jsonOptions);
-            
+
             var options = new DistributedCacheEntryOptions();
             if (expiry.HasValue)
             {
@@ -88,7 +88,7 @@ public class RedisCacheService(IDistributedCache cache, ILogger<RedisCacheServic
             }
 
             await _cache.SetStringAsync(key, serializedData, options, cancellationToken);
-            
+
             _logger.LogDebug("Cached data for key: {Key} with expiry: {Expiry}", key, expiry ?? TimeSpan.FromMinutes(5));
         }
         catch (Exception ex)
@@ -135,7 +135,7 @@ public class RedisCacheService(IDistributedCache cache, ILogger<RedisCacheServic
             // Note: This is a simplified implementation. In production, you might want to use 
             // Redis SCAN with pattern matching for better performance
             _logger.LogDebug("Pattern-based cache removal for pattern: {Pattern}", pattern);
-            
+
             // For now, we'll log a warning that this operation is not fully implemented
             _logger.LogWarning("Pattern-based cache removal is not fully implemented. Consider using specific keys or implementing Redis SCAN.");
         }
@@ -144,7 +144,7 @@ public class RedisCacheService(IDistributedCache cache, ILogger<RedisCacheServic
             _logger.LogError(ex, "Failed to remove cached data for pattern: {Pattern}", pattern);
             activity?.SetStatus(ActivityStatusCode.Error, ex.Message);
         }
-        
+
         return Task.CompletedTask;
     }
 }

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.ServiceDiscovery;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
@@ -33,18 +32,18 @@ public static class Extensions
 
             // Turn on service discovery by default
             http.AddServiceDiscovery();
-            
+
             // Configure SSL for development environments
             http.ConfigurePrimaryHttpMessageHandler(() =>
             {
                 var handler = new HttpClientHandler();
-                
+
                 // In development, allow self-signed certificates
                 if (builder.Environment.IsDevelopment())
                 {
                     handler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true;
                 }
-                
+
                 return handler;
             });
         });

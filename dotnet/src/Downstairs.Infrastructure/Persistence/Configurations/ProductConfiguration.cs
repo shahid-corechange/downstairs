@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         entity
             .ToTable("products")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.CategoryId, "products_category_id_foreign");
 
@@ -61,4 +62,3 @@ internal sealed class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasConstraintName("products_service_id_foreign");
     }
 }
-

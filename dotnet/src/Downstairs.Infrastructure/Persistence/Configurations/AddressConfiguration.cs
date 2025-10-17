@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class AddressConfiguration : IEntityTypeConfiguration<Address>
 
         entity
             .ToTable("addresses")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.CityId, "addresses_city_id_foreign");
 
@@ -54,4 +55,3 @@ internal sealed class AddressConfiguration : IEntityTypeConfiguration<Address>
             .HasConstraintName("addresses_city_id_foreign");
     }
 }
-

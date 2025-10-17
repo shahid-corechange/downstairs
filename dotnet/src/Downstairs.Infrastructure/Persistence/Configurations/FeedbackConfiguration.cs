@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class FeedbackConfiguration : IEntityTypeConfiguration<Feedback>
 
         entity
             .ToTable("feedbacks")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => new { e.FeedbackableType, e.FeedbackableId }, "feedbacks_feedbackable_type_feedbackable_id_index");
 
@@ -36,4 +37,3 @@ internal sealed class FeedbackConfiguration : IEntityTypeConfiguration<Feedback>
             .HasColumnName("updated_at");
     }
 }
-

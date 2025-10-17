@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class BlindIndexConfiguration : IEntityTypeConfiguration<BlindIn
 
         entity
             .ToTable("blind_indexes")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => new { e.IndexableType, e.IndexableId }, "blind_indexes_indexable_type_indexable_id_index");
 
@@ -27,4 +28,3 @@ internal sealed class BlindIndexConfiguration : IEntityTypeConfiguration<BlindIn
         entity.Property(e => e.Value).HasColumnName("value");
     }
 }
-

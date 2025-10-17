@@ -1,8 +1,6 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Downstairs.LogPortal.Services;
-using Downstairs.LogPortal.Hubs;
 using Downstairs.LogPortal.BackgroundServices;
+using Downstairs.LogPortal.Hubs;
+using Downstairs.LogPortal.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -11,9 +11,8 @@ public class Customer : Entity<long>
 {
     public string Name { get; private set; } = string.Empty;
     public string Email { get; private set; } = string.Empty;
-    private string _identityNumber = string.Empty;
-    public string OrganizationNumber => _identityNumber;
-    public string IdentityNumber => _identityNumber;
+    public string OrganizationNumber { get; private set; } = string.Empty;
+    public string IdentityNumber => OrganizationNumber;
     public string MembershipType { get; private set; } = string.Empty;
     public string Type { get; private set; } = string.Empty;
     public string? Phone1 { get; private set; }
@@ -31,7 +30,7 @@ public class Customer : Entity<long>
     public DateTimeOffset CreatedAt { get; private set; }
     public DateTimeOffset? UpdatedAt { get; private set; }
     public DateTimeOffset? DeletedAt { get; private set; }
-    
+
     private readonly List<Invoice> _invoices = [];
     public IReadOnlyCollection<Invoice> Invoices => _invoices.AsReadOnly();
 
@@ -63,7 +62,7 @@ public class Customer : Entity<long>
         Address address)
     {
         var customer = new Customer(name, email, organizationNumber, phone, address);
-        
+
         customer.AddDomainEvent(new CustomerCreatedEvent(
             customer.Id,
             name,
@@ -121,11 +120,12 @@ public class Customer : Entity<long>
         DateTimeOffset? updatedAt,
         DateTimeOffset? deletedAt)
     {
-        var customer = new Customer();
-
-        customer.Id = id;
-        customer.Name = name;
-        customer.Email = email;
+        var customer = new Customer
+        {
+            Id = id,
+            Name = name,
+            Email = email
+        };
         customer.SetIdentityNumber(identityNumber);
         customer.MembershipType = membershipType;
         customer.Type = type;
@@ -185,6 +185,6 @@ public class Customer : Entity<long>
 
     private void SetIdentityNumber(string identityNumber)
     {
-        _identityNumber = identityNumber;
+        OrganizationNumber = identityNumber;
     }
 }

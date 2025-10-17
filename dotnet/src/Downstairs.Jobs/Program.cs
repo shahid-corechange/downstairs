@@ -23,9 +23,9 @@ builder.Services.AddQuartz(q =>
 {
     // Configure job store (in-memory for this demo)
     q.UseInMemoryStore();
-    
+
     // Configure jobs and triggers
-    
+
     // 01:00 - Create dummy customer in Fortnox
     var createCustomerJobKey = new JobKey("CreateFortnoxCustomer");
     q.AddJob<CreateFortnoxCustomerJob>(opts => opts.WithIdentity(createCustomerJobKey));
@@ -34,7 +34,7 @@ builder.Services.AddQuartz(q =>
         .WithIdentity("CreateFortnoxCustomer-trigger")
         .WithCronSchedule("0 * * * * ?") // Every 1 minute
         .WithDescription("Create dummy customer in Fortnox every 1 minute"));
-    
+
     // 02:00 - Create dummy invoice in Fortnox  
     var createInvoiceJobKey = new JobKey("CreateFortnoxInvoice");
     q.AddJob<CreateFortnoxInvoiceJob>(opts => opts.WithIdentity(createInvoiceJobKey));
@@ -43,7 +43,7 @@ builder.Services.AddQuartz(q =>
         .WithIdentity("CreateFortnoxInvoice-trigger")
         .WithCronSchedule("0 0 2 * * ?") // Daily at 02:00
         .WithDescription("Create dummy invoice in Fortnox daily at 02:00"));
-    
+
     // 03:00 - Send invoices to Kivra
     var sendToKivraJobKey = new JobKey("SendInvoicesToKivra");
     q.AddJob<SendInvoicesToKivraJob>(opts => opts.WithIdentity(sendToKivraJobKey));
@@ -52,7 +52,7 @@ builder.Services.AddQuartz(q =>
         .WithIdentity("SendInvoicesToKivra-trigger")
         .WithCronSchedule("0 0 3 * * ?") // Daily at 03:00
         .WithDescription("Send pending invoices to Kivra daily at 03:00"));
-        
+
     // Add immediate trigger for testing (runs 30 seconds after startup)
     q.AddTrigger(opts => opts
         .ForJob(createCustomerJobKey)
@@ -71,6 +71,9 @@ var app = builder.Build();
 
 // Map Aspire service defaults  
 app.MapDefaultEndpoints();
+
+// Ensure DB schema exists before running jobs
+await Downstairs.Infrastructure.DependencyInjection.ApplyMigrationsAsync(app.Services);
 
 // Configure the HTTP request pipeline
 app.UseRouting();
@@ -95,4 +98,4 @@ app.MapGet("/", () => new
     }
 });
 
-app.Run();
+await app.RunAsync();

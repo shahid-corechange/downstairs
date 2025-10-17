@@ -1,4 +1,4 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TaskEntity = Downstairs.Infrastructure.Persistence.Models.Task;
@@ -13,7 +13,7 @@ internal sealed class TaskConfiguration : IEntityTypeConfiguration<TaskEntity>
 
         entity
             .ToTable("tasks")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.CustomTaskId, "tasks_custom_task_id_foreign");
 
@@ -39,4 +39,3 @@ internal sealed class TaskConfiguration : IEntityTypeConfiguration<TaskEntity>
             .HasConstraintName("tasks_schedule_employee_id_foreign");
     }
 }
-

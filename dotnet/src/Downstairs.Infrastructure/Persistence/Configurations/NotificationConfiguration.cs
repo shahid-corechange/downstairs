@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class NotificationConfiguration : IEntityTypeConfiguration<Notif
 
         entity
             .ToTable("notifications")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.UserId, "notifications_user_id_foreign");
 
@@ -43,4 +44,3 @@ internal sealed class NotificationConfiguration : IEntityTypeConfiguration<Notif
             .HasConstraintName("notifications_user_id_foreign");
     }
 }
-

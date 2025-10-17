@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace Downstairs.Infrastructure.Persistence.Models;
 
 public partial class UserOtp

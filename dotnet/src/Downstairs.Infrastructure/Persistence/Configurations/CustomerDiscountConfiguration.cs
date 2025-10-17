@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class CustomerDiscountConfiguration : IEntityTypeConfiguration<C
 
         entity
             .ToTable("customer_discounts")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.CreatedAt, "customer_discounts_created_at_index");
 
@@ -48,4 +49,3 @@ internal sealed class CustomerDiscountConfiguration : IEntityTypeConfiguration<C
             .HasConstraintName("customer_discounts_user_id_foreign");
     }
 }
-

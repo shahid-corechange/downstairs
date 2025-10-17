@@ -31,7 +31,7 @@ builder.Services.AddSwaggerGen(c =>
         Version = "v1",
         Description = "Modern event-driven .NET 9 API for Downstairs solution"
     });
-    
+
     // Include XML comments
     var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -50,19 +50,17 @@ var app = builder.Build();
 // Map Aspire service defaults
 app.MapDefaultEndpoints();
 
-// Apply database migrations and seed data asynchronously after startup
-_ = Task.Run(async () =>
+// Apply database migrations and seed data BEFORE serving requests
+try
 {
-    try
-    {
-        await Downstairs.Infrastructure.DependencyInjection.ApplyMigrationsAsync(app.Services);
-        await Downstairs.Infrastructure.DependencyInjection.SeedDataAsync(app.Services);
-    }
-    catch (Exception ex)
-    {
-        app.Logger.LogError(ex, "Failed to apply migrations or seed data");
-    }
-});
+    await Downstairs.Infrastructure.DependencyInjection.ApplyMigrationsAsync(app.Services);
+    await Downstairs.Infrastructure.DependencyInjection.SeedDataAsync(app.Services);
+}
+catch (Exception ex)
+{
+    app.Logger.LogError(ex, "Failed to apply migrations or seed data");
+    throw; // Fail fast if schema can't be created
+}
 
 // Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
@@ -88,4 +86,4 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapSubscribeHandler();
 
-app.Run();
+await app.RunAsync();

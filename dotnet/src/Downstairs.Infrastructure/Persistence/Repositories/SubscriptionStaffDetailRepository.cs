@@ -5,4 +5,3 @@ namespace Downstairs.Infrastructure.Persistence.Repositories;
 internal sealed class SubscriptionStaffDetailRepository(DownstairsDbContext context) : RepositoryBase<SubscriptionStaffDetail>(context)
 {
 }
-

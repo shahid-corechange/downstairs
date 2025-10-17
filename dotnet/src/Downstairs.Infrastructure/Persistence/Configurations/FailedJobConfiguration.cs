@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class FailedJobConfiguration : IEntityTypeConfiguration<FailedJo
 
         entity
             .ToTable("failed_jobs")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.Uuid, "failed_jobs_uuid_unique").IsUnique();
 
@@ -32,4 +33,3 @@ internal sealed class FailedJobConfiguration : IEntityTypeConfiguration<FailedJo
         entity.Property(e => e.Uuid).HasColumnName("uuid");
     }
 }
-

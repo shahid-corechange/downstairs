@@ -23,7 +23,7 @@ public class HealthCheckService : IHealthCheckService
     private readonly HttpClient _httpClient;
 
     public HealthCheckService(
-        ILogger<HealthCheckService> logger, 
+        ILogger<HealthCheckService> logger,
         IConfiguration configuration,
         HttpClient httpClient)
     {
@@ -39,10 +39,10 @@ public class HealthCheckService : IHealthCheckService
         // Check all services in the solution
         var serviceEndpoints = new Dictionary<string, string>
         {
-            ["api"]         = "https+http://downstairs-api/health",
+            ["api"] = "https+http://downstairs-api/health",
             ["api-gateway"] = "https+http://downstairs-api-gateway/health",
-            ["jobs"]        = "https+http://downstairs-jobs/health",
-            ["admin"]       = "https+http://downstairs-admin/health"
+            ["jobs"] = "https+http://downstairs-jobs/health",
+            ["admin"] = "https+http://downstairs-admin/health"
         };
 
         foreach (var service in serviceEndpoints)
@@ -77,10 +77,10 @@ public class HealthCheckService : IHealthCheckService
     public async Task<ServiceHealth> GetServiceHealthAsync(string serviceName)
     {
         var allServices = await GetAllServiceHealthAsync();
-        return allServices.FirstOrDefault(s => s.ServiceName == serviceName) 
-            ?? new ServiceHealth 
-            { 
-                ServiceName = serviceName, 
+        return allServices.FirstOrDefault(s => s.ServiceName == serviceName)
+            ?? new ServiceHealth
+            {
+                ServiceName = serviceName,
                 Status = HealthStatus.Unhealthy,
                 ErrorMessage = "Service not found",
                 LastChecked = DateTime.UtcNow
@@ -141,14 +141,14 @@ public class HealthCheckService : IHealthCheckService
     private async Task<ServiceHealth> CheckServiceEndpointAsync(string serviceName, string healthUrl)
     {
         var stopwatch = System.Diagnostics.Stopwatch.StartNew();
-        
+
         try
         {
             var response = await _httpClient.GetAsync(healthUrl);
             stopwatch.Stop();
 
             var status = response.IsSuccessStatusCode ? HealthStatus.Healthy : HealthStatus.Unhealthy;
-            
+
             return new ServiceHealth
             {
                 ServiceName = serviceName,
@@ -162,7 +162,7 @@ public class HealthCheckService : IHealthCheckService
         {
             stopwatch.Stop();
             _logger.LogError(ex, "Health check failed for {ServiceName}", serviceName);
-            
+
             return new ServiceHealth
             {
                 ServiceName = serviceName,
@@ -177,7 +177,7 @@ public class HealthCheckService : IHealthCheckService
     private async Task<ServiceHealth> GetInfrastructureHealthAsync(string serviceName, Func<Task<HealthCheckResult>> healthCheck)
     {
         var stopwatch = System.Diagnostics.Stopwatch.StartNew();
-        
+
         try
         {
             var result = await healthCheck();
@@ -196,14 +196,14 @@ public class HealthCheckService : IHealthCheckService
                 Status = status,
                 ResponseTime = stopwatch.ElapsedMilliseconds,
                 LastChecked = DateTime.UtcNow,
-                ErrorMessage = result.Status != Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Healthy 
+                ErrorMessage = result.Status != Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Healthy
                     ? result.Description : null
             };
         }
         catch (Exception ex)
         {
             stopwatch.Stop();
-            
+
             return new ServiceHealth
             {
                 ServiceName = serviceName,

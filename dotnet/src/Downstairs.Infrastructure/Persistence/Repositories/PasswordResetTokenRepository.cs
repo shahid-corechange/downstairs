@@ -5,4 +5,3 @@ namespace Downstairs.Infrastructure.Persistence.Repositories;
 internal sealed class PasswordResetTokenRepository(DownstairsDbContext context) : RepositoryBase<PasswordResetToken>(context)
 {
 }
-

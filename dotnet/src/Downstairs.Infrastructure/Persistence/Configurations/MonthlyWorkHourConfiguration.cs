@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -21,11 +22,11 @@ internal sealed class MonthlyWorkHourConfiguration : IEntityTypeConfiguration<Mo
         entity.Property(e => e.FortnoxId)
             .HasColumnType("text")
             .HasColumnName("fortnox_id")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
         entity.Property(e => e.Fullname)
             .HasMaxLength(511)
             .HasColumnName("fullname")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
         entity.Property(e => e.Month).HasColumnName("month");
         entity.Property(e => e.ScheduleCleaningDeviation).HasColumnName("schedule_cleaning_deviation");
         entity.Property(e => e.ScheduleEmployeeDeviation).HasColumnName("schedule_employee_deviation");
@@ -36,4 +37,3 @@ internal sealed class MonthlyWorkHourConfiguration : IEntityTypeConfiguration<Mo
         entity.Property(e => e.Year).HasColumnName("year");
     }
 }
-

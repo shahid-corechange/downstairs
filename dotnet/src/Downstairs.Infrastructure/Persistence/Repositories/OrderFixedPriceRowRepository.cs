@@ -5,4 +5,3 @@ namespace Downstairs.Infrastructure.Persistence.Repositories;
 internal sealed class OrderFixedPriceRowRepository(DownstairsDbContext context) : RepositoryBase<OrderFixedPriceRow>(context)
 {
 }
-

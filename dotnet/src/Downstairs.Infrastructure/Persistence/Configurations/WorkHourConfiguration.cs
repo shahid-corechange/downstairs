@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class WorkHourConfiguration : IEntityTypeConfiguration<WorkHour>
 
         entity
             .ToTable("work_hours")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.Date, "work_hours_date_index");
 
@@ -42,4 +43,3 @@ internal sealed class WorkHourConfiguration : IEntityTypeConfiguration<WorkHour>
             .HasConstraintName("work_hours_user_id_foreign");
     }
 }
-

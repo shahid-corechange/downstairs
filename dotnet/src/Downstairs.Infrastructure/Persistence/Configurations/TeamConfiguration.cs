@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class TeamConfiguration : IEntityTypeConfiguration<Team>
 
         entity
             .ToTable("teams")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.Property(e => e.Id).HasColumnName("id");
         entity.Property(e => e.Avatar)
@@ -37,10 +38,9 @@ internal sealed class TeamConfiguration : IEntityTypeConfiguration<Team>
         entity.Property(e => e.Name)
             .HasMaxLength(255)
             .HasColumnName("name")
-            .UseCollation("utf8mb4_swedish_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
         entity.Property(e => e.UpdatedAt)
             .HasColumnType("timestamp")
             .HasColumnName("updated_at");
     }
 }
-

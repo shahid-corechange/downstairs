@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class ScheduleStoreDetailConfiguration : IEntityTypeConfiguratio
 
         entity
             .ToTable("schedule_store_details")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.Property(e => e.Id).HasColumnName("id");
         entity.Property(e => e.BeginsAtChanged)
@@ -33,4 +34,3 @@ internal sealed class ScheduleStoreDetailConfiguration : IEntityTypeConfiguratio
             .HasColumnName("updated_at");
     }
 }
-

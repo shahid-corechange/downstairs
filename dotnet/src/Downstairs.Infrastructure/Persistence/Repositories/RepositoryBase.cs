@@ -1,5 +1,4 @@
 using System.Linq.Expressions;
-using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Task = System.Threading.Tasks.Task;
 
@@ -18,9 +17,15 @@ internal class RepositoryBase<TEntity>
         Set = Context.Set<TEntity>();
     }
 
-    protected DownstairsDbContext Context { get; }
+    protected DownstairsDbContext Context
+    {
+        get;
+    }
 
-    protected DbSet<TEntity> Set { get; }
+    protected DbSet<TEntity> Set
+    {
+        get;
+    }
 
     /// <summary>
     /// Returns an <see cref="IQueryable{TEntity}"/> for additional composition.
@@ -107,4 +112,3 @@ internal class RepositoryBase<TEntity>
         Set.RemoveRange(entities);
     }
 }
-

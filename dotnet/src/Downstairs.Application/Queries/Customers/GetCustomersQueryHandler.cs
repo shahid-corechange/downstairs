@@ -1,6 +1,5 @@
 using Downstairs.Application.Common.Constants;
 using Downstairs.Application.Common.Interfaces;
-using Downstairs.Application.Queries.Customers;
 
 namespace Downstairs.Application.Queries.Customers;
 
@@ -18,7 +17,7 @@ public class GetCustomersQueryHandler(
     {
         // Try to get from cache first
         var cachedCustomers = await _cacheService.GetAsync<CustomerDto[]>(CacheKeys.AllCustomers, cancellationToken);
-        
+
         if (cachedCustomers != null)
         {
             return cachedCustomers;

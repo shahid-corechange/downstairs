@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class PriceAdjustmentRowConfiguration : IEntityTypeConfiguration
 
         entity
             .ToTable("price_adjustment_rows")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => new { e.AdjustableType, e.AdjustableId }, "price_adjustment_rows_adjustable_type_adjustable_id_index");
 
@@ -47,4 +48,3 @@ internal sealed class PriceAdjustmentRowConfiguration : IEntityTypeConfiguration
             .HasConstraintName("price_adjustment_rows_price_adjustment_id_foreign");
     }
 }
-

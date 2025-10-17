@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class ScheduleCleaningDeviationConfiguration : IEntityTypeConfig
 
         entity
             .ToTable("schedule_cleaning_deviations")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.ScheduleCleaningId, "schedule_cleaning_deviations_schedule_cleaning_id_foreign");
 
@@ -40,4 +41,3 @@ internal sealed class ScheduleCleaningDeviationConfiguration : IEntityTypeConfig
             .HasConstraintName("schedule_cleaning_deviations_schedule_cleaning_id_foreign");
     }
 }
-

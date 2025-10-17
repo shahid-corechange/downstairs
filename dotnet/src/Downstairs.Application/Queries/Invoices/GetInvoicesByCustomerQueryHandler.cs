@@ -14,7 +14,7 @@ public class GetInvoicesByCustomerQueryHandler : IRequestHandler<GetInvoicesByCu
 
     public async Task<IEnumerable<InvoiceDto>> Handle(GetInvoicesByCustomerQuery request, CancellationToken cancellationToken)
     {
-    var invoices = await _invoiceRepository.GetByCustomerIdAsync(request.CustomerId, cancellationToken);
+        var invoices = await _invoiceRepository.GetByCustomerIdAsync(request.CustomerId, cancellationToken);
         return invoices.Select(i => new InvoiceDto(
             i.Id,
             i.CustomerId,

@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class BlockDayConfiguration : IEntityTypeConfiguration<BlockDay>
 
         entity
             .ToTable("block_days")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.Property(e => e.Id).HasColumnName("id");
         entity.Property(e => e.BlockDate).HasColumnName("block_date");
@@ -30,4 +31,3 @@ internal sealed class BlockDayConfiguration : IEntityTypeConfiguration<BlockDay>
             .HasColumnName("updated_at");
     }
 }
-

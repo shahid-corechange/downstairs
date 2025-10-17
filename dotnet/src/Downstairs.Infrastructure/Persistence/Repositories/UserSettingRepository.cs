@@ -5,4 +5,3 @@ namespace Downstairs.Infrastructure.Persistence.Repositories;
 internal sealed class UserSettingRepository(DownstairsDbContext context) : RepositoryBase<UserSetting>(context)
 {
 }
-

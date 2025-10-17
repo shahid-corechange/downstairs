@@ -1,5 +1,4 @@
 using Downstairs.LogPortal.Models;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using LogLevel = Downstairs.LogPortal.Models.LogLevel;
 
 namespace Downstairs.LogPortal.Services;
@@ -31,7 +30,7 @@ public class LogService : ILogService
         // TODO: Implement actual log collection from centralized log store
         // For now, return mock data
         await Task.Delay(10);
-        
+
         var logs = new List<LogEntry>();
         var services = new[] { "api", "jobs", "api-gateway", "admin" };
         var random = new Random();
@@ -51,16 +50,24 @@ public class LogService : ILogService
 
         // Apply filters
         if (from.HasValue)
+        {
             logs = logs.Where(l => l.Timestamp >= from.Value).ToList();
-        
+        }
+
         if (to.HasValue)
+        {
             logs = logs.Where(l => l.Timestamp <= to.Value).ToList();
-        
+        }
+
         if (!string.IsNullOrEmpty(serviceName))
+        {
             logs = logs.Where(l => l.ServiceName.Contains(serviceName, StringComparison.OrdinalIgnoreCase)).ToList();
-        
+        }
+
         if (level.HasValue)
+        {
             logs = logs.Where(l => l.Level >= level.Value).ToList();
+        }
 
         return logs.OrderByDescending(l => l.Timestamp).ToList();
     }

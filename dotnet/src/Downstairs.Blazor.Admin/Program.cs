@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Downstairs.Blazor.Admin.Data;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class ScheduleStoreConfiguration : IEntityTypeConfiguration<Sche
 
         entity
             .ToTable("schedule_stores")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.Property(e => e.Id).HasColumnName("id");
         entity.Property(e => e.ContactId).HasColumnName("contact_id");
@@ -39,4 +40,3 @@ internal sealed class ScheduleStoreConfiguration : IEntityTypeConfiguration<Sche
         entity.Property(e => e.UserId).HasColumnName("user_id");
     }
 }
-

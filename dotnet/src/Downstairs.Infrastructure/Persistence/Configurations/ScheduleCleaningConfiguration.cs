@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class ScheduleCleaningConfiguration : IEntityTypeConfiguration<S
 
         entity
             .ToTable("schedule_cleanings")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => new { e.CancelableType, e.CancelableId }, "schedule_cleanings_cancelable_index");
 
@@ -87,4 +88,3 @@ internal sealed class ScheduleCleaningConfiguration : IEntityTypeConfiguration<S
             .HasConstraintName("schedule_cleanings_team_id_foreign");
     }
 }
-

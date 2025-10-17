@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Downstairs.ServiceDefaults.Configuration;
 using Microsoft.EntityFrameworkCore;
 using TaskEntity = Downstairs.Infrastructure.Persistence.Models.Task;
@@ -7,9 +8,7 @@ namespace Downstairs.Infrastructure.Persistence;
 
 public partial class DownstairsDbContext : DbContext
 {
-    public DownstairsDbContext()
-    {
-    }
+    public DownstairsDbContext() { }
 
     public DownstairsDbContext(DbContextOptions<DownstairsDbContext> options)
         : base(options)
@@ -187,8 +186,8 @@ public partial class DownstairsDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
-            .UseCollation("utf8mb4_unicode_ci")
-            .HasCharSet("utf8mb4");
+            .UseCollation(DatabaseConstants.Collations.Unicode)
+            .HasCharSet(DatabaseConstants.CharSets.Utf8mb4);
 
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(DownstairsDbContext).Assembly);
 

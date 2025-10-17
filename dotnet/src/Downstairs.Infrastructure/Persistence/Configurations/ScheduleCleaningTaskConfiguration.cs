@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class ScheduleCleaningTaskConfiguration : IEntityTypeConfigurati
 
         entity
             .ToTable("schedule_cleaning_tasks")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.CustomTaskId, "schedule_cleaning_tasks_custom_task_id_foreign");
 
@@ -32,4 +33,3 @@ internal sealed class ScheduleCleaningTaskConfiguration : IEntityTypeConfigurati
             .HasConstraintName("schedule_cleaning_tasks_schedule_cleaning_id_foreign");
     }
 }
-

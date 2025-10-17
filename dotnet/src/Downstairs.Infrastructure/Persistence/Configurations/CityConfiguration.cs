@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class CityConfiguration : IEntityTypeConfiguration<City>
 
         entity
             .ToTable("cities")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.CountryId, "cities_country_id_foreign");
 
@@ -27,4 +28,3 @@ internal sealed class CityConfiguration : IEntityTypeConfiguration<City>
             .HasConstraintName("cities_country_id_foreign");
     }
 }
-

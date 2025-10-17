@@ -30,10 +30,10 @@ public class InvoicesController : ControllerBase
     public async Task<ActionResult<IEnumerable<InvoiceDto>>> GetInvoices()
     {
         _logger.LogInformation("Getting all invoices");
-        
+
         var query = new GetInvoicesQuery();
         var invoices = await _mediator.Send(query);
-        
+
         return Ok(invoices);
     }
 
@@ -45,10 +45,10 @@ public class InvoicesController : ControllerBase
     public async Task<ActionResult<IEnumerable<InvoiceDto>>> GetInvoicesByCustomer(long customerId)
     {
         _logger.LogInformation("Getting invoices for customer: {CustomerId}", customerId);
-        
+
         var query = new GetInvoicesByCustomerQuery(customerId);
         var invoices = await _mediator.Send(query);
-        
+
         return Ok(invoices);
     }
 
@@ -61,7 +61,7 @@ public class InvoicesController : ControllerBase
     public async Task<ActionResult<long>> CreateInvoice([FromBody] CreateInvoiceRequest request)
     {
         _logger.LogInformation("Creating new invoice for customer: {CustomerId}", request.CustomerId);
-        
+
         var command = new CreateInvoiceCommand(
             request.CustomerId,
             request.InvoiceNumber,
@@ -70,11 +70,14 @@ public class InvoicesController : ControllerBase
             request.InvoiceDate,
             request.DueDate,
             request.Lines);
-        
+
         try
         {
             var invoiceId = await _mediator.Send(command);
-            return CreatedAtAction(nameof(GetInvoice), new { id = invoiceId }, invoiceId);
+            return CreatedAtAction(nameof(GetInvoice), new
+            {
+                id = invoiceId
+            }, invoiceId);
         }
         catch (InvalidOperationException ex)
         {
@@ -92,15 +95,15 @@ public class InvoicesController : ControllerBase
     public async Task<ActionResult<InvoiceDto>> GetInvoice(long id)
     {
         _logger.LogInformation("Getting invoice with ID: {InvoiceId}", id);
-        
+
         var query = new GetInvoiceByIdQuery(id);
         var invoice = await _mediator.Send(query);
-        
+
         if (invoice == null)
         {
             return NotFound();
         }
-        
+
         return Ok(invoice);
     }
 
@@ -112,9 +115,9 @@ public class InvoicesController : ControllerBase
     public async Task<IActionResult> HandleInvoiceCreated([FromBody] InvoiceCreatedEventDto eventDto)
     {
         _logger.LogInformation("Received InvoiceCreated event for invoice {InvoiceId}", eventDto.InvoiceId);
-        
+
         // Handle the event (e.g., trigger Fortnox sync, send notifications, etc.)
-        
+
         return Ok();
     }
 
@@ -126,9 +129,9 @@ public class InvoicesController : ControllerBase
     public async Task<IActionResult> HandleInvoiceSentToKivra([FromBody] InvoiceSentToKivraEventDto eventDto)
     {
         _logger.LogInformation("Received InvoiceSentToKivra event for invoice {InvoiceId}", eventDto.InvoiceId);
-        
+
         // Handle the event (e.g., update status, send confirmation, etc.)
-        
+
         return Ok();
     }
 }

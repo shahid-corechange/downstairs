@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class CountryConfiguration : IEntityTypeConfiguration<Country>
 
         entity
             .ToTable("countries")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.Property(e => e.Id).HasColumnName("id");
         entity.Property(e => e.Code)
@@ -34,4 +35,3 @@ internal sealed class CountryConfiguration : IEntityTypeConfiguration<Country>
             .HasColumnName("name");
     }
 }
-

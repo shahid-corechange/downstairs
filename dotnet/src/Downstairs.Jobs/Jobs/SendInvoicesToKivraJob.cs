@@ -33,7 +33,7 @@ public class SendInvoicesToKivraJob : IJob
         {
             // Get all invoices that haven't been sent to Kivra
             var invoices = await _mediator.Send(new GetInvoicesQuery());
-            var pendingInvoices = invoices.Where(i => 
+            var pendingInvoices = invoices.Where(i =>
                 i.Status == "Created" || i.Status == "Draft").ToList();
 
             if (!pendingInvoices.Any())
@@ -71,17 +71,17 @@ public class SendInvoicesToKivraJob : IJob
                             JobType = "SendInvoiceToKivra"
                         });
 
-                    _logger.LogInformation("Successfully sent invoice {InvoiceId} ({InvoiceNumber}) to Kivra", 
+                    _logger.LogInformation("Successfully sent invoice {InvoiceId} ({InvoiceNumber}) to Kivra",
                         invoice.Id, invoice.InvoiceNumber);
-                    
+
                     successCount++;
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Failed to send invoice {InvoiceId} ({InvoiceNumber}) to Kivra", 
+                    _logger.LogError(ex, "Failed to send invoice {InvoiceId} ({InvoiceNumber}) to Kivra",
                         invoice.Id, invoice.InvoiceNumber);
                     failureCount++;
-                    
+
                     // Publish failure event
                     await _daprClient.PublishEventAsync(
                         "pubsub-servicebus",
@@ -101,7 +101,7 @@ public class SendInvoicesToKivraJob : IJob
                 await Task.Delay(TimeSpan.FromSeconds(2));
             }
 
-            _logger.LogInformation("SendInvoicesToKivraJob completed. Success: {SuccessCount}, Failures: {FailureCount}", 
+            _logger.LogInformation("SendInvoicesToKivraJob completed. Success: {SuccessCount}, Failures: {FailureCount}",
                 successCount, failureCount);
         }
         catch (Exception ex)
@@ -115,13 +115,13 @@ public class SendInvoicesToKivraJob : IJob
     {
         // Simulate Kivra API call with realistic delay and occasional failures
         await Task.Delay(TimeSpan.FromMilliseconds(Random.Shared.Next(500, 2000)));
-        
+
         // Simulate 5% failure rate for demonstration
         if (Random.Shared.NextDouble() < 0.05)
         {
             throw new InvalidOperationException("Simulated Kivra API failure - service temporarily unavailable");
         }
-        
+
         _logger.LogDebug("Simulated successful Kivra delivery for invoice {InvoiceNumber}", invoice.InvoiceNumber);
     }
 }

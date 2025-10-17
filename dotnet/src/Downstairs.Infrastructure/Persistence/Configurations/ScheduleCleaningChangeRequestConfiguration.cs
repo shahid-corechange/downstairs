@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class ScheduleCleaningChangeRequestConfiguration : IEntityTypeCo
 
         entity
             .ToTable("schedule_cleaning_change_requests")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.CauserId, "schedule_cleaning_change_requests_causer_id_foreign");
 
@@ -57,4 +58,3 @@ internal sealed class ScheduleCleaningChangeRequestConfiguration : IEntityTypeCo
             .HasConstraintName("schedule_cleaning_change_requests_schedule_cleaning_id_foreign");
     }
 }
-

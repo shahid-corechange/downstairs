@@ -1,4 +1,3 @@
-using System;
 using Downstairs.Application.Common.Interfaces;
 using Downstairs.Infrastructure.Caching;
 using Downstairs.Infrastructure.Dapr;
@@ -24,7 +23,7 @@ public static class DependencyInjection
     /// Add infrastructure services to the container
     /// </summary>
     public static IServiceCollection AddInfrastructure(
-        this IServiceCollection services, 
+        this IServiceCollection services,
         IConfiguration configuration)
     {
         // Add database context
@@ -32,7 +31,7 @@ public static class DependencyInjection
         {
             var connectionString = ConnectionStringHelper.GetRequiredConnectionString(configuration, "downstairsdb");
 
-            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), 
+            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
                 mysqlOptions =>
                 {
                     mysqlOptions.MigrationsAssembly(typeof(DownstairsDbContext).Assembly.FullName);
@@ -49,10 +48,10 @@ public static class DependencyInjection
             }
         });
 
-    // Add repositories and unit of work for the scaffolded persistence layer
-    services.AddScoped<ICustomerRepository, CustomerRepository>();
-    services.AddScoped<IInvoiceRepository, InvoiceRepository>();
-    services.AddScoped<IUnitOfWork, UnitOfWork>();
+        // Add repositories and unit of work for the scaffolded persistence layer
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         // Add distributed caching and locking (Redis)
         var redisConnectionString = configuration.GetConnectionString("redis");
@@ -63,13 +62,13 @@ public static class DependencyInjection
                 options.Configuration = redisConnectionString;
                 options.InstanceName = "Downstairs";
             });
-            
+
             // Add Redis connection for distributed locking
             services.AddSingleton<IConnectionMultiplexer>(sp =>
             {
                 return ConnectionMultiplexer.Connect(redisConnectionString);
             });
-            
+
             services.AddScoped<ICacheService, RedisCacheService>();
             services.AddScoped<IDistributedLockService, RedisDistributedLockService>();
         }
@@ -98,7 +97,7 @@ public static class DependencyInjection
             {
                 client.BaseAddress = new Uri(baseUrl);
             }
-            
+
             var accessToken = configuration.GetValue<string>("Integrations:Fortnox:AccessToken");
             if (!string.IsNullOrEmpty(accessToken))
             {
@@ -126,11 +125,11 @@ public static class DependencyInjection
     private static HttpClientHandler CreateHttpClientHandler(IConfiguration configuration)
     {
         var handler = new HttpClientHandler();
-        
+
         // In development, allow self-signed certificates
         var isDevelopment = configuration.GetValue<string>("ASPNETCORE_ENVIRONMENT") == "Development" ||
                            configuration.GetValue<string>("DOTNET_ENVIRONMENT") == "Development";
-        
+
         if (isDevelopment)
         {
             handler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) =>
@@ -139,7 +138,7 @@ public static class DependencyInjection
                 return true;
             };
         }
-        
+
         return handler;
     }
 

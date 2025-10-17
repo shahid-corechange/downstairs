@@ -5,4 +5,3 @@ namespace Downstairs.Infrastructure.Persistence.Repositories;
 internal sealed class UnassignSubscriptionRepository(DownstairsDbContext context) : RepositoryBase<UnassignSubscription>(context)
 {
 }
-

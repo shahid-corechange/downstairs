@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class PropertyUserConfiguration : IEntityTypeConfiguration<Prope
 
         entity
             .ToTable("property_user")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.PropertyId, "property_user_property_id_foreign");
 
@@ -31,4 +32,3 @@ internal sealed class PropertyUserConfiguration : IEntityTypeConfiguration<Prope
             .HasConstraintName("property_user_user_id_foreign");
     }
 }
-

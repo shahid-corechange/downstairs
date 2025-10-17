@@ -30,10 +30,10 @@ public class CustomersController : ControllerBase
     public async Task<ActionResult<IEnumerable<CustomerDto>>> GetCustomers()
     {
         _logger.LogInformation("Getting all customers");
-        
+
         var query = new GetCustomersQuery();
         var customers = await _mediator.Send(query);
-        
+
         return Ok(customers);
     }
 
@@ -46,15 +46,15 @@ public class CustomersController : ControllerBase
     public async Task<ActionResult<CustomerDto>> GetCustomer(long id)
     {
         _logger.LogInformation("Getting customer with ID: {CustomerId}", id);
-        
+
         var query = new GetCustomerByIdQuery(id);
         var customer = await _mediator.Send(query);
-        
+
         if (customer == null)
         {
             return NotFound();
         }
-        
+
         return Ok(customer);
     }
 
@@ -67,7 +67,7 @@ public class CustomersController : ControllerBase
     public async Task<ActionResult<long>> CreateCustomer([FromBody] CreateCustomerRequest request)
     {
         _logger.LogInformation("Creating new customer: {CustomerName}", request.Name);
-        
+
         var command = new CreateCustomerCommand(
             request.Name,
             request.Email,
@@ -77,11 +77,14 @@ public class CustomersController : ControllerBase
             request.City,
             request.PostalCode,
             request.Country);
-        
+
         try
         {
             var customerId = await _mediator.Send(command);
-            return CreatedAtAction(nameof(GetCustomer), new { id = customerId }, customerId);
+            return CreatedAtAction(nameof(GetCustomer), new
+            {
+                id = customerId
+            }, customerId);
         }
         catch (InvalidOperationException ex)
         {
@@ -98,10 +101,10 @@ public class CustomersController : ControllerBase
     public async Task<IActionResult> HandleCustomerCreated([FromBody] CustomerCreatedEventDto eventDto)
     {
         _logger.LogInformation("Received CustomerCreated event for customer {CustomerId}", eventDto.CustomerId);
-        
+
         // Handle the event (e.g., send welcome email, update analytics, etc.)
         // This is where you'd implement any side effects of customer creation
-        
+
         return Ok();
     }
 }

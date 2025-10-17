@@ -1,5 +1,5 @@
-using Downstairs.LogPortal.Services;
 using Downstairs.LogPortal.Hubs;
+using Downstairs.LogPortal.Services;
 
 namespace Downstairs.LogPortal.BackgroundServices;
 
@@ -29,7 +29,7 @@ public class DashboardRefreshService : BackgroundService
             try
             {
                 using var scope = _serviceProvider.CreateScope();
-                
+
                 var metricsService = scope.ServiceProvider.GetRequiredService<IMetricsService>();
                 var healthService = scope.ServiceProvider.GetRequiredService<IHealthCheckService>();
                 var alertService = scope.ServiceProvider.GetRequiredService<IAlertService>();

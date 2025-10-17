@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.SignalR;
 using Downstairs.LogPortal.Models;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Downstairs.LogPortal.Hubs;
 
@@ -35,7 +35,7 @@ public class DashboardHub : Hub
 
     public override async Task OnDisconnectedAsync(Exception? exception)
     {
-        _logger.LogInformation("Client disconnected: {ConnectionId}, Exception: {Exception}", 
+        _logger.LogInformation("Client disconnected: {ConnectionId}, Exception: {Exception}",
             Context.ConnectionId, exception?.Message);
         await base.OnDisconnectedAsync(exception);
     }
@@ -58,7 +58,7 @@ public class DashboardNotificationService : IDashboardNotificationService
     private readonly ILogger<DashboardNotificationService> _logger;
 
     public DashboardNotificationService(
-        IHubContext<DashboardHub> hubContext, 
+        IHubContext<DashboardHub> hubContext,
         ILogger<DashboardNotificationService> logger)
     {
         _hubContext = hubContext;
@@ -108,7 +108,12 @@ public class DashboardNotificationService : IDashboardNotificationService
     {
         try
         {
-            var alert = new { Message = message, Type = type, Timestamp = DateTime.UtcNow };
+            var alert = new
+            {
+                Message = message,
+                Type = type,
+                Timestamp = DateTime.UtcNow
+            };
             await _hubContext.Clients.All.SendAsync("NewAlert", alert);
             _logger.LogDebug("Broadcasted alert to all clients: {Message}", message);
         }

@@ -1,7 +1,6 @@
 using Dapr.Client;
 using Downstairs.Domain.Shared;
 using Microsoft.Extensions.Logging;
-using System.Text.Json;
 
 namespace Downstairs.Infrastructure.Dapr;
 
@@ -14,28 +13,28 @@ public class DaprEventPublisher : IEventPublisher
     private readonly ILogger<DaprEventPublisher> _logger;
 
     public DaprEventPublisher(
-        DaprClient daprClient, 
+        DaprClient daprClient,
         ILogger<DaprEventPublisher> logger)
     {
         _daprClient = daprClient;
         _logger = logger;
     }
 
-    public async Task PublishAsync<T>(T domainEvent, CancellationToken cancellationToken = default) 
+    public async Task PublishAsync<T>(T domainEvent, CancellationToken cancellationToken = default)
         where T : DomainEvent
     {
         var eventName = typeof(T).Name;
-        
+
         try
         {
             // Use Redis pub/sub for development, ServiceBus for production
-            var pubsubComponent = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development" 
-                ? "pubsub" 
+            var pubsubComponent = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development"
+                ? "pubsub"
                 : "pubsub-servicebus";
-                
+
             await _daprClient.PublishEventAsync(
-                pubsubComponent, 
-                eventName, 
+                pubsubComponent,
+                eventName,
                 domainEvent,
                 cancellationToken);
 
@@ -54,7 +53,7 @@ public class DaprEventPublisher : IEventPublisher
         }
     }
 
-    public async Task PublishBatchAsync<T>(IEnumerable<T> domainEvents, CancellationToken cancellationToken = default) 
+    public async Task PublishBatchAsync<T>(IEnumerable<T> domainEvents, CancellationToken cancellationToken = default)
         where T : DomainEvent
     {
         var tasks = domainEvents.Select(evt => PublishAsync(evt, cancellationToken));

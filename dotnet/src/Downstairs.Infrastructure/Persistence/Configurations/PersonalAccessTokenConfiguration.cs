@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class PersonalAccessTokenConfiguration : IEntityTypeConfiguratio
 
         entity
             .ToTable("personal_access_tokens")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.Name, "personal_access_tokens_name_unique").IsUnique();
 
@@ -44,4 +45,3 @@ internal sealed class PersonalAccessTokenConfiguration : IEntityTypeConfiguratio
             .HasColumnName("updated_at");
     }
 }
-

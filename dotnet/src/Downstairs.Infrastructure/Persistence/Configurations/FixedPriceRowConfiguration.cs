@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class FixedPriceRowConfiguration : IEntityTypeConfiguration<Fixe
 
         entity
             .ToTable("fixed_price_rows")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.FixedPriceId, "fixed_price_rows_fixed_price_id_foreign");
 
@@ -41,4 +42,3 @@ internal sealed class FixedPriceRowConfiguration : IEntityTypeConfiguration<Fixe
             .HasConstraintName("fixed_price_rows_fixed_price_id_foreign");
     }
 }
-

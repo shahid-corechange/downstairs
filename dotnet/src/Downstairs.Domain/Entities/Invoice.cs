@@ -1,4 +1,3 @@
-using System;
 using Downstairs.Domain.Enums;
 using Downstairs.Domain.Events;
 using Downstairs.Domain.Shared;
@@ -63,8 +62,8 @@ public class Invoice : Entity<long>
         Status = InvoiceStatus.Draft;
         StatusText = InvoiceStatus.Draft.ToString();
         Remark = invoiceNumber;
-    var dueDateTime = dueDate.ToDateTime(TimeOnly.MinValue);
-    DueAtRaw = new DateTimeOffset(DateTime.SpecifyKind(dueDateTime, DateTimeKind.Utc));
+        var dueDateTime = dueDate.ToDateTime(TimeOnly.MinValue);
+        DueAtRaw = new DateTimeOffset(DateTime.SpecifyKind(dueDateTime, DateTimeKind.Utc));
         CreatedAt = DateTimeOffset.UtcNow;
     }
 
@@ -77,7 +76,7 @@ public class Invoice : Entity<long>
         IEnumerable<InvoiceLine> lines)
     {
         var invoice = new Invoice(invoiceNumber, customerId, totalAmount, invoiceDate, dueDate);
-        
+
         foreach (var line in lines)
         {
             invoice._lines.Add(line);
@@ -150,17 +149,18 @@ public class Invoice : Entity<long>
         string? remark,
         string? fortnoxInvoiceNumber)
     {
-        var invoice = new Invoice();
-
-        invoice.Id = id;
-        invoice.InvoiceNumber = invoiceNumber;
-        invoice.CustomerId = customerId;
-        invoice.TotalAmount = new Money(totalNet, "SEK");
-        invoice.TotalNet = totalNet;
-        invoice.TotalGross = totalGross;
-        invoice.TotalVat = totalVat;
-        invoice.TotalRut = totalRut;
-        invoice.Status = ParseStatus(statusText);
+        var invoice = new Invoice
+        {
+            Id = id,
+            InvoiceNumber = invoiceNumber,
+            CustomerId = customerId,
+            TotalAmount = new Money(totalNet, DomainConstants.Currency.SEK),
+            TotalNet = totalNet,
+            TotalGross = totalGross,
+            TotalVat = totalVat,
+            TotalRut = totalRut,
+            Status = ParseStatus(statusText)
+        };
         invoice.StatusText = string.IsNullOrWhiteSpace(statusText) ? invoice.Status.ToString() : statusText;
         invoice.CreatedAt = createdAt;
         invoice.UpdatedAt = updatedAt;
@@ -168,7 +168,7 @@ public class Invoice : Entity<long>
         invoice.DueAtRaw = dueAt;
         invoice.DeletedAt = deletedAt;
         invoice.InvoiceDate = DateOnly.FromDateTime(createdAt.UtcDateTime);
-        invoice.DueDate = dueAt.HasValue ? DateOnly.FromDateTime(dueAt.Value.UtcDateTime) : invoice.InvoiceDate.AddDays(30);
+        invoice.DueDate = dueAt.HasValue ? DateOnly.FromDateTime(dueAt.Value.UtcDateTime) : invoice.InvoiceDate.AddDays(DomainConstants.Invoice.DefaultDueDays);
         invoice.UserId = userId;
         invoice.FortnoxInvoiceId = fortnoxInvoiceId;
         invoice.FortnoxTaxReductionId = fortnoxTaxReductionId;
@@ -197,7 +197,7 @@ public class Invoice : Entity<long>
         TotalGross = totalGross;
         TotalVat = totalVat;
         TotalRut = totalRut;
-        var currency = TotalAmount?.Currency ?? "SEK";
+        var currency = TotalAmount?.Currency ?? DomainConstants.Currency.Default;
         TotalAmount = new Money(totalNet, currency);
     }
 

@@ -1,4 +1,5 @@
 using Downstairs.ServiceDefaults.Configuration;
+using Downstairs.ServiceDefaults.Constants;
 
 var builder = DistributedApplication.CreateBuilder(args);
 ConnectionStringHelper.TryPopulateConfiguration(builder.Configuration, "ServiceBus");
@@ -14,7 +15,7 @@ var mysql = builder.AddMySql("mysql", port: 3306)
     .WithContainerName("downstairs-mysql")
     .WithEnvironment("MYSQL_ROOT_PASSWORD", "password")
     .WithEnvironment("MYSQL_DATABASE", "downstairs")
-    .WithArgs("--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci");
+    .WithArgs($"--character-set-server={DatabaseConstants.CharSets.Utf8mb4}", $"--collation-server={DatabaseConstants.Collations.Unicode}");
 
 var mysqldb = mysql.AddDatabase("downstairs");
 

@@ -5,4 +5,3 @@ namespace Downstairs.Infrastructure.Persistence.Repositories;
 internal sealed class PersonalAccessTokenRepository(DownstairsDbContext context) : RepositoryBase<PersonalAccessToken>(context)
 {
 }
-

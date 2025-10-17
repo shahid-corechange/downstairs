@@ -6,13 +6,13 @@ namespace Downstairs.Domain.Shared;
 public abstract class Entity<TId> : IEquatable<Entity<TId>>
 {
     public TId Id { get; protected set; } = default!;
-    
+
     private readonly List<DomainEvent> _domainEvents = [];
-    
+
     public IReadOnlyCollection<DomainEvent> DomainEvents => _domainEvents.AsReadOnly();
 
     protected Entity() { }
-    
+
     protected Entity(TId id)
     {
         Id = id;

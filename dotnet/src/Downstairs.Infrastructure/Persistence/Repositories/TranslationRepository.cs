@@ -5,4 +5,3 @@ namespace Downstairs.Infrastructure.Persistence.Repositories;
 internal sealed class TranslationRepository(DownstairsDbContext context) : RepositoryBase<Translation>(context)
 {
 }
-

@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class GlobalSettingConfiguration : IEntityTypeConfiguration<Glob
 
         entity
             .ToTable("global_settings")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.Key, "global_settings_key_index");
 
@@ -32,4 +33,3 @@ internal sealed class GlobalSettingConfiguration : IEntityTypeConfiguration<Glob
         entity.Property(e => e.Value).HasColumnName("value");
     }
 }
-

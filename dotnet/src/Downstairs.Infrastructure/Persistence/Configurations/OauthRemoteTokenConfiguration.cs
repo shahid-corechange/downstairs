@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class OauthRemoteTokenConfiguration : IEntityTypeConfiguration<O
 
         entity
             .ToTable("oauth_remote_tokens")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.AppName, "oauth_remote_tokens_app_name_unique").IsUnique();
 
@@ -44,4 +45,3 @@ internal sealed class OauthRemoteTokenConfiguration : IEntityTypeConfiguration<O
             .HasColumnName("updated_at");
     }
 }
-

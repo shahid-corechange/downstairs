@@ -29,6 +29,8 @@ services:
       --collation-server=utf8mb4_unicode_ci
       --innodb-buffer-pool-size=256M
       --max-connections=200
+    # Note: Character set and collation values are defined as constants in:
+    # Downstairs.ServiceDefaults.Constants.DatabaseConstants
     labels:
       - "project.group=downstairs-infrastructure"
       - "project.name=downstairs"

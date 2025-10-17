@@ -5,4 +5,3 @@ namespace Downstairs.Infrastructure.Persistence.Repositories;
 internal sealed class RutCoApplicantRepository(DownstairsDbContext context) : RepositoryBase<RutCoApplicant>(context)
 {
 }
-

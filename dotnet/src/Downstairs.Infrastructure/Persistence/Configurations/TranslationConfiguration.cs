@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class TranslationConfiguration : IEntityTypeConfiguration<Transl
 
         entity
             .ToTable("translations")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => new { e.TranslationableType, e.TranslationableId }, "translationable_index");
 
@@ -42,4 +43,3 @@ internal sealed class TranslationConfiguration : IEntityTypeConfiguration<Transl
             .HasColumnName("updated_at");
     }
 }
-

@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class AuthenticationLogConfiguration : IEntityTypeConfiguration<
 
         entity
             .ToTable("authentication_log")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => new { e.AuthenticatableType, e.AuthenticatableId }, "authentication_log_authenticatable_type_authenticatable_id_index");
 
@@ -38,4 +39,3 @@ internal sealed class AuthenticationLogConfiguration : IEntityTypeConfiguration<
             .HasColumnName("user_agent");
     }
 }
-

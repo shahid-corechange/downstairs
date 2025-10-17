@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class UserSettingConfiguration : IEntityTypeConfiguration<UserSe
 
         entity
             .ToTable("user_settings")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.Key, "user_settings_key_index");
 
@@ -39,4 +40,3 @@ internal sealed class UserSettingConfiguration : IEntityTypeConfiguration<UserSe
             .HasConstraintName("user_settings_user_id_foreign");
     }
 }
-

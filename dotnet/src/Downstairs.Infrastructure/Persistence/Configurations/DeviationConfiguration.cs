@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class DeviationConfiguration : IEntityTypeConfiguration<Deviatio
 
         entity
             .ToTable("deviations")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.ScheduleCleaningId, "deviations_schedule_cleaning_id_foreign");
 
@@ -47,4 +48,3 @@ internal sealed class DeviationConfiguration : IEntityTypeConfiguration<Deviatio
             .HasConstraintName("deviations_user_id_foreign");
     }
 }
-

@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class ScheduleCleaningProductConfiguration : IEntityTypeConfigur
 
         entity
             .ToTable("schedule_cleaning_products")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.ProductId, "schedule_cleaning_products_product_id_foreign");
 
@@ -48,4 +49,3 @@ internal sealed class ScheduleCleaningProductConfiguration : IEntityTypeConfigur
             .HasConstraintName("schedule_cleaning_products_schedule_cleaning_id_foreign");
     }
 }
-

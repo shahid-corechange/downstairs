@@ -1,6 +1,5 @@
 using Downstairs.Application.Common.Constants;
 using Downstairs.Application.Common.Interfaces;
-using Downstairs.Application.Queries.Invoices;
 using MediatR;
 
 namespace Downstairs.Application.Queries.Invoices;
@@ -16,14 +15,14 @@ public class GetInvoicesQueryHandler(
     {
         // Try to get from cache first
         var cachedInvoices = await _cacheService.GetAsync<InvoiceDto[]>(CacheKeys.AllInvoices, cancellationToken);
-        
+
         if (cachedInvoices != null)
         {
             return cachedInvoices;
         }
 
         // If not in cache, get from database
-    var invoices = await _invoiceRepository.GetAllAsync(cancellationToken);
+        var invoices = await _invoiceRepository.GetAllAsync(cancellationToken);
         var invoiceDtos = invoices.Select(i => new InvoiceDto(
             i.Id,
             i.CustomerId,

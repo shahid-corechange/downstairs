@@ -82,4 +82,6 @@ cache/
 *.db
 *.db-journal
 *.sqlite
-Migrations/
+
+# Environment files
+*.env

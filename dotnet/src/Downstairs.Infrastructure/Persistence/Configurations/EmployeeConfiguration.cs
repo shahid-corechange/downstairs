@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
 
         entity
             .ToTable("employees")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.AddressId, "employees_address_id_foreign");
 
@@ -59,4 +60,3 @@ internal sealed class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
             .HasConstraintName("employees_user_id_foreign");
     }
 }
-

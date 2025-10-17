@@ -1,5 +1,4 @@
 using Downstairs.Application.Common.Interfaces;
-using Downstairs.Application.Queries.Customers;
 
 namespace Downstairs.Application.Queries.Customers;
 

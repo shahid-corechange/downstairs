@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class PasswordResetTokenConfiguration : IEntityTypeConfiguration
 
         entity
             .ToTable("password_reset_tokens")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.Email, "password_reset_tokens_email_index");
 
@@ -26,4 +27,3 @@ internal sealed class PasswordResetTokenConfiguration : IEntityTypeConfiguration
             .HasColumnName("token");
     }
 }
-

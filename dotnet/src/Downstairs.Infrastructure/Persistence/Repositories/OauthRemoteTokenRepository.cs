@@ -5,4 +5,3 @@ namespace Downstairs.Infrastructure.Persistence.Repositories;
 internal sealed class OauthRemoteTokenRepository(DownstairsDbContext context) : RepositoryBase<OauthRemoteToken>(context)
 {
 }
-

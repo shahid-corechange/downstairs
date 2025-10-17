@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class PriceAdjustmentConfiguration : IEntityTypeConfiguration<Pr
 
         entity
             .ToTable("price_adjustments")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.CauserId, "price_adjustments_causer_id_foreign");
 
@@ -50,4 +51,3 @@ internal sealed class PriceAdjustmentConfiguration : IEntityTypeConfiguration<Pr
             .HasConstraintName("price_adjustments_causer_id_foreign");
     }
 }
-

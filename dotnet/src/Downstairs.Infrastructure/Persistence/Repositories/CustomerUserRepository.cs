@@ -5,4 +5,3 @@ namespace Downstairs.Infrastructure.Persistence.Repositories;
 internal sealed class CustomerUserRepository(DownstairsDbContext context) : RepositoryBase<CustomerUser>(context)
 {
 }
-

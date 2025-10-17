@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using Downstairs.Infrastructure.Persistence.Constants;
 using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -13,7 +13,7 @@ internal sealed class PermissionConfiguration : IEntityTypeConfiguration<Permiss
 
         entity
             .ToTable("permissions")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => new { e.Name, e.GuardName }, "permissions_name_guard_name_unique").IsUnique();
 
@@ -43,12 +43,10 @@ internal sealed class PermissionConfiguration : IEntityTypeConfiguration<Permiss
                         .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
                     j
                         .ToTable("role_has_permissions")
-                        .UseCollation("utf8mb4_unicode_ci");
+                        .UseCollation(DatabaseConstants.Collations.Unicode);
                     j.HasIndex(new[] { "RoleId" }, "role_has_permissions_role_id_foreign");
-                    j.IndexerProperty<ulong>("PermissionId").HasColumnName("permission_id");
-                    j.IndexerProperty<ulong>("RoleId").HasColumnName("role_id");
+                    j.IndexerProperty<long>("PermissionId").HasColumnName("permission_id");
+                    j.IndexerProperty<long>("RoleId").HasColumnName("role_id");
                 });
     }
 }
-
-

@@ -1,4 +1,5 @@
-﻿using Downstairs.Infrastructure.Persistence.Models;
+using Downstairs.Infrastructure.Persistence.Constants;
+using Downstairs.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal sealed class TimeAdjustmentConfiguration : IEntityTypeConfiguration<Tim
 
         entity
             .ToTable("time_adjustments")
-            .UseCollation("utf8mb4_unicode_ci");
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.HasIndex(e => e.CauserId, "time_adjustments_causer_id_foreign");
 
@@ -41,4 +42,3 @@ internal sealed class TimeAdjustmentConfiguration : IEntityTypeConfiguration<Tim
             .HasConstraintName("time_adjustments_schedule_employee_id_foreign");
     }
 }
-
