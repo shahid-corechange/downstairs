@@ -9,27 +9,44 @@ internal sealed class ScheduleCleaningTaskConfiguration : IEntityTypeConfigurati
 {
     public void Configure(EntityTypeBuilder<ScheduleCleaningTask> entity)
     {
-        entity.HasKey(e => e.Id).HasName("PRIMARY");
+        entity.Property(e => e.Id)
+            .ValueGeneratedOnAdd()
+            .HasColumnType("bigint")
+            .HasColumnName("id");
 
-        entity
-            .ToTable("schedule_cleaning_tasks")
-            .UseCollation(DatabaseConstants.Collations.Unicode);
+        entity.Property(e => e.CustomTaskId)
+            .HasColumnType("bigint")
+            .HasColumnName("custom_task_id");
+
+        entity.Property(e => e.IsCompleted)
+            .HasColumnType("tinyint(1)")
+            .HasColumnName("is_completed");
+
+        entity.Property(e => e.ScheduleCleaningId)
+            .HasColumnType("bigint")
+            .HasColumnName("schedule_cleaning_id");
+
+        entity.HasKey(e => e.Id)
+            .HasName("PRIMARY");
 
         entity.HasIndex(e => e.CustomTaskId, "schedule_cleaning_tasks_custom_task_id_foreign");
 
         entity.HasIndex(e => e.ScheduleCleaningId, "schedule_cleaning_tasks_schedule_cleaning_id_foreign");
 
-        entity.Property(e => e.Id).HasColumnName("id");
-        entity.Property(e => e.CustomTaskId).HasColumnName("custom_task_id");
-        entity.Property(e => e.IsCompleted).HasColumnName("is_completed");
-        entity.Property(e => e.ScheduleCleaningId).HasColumnName("schedule_cleaning_id");
+        entity.ToTable("schedule_cleaning_tasks").UseCollation(DatabaseConstants.Collations.Unicode);
 
-        entity.HasOne(d => d.CustomTask).WithMany(p => p.ScheduleCleaningTasks)
+        entity.HasOne(d => d.CustomTask)
+            .WithMany(p => p.ScheduleCleaningTasks)
             .HasForeignKey(d => d.CustomTaskId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired()
             .HasConstraintName("schedule_cleaning_tasks_custom_task_id_foreign");
 
-        entity.HasOne(d => d.ScheduleCleaning).WithMany(p => p.ScheduleCleaningTasks)
+        entity.HasOne(d => d.ScheduleCleaning)
+            .WithMany(p => p.ScheduleCleaningTasks)
             .HasForeignKey(d => d.ScheduleCleaningId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired()
             .HasConstraintName("schedule_cleaning_tasks_schedule_cleaning_id_foreign");
     }
 }

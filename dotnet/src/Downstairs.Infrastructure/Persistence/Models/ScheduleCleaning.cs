@@ -4,25 +4,29 @@ public partial class ScheduleCleaning
 {
     public long Id { get; set; }
 
-    public long SubscriptionId { get; set; }
+    public long? SubscriptionId { get; set; }
 
-    public long TeamId { get; set; }
+    public long? LaundryOrderId { get; set; }
 
-    public long CustomerId { get; set; }
+    public string? LaundryType { get; set; }
 
-    public long PropertyId { get; set; }
+    public long? TeamId { get; set; }
 
-    public string Status { get; set; } = null!;
+    public long? CustomerId { get; set; }
 
-    public DateTime StartAt { get; set; }
+    public long? PropertyId { get; set; }
 
-    public DateTime EndAt { get; set; }
+    public string? Status { get; set; }
+
+    public DateTime? StartAt { get; set; }
+
+    public DateTime? EndAt { get; set; }
 
     public DateTime? OriginalStartAt { get; set; }
 
     public short? Quarters { get; set; }
 
-    public bool IsFixed { get; set; }
+    public bool? IsFixed { get; set; }
 
     public string? KeyInformation { get; set; }
 
@@ -44,11 +48,13 @@ public partial class ScheduleCleaning
 
     public virtual ICollection<Credit> Credits { get; set; } = new List<Credit>();
 
-    public virtual Customer Customer { get; set; } = null!;
+    public virtual Customer? Customer { get; set; }
 
     public virtual ICollection<Deviation> Deviations { get; set; } = new List<Deviation>();
 
-    public virtual Property Property { get; set; } = null!;
+    public virtual LaundryOrder? LaundryOrder { get; set; }
+
+    public virtual Property? Property { get; set; }
 
     public virtual ICollection<ScheduleCleaningChangeRequest> ScheduleCleaningChangeRequests { get; set; } = new List<ScheduleCleaningChangeRequest>();
 
@@ -58,7 +64,7 @@ public partial class ScheduleCleaning
 
     public virtual ICollection<ScheduleCleaningTask> ScheduleCleaningTasks { get; set; } = new List<ScheduleCleaningTask>();
 
-    public virtual Subscription Subscription { get; set; } = null!;
+    public virtual Subscription? Subscription { get; set; }
 
-    public virtual Team Team { get; set; } = null!;
+    public virtual Team? Team { get; set; }
 }

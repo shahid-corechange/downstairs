@@ -33,4 +33,6 @@ public partial class Address
     public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
 
     public virtual ICollection<Property> Properties { get; set; } = new List<Property>();
+
+    public virtual ICollection<Store> Stores { get; set; } = new List<Store>();
 }

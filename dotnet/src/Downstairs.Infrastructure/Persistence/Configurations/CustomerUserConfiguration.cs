@@ -9,26 +9,40 @@ internal sealed class CustomerUserConfiguration : IEntityTypeConfiguration<Custo
 {
     public void Configure(EntityTypeBuilder<CustomerUser> entity)
     {
-        entity.HasKey(e => e.MyRowId).HasName("PRIMARY");
+        entity.Property(e => e.MyRowId)
+            .ValueGeneratedOnAdd()
+            .HasColumnType("bigint")
+            .HasColumnName("my_row_id");
 
-        entity
-            .ToTable("customer_user")
-            .UseCollation(DatabaseConstants.Collations.Unicode);
+        entity.Property(e => e.CustomerId)
+            .HasColumnType("bigint")
+            .HasColumnName("customer_id");
+
+        entity.Property(e => e.UserId)
+            .HasColumnType("bigint")
+            .HasColumnName("user_id");
+
+        entity.HasKey(e => e.MyRowId)
+            .HasName("PRIMARY");
 
         entity.HasIndex(e => e.CustomerId, "customer_user_customer_id_foreign");
 
         entity.HasIndex(e => e.UserId, "customer_user_user_id_foreign");
 
-        entity.Property(e => e.MyRowId).HasColumnName("my_row_id");
-        entity.Property(e => e.CustomerId).HasColumnName("customer_id");
-        entity.Property(e => e.UserId).HasColumnName("user_id");
+        entity.ToTable("customer_user").UseCollation(DatabaseConstants.Collations.Unicode);
 
-        entity.HasOne(d => d.Customer).WithMany(p => p.CustomerUsers)
+        entity.HasOne(d => d.Customer)
+            .WithMany(p => p.CustomerUsers)
             .HasForeignKey(d => d.CustomerId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired()
             .HasConstraintName("customer_user_customer_id_foreign");
 
-        entity.HasOne(d => d.User).WithMany(p => p.CustomerUsers)
+        entity.HasOne(d => d.User)
+            .WithMany(p => p.CustomerUsers)
             .HasForeignKey(d => d.UserId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired()
             .HasConstraintName("customer_user_user_id_foreign");
     }
 }

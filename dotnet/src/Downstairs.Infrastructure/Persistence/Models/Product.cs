@@ -4,11 +4,7 @@ public partial class Product
 {
     public long Id { get; set; }
 
-    public long? ServiceId { get; set; }
-
     public string? FortnoxArticleId { get; set; }
-
-    public long? CategoryId { get; set; }
 
     public string? Unit { get; set; }
 
@@ -20,11 +16,9 @@ public partial class Product
 
     public bool HasRut { get; set; }
 
-    public bool InApp { get; set; }
-
-    public bool InStore { get; set; }
-
     public string? ThumbnailImage { get; set; }
+
+    public string Color { get; set; } = null!;
 
     public DateTime? CreatedAt { get; set; }
 
@@ -32,11 +26,19 @@ public partial class Product
 
     public DateTime? DeletedAt { get; set; }
 
-    public virtual ProductCategory? Category { get; set; }
+    public long? AddonId { get; set; }
+
+    public virtual ICollection<LaundryOrderProduct> LaundryOrderProducts { get; set; } = new List<LaundryOrderProduct>();
+
+    public virtual ICollection<Productable> Productables { get; set; } = new List<Productable>();
 
     public virtual ICollection<ScheduleCleaningProduct> ScheduleCleaningProducts { get; set; } = new List<ScheduleCleaningProduct>();
 
-    public virtual Service? Service { get; set; }
+    public virtual ICollection<StoreProduct> StoreProducts { get; set; } = new List<StoreProduct>();
 
-    public virtual ICollection<SubscriptionProduct> SubscriptionProducts { get; set; } = new List<SubscriptionProduct>();
+    public virtual ICollection<StoreSaleProduct> StoreSaleProducts { get; set; } = new List<StoreSaleProduct>();
+
+    public virtual ICollection<FixedPrice> FixedPrices { get; set; } = new List<FixedPrice>();
+
+    public virtual ICollection<OrderFixedPrice> OrderFixedPrices { get; set; } = new List<OrderFixedPrice>();
 }

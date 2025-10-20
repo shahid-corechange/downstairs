@@ -6,6 +6,8 @@ public partial class OrderFixedPrice
 
     public long? FixedPriceId { get; set; }
 
+    public string Type { get; set; } = null!;
+
     public bool IsPerOrder { get; set; }
 
     public DateTime? CreatedAt { get; set; }
@@ -19,4 +21,6 @@ public partial class OrderFixedPrice
     public virtual ICollection<OrderFixedPriceRow> OrderFixedPriceRows { get; set; } = new List<OrderFixedPriceRow>();
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
+    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }

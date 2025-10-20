@@ -9,27 +9,48 @@ internal sealed class FailedJobConfiguration : IEntityTypeConfiguration<FailedJo
 {
     public void Configure(EntityTypeBuilder<FailedJob> entity)
     {
-        entity.HasKey(e => e.Id).HasName("PRIMARY");
+        entity.Property(e => e.Id)
+            .ValueGeneratedOnAdd()
+            .HasColumnType("bigint")
+            .HasColumnName("id");
 
-        entity
-            .ToTable("failed_jobs")
-            .UseCollation(DatabaseConstants.Collations.Unicode);
-
-        entity.HasIndex(e => e.Uuid, "failed_jobs_uuid_unique").IsUnique();
-
-        entity.Property(e => e.Id).HasColumnName("id");
         entity.Property(e => e.Connection)
+            .IsRequired()
             .HasColumnType("text")
             .HasColumnName("connection");
-        entity.Property(e => e.Exception).HasColumnName("exception");
+
+        entity.Property(e => e.Exception)
+            .IsRequired()
+            .HasColumnType("longtext")
+            .HasColumnName("exception");
+
         entity.Property(e => e.FailedAt)
-            .HasDefaultValueSql("CURRENT_TIMESTAMP")
+            .ValueGeneratedOnAdd()
             .HasColumnType("timestamp")
-            .HasColumnName("failed_at");
-        entity.Property(e => e.Payload).HasColumnName("payload");
+            .HasColumnName("failed_at")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+        entity.Property(e => e.Payload)
+            .IsRequired()
+            .HasColumnType("longtext")
+            .HasColumnName("payload");
+
         entity.Property(e => e.Queue)
+            .IsRequired()
             .HasColumnType("text")
             .HasColumnName("queue");
-        entity.Property(e => e.Uuid).HasColumnName("uuid");
+
+        entity.Property(e => e.Uuid)
+            .IsRequired()
+            .HasColumnType("varchar(255)")
+            .HasColumnName("uuid");
+
+        entity.HasKey(e => e.Id)
+            .HasName("PRIMARY");
+
+        entity.HasIndex(e => e.Uuid, "failed_jobs_uuid_unique")
+            .IsUnique();
+
+        entity.ToTable("failed_jobs").UseCollation(DatabaseConstants.Collations.Unicode);
     }
 }

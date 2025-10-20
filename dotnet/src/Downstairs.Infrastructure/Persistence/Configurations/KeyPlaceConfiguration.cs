@@ -9,27 +9,36 @@ internal sealed class KeyPlaceConfiguration : IEntityTypeConfiguration<KeyPlace>
 {
     public void Configure(EntityTypeBuilder<KeyPlace> entity)
     {
-        entity.HasKey(e => e.Id).HasName("PRIMARY");
+        entity.Property(e => e.Id)
+            .ValueGeneratedOnAdd()
+            .HasColumnType("bigint")
+            .HasColumnName("id");
 
-        entity
-            .ToTable("key_places")
-            .UseCollation(DatabaseConstants.Collations.Unicode);
-
-        entity.HasIndex(e => e.PropertyId, "key_places_property_id_foreign");
-
-        entity.Property(e => e.Id).HasColumnName("id");
         entity.Property(e => e.CreatedAt)
             .HasColumnType("timestamp")
             .HasColumnName("created_at");
+
         entity.Property(e => e.DeletedAt)
             .HasColumnType("timestamp")
             .HasColumnName("deleted_at");
-        entity.Property(e => e.PropertyId).HasColumnName("property_id");
+
+        entity.Property(e => e.PropertyId)
+            .HasColumnType("bigint")
+            .HasColumnName("property_id");
+
         entity.Property(e => e.UpdatedAt)
             .HasColumnType("timestamp")
             .HasColumnName("updated_at");
 
-        entity.HasOne(d => d.Property).WithMany(p => p.KeyPlaces)
+        entity.HasKey(e => e.Id)
+            .HasName("PRIMARY");
+
+        entity.HasIndex(e => e.PropertyId, "key_places_property_id_foreign");
+
+        entity.ToTable("key_places").UseCollation(DatabaseConstants.Collations.Unicode);
+
+        entity.HasOne(d => d.Property)
+            .WithMany(p => p.KeyPlaces)
             .HasForeignKey(d => d.PropertyId)
             .OnDelete(DeleteBehavior.Cascade)
             .HasConstraintName("key_places_property_id_foreign");

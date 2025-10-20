@@ -14,5 +14,7 @@ public partial class CustomTask
 
     public virtual ICollection<ScheduleCleaningTask> ScheduleCleaningTasks { get; set; } = new List<ScheduleCleaningTask>();
 
+    public virtual ICollection<ScheduleTask> ScheduleTasks { get; set; } = new List<ScheduleTask>();
+
     public virtual ICollection<Task> Tasks { get; set; } = new List<Task>();
 }

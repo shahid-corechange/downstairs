@@ -36,6 +36,12 @@ public partial class User
 
     public DateTime? DeletedAt { get; set; }
 
+    public virtual ICollection<CashierAttendance> CashierAttendanceCheckInCausers { get; set; } = new List<CashierAttendance>();
+
+    public virtual ICollection<CashierAttendance> CashierAttendanceCheckOutCausers { get; set; } = new List<CashierAttendance>();
+
+    public virtual ICollection<CashierAttendance> CashierAttendanceUsers { get; set; } = new List<CashierAttendance>();
+
     public virtual ICollection<Credit> CreditIssuers { get; set; } = new List<Credit>();
 
     public virtual ICollection<CreditTransaction> CreditTransactionIssuers { get; set; } = new List<CreditTransaction>();
@@ -56,6 +62,12 @@ public partial class User
 
     public virtual ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
 
+    public virtual ICollection<LaundryOrder> LaundryOrderCausers { get; set; } = new List<LaundryOrder>();
+
+    public virtual ICollection<LaundryOrderHistory> LaundryOrderHistories { get; set; } = new List<LaundryOrderHistory>();
+
+    public virtual ICollection<LaundryOrder> LaundryOrderUsers { get; set; } = new List<LaundryOrder>();
+
     public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
@@ -66,9 +78,17 @@ public partial class User
 
     public virtual ICollection<RutCoApplicant> RutCoApplicants { get; set; } = new List<RutCoApplicant>();
 
+    public virtual ICollection<ScheduleChangeRequest> ScheduleChangeRequests { get; set; } = new List<ScheduleChangeRequest>();
+
     public virtual ICollection<ScheduleCleaningChangeRequest> ScheduleCleaningChangeRequests { get; set; } = new List<ScheduleCleaningChangeRequest>();
 
     public virtual ICollection<ScheduleEmployee> ScheduleEmployees { get; set; } = new List<ScheduleEmployee>();
+
+    public virtual ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();
+
+    public virtual ICollection<StoreSale> StoreSales { get; set; } = new List<StoreSale>();
+
+    public virtual ICollection<StoreUser> StoreUsers { get; set; } = new List<StoreUser>();
 
     public virtual ICollection<SubscriptionStaffDetail> SubscriptionStaffDetails { get; set; } = new List<SubscriptionStaffDetail>();
 

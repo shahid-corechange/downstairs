@@ -8,6 +8,8 @@ public partial class CreditTransaction
 
     public long? ScheduleCleaningId { get; set; }
 
+    public long? ScheduleId { get; set; }
+
     public long? IssuerId { get; set; }
 
     public string Type { get; set; } = null!;
@@ -23,6 +25,8 @@ public partial class CreditTransaction
     public virtual ICollection<CreditCreditTransaction> CreditCreditTransactions { get; set; } = new List<CreditCreditTransaction>();
 
     public virtual User? Issuer { get; set; }
+
+    public virtual Schedule? Schedule { get; set; }
 
     public virtual ScheduleCleaning? ScheduleCleaning { get; set; }
 

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Downstairs.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialStructure : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -38,6 +38,35 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     batch_uuid = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => x.id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
+                name: "addons",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    fortnox_article_id = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    unit = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
+                    credit_price = table.Column<short>(type: "smallint", nullable: false),
+                    vat_group = table.Column<sbyte>(type: "tinyint", nullable: false, defaultValueSql: "'25'"),
+                    has_rut = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    thumbnail_image = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    color = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'#718096'", collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -105,6 +134,25 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     end_block_time = table.Column<TimeOnly>(type: "time", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => x.id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
+                name: "categories",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    thumbnail_image = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -228,10 +276,32 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
 
             migrationBuilder.CreateTable(
+                name: "laundry_preferences",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
+                    percentage = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
+                    vat_group = table.Column<sbyte>(type: "tinyint", nullable: false, defaultValueSql: "'25'"),
+                    hours = table.Column<short>(type: "smallint", nullable: false),
+                    include_holidays = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => x.id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
                 name: "meta",
                 columns: table => new
                 {
-                    id = table.Column<uint>(type: "int unsigned", nullable: false)
+                    id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     metable_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -257,7 +327,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "migrations",
                 columns: table => new
                 {
-                    id = table.Column<uint>(type: "int unsigned", nullable: false)
+                    id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     migration = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -380,14 +450,27 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
 
             migrationBuilder.CreateTable(
-                name: "product_categories",
+                name: "products",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    fortnox_article_id = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    unit = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
+                    credit_price = table.Column<short>(type: "smallint", nullable: true),
+                    vat_group = table.Column<sbyte>(type: "tinyint", nullable: false, defaultValueSql: "'25'"),
+                    has_rut = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    thumbnail_image = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    color = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'#718096'", collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    addon_id = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -433,50 +516,6 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
 
             migrationBuilder.CreateTable(
-                name: "schedule_store_details",
-                columns: table => new
-                {
-                    id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    schedule_store_id = table.Column<int>(type: "int", nullable: false),
-                    begins_at_changed = table.Column<DateTime>(type: "datetime", nullable: true),
-                    ends_at_changed = table.Column<DateTime>(type: "datetime", nullable: true),
-                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PRIMARY", x => x.id);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4")
-                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
-
-            migrationBuilder.CreateTable(
-                name: "schedule_stores",
-                columns: table => new
-                {
-                    id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    district_id = table.Column<int>(type: "int", nullable: false),
-                    user_id = table.Column<int>(type: "int", nullable: false),
-                    contact_id = table.Column<int>(type: "int", nullable: false),
-                    status = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'draft'", collation: "utf8mb4_unicode_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    start_at = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    end_at = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PRIMARY", x => x.id);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4")
-                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
-
-            migrationBuilder.CreateTable(
                 name: "services",
                 columns: table => new
                 {
@@ -486,35 +525,13 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    membership_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
-                    vat_group = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'25'"),
+                    vat_group = table.Column<sbyte>(type: "tinyint", nullable: false, defaultValueSql: "'25'"),
                     has_rut = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     thumbnail_image = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PRIMARY", x => x.id);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4")
-                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
-
-            migrationBuilder.CreateTable(
-                name: "subscription_details",
-                columns: table => new
-                {
-                    id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    subscription_id = table.Column<int>(type: "int", nullable: false),
-                    squarefeet = table.Column<int>(type: "int", nullable: false),
-                    price_per_quarters = table.Column<decimal>(type: "decimal(8,2)", precision: 8, scale: 2, nullable: false),
-                    price_per_squarefeet = table.Column<decimal>(type: "decimal(8,2)", precision: 8, scale: 2, nullable: false),
-                    price_material = table.Column<decimal>(type: "decimal(8,2)", precision: 8, scale: 2, nullable: false),
-                    price_establish = table.Column<decimal>(type: "decimal(8,2)", precision: 8, scale: 2, nullable: false),
-                    vat_id = table.Column<int>(type: "int", nullable: false, defaultValueSql: "'25'"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
@@ -540,7 +557,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     description = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    is_active = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'1'"),
+                    is_active = table.Column<bool>(type: "tinyint(1)", nullable: true, defaultValueSql: "'1'"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
@@ -581,34 +598,6 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
 
             migrationBuilder.CreateTable(
-                name: "user_discounts",
-                columns: table => new
-                {
-                    id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    user_id = table.Column<int>(type: "int", nullable: false),
-                    type = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'cleaning'", collation: "utf8mb4_unicode_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    status = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'active'", collation: "utf8mb4_unicode_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    product_id = table.Column<int>(type: "int", nullable: true),
-                    product_group = table.Column<int>(type: "int", nullable: true),
-                    valid_from_at = table.Column<DateTime>(type: "datetime", nullable: true),
-                    valid_to_at = table.Column<DateTime>(type: "datetime", nullable: true),
-                    repeatable = table.Column<int>(type: "int", nullable: false, defaultValueSql: "'1'"),
-                    discount = table.Column<int>(type: "int", nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PRIMARY", x => x.id);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4")
-                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
-
-            migrationBuilder.CreateTable(
                 name: "user_infos",
                 columns: table => new
                 {
@@ -617,11 +606,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     user_id = table.Column<long>(type: "bigint", nullable: false),
                     avatar = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    language = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
+                    language = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, defaultValueSql: "'sv_SE'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    timezone = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
+                    timezone = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, defaultValueSql: "'Europe/Stockholm'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    currency = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
+                    currency = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, defaultValueSql: "'SEK'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     notification_method = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, defaultValueSql: "'app'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -701,6 +690,30 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
 
             migrationBuilder.CreateTable(
+                name: "categoryables",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    category_id = table.Column<long>(type: "bigint", nullable: false),
+                    categoryable_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    categoryable_id = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => x.id);
+                    table.ForeignKey(
+                        name: "categoryables_category_id_foreign",
+                        column: x => x.category_id,
+                        principalTable: "categories",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
                 name: "cities",
                 columns: table => new
                 {
@@ -747,6 +760,30 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
 
             migrationBuilder.CreateTable(
+                name: "productables",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    product_id = table.Column<long>(type: "bigint", nullable: false),
+                    productable_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    productable_id = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => x.id);
+                    table.ForeignKey(
+                        name: "productables_product_id_foreign",
+                        column: x => x.product_id,
+                        principalTable: "products",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
                 name: "model_has_roles",
                 columns: table => new
                 {
@@ -770,25 +807,24 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
 
             migrationBuilder.CreateTable(
-                name: "role_has_permissions",
+                name: "PermissionRole",
                 columns: table => new
                 {
-                    permission_id = table.Column<long>(type: "bigint", nullable: false),
-                    role_id = table.Column<long>(type: "bigint", nullable: false)
+                    PermissionsId = table.Column<long>(type: "bigint", nullable: false),
+                    RolesId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PRIMARY", x => new { x.permission_id, x.role_id })
-                        .Annotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+                    table.PrimaryKey("PK_PermissionRole", x => new { x.PermissionsId, x.RolesId });
                     table.ForeignKey(
-                        name: "role_has_permissions_permission_id_foreign",
-                        column: x => x.permission_id,
+                        name: "FK_PermissionRole_permissions_PermissionsId",
+                        column: x => x.PermissionsId,
                         principalTable: "permissions",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "role_has_permissions_role_id_foreign",
-                        column: x => x.role_id,
+                        name: "FK_PermissionRole_roles_RolesId",
+                        column: x => x.RolesId,
                         principalTable: "roles",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -797,40 +833,25 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
 
             migrationBuilder.CreateTable(
-                name: "products",
+                name: "service_addons",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    my_row_id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    service_id = table.Column<long>(type: "bigint", nullable: true),
-                    fortnox_article_id = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    category_id = table.Column<long>(type: "bigint", nullable: true),
-                    unit = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
-                    credit_price = table.Column<ushort>(type: "smallint unsigned", nullable: true),
-                    vat_group = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'25'"),
-                    has_rut = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    in_app = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    in_store = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    thumbnail_image = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
+                    service_id = table.Column<long>(type: "bigint", nullable: false),
+                    addon_id = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PRIMARY", x => x.id);
+                    table.PrimaryKey("PRIMARY", x => x.my_row_id);
                     table.ForeignKey(
-                        name: "products_category_id_foreign",
-                        column: x => x.category_id,
-                        principalTable: "product_categories",
+                        name: "service_addons_addon_id_foreign",
+                        column: x => x.addon_id,
+                        principalTable: "addons",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "products_service_id_foreign",
+                        name: "service_addons_service_id_foreign",
                         column: x => x.service_id,
                         principalTable: "services",
                         principalColumn: "id",
@@ -846,9 +867,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     service_id = table.Column<long>(type: "bigint", nullable: false),
-                    min_square_meters = table.Column<uint>(type: "int unsigned", nullable: false),
-                    max_square_meters = table.Column<uint>(type: "int unsigned", nullable: false),
-                    quarters = table.Column<uint>(type: "int unsigned", nullable: false),
+                    min_square_meters = table.Column<int>(type: "int", nullable: false),
+                    max_square_meters = table.Column<int>(type: "int", nullable: false),
+                    quarters = table.Column<int>(type: "int", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
@@ -877,7 +898,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     value = table.Column<int>(type: "int", nullable: false),
                     start_date = table.Column<DateOnly>(type: "date", nullable: true),
                     end_date = table.Column<DateOnly>(type: "date", nullable: true),
-                    usage_limit = table.Column<uint>(type: "int unsigned", nullable: true),
+                    usage_limit = table.Column<int>(type: "int", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
@@ -902,6 +923,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
+                    type = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'cleaning'", collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     start_date = table.Column<DateOnly>(type: "date", nullable: true),
                     end_date = table.Column<DateOnly>(type: "date", nullable: true),
                     is_per_order = table.Column<bool>(type: "tinyint(1)", nullable: false),
@@ -1089,6 +1112,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     user_id = table.Column<long>(type: "bigint", nullable: false),
                     fortnox_attendance_id = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    type = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'schedule'", collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     date = table.Column<DateOnly>(type: "date", nullable: false),
                     start_time = table.Column<TimeOnly>(type: "time", nullable: false),
                     end_time = table.Column<TimeOnly>(type: "time", nullable: false),
@@ -1152,9 +1177,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     fixed_price_id = table.Column<long>(type: "bigint", nullable: false),
                     type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    quantity = table.Column<uint>(type: "int unsigned", nullable: false),
+                    quantity = table.Column<int>(type: "int", nullable: false),
                     price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
-                    vat_group = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'25'"),
+                    vat_group = table.Column<sbyte>(type: "tinyint", nullable: false, defaultValueSql: "'25'"),
                     has_rut = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
@@ -1173,12 +1198,40 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
 
             migrationBuilder.CreateTable(
+                name: "FixedPriceProduct",
+                columns: table => new
+                {
+                    FixedPricesId = table.Column<long>(type: "bigint", nullable: false),
+                    ProductsId = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FixedPriceProduct", x => new { x.FixedPricesId, x.ProductsId });
+                    table.ForeignKey(
+                        name: "FK_FixedPriceProduct_fixed_prices_FixedPricesId",
+                        column: x => x.FixedPricesId,
+                        principalTable: "fixed_prices",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FixedPriceProduct_products_ProductsId",
+                        column: x => x.ProductsId,
+                        principalTable: "products",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
                 name: "order_fixed_prices",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     fixed_price_id = table.Column<long>(type: "bigint", nullable: true),
+                    type = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'cleaning'", collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     is_per_order = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
@@ -1209,7 +1262,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     adjustable_id = table.Column<long>(type: "bigint", nullable: false),
                     previous_price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
                     price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
-                    vat_group = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'25'"),
+                    vat_group = table.Column<sbyte>(type: "tinyint", nullable: false, defaultValueSql: "'25'"),
                     status = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'pending'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
@@ -1229,54 +1282,6 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
 
             migrationBuilder.CreateTable(
-                name: "schedule_employees",
-                columns: table => new
-                {
-                    id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
-                    scheduleable_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    scheduleable_id = table.Column<long>(type: "bigint", nullable: false),
-                    work_hour_id = table.Column<long>(type: "bigint", nullable: true),
-                    start_latitude = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: true),
-                    start_longitude = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: true),
-                    start_ip = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    start_at = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    end_latitude = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: true),
-                    end_longitude = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: true),
-                    end_ip = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    end_at = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    description = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    status = table.Column<string>(type: "varchar(255)", nullable: false, defaultValueSql: "'pending'", collation: "utf8mb4_unicode_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PRIMARY", x => x.id);
-                    table.ForeignKey(
-                        name: "schedule_employees_user_id_foreign",
-                        column: x => x.user_id,
-                        principalTable: "users",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "schedule_employees_work_hour_id_foreign",
-                        column: x => x.work_hour_id,
-                        principalTable: "work_hours",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4")
-                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
-
-            migrationBuilder.CreateTable(
                 name: "customers",
                 columns: table => new
                 {
@@ -1285,7 +1290,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     fortnox_id = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     customer_ref_id = table.Column<long>(type: "bigint", nullable: true),
-                    address_id = table.Column<long>(type: "bigint", nullable: false),
+                    address_id = table.Column<long>(type: "bigint", nullable: true),
                     membership_type = table.Column<string>(type: "varchar(255)", nullable: false, defaultValueSql: "'private'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     type = table.Column<string>(type: "varchar(255)", nullable: false, defaultValueSql: "'primary'", collation: "utf8mb4_unicode_ci")
@@ -1294,7 +1299,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    email = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
+                    email = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     phone1 = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -1411,6 +1416,40 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
 
             migrationBuilder.CreateTable(
+                name: "stores",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    address_id = table.Column<long>(type: "bigint", nullable: false),
+                    name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    company_number = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    phone = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    dial_code = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    email = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => x.id);
+                    table.ForeignKey(
+                        name: "stores_address_id_foreign",
+                        column: x => x.address_id,
+                        principalTable: "addresses",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
                 name: "order_fixed_price_rows",
                 columns: table => new
                 {
@@ -1421,9 +1460,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     description = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    quantity = table.Column<uint>(type: "int unsigned", nullable: false),
+                    quantity = table.Column<int>(type: "int", nullable: false),
                     price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
-                    vat_group = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'25'"),
+                    vat_group = table.Column<sbyte>(type: "tinyint", nullable: false, defaultValueSql: "'25'"),
                     has_rut = table.Column<sbyte>(type: "tinyint", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
@@ -1442,65 +1481,25 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
 
             migrationBuilder.CreateTable(
-                name: "tasks",
+                name: "OrderFixedPriceProduct",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    custom_task_id = table.Column<long>(type: "bigint", nullable: false),
-                    schedule_employee_id = table.Column<long>(type: "bigint", nullable: false),
-                    name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    description = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    is_completed = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    OrderFixedPricesId = table.Column<long>(type: "bigint", nullable: false),
+                    ProductsId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PRIMARY", x => x.id);
+                    table.PrimaryKey("PK_OrderFixedPriceProduct", x => new { x.OrderFixedPricesId, x.ProductsId });
                     table.ForeignKey(
-                        name: "tasks_custom_task_id_foreign",
-                        column: x => x.custom_task_id,
-                        principalTable: "custom_tasks",
+                        name: "FK_OrderFixedPriceProduct_order_fixed_prices_OrderFixedPricesId",
+                        column: x => x.OrderFixedPricesId,
+                        principalTable: "order_fixed_prices",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "tasks_schedule_employee_id_foreign",
-                        column: x => x.schedule_employee_id,
-                        principalTable: "schedule_employees",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4")
-                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
-
-            migrationBuilder.CreateTable(
-                name: "time_adjustments",
-                columns: table => new
-                {
-                    id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    schedule_employee_id = table.Column<long>(type: "bigint", nullable: false),
-                    causer_id = table.Column<long>(type: "bigint", nullable: false),
-                    quarters = table.Column<sbyte>(type: "tinyint", nullable: false),
-                    reason = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PRIMARY", x => x.id);
-                    table.ForeignKey(
-                        name: "time_adjustments_causer_id_foreign",
-                        column: x => x.causer_id,
-                        principalTable: "users",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "time_adjustments_schedule_employee_id_foreign",
-                        column: x => x.schedule_employee_id,
-                        principalTable: "schedule_employees",
+                        name: "FK_OrderFixedPriceProduct_products_ProductsId",
+                        column: x => x.ProductsId,
+                        principalTable: "products",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -1546,6 +1545,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     fortnox_invoice_id = table.Column<long>(type: "bigint", nullable: true),
                     fortnox_tax_reduction_id = table.Column<long>(type: "bigint", nullable: true),
                     type = table.Column<string>(type: "varchar(255)", nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    category = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'invoice'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     month = table.Column<int>(type: "int", nullable: false),
                     year = table.Column<int>(type: "int", nullable: false),
@@ -1598,6 +1599,58 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         name: "old_customers_customer_id_foreign",
                         column: x => x.customer_id,
                         principalTable: "customers",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
+                name: "unassign_subscriptions",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    customer_id = table.Column<long>(type: "bigint", nullable: true),
+                    service_id = table.Column<long>(type: "bigint", nullable: false),
+                    frequency = table.Column<short>(type: "smallint", nullable: false),
+                    start_at = table.Column<DateOnly>(type: "date", nullable: false),
+                    end_at = table.Column<DateOnly>(type: "date", nullable: true),
+                    is_fixed = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    description = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    fixed_price = table.Column<decimal>(type: "decimal(8,2)", nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    addon_ids = table.Column<string>(type: "json", nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    product_carts = table.Column<string>(type: "json", nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    cleaning_detail = table.Column<string>(type: "json", nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    laundry_detail = table.Column<string>(type: "json", nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => x.id);
+                    table.ForeignKey(
+                        name: "unassign_subscriptions_customer_id_foreign",
+                        column: x => x.customer_id,
+                        principalTable: "customers",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "unassign_subscriptions_service_id_foreign",
+                        column: x => x.service_id,
+                        principalTable: "services",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "unassign_subscriptions_user_id_foreign",
+                        column: x => x.user_id,
+                        principalTable: "users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -1686,24 +1739,60 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
 
             migrationBuilder.CreateTable(
+                name: "subscription_cleaning_details",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    property_id = table.Column<long>(type: "bigint", nullable: false),
+                    team_id = table.Column<long>(type: "bigint", nullable: false),
+                    quarters = table.Column<short>(type: "smallint", nullable: false),
+                    start_time = table.Column<TimeOnly>(type: "time", nullable: false),
+                    end_time = table.Column<TimeOnly>(type: "time", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => x.id);
+                    table.ForeignKey(
+                        name: "subscription_cleaning_details_property_id_foreign",
+                        column: x => x.property_id,
+                        principalTable: "properties",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "subscription_cleaning_details_team_id_foreign",
+                        column: x => x.team_id,
+                        principalTable: "teams",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
                 name: "subscriptions",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
-                    customer_id = table.Column<long>(type: "bigint", nullable: false),
+                    customer_id = table.Column<long>(type: "bigint", nullable: true),
                     team_id = table.Column<long>(type: "bigint", nullable: true),
-                    property_id = table.Column<long>(type: "bigint", nullable: false),
+                    property_id = table.Column<long>(type: "bigint", nullable: true),
                     service_id = table.Column<long>(type: "bigint", nullable: false),
                     fixed_price_id = table.Column<long>(type: "bigint", nullable: true),
+                    subscribable_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    subscribable_id = table.Column<long>(type: "bigint", nullable: false),
                     frequency = table.Column<short>(type: "smallint", nullable: false),
                     start_at = table.Column<DateOnly>(type: "date", nullable: false),
                     end_at = table.Column<DateOnly>(type: "date", nullable: true),
-                    start_time_at = table.Column<TimeOnly>(type: "time", nullable: false),
-                    end_time_at = table.Column<TimeOnly>(type: "time", nullable: false),
-                    quarters = table.Column<short>(type: "smallint", nullable: false),
-                    refill_sequence = table.Column<short>(type: "smallint", nullable: false, defaultValueSql: "'12'"),
+                    start_time_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    end_time_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    quarters = table.Column<short>(type: "smallint", nullable: true),
+                    refill_sequence = table.Column<short>(type: "smallint", nullable: true, defaultValueSql: "'12'"),
                     is_paused = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     is_fixed = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     description = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
@@ -1756,27 +1845,167 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
 
             migrationBuilder.CreateTable(
-                name: "unassign_subscriptions",
+                name: "cashier_attendances",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
-                    customer_id = table.Column<long>(type: "bigint", nullable: false),
-                    property_id = table.Column<long>(type: "bigint", nullable: false),
-                    service_id = table.Column<long>(type: "bigint", nullable: false),
-                    frequency = table.Column<short>(type: "smallint", nullable: false),
-                    start_at = table.Column<DateOnly>(type: "date", nullable: false),
-                    end_at = table.Column<DateOnly>(type: "date", nullable: true),
-                    start_time_at = table.Column<TimeOnly>(type: "time", nullable: false),
-                    quarters = table.Column<short>(type: "smallint", nullable: false),
-                    refill_sequence = table.Column<short>(type: "smallint", nullable: false, defaultValueSql: "'12'"),
-                    is_fixed = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    description = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
+                    store_id = table.Column<long>(type: "bigint", nullable: false),
+                    work_hour_id = table.Column<long>(type: "bigint", nullable: true),
+                    check_in_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    check_in_causer_id = table.Column<long>(type: "bigint", nullable: true),
+                    check_out_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    check_out_causer_id = table.Column<long>(type: "bigint", nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => x.id);
+                    table.ForeignKey(
+                        name: "cashier_attendances_check_in_causer_id_foreign",
+                        column: x => x.check_in_causer_id,
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "cashier_attendances_check_out_causer_id_foreign",
+                        column: x => x.check_out_causer_id,
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "cashier_attendances_store_id_foreign",
+                        column: x => x.store_id,
+                        principalTable: "stores",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "cashier_attendances_user_id_foreign",
+                        column: x => x.user_id,
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "cashier_attendances_work_hour_id_foreign",
+                        column: x => x.work_hour_id,
+                        principalTable: "work_hours",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
+                name: "store_products",
+                columns: table => new
+                {
+                    store_id = table.Column<long>(type: "bigint", nullable: false),
+                    product_id = table.Column<long>(type: "bigint", nullable: false),
+                    status = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'active'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    fixed_price = table.Column<decimal>(type: "decimal(8,2)", nullable: true),
-                    product_ids = table.Column<string>(type: "json", nullable: true, collation: "utf8mb4_unicode_ci")
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => new { x.store_id, x.product_id })
+                        .Annotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+                    table.ForeignKey(
+                        name: "store_products_product_id_foreign",
+                        column: x => x.product_id,
+                        principalTable: "products",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "store_products_store_id_foreign",
+                        column: x => x.store_id,
+                        principalTable: "stores",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
+                name: "store_sales",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    store_id = table.Column<long>(type: "bigint", nullable: false),
+                    causer_id = table.Column<long>(type: "bigint", nullable: false),
+                    status = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    payment_method = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => x.id);
+                    table.ForeignKey(
+                        name: "store_sales_causer_id_foreign",
+                        column: x => x.causer_id,
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "store_sales_store_id_foreign",
+                        column: x => x.store_id,
+                        principalTable: "stores",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
+                name: "store_users",
+                columns: table => new
+                {
+                    my_row_id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    store_id = table.Column<long>(type: "bigint", nullable: false),
+                    user_id = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => x.my_row_id);
+                    table.ForeignKey(
+                        name: "store_users_store_id_foreign",
+                        column: x => x.store_id,
+                        principalTable: "stores",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "store_users_user_id_foreign",
+                        column: x => x.user_id,
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
+                name: "subscription_laundry_details",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    store_id = table.Column<long>(type: "bigint", nullable: false),
+                    laundry_preference_id = table.Column<long>(type: "bigint", nullable: false),
+                    pickup_property_id = table.Column<long>(type: "bigint", nullable: true),
+                    pickup_team_id = table.Column<long>(type: "bigint", nullable: true),
+                    pickup_time = table.Column<TimeOnly>(type: "time", nullable: true),
+                    delivery_property_id = table.Column<long>(type: "bigint", nullable: true),
+                    delivery_team_id = table.Column<long>(type: "bigint", nullable: true),
+                    delivery_time = table.Column<TimeOnly>(type: "time", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
@@ -1784,27 +2013,39 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 {
                     table.PrimaryKey("PRIMARY", x => x.id);
                     table.ForeignKey(
-                        name: "unassign_subscriptions_customer_id_foreign",
-                        column: x => x.customer_id,
-                        principalTable: "customers",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "unassign_subscriptions_property_id_foreign",
-                        column: x => x.property_id,
+                        name: "subscription_laundry_details_delivery_property_id_foreign",
+                        column: x => x.delivery_property_id,
                         principalTable: "properties",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "unassign_subscriptions_service_id_foreign",
-                        column: x => x.service_id,
-                        principalTable: "services",
+                        name: "subscription_laundry_details_delivery_team_id_foreign",
+                        column: x => x.delivery_team_id,
+                        principalTable: "teams",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "unassign_subscriptions_user_id_foreign",
-                        column: x => x.user_id,
-                        principalTable: "users",
+                        name: "subscription_laundry_details_laundry_preference_id_foreign",
+                        column: x => x.laundry_preference_id,
+                        principalTable: "laundry_preferences",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "subscription_laundry_details_pickup_property_id_foreign",
+                        column: x => x.pickup_property_id,
+                        principalTable: "properties",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "subscription_laundry_details_pickup_team_id_foreign",
+                        column: x => x.pickup_team_id,
+                        principalTable: "teams",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "subscription_laundry_details_store_id_foreign",
+                        column: x => x.store_id,
+                        principalTable: "stores",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -1832,6 +2073,101 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         name: "leave_registration_details_leave_registration_id_foreign",
                         column: x => x.leave_registration_id,
                         principalTable: "leave_registrations",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
+                name: "laundry_orders",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    store_id = table.Column<long>(type: "bigint", nullable: false),
+                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    causer_id = table.Column<long>(type: "bigint", nullable: false),
+                    laundry_preference_id = table.Column<long>(type: "bigint", nullable: false),
+                    subscription_id = table.Column<long>(type: "bigint", nullable: true),
+                    customer_id = table.Column<long>(type: "bigint", nullable: false),
+                    pickup_property_id = table.Column<long>(type: "bigint", nullable: true),
+                    pickup_team_id = table.Column<long>(type: "bigint", nullable: true),
+                    pickup_time = table.Column<TimeOnly>(type: "time", nullable: true),
+                    delivery_property_id = table.Column<long>(type: "bigint", nullable: true),
+                    delivery_team_id = table.Column<long>(type: "bigint", nullable: true),
+                    delivery_time = table.Column<TimeOnly>(type: "time", nullable: true),
+                    status = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'pending'", collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    payment_method = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ordered_at = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    paid_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => x.id);
+                    table.ForeignKey(
+                        name: "laundry_orders_causer_id_foreign",
+                        column: x => x.causer_id,
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "laundry_orders_customer_id_foreign",
+                        column: x => x.customer_id,
+                        principalTable: "customers",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "laundry_orders_delivery_property_id_foreign",
+                        column: x => x.delivery_property_id,
+                        principalTable: "properties",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "laundry_orders_delivery_team_id_foreign",
+                        column: x => x.delivery_team_id,
+                        principalTable: "teams",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "laundry_orders_laundry_preference_id_foreign",
+                        column: x => x.laundry_preference_id,
+                        principalTable: "laundry_preferences",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "laundry_orders_pickup_property_id_foreign",
+                        column: x => x.pickup_property_id,
+                        principalTable: "properties",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "laundry_orders_pickup_team_id_foreign",
+                        column: x => x.pickup_team_id,
+                        principalTable: "teams",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "laundry_orders_store_id_foreign",
+                        column: x => x.store_id,
+                        principalTable: "stores",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "laundry_orders_subscription_id_foreign",
+                        column: x => x.subscription_id,
+                        principalTable: "subscriptions",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "laundry_orders_user_id_foreign",
+                        column: x => x.user_id,
+                        principalTable: "users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -1907,22 +2243,274 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
 
             migrationBuilder.CreateTable(
-                name: "schedule_cleanings",
+                name: "schedules",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    subscription_id = table.Column<long>(type: "bigint", nullable: false),
-                    team_id = table.Column<long>(type: "bigint", nullable: false),
-                    customer_id = table.Column<long>(type: "bigint", nullable: false),
+                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    service_id = table.Column<long>(type: "bigint", nullable: false),
+                    team_id = table.Column<long>(type: "bigint", nullable: true),
+                    customer_id = table.Column<long>(type: "bigint", nullable: true),
                     property_id = table.Column<long>(type: "bigint", nullable: false),
+                    subscription_id = table.Column<long>(type: "bigint", nullable: true),
+                    scheduleable_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    scheduleable_id = table.Column<long>(type: "bigint", nullable: false),
                     status = table.Column<string>(type: "varchar(255)", nullable: false, defaultValueSql: "'booked'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     start_at = table.Column<DateTime>(type: "timestamp", nullable: false),
                     end_at = table.Column<DateTime>(type: "timestamp", nullable: false),
                     original_start_at = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    quarters = table.Column<short>(type: "smallint", nullable: true),
+                    quarters = table.Column<short>(type: "smallint", nullable: false),
                     is_fixed = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    key_information = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    note = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    cancelable_type = table.Column<string>(type: "varchar(255)", nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    cancelable_id = table.Column<long>(type: "bigint", nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    canceled_at = table.Column<DateTime>(type: "timestamp", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => x.id);
+                    table.ForeignKey(
+                        name: "schedules_customer_id_foreign",
+                        column: x => x.customer_id,
+                        principalTable: "customers",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "schedules_property_id_foreign",
+                        column: x => x.property_id,
+                        principalTable: "properties",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "schedules_service_id_foreign",
+                        column: x => x.service_id,
+                        principalTable: "services",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "schedules_subscription_id_foreign",
+                        column: x => x.subscription_id,
+                        principalTable: "subscriptions",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "schedules_team_id_foreign",
+                        column: x => x.team_id,
+                        principalTable: "teams",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "schedules_user_id_foreign",
+                        column: x => x.user_id,
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
+                name: "subscription_items",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    subscription_id = table.Column<long>(type: "bigint", nullable: false),
+                    itemable_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    itemable_id = table.Column<long>(type: "bigint", nullable: false),
+                    quantity = table.Column<short>(type: "smallint", nullable: false, defaultValueSql: "'1'"),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => x.id);
+                    table.ForeignKey(
+                        name: "subscription_items_subscription_id_foreign",
+                        column: x => x.subscription_id,
+                        principalTable: "subscriptions",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
+                name: "subscription_staff_details",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    subscription_id = table.Column<long>(type: "bigint", nullable: false),
+                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    quarters = table.Column<int>(type: "int", nullable: false),
+                    is_active = table.Column<bool>(type: "tinyint(1)", nullable: true, defaultValueSql: "'1'"),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => x.id);
+                    table.ForeignKey(
+                        name: "subscription_staff_details_subscription_id_foreign",
+                        column: x => x.subscription_id,
+                        principalTable: "subscriptions",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "subscription_staff_details_user_id_foreign",
+                        column: x => x.user_id,
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
+                name: "store_sale_products",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    store_sale_id = table.Column<long>(type: "bigint", nullable: false),
+                    product_id = table.Column<long>(type: "bigint", nullable: false),
+                    name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    note = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    quantity = table.Column<sbyte>(type: "tinyint", nullable: false),
+                    price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
+                    vat_group = table.Column<sbyte>(type: "tinyint", nullable: false, defaultValueSql: "'25'"),
+                    discount = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => x.id);
+                    table.ForeignKey(
+                        name: "store_sale_products_product_id_foreign",
+                        column: x => x.product_id,
+                        principalTable: "products",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "store_sale_products_store_sale_id_foreign",
+                        column: x => x.store_sale_id,
+                        principalTable: "store_sales",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
+                name: "laundry_order_histories",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    laundry_order_id = table.Column<long>(type: "bigint", nullable: false),
+                    type = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    note = table.Column<string>(type: "text", nullable: false, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    causer_id = table.Column<long>(type: "bigint", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => x.id);
+                    table.ForeignKey(
+                        name: "laundry_order_histories_causer_id_foreign",
+                        column: x => x.causer_id,
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "laundry_order_histories_laundry_order_id_foreign",
+                        column: x => x.laundry_order_id,
+                        principalTable: "laundry_orders",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
+                name: "laundry_order_products",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    laundry_order_id = table.Column<long>(type: "bigint", nullable: false),
+                    product_id = table.Column<long>(type: "bigint", nullable: false),
+                    name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    note = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    quantity = table.Column<sbyte>(type: "tinyint", nullable: false),
+                    price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
+                    vat_group = table.Column<sbyte>(type: "tinyint", nullable: false, defaultValueSql: "'25'"),
+                    discount = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
+                    has_rut = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => x.id);
+                    table.ForeignKey(
+                        name: "laundry_order_products_laundry_order_id_foreign",
+                        column: x => x.laundry_order_id,
+                        principalTable: "laundry_orders",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "laundry_order_products_product_id_foreign",
+                        column: x => x.product_id,
+                        principalTable: "products",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
+                name: "schedule_cleanings",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    subscription_id = table.Column<long>(type: "bigint", nullable: true),
+                    laundry_order_id = table.Column<long>(type: "bigint", nullable: true),
+                    laundry_type = table.Column<string>(type: "varchar(255)", nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    team_id = table.Column<long>(type: "bigint", nullable: true),
+                    customer_id = table.Column<long>(type: "bigint", nullable: true),
+                    property_id = table.Column<long>(type: "bigint", nullable: true),
+                    status = table.Column<string>(type: "varchar(255)", nullable: true, defaultValueSql: "'booked'", collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    start_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    end_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    original_start_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    quarters = table.Column<short>(type: "smallint", nullable: true),
+                    is_fixed = table.Column<bool>(type: "tinyint(1)", nullable: true, defaultValueSql: "'0'"),
                     key_information = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     note = table.Column<string>(type: "json", nullable: true, collation: "utf8mb4_unicode_ci")
@@ -1942,6 +2530,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         name: "schedule_cleanings_customer_id_foreign",
                         column: x => x.customer_id,
                         principalTable: "customers",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "schedule_cleanings_laundry_order_id_foreign",
+                        column: x => x.laundry_order_id,
+                        principalTable: "laundry_orders",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -1967,14 +2561,14 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
 
             migrationBuilder.CreateTable(
-                name: "subscription_product",
+                name: "schedule_laundries",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    subscription_id = table.Column<long>(type: "bigint", nullable: false),
-                    product_id = table.Column<long>(type: "bigint", nullable: false),
-                    quantity = table.Column<int>(type: "int", nullable: true),
+                    laundry_order_id = table.Column<long>(type: "bigint", nullable: false),
+                    type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
@@ -1982,48 +2576,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 {
                     table.PrimaryKey("PRIMARY", x => x.id);
                     table.ForeignKey(
-                        name: "subscription_product_product_id_foreign",
-                        column: x => x.product_id,
-                        principalTable: "products",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "subscription_product_subscription_id_foreign",
-                        column: x => x.subscription_id,
-                        principalTable: "subscriptions",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4")
-                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
-
-            migrationBuilder.CreateTable(
-                name: "subscription_staff_details",
-                columns: table => new
-                {
-                    id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    subscription_id = table.Column<long>(type: "bigint", nullable: false),
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
-                    quarters = table.Column<int>(type: "int", nullable: false),
-                    is_active = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'1'"),
-                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PRIMARY", x => x.id);
-                    table.ForeignKey(
-                        name: "subscription_staff_details_subscription_id_foreign",
-                        column: x => x.subscription_id,
-                        principalTable: "subscriptions",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "subscription_staff_details_user_id_foreign",
-                        column: x => x.user_id,
-                        principalTable: "users",
+                        name: "schedule_laundries_laundry_order_id_foreign",
+                        column: x => x.laundry_order_id,
+                        principalTable: "laundry_orders",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -2044,8 +2599,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     quantity = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
                     unit = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
-                    discount_percentage = table.Column<byte>(type: "tinyint unsigned", nullable: false),
+                    price = table.Column<decimal>(type: "decimal(8,2)", precision: 8, scale: 2, nullable: false),
+                    discount_percentage = table.Column<sbyte>(type: "tinyint", nullable: false),
                     vat = table.Column<short>(type: "smallint", nullable: false, defaultValueSql: "'25'"),
                     has_rut = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     internal_note = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
@@ -2067,6 +2622,187 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
 
             migrationBuilder.CreateTable(
+                name: "schedule_change_requests",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    schedule_id = table.Column<long>(type: "bigint", nullable: false),
+                    causer_id = table.Column<long>(type: "bigint", nullable: true),
+                    original_start_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    start_at_changed = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    original_end_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    end_at_changed = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    status = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'pending'", collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => x.id);
+                    table.ForeignKey(
+                        name: "schedule_change_requests_causer_id_foreign",
+                        column: x => x.causer_id,
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "schedule_change_requests_schedule_id_foreign",
+                        column: x => x.schedule_id,
+                        principalTable: "schedules",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
+                name: "schedule_deviations",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    schedule_id = table.Column<long>(type: "bigint", nullable: false),
+                    types = table.Column<string>(type: "json", nullable: false, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    is_handled = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    meta = table.Column<string>(type: "json", nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => x.id);
+                    table.ForeignKey(
+                        name: "schedule_deviations_schedule_id_foreign",
+                        column: x => x.schedule_id,
+                        principalTable: "schedules",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
+                name: "schedule_employees",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    schedule_id = table.Column<long>(type: "bigint", nullable: true),
+                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    scheduleable_type = table.Column<string>(type: "varchar(255)", nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    scheduleable_id = table.Column<long>(type: "bigint", nullable: true),
+                    work_hour_id = table.Column<long>(type: "bigint", nullable: true),
+                    start_latitude = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: true),
+                    start_longitude = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: true),
+                    start_ip = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    start_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    end_latitude = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: true),
+                    end_longitude = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: true),
+                    end_ip = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    end_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    description = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    status = table.Column<string>(type: "varchar(255)", nullable: false, defaultValueSql: "'pending'", collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => x.id);
+                    table.ForeignKey(
+                        name: "schedule_employees_schedule_id_foreign",
+                        column: x => x.schedule_id,
+                        principalTable: "schedules",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "schedule_employees_user_id_foreign",
+                        column: x => x.user_id,
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "schedule_employees_work_hour_id_foreign",
+                        column: x => x.work_hour_id,
+                        principalTable: "work_hours",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
+                name: "schedule_items",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    schedule_id = table.Column<long>(type: "bigint", nullable: false),
+                    itemable_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    itemable_id = table.Column<long>(type: "bigint", nullable: false),
+                    price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
+                    quantity = table.Column<decimal>(type: "decimal(8,2)", nullable: false, defaultValueSql: "'1.00'"),
+                    discount_percentage = table.Column<sbyte>(type: "tinyint", nullable: false),
+                    payment_method = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'invoice'", collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => x.id);
+                    table.ForeignKey(
+                        name: "schedule_items_schedule_id_foreign",
+                        column: x => x.schedule_id,
+                        principalTable: "schedules",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
+                name: "schedule_tasks",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    custom_task_id = table.Column<long>(type: "bigint", nullable: false),
+                    schedule_id = table.Column<long>(type: "bigint", nullable: false),
+                    is_completed = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => x.id);
+                    table.ForeignKey(
+                        name: "schedule_tasks_custom_task_id_foreign",
+                        column: x => x.custom_task_id,
+                        principalTable: "custom_tasks",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "schedule_tasks_schedule_id_foreign",
+                        column: x => x.schedule_id,
+                        principalTable: "schedules",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
                 name: "credit_transactions",
                 columns: table => new
                 {
@@ -2074,6 +2810,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
                     schedule_cleaning_id = table.Column<long>(type: "bigint", nullable: true),
+                    schedule_id = table.Column<long>(type: "bigint", nullable: true),
                     issuer_id = table.Column<long>(type: "bigint", nullable: true),
                     type = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -2099,6 +2836,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "credit_transactions_schedule_id_foreign",
+                        column: x => x.schedule_id,
+                        principalTable: "schedules",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "credit_transactions_user_id_foreign",
                         column: x => x.user_id,
                         principalTable: "users",
@@ -2116,9 +2859,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
                     schedule_cleaning_id = table.Column<long>(type: "bigint", nullable: true),
+                    schedule_id = table.Column<long>(type: "bigint", nullable: true),
                     issuer_id = table.Column<long>(type: "bigint", nullable: true),
-                    initial_amount = table.Column<byte>(type: "tinyint unsigned", nullable: false),
-                    remaining_amount = table.Column<byte>(type: "tinyint unsigned", nullable: false),
+                    initial_amount = table.Column<sbyte>(type: "tinyint", nullable: false),
+                    remaining_amount = table.Column<sbyte>(type: "tinyint", nullable: false),
                     type = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     description = table.Column<string>(type: "text", nullable: false, collation: "utf8mb4_unicode_ci")
@@ -2143,6 +2887,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "credits_schedule_id_foreign",
+                        column: x => x.schedule_id,
+                        principalTable: "schedules",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "credits_user_id_foreign",
                         column: x => x.user_id,
                         principalTable: "users",
@@ -2158,7 +2908,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    schedule_cleaning_id = table.Column<long>(type: "bigint", nullable: false),
+                    schedule_id = table.Column<long>(type: "bigint", nullable: true),
+                    schedule_cleaning_id = table.Column<long>(type: "bigint", nullable: true),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
                     type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -2176,6 +2927,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         name: "deviations_schedule_cleaning_id_foreign",
                         column: x => x.schedule_cleaning_id,
                         principalTable: "schedule_cleanings",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "deviations_schedule_id_foreign",
+                        column: x => x.schedule_id,
+                        principalTable: "schedules",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -2266,7 +3023,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     product_id = table.Column<long>(type: "bigint", nullable: false),
                     price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
                     quantity = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
-                    discount_percentage = table.Column<byte>(type: "tinyint unsigned", nullable: false),
+                    discount_percentage = table.Column<sbyte>(type: "tinyint", nullable: false),
                     payment_method = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'invoice'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
@@ -2321,6 +3078,72 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
 
             migrationBuilder.CreateTable(
+                name: "tasks",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    custom_task_id = table.Column<long>(type: "bigint", nullable: false),
+                    schedule_employee_id = table.Column<long>(type: "bigint", nullable: false),
+                    name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    description = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    is_completed = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => x.id);
+                    table.ForeignKey(
+                        name: "tasks_custom_task_id_foreign",
+                        column: x => x.custom_task_id,
+                        principalTable: "custom_tasks",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "tasks_schedule_employee_id_foreign",
+                        column: x => x.schedule_employee_id,
+                        principalTable: "schedule_employees",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
+                name: "time_adjustments",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    schedule_employee_id = table.Column<long>(type: "bigint", nullable: false),
+                    causer_id = table.Column<long>(type: "bigint", nullable: false),
+                    quarters = table.Column<sbyte>(type: "tinyint", nullable: false),
+                    reason = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PRIMARY", x => x.id);
+                    table.ForeignKey(
+                        name: "time_adjustments_causer_id_foreign",
+                        column: x => x.causer_id,
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "time_adjustments_schedule_employee_id_foreign",
+                        column: x => x.schedule_employee_id,
+                        principalTable: "schedule_employees",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
                 name: "credit_credit_transaction",
                 columns: table => new
                 {
@@ -2328,7 +3151,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     credit_id = table.Column<long>(type: "bigint", nullable: false),
                     credit_transaction_id = table.Column<long>(type: "bigint", nullable: false),
-                    amount = table.Column<byte>(type: "tinyint unsigned", nullable: false)
+                    amount = table.Column<sbyte>(type: "tinyint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -2396,6 +3219,41 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 columns: new[] { "name", "value" });
 
             migrationBuilder.CreateIndex(
+                name: "cashier_attendances_check_in_causer_id_foreign",
+                table: "cashier_attendances",
+                column: "check_in_causer_id");
+
+            migrationBuilder.CreateIndex(
+                name: "cashier_attendances_check_out_causer_id_foreign",
+                table: "cashier_attendances",
+                column: "check_out_causer_id");
+
+            migrationBuilder.CreateIndex(
+                name: "cashier_attendances_store_id_foreign",
+                table: "cashier_attendances",
+                column: "store_id");
+
+            migrationBuilder.CreateIndex(
+                name: "cashier_attendances_user_id_foreign",
+                table: "cashier_attendances",
+                column: "user_id");
+
+            migrationBuilder.CreateIndex(
+                name: "cashier_attendances_work_hour_id_foreign",
+                table: "cashier_attendances",
+                column: "work_hour_id");
+
+            migrationBuilder.CreateIndex(
+                name: "categoryables_category_id_foreign",
+                table: "categoryables",
+                column: "category_id");
+
+            migrationBuilder.CreateIndex(
+                name: "categoryables_categoryable_type_categoryable_id_index",
+                table: "categoryables",
+                columns: new[] { "categoryable_type", "categoryable_id" });
+
+            migrationBuilder.CreateIndex(
                 name: "cities_country_id_foreign",
                 table: "cities",
                 column: "country_id");
@@ -2421,6 +3279,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 column: "schedule_cleaning_id");
 
             migrationBuilder.CreateIndex(
+                name: "credit_transactions_schedule_id_foreign",
+                table: "credit_transactions",
+                column: "schedule_id");
+
+            migrationBuilder.CreateIndex(
                 name: "credit_transactions_user_id_foreign",
                 table: "credit_transactions",
                 column: "user_id");
@@ -2434,6 +3297,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "credits_schedule_cleaning_id_foreign",
                 table: "credits",
                 column: "schedule_cleaning_id");
+
+            migrationBuilder.CreateIndex(
+                name: "credits_schedule_id_foreign",
+                table: "credits",
+                column: "schedule_id");
 
             migrationBuilder.CreateIndex(
                 name: "credits_user_id_foreign",
@@ -2511,6 +3379,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 column: "schedule_cleaning_id");
 
             migrationBuilder.CreateIndex(
+                name: "deviations_schedule_id_foreign",
+                table: "deviations",
+                column: "schedule_id");
+
+            migrationBuilder.CreateIndex(
                 name: "deviations_type_index",
                 table: "deviations",
                 column: "type");
@@ -2562,6 +3435,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_FixedPriceProduct_ProductsId",
+                table: "FixedPriceProduct",
+                column: "ProductsId");
+
+            migrationBuilder.CreateIndex(
                 name: "global_settings_key_index",
                 table: "global_settings",
                 column: "key");
@@ -2605,6 +3483,76 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "key_places_property_id_foreign",
                 table: "key_places",
                 column: "property_id");
+
+            migrationBuilder.CreateIndex(
+                name: "laundry_order_histories_causer_id_foreign",
+                table: "laundry_order_histories",
+                column: "causer_id");
+
+            migrationBuilder.CreateIndex(
+                name: "laundry_order_histories_laundry_order_id_foreign",
+                table: "laundry_order_histories",
+                column: "laundry_order_id");
+
+            migrationBuilder.CreateIndex(
+                name: "laundry_order_products_laundry_order_id_foreign",
+                table: "laundry_order_products",
+                column: "laundry_order_id");
+
+            migrationBuilder.CreateIndex(
+                name: "laundry_order_products_product_id_foreign",
+                table: "laundry_order_products",
+                column: "product_id");
+
+            migrationBuilder.CreateIndex(
+                name: "laundry_orders_causer_id_foreign",
+                table: "laundry_orders",
+                column: "causer_id");
+
+            migrationBuilder.CreateIndex(
+                name: "laundry_orders_customer_id_foreign",
+                table: "laundry_orders",
+                column: "customer_id");
+
+            migrationBuilder.CreateIndex(
+                name: "laundry_orders_delivery_property_id_foreign",
+                table: "laundry_orders",
+                column: "delivery_property_id");
+
+            migrationBuilder.CreateIndex(
+                name: "laundry_orders_delivery_team_id_foreign",
+                table: "laundry_orders",
+                column: "delivery_team_id");
+
+            migrationBuilder.CreateIndex(
+                name: "laundry_orders_laundry_preference_id_foreign",
+                table: "laundry_orders",
+                column: "laundry_preference_id");
+
+            migrationBuilder.CreateIndex(
+                name: "laundry_orders_pickup_property_id_foreign",
+                table: "laundry_orders",
+                column: "pickup_property_id");
+
+            migrationBuilder.CreateIndex(
+                name: "laundry_orders_pickup_team_id_foreign",
+                table: "laundry_orders",
+                column: "pickup_team_id");
+
+            migrationBuilder.CreateIndex(
+                name: "laundry_orders_store_id_foreign",
+                table: "laundry_orders",
+                column: "store_id");
+
+            migrationBuilder.CreateIndex(
+                name: "laundry_orders_subscription_id_foreign",
+                table: "laundry_orders",
+                column: "subscription_id");
+
+            migrationBuilder.CreateIndex(
+                name: "laundry_orders_user_id_foreign",
+                table: "laundry_orders",
+                column: "user_id");
 
             migrationBuilder.CreateIndex(
                 name: "leave_registration_details_leave_registration_id_foreign",
@@ -2673,6 +3621,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 column: "order_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_OrderFixedPriceProduct_ProductsId",
+                table: "OrderFixedPriceProduct",
+                column: "ProductsId");
+
+            migrationBuilder.CreateIndex(
                 name: "orderable_index",
                 table: "orders",
                 columns: new[] { "orderable_type", "orderable_id" });
@@ -2713,6 +3666,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 column: "email");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PermissionRole_RolesId",
+                table: "PermissionRole",
+                column: "RolesId");
+
+            migrationBuilder.CreateIndex(
                 name: "permissions_name_guard_name_unique",
                 table: "permissions",
                 columns: new[] { "name", "guard_name" },
@@ -2751,14 +3709,14 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 column: "causer_id");
 
             migrationBuilder.CreateIndex(
-                name: "products_category_id_foreign",
-                table: "products",
-                column: "category_id");
+                name: "productables_product_id_foreign",
+                table: "productables",
+                column: "product_id");
 
             migrationBuilder.CreateIndex(
-                name: "products_service_id_foreign",
-                table: "products",
-                column: "service_id");
+                name: "productables_productable_type_productable_id_index",
+                table: "productables",
+                columns: new[] { "productable_type", "productable_id" });
 
             migrationBuilder.CreateIndex(
                 name: "properties_address_id_foreign",
@@ -2786,11 +3744,6 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
-                name: "role_has_permissions_role_id_foreign",
-                table: "role_has_permissions",
-                column: "role_id");
-
-            migrationBuilder.CreateIndex(
                 name: "roles_name_guard_name_unique",
                 table: "roles",
                 columns: new[] { "name", "guard_name" },
@@ -2800,6 +3753,16 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "rut_co_applicants_user_id_foreign",
                 table: "rut_co_applicants",
                 column: "user_id");
+
+            migrationBuilder.CreateIndex(
+                name: "schedule_change_requests_causer_id_foreign",
+                table: "schedule_change_requests",
+                column: "causer_id");
+
+            migrationBuilder.CreateIndex(
+                name: "schedule_change_requests_schedule_id_foreign",
+                table: "schedule_change_requests",
+                column: "schedule_id");
 
             migrationBuilder.CreateIndex(
                 name: "schedule_cleaning_change_requests_causer_id_foreign",
@@ -2852,6 +3815,16 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 column: "end_at");
 
             migrationBuilder.CreateIndex(
+                name: "schedule_cleanings_laundry_order_id_foreign",
+                table: "schedule_cleanings",
+                column: "laundry_order_id");
+
+            migrationBuilder.CreateIndex(
+                name: "schedule_cleanings_laundry_type_index",
+                table: "schedule_cleanings",
+                column: "laundry_type");
+
+            migrationBuilder.CreateIndex(
                 name: "schedule_cleanings_property_id_foreign",
                 table: "schedule_cleanings",
                 column: "property_id");
@@ -2877,9 +3850,19 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 column: "team_id");
 
             migrationBuilder.CreateIndex(
+                name: "schedule_deviations_schedule_id_foreign",
+                table: "schedule_deviations",
+                column: "schedule_id");
+
+            migrationBuilder.CreateIndex(
                 name: "schedule_employeeableable_index",
                 table: "schedule_employees",
                 columns: new[] { "scheduleable_type", "scheduleable_id" });
+
+            migrationBuilder.CreateIndex(
+                name: "schedule_employees_schedule_id_foreign",
+                table: "schedule_employees",
+                column: "schedule_id");
 
             migrationBuilder.CreateIndex(
                 name: "schedule_employees_status_index",
@@ -2897,9 +3880,114 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 column: "work_hour_id");
 
             migrationBuilder.CreateIndex(
+                name: "schedule_items_itemable_type_itemable_id_index",
+                table: "schedule_items",
+                columns: new[] { "itemable_type", "itemable_id" });
+
+            migrationBuilder.CreateIndex(
+                name: "schedule_items_schedule_id_foreign",
+                table: "schedule_items",
+                column: "schedule_id");
+
+            migrationBuilder.CreateIndex(
+                name: "schedule_laundries_laundry_order_id_foreign",
+                table: "schedule_laundries",
+                column: "laundry_order_id");
+
+            migrationBuilder.CreateIndex(
+                name: "schedule_laundries_type_index",
+                table: "schedule_laundries",
+                column: "type");
+
+            migrationBuilder.CreateIndex(
+                name: "schedule_tasks_custom_task_id_foreign",
+                table: "schedule_tasks",
+                column: "custom_task_id");
+
+            migrationBuilder.CreateIndex(
+                name: "schedule_tasks_schedule_id_foreign",
+                table: "schedule_tasks",
+                column: "schedule_id");
+
+            migrationBuilder.CreateIndex(
+                name: "schedules_cancelable_id_index",
+                table: "schedules",
+                column: "cancelable_id");
+
+            migrationBuilder.CreateIndex(
+                name: "schedules_cancelable_type_index",
+                table: "schedules",
+                column: "cancelable_type");
+
+            migrationBuilder.CreateIndex(
+                name: "schedules_customer_id_foreign",
+                table: "schedules",
+                column: "customer_id");
+
+            migrationBuilder.CreateIndex(
+                name: "schedules_original_start_at_index",
+                table: "schedules",
+                column: "original_start_at");
+
+            migrationBuilder.CreateIndex(
+                name: "schedules_property_id_foreign",
+                table: "schedules",
+                column: "property_id");
+
+            migrationBuilder.CreateIndex(
+                name: "schedules_scheduleable_type_scheduleable_id_index",
+                table: "schedules",
+                columns: new[] { "scheduleable_type", "scheduleable_id" });
+
+            migrationBuilder.CreateIndex(
+                name: "schedules_service_id_foreign",
+                table: "schedules",
+                column: "service_id");
+
+            migrationBuilder.CreateIndex(
+                name: "schedules_start_at_index",
+                table: "schedules",
+                column: "start_at");
+
+            migrationBuilder.CreateIndex(
+                name: "schedules_status_index",
+                table: "schedules",
+                column: "status");
+
+            migrationBuilder.CreateIndex(
+                name: "schedules_subscription_id_foreign",
+                table: "schedules",
+                column: "subscription_id");
+
+            migrationBuilder.CreateIndex(
+                name: "schedules_team_id_foreign",
+                table: "schedules",
+                column: "team_id");
+
+            migrationBuilder.CreateIndex(
+                name: "schedules_user_id_foreign",
+                table: "schedules",
+                column: "user_id");
+
+            migrationBuilder.CreateIndex(
+                name: "service_addons_addon_id_foreign",
+                table: "service_addons",
+                column: "addon_id");
+
+            migrationBuilder.CreateIndex(
+                name: "service_addons_service_id_foreign",
+                table: "service_addons",
+                column: "service_id");
+
+            migrationBuilder.CreateIndex(
                 name: "service_quarters_service_id_foreign",
                 table: "service_quarters",
                 column: "service_id");
+
+            migrationBuilder.CreateIndex(
+                name: "services_membership_type_index",
+                table: "services",
+                column: "membership_type");
 
             migrationBuilder.CreateIndex(
                 name: "services_type_index",
@@ -2907,14 +3995,94 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 column: "type");
 
             migrationBuilder.CreateIndex(
-                name: "subscription_product_product_id_foreign",
-                table: "subscription_product",
+                name: "store_products_product_id_foreign",
+                table: "store_products",
                 column: "product_id");
 
             migrationBuilder.CreateIndex(
-                name: "subscription_product_subscription_id_foreign",
-                table: "subscription_product",
+                name: "store_sale_products_product_id_foreign",
+                table: "store_sale_products",
+                column: "product_id");
+
+            migrationBuilder.CreateIndex(
+                name: "store_sale_products_store_sale_id_foreign",
+                table: "store_sale_products",
+                column: "store_sale_id");
+
+            migrationBuilder.CreateIndex(
+                name: "store_sales_causer_id_foreign",
+                table: "store_sales",
+                column: "causer_id");
+
+            migrationBuilder.CreateIndex(
+                name: "store_sales_store_id_foreign",
+                table: "store_sales",
+                column: "store_id");
+
+            migrationBuilder.CreateIndex(
+                name: "store_users_store_id_foreign",
+                table: "store_users",
+                column: "store_id");
+
+            migrationBuilder.CreateIndex(
+                name: "store_users_user_id_foreign",
+                table: "store_users",
+                column: "user_id");
+
+            migrationBuilder.CreateIndex(
+                name: "stores_address_id_foreign",
+                table: "stores",
+                column: "address_id");
+
+            migrationBuilder.CreateIndex(
+                name: "subscription_cleaning_details_property_id_foreign",
+                table: "subscription_cleaning_details",
+                column: "property_id");
+
+            migrationBuilder.CreateIndex(
+                name: "subscription_cleaning_details_team_id_foreign",
+                table: "subscription_cleaning_details",
+                column: "team_id");
+
+            migrationBuilder.CreateIndex(
+                name: "subscription_items_itemable_type_itemable_id_index",
+                table: "subscription_items",
+                columns: new[] { "itemable_type", "itemable_id" });
+
+            migrationBuilder.CreateIndex(
+                name: "subscription_items_subscription_id_foreign",
+                table: "subscription_items",
                 column: "subscription_id");
+
+            migrationBuilder.CreateIndex(
+                name: "subscription_laundry_details_delivery_property_id_foreign",
+                table: "subscription_laundry_details",
+                column: "delivery_property_id");
+
+            migrationBuilder.CreateIndex(
+                name: "subscription_laundry_details_delivery_team_id_foreign",
+                table: "subscription_laundry_details",
+                column: "delivery_team_id");
+
+            migrationBuilder.CreateIndex(
+                name: "subscription_laundry_details_laundry_preference_id_foreign",
+                table: "subscription_laundry_details",
+                column: "laundry_preference_id");
+
+            migrationBuilder.CreateIndex(
+                name: "subscription_laundry_details_pickup_property_id_foreign",
+                table: "subscription_laundry_details",
+                column: "pickup_property_id");
+
+            migrationBuilder.CreateIndex(
+                name: "subscription_laundry_details_pickup_team_id_foreign",
+                table: "subscription_laundry_details",
+                column: "pickup_team_id");
+
+            migrationBuilder.CreateIndex(
+                name: "subscription_laundry_details_store_id_foreign",
+                table: "subscription_laundry_details",
+                column: "store_id");
 
             migrationBuilder.CreateIndex(
                 name: "subscription_staff_details_subscription_id_foreign",
@@ -2945,6 +4113,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "subscriptions_service_id_foreign",
                 table: "subscriptions",
                 column: "service_id");
+
+            migrationBuilder.CreateIndex(
+                name: "subscriptions_subscribable_id_subscribable_type_index",
+                table: "subscriptions",
+                columns: new[] { "subscribable_id", "subscribable_type" });
 
             migrationBuilder.CreateIndex(
                 name: "subscriptions_team_id_foreign",
@@ -3000,11 +4173,6 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "unassign_subscriptions_customer_id_foreign",
                 table: "unassign_subscriptions",
                 column: "customer_id");
-
-            migrationBuilder.CreateIndex(
-                name: "unassign_subscriptions_property_id_foreign",
-                table: "unassign_subscriptions",
-                column: "property_id");
 
             migrationBuilder.CreateIndex(
                 name: "unassign_subscriptions_service_id_foreign",
@@ -3074,6 +4242,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "block_days");
 
             migrationBuilder.DropTable(
+                name: "cashier_attendances");
+
+            migrationBuilder.DropTable(
+                name: "categoryables");
+
+            migrationBuilder.DropTable(
                 name: "credit_credit_transaction");
 
             migrationBuilder.DropTable(
@@ -3095,10 +4269,19 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "fixed_price_rows");
 
             migrationBuilder.DropTable(
+                name: "FixedPriceProduct");
+
+            migrationBuilder.DropTable(
                 name: "global_settings");
 
             migrationBuilder.DropTable(
                 name: "key_places");
+
+            migrationBuilder.DropTable(
+                name: "laundry_order_histories");
+
+            migrationBuilder.DropTable(
+                name: "laundry_order_products");
 
             migrationBuilder.DropTable(
                 name: "leave_registration_details");
@@ -3134,7 +4317,13 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "order_rows");
 
             migrationBuilder.DropTable(
+                name: "OrderFixedPriceProduct");
+
+            migrationBuilder.DropTable(
                 name: "password_reset_tokens");
+
+            migrationBuilder.DropTable(
+                name: "PermissionRole");
 
             migrationBuilder.DropTable(
                 name: "personal_access_tokens");
@@ -3143,13 +4332,16 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "price_adjustment_rows");
 
             migrationBuilder.DropTable(
+                name: "productables");
+
+            migrationBuilder.DropTable(
                 name: "property_user");
 
             migrationBuilder.DropTable(
-                name: "role_has_permissions");
+                name: "rut_co_applicants");
 
             migrationBuilder.DropTable(
-                name: "rut_co_applicants");
+                name: "schedule_change_requests");
 
             migrationBuilder.DropTable(
                 name: "schedule_cleaning_change_requests");
@@ -3164,19 +4356,40 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "schedule_cleaning_tasks");
 
             migrationBuilder.DropTable(
-                name: "schedule_store_details");
+                name: "schedule_deviations");
 
             migrationBuilder.DropTable(
-                name: "schedule_stores");
+                name: "schedule_items");
+
+            migrationBuilder.DropTable(
+                name: "schedule_laundries");
+
+            migrationBuilder.DropTable(
+                name: "schedule_tasks");
+
+            migrationBuilder.DropTable(
+                name: "service_addons");
 
             migrationBuilder.DropTable(
                 name: "service_quarters");
 
             migrationBuilder.DropTable(
-                name: "subscription_details");
+                name: "store_products");
 
             migrationBuilder.DropTable(
-                name: "subscription_product");
+                name: "store_sale_products");
+
+            migrationBuilder.DropTable(
+                name: "store_users");
+
+            migrationBuilder.DropTable(
+                name: "subscription_cleaning_details");
+
+            migrationBuilder.DropTable(
+                name: "subscription_items");
+
+            migrationBuilder.DropTable(
+                name: "subscription_laundry_details");
 
             migrationBuilder.DropTable(
                 name: "subscription_staff_details");
@@ -3197,9 +4410,6 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "unassign_subscriptions");
 
             migrationBuilder.DropTable(
-                name: "user_discounts");
-
-            migrationBuilder.DropTable(
                 name: "user_infos");
 
             migrationBuilder.DropTable(
@@ -3207,6 +4417,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "user_settings");
+
+            migrationBuilder.DropTable(
+                name: "categories");
 
             migrationBuilder.DropTable(
                 name: "credits");
@@ -3221,16 +4434,22 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "orders");
 
             migrationBuilder.DropTable(
-                name: "price_adjustments");
-
-            migrationBuilder.DropTable(
                 name: "permissions");
 
             migrationBuilder.DropTable(
                 name: "roles");
 
             migrationBuilder.DropTable(
+                name: "price_adjustments");
+
+            migrationBuilder.DropTable(
+                name: "addons");
+
+            migrationBuilder.DropTable(
                 name: "products");
+
+            migrationBuilder.DropTable(
+                name: "store_sales");
 
             migrationBuilder.DropTable(
                 name: "custom_tasks");
@@ -3251,10 +4470,19 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "order_fixed_prices");
 
             migrationBuilder.DropTable(
-                name: "product_categories");
+                name: "schedules");
 
             migrationBuilder.DropTable(
                 name: "work_hours");
+
+            migrationBuilder.DropTable(
+                name: "laundry_orders");
+
+            migrationBuilder.DropTable(
+                name: "laundry_preferences");
+
+            migrationBuilder.DropTable(
+                name: "stores");
 
             migrationBuilder.DropTable(
                 name: "subscriptions");

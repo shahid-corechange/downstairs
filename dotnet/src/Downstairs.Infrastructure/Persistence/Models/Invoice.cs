@@ -14,6 +14,8 @@ public partial class Invoice
 
     public string? Type { get; set; }
 
+    public string Category { get; set; } = null!;
+
     public int Month { get; set; }
 
     public int Year { get; set; }

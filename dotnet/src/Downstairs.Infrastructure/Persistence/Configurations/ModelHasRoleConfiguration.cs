@@ -9,22 +9,31 @@ internal sealed class ModelHasRoleConfiguration : IEntityTypeConfiguration<Model
 {
     public void Configure(EntityTypeBuilder<ModelHasRole> entity)
     {
+        entity.Property(e => e.RoleId)
+            .HasColumnType("bigint")
+            .HasColumnName("role_id");
+
+        entity.Property(e => e.ModelId)
+            .HasColumnType("bigint")
+            .HasColumnName("model_id");
+
+        entity.Property(e => e.ModelType)
+            .HasColumnType("varchar(255)")
+            .HasColumnName("model_type");
+
         entity.HasKey(e => new { e.RoleId, e.ModelId, e.ModelType })
             .HasName("PRIMARY")
             .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0, 0 });
 
-        entity
-            .ToTable("model_has_roles")
-            .UseCollation(DatabaseConstants.Collations.Unicode);
-
         entity.HasIndex(e => new { e.ModelId, e.ModelType }, "model_has_roles_model_id_model_type_index");
 
-        entity.Property(e => e.RoleId).HasColumnName("role_id");
-        entity.Property(e => e.ModelId).HasColumnName("model_id");
-        entity.Property(e => e.ModelType).HasColumnName("model_type");
+        entity.ToTable("model_has_roles").UseCollation(DatabaseConstants.Collations.Unicode);
 
-        entity.HasOne(d => d.Role).WithMany(p => p.ModelHasRoles)
+        entity.HasOne(d => d.Role)
+            .WithMany(p => p.ModelHasRoles)
             .HasForeignKey(d => d.RoleId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired()
             .HasConstraintName("model_has_roles_role_id_foreign");
     }
 }

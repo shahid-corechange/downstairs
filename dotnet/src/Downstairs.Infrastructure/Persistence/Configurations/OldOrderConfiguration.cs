@@ -9,13 +9,18 @@ internal sealed class OldOrderConfiguration : IEntityTypeConfiguration<OldOrder>
 {
     public void Configure(EntityTypeBuilder<OldOrder> entity)
     {
-        entity.HasKey(e => e.Id).HasName("PRIMARY");
+        entity.Property(e => e.Id)
+            .ValueGeneratedOnAdd()
+            .HasColumnType("bigint")
+            .HasColumnName("id");
 
-        entity
-            .ToTable("old_orders")
-            .UseCollation(DatabaseConstants.Collations.Unicode);
+        entity.Property(e => e.OldOrderId)
+            .HasColumnType("bigint")
+            .HasColumnName("old_order_id");
 
-        entity.Property(e => e.Id).HasColumnName("id");
-        entity.Property(e => e.OldOrderId).HasColumnName("old_order_id");
+        entity.HasKey(e => e.Id)
+            .HasName("PRIMARY");
+
+        entity.ToTable("old_orders").UseCollation(DatabaseConstants.Collations.Unicode);
     }
 }

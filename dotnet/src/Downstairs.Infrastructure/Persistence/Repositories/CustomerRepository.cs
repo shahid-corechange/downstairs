@@ -13,6 +13,11 @@ internal sealed class CustomerRepository(DownstairsDbContext context) : Reposito
 {
     public async Task<DomainCustomer?> GetByIdAsync(long id, CancellationToken cancellationToken = default)
     {
+        if (id < 0)
+        {
+            return null;
+        }
+
         var entity = await QueryWithAddress().FirstOrDefaultAsync(customer => customer.Id == id, cancellationToken);
 
         return entity is null ? null : MapToDomain(entity);
@@ -46,7 +51,7 @@ internal sealed class CustomerRepository(DownstairsDbContext context) : Reposito
     {
         return Query()
             .Include(customer => customer.Address)
-                .ThenInclude(address => address.City)
+                .ThenInclude(address => address!.City)
                     .ThenInclude(city => city.Country);
     }
 
@@ -64,10 +69,12 @@ internal sealed class CustomerRepository(DownstairsDbContext context) : Reposito
             postalCode,
             countryName);
 
+        var resolvedAddressId = addressModel?.Id ?? entity.AddressId ?? 0L;
+
         return DomainCustomer.FromPersistence(
             entity.Id,
             entity.Name,
-            entity.Email,
+            entity.Email ?? string.Empty,
             entity.IdentityNumber,
             entity.MembershipType,
             entity.Type,
@@ -78,7 +85,7 @@ internal sealed class CustomerRepository(DownstairsDbContext context) : Reposito
             entity.Reference,
             entity.FortnoxId,
             entity.CustomerRefId,
-            addressModel?.Id ?? entity.AddressId,
+            resolvedAddressId,
             domainAddress,
             ToDateTimeOffset(entity.CreatedAt),
             ToNullableDateTimeOffset(entity.UpdatedAt),

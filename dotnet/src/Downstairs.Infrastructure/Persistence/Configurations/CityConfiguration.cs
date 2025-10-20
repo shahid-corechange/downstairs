@@ -9,22 +9,33 @@ internal sealed class CityConfiguration : IEntityTypeConfiguration<City>
 {
     public void Configure(EntityTypeBuilder<City> entity)
     {
-        entity.HasKey(e => e.Id).HasName("PRIMARY");
+        entity.Property(e => e.Id)
+            .ValueGeneratedOnAdd()
+            .HasColumnType("bigint")
+            .HasColumnName("id");
 
-        entity
-            .ToTable("cities")
-            .UseCollation(DatabaseConstants.Collations.Unicode);
+        entity.Property(e => e.CountryId)
+            .HasColumnType("bigint")
+            .HasColumnName("country_id");
+
+        entity.Property(e => e.Name)
+            .IsRequired()
+            .HasMaxLength(255)
+            .HasColumnType("varchar(255)")
+            .HasColumnName("name");
+
+        entity.HasKey(e => e.Id)
+            .HasName("PRIMARY");
 
         entity.HasIndex(e => e.CountryId, "cities_country_id_foreign");
 
-        entity.Property(e => e.Id).HasColumnName("id");
-        entity.Property(e => e.CountryId).HasColumnName("country_id");
-        entity.Property(e => e.Name)
-            .HasMaxLength(255)
-            .HasColumnName("name");
+        entity.ToTable("cities").UseCollation(DatabaseConstants.Collations.Unicode);
 
-        entity.HasOne(d => d.Country).WithMany(p => p.Cities)
+        entity.HasOne(d => d.Country)
+            .WithMany(p => p.Cities)
             .HasForeignKey(d => d.CountryId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired()
             .HasConstraintName("cities_country_id_foreign");
     }
 }

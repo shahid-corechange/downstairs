@@ -9,27 +9,42 @@ internal sealed class GlobalSettingConfiguration : IEntityTypeConfiguration<Glob
 {
     public void Configure(EntityTypeBuilder<GlobalSetting> entity)
     {
-        entity.HasKey(e => e.Id).HasName("PRIMARY");
+        entity.Property(e => e.Id)
+            .ValueGeneratedOnAdd()
+            .HasColumnType("bigint")
+            .HasColumnName("id");
 
-        entity
-            .ToTable("global_settings")
-            .UseCollation(DatabaseConstants.Collations.Unicode);
+        entity.Property(e => e.CreatedAt)
+            .HasColumnType("timestamp")
+            .HasColumnName("created_at");
+
+        entity.Property(e => e.Key)
+            .IsRequired()
+            .HasColumnType("varchar(255)")
+            .HasColumnName("key");
+
+        entity.Property(e => e.Type)
+            .IsRequired()
+            .HasMaxLength(255)
+            .HasColumnType("varchar(255)")
+            .HasColumnName("type");
+
+        entity.Property(e => e.UpdatedAt)
+            .HasColumnType("timestamp")
+            .HasColumnName("updated_at");
+
+        entity.Property(e => e.Value)
+            .IsRequired()
+            .HasColumnType("varchar(255)")
+            .HasColumnName("value");
+
+        entity.HasKey(e => e.Id)
+            .HasName("PRIMARY");
 
         entity.HasIndex(e => e.Key, "global_settings_key_index");
 
         entity.HasIndex(e => e.Value, "global_settings_value_index");
 
-        entity.Property(e => e.Id).HasColumnName("id");
-        entity.Property(e => e.CreatedAt)
-            .HasColumnType("timestamp")
-            .HasColumnName("created_at");
-        entity.Property(e => e.Key).HasColumnName("key");
-        entity.Property(e => e.Type)
-            .HasMaxLength(255)
-            .HasColumnName("type");
-        entity.Property(e => e.UpdatedAt)
-            .HasColumnType("timestamp")
-            .HasColumnName("updated_at");
-        entity.Property(e => e.Value).HasColumnName("value");
+        entity.ToTable("global_settings").UseCollation(DatabaseConstants.Collations.Unicode);
     }
 }

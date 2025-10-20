@@ -9,22 +9,31 @@ internal sealed class ModelHasPermissionConfiguration : IEntityTypeConfiguration
 {
     public void Configure(EntityTypeBuilder<ModelHasPermission> entity)
     {
+        entity.Property(e => e.PermissionId)
+            .HasColumnType("bigint")
+            .HasColumnName("permission_id");
+
+        entity.Property(e => e.ModelId)
+            .HasColumnType("bigint")
+            .HasColumnName("model_id");
+
+        entity.Property(e => e.ModelType)
+            .HasColumnType("varchar(255)")
+            .HasColumnName("model_type");
+
         entity.HasKey(e => new { e.PermissionId, e.ModelId, e.ModelType })
             .HasName("PRIMARY")
             .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0, 0 });
 
-        entity
-            .ToTable("model_has_permissions")
-            .UseCollation(DatabaseConstants.Collations.Unicode);
-
         entity.HasIndex(e => new { e.ModelId, e.ModelType }, "model_has_permissions_model_id_model_type_index");
 
-        entity.Property(e => e.PermissionId).HasColumnName("permission_id");
-        entity.Property(e => e.ModelId).HasColumnName("model_id");
-        entity.Property(e => e.ModelType).HasColumnName("model_type");
+        entity.ToTable("model_has_permissions").UseCollation(DatabaseConstants.Collations.Unicode);
 
-        entity.HasOne(d => d.Permission).WithMany(p => p.ModelHasPermissions)
+        entity.HasOne(d => d.Permission)
+            .WithMany(p => p.ModelHasPermissions)
             .HasForeignKey(d => d.PermissionId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired()
             .HasConstraintName("model_has_permissions_permission_id_foreign");
     }
 }

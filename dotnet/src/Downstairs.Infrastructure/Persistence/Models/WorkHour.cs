@@ -8,6 +8,8 @@ public partial class WorkHour
 
     public string? FortnoxAttendanceId { get; set; }
 
+    public string Type { get; set; } = null!;
+
     public DateOnly Date { get; set; }
 
     public TimeOnly StartTime { get; set; }
@@ -17,6 +19,8 @@ public partial class WorkHour
     public DateTime? CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
+
+    public virtual ICollection<CashierAttendance> CashierAttendances { get; set; } = new List<CashierAttendance>();
 
     public virtual ICollection<ScheduleEmployee> ScheduleEmployees { get; set; } = new List<ScheduleEmployee>();
 

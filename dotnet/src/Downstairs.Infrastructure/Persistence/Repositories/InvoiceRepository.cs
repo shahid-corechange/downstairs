@@ -12,12 +12,22 @@ internal sealed class InvoiceRepository(DownstairsDbContext context) : Repositor
 {
     public async Task<DomainInvoice?> GetByIdAsync(long id, CancellationToken cancellationToken = default)
     {
+        if (id < 0)
+        {
+            return null;
+        }
+
         var entity = await QueryWithCustomer().FirstOrDefaultAsync(invoice => invoice.Id == id, cancellationToken);
         return entity is null ? null : MapToDomain(entity);
     }
 
     public async Task<IReadOnlyCollection<DomainInvoice>> GetByCustomerIdAsync(long customerId, CancellationToken cancellationToken = default)
     {
+        if (customerId < 0)
+        {
+            return Array.Empty<DomainInvoice>();
+        }
+
         var entities = await QueryWithCustomer()
             .Where(invoice => invoice.CustomerId == customerId)
             .ToListAsync(cancellationToken);

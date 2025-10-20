@@ -8,7 +8,9 @@ namespace Downstairs.Infrastructure.Persistence;
 
 public partial class DownstairsDbContext : DbContext
 {
-    public DownstairsDbContext() { }
+    public DownstairsDbContext()
+    {
+    }
 
     public DownstairsDbContext(DbContextOptions<DownstairsDbContext> options)
         : base(options)
@@ -17,6 +19,8 @@ public partial class DownstairsDbContext : DbContext
 
     public virtual DbSet<ActivityLog> ActivityLogs { get; set; }
 
+    public virtual DbSet<Addon> Addons { get; set; }
+
     public virtual DbSet<Address> Addresses { get; set; }
 
     public virtual DbSet<AuthenticationLog> AuthenticationLogs { get; set; }
@@ -24,6 +28,12 @@ public partial class DownstairsDbContext : DbContext
     public virtual DbSet<BlindIndex> BlindIndexes { get; set; }
 
     public virtual DbSet<BlockDay> BlockDays { get; set; }
+
+    public virtual DbSet<CashierAttendance> CashierAttendances { get; set; }
+
+    public virtual DbSet<Category> Categories { get; set; }
+
+    public virtual DbSet<Categoryable> Categoryables { get; set; }
 
     public virtual DbSet<City> Cities { get; set; }
 
@@ -35,13 +45,13 @@ public partial class DownstairsDbContext : DbContext
 
     public virtual DbSet<CreditTransaction> CreditTransactions { get; set; }
 
+    public virtual DbSet<CustomTask> CustomTasks { get; set; }
+
     public virtual DbSet<Customer> Customers { get; set; }
 
     public virtual DbSet<CustomerDiscount> CustomerDiscounts { get; set; }
 
     public virtual DbSet<CustomerUser> CustomerUsers { get; set; }
-
-    public virtual DbSet<CustomTask> CustomTasks { get; set; }
 
     public virtual DbSet<Deviation> Deviations { get; set; }
 
@@ -60,6 +70,14 @@ public partial class DownstairsDbContext : DbContext
     public virtual DbSet<Invoice> Invoices { get; set; }
 
     public virtual DbSet<KeyPlace> KeyPlaces { get; set; }
+
+    public virtual DbSet<LaundryOrder> LaundryOrders { get; set; }
+
+    public virtual DbSet<LaundryOrderHistory> LaundryOrderHistories { get; set; }
+
+    public virtual DbSet<LaundryOrderProduct> LaundryOrderProducts { get; set; }
+
+    public virtual DbSet<LaundryPreference> LaundryPreferences { get; set; }
 
     public virtual DbSet<LeaveRegistration> LeaveRegistrations { get; set; }
 
@@ -103,7 +121,7 @@ public partial class DownstairsDbContext : DbContext
 
     public virtual DbSet<Product> Products { get; set; }
 
-    public virtual DbSet<ProductCategory> ProductCategories { get; set; }
+    public virtual DbSet<Productable> Productables { get; set; }
 
     public virtual DbSet<Property> Properties { get; set; }
 
@@ -115,6 +133,10 @@ public partial class DownstairsDbContext : DbContext
 
     public virtual DbSet<RutCoApplicant> RutCoApplicants { get; set; }
 
+    public virtual DbSet<Schedule> Schedules { get; set; }
+
+    public virtual DbSet<ScheduleChangeRequest> ScheduleChangeRequests { get; set; }
+
     public virtual DbSet<ScheduleCleaning> ScheduleCleanings { get; set; }
 
     public virtual DbSet<ScheduleCleaningChangeRequest> ScheduleCleaningChangeRequests { get; set; }
@@ -125,21 +147,39 @@ public partial class DownstairsDbContext : DbContext
 
     public virtual DbSet<ScheduleCleaningTask> ScheduleCleaningTasks { get; set; }
 
+    public virtual DbSet<ScheduleDeviation> ScheduleDeviations { get; set; }
+
     public virtual DbSet<ScheduleEmployee> ScheduleEmployees { get; set; }
 
-    public virtual DbSet<ScheduleStore> ScheduleStores { get; set; }
+    public virtual DbSet<ScheduleItem> ScheduleItems { get; set; }
 
-    public virtual DbSet<ScheduleStoreDetail> ScheduleStoreDetails { get; set; }
+    public virtual DbSet<ScheduleLaundry> ScheduleLaundries { get; set; }
+
+    public virtual DbSet<ScheduleTask> ScheduleTasks { get; set; }
 
     public virtual DbSet<Service> Services { get; set; }
 
+    public virtual DbSet<ServiceAddon> ServiceAddons { get; set; }
+
     public virtual DbSet<ServiceQuarter> ServiceQuarters { get; set; }
+
+    public virtual DbSet<Store> Stores { get; set; }
+
+    public virtual DbSet<StoreProduct> StoreProducts { get; set; }
+
+    public virtual DbSet<StoreSale> StoreSales { get; set; }
+
+    public virtual DbSet<StoreSaleProduct> StoreSaleProducts { get; set; }
+
+    public virtual DbSet<StoreUser> StoreUsers { get; set; }
 
     public virtual DbSet<Subscription> Subscriptions { get; set; }
 
-    public virtual DbSet<SubscriptionDetail> SubscriptionDetails { get; set; }
+    public virtual DbSet<SubscriptionCleaningDetail> SubscriptionCleaningDetails { get; set; }
 
-    public virtual DbSet<SubscriptionProduct> SubscriptionProducts { get; set; }
+    public virtual DbSet<SubscriptionItem> SubscriptionItems { get; set; }
+
+    public virtual DbSet<SubscriptionLaundryDetail> SubscriptionLaundryDetails { get; set; }
 
     public virtual DbSet<SubscriptionStaffDetail> SubscriptionStaffDetails { get; set; }
 
@@ -156,8 +196,6 @@ public partial class DownstairsDbContext : DbContext
     public virtual DbSet<UnassignSubscription> UnassignSubscriptions { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
-
-    public virtual DbSet<UserDiscount> UserDiscounts { get; set; }
 
     public virtual DbSet<UserInfo> UserInfos { get; set; }
 

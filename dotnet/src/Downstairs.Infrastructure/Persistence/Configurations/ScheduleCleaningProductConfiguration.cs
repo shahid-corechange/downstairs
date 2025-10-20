@@ -9,43 +9,68 @@ internal sealed class ScheduleCleaningProductConfiguration : IEntityTypeConfigur
 {
     public void Configure(EntityTypeBuilder<ScheduleCleaningProduct> entity)
     {
-        entity.HasKey(e => e.Id).HasName("PRIMARY");
+        entity.Property(e => e.Id)
+            .ValueGeneratedOnAdd()
+            .HasColumnType("bigint")
+            .HasColumnName("id");
 
-        entity
-            .ToTable("schedule_cleaning_products")
-            .UseCollation(DatabaseConstants.Collations.Unicode);
+        entity.Property(e => e.CreatedAt)
+            .HasColumnType("timestamp")
+            .HasColumnName("created_at");
+
+        entity.Property(e => e.DiscountPercentage)
+            .HasColumnType("tinyint")
+            .HasColumnName("discount_percentage");
+
+        entity.Property(e => e.PaymentMethod)
+            .IsRequired()
+            .ValueGeneratedOnAdd()
+            .HasMaxLength(255)
+            .HasColumnType("varchar(255)")
+            .HasColumnName("payment_method")
+            .HasDefaultValueSql("'invoice'");
+
+        entity.Property(e => e.Price)
+            .HasColumnType("decimal(8,2)")
+            .HasColumnName("price");
+
+        entity.Property(e => e.ProductId)
+            .HasColumnType("bigint")
+            .HasColumnName("product_id");
+
+        entity.Property(e => e.Quantity)
+            .HasColumnType("decimal(8,2)")
+            .HasColumnName("quantity");
+
+        entity.Property(e => e.ScheduleCleaningId)
+            .HasColumnType("bigint")
+            .HasColumnName("schedule_cleaning_id");
+
+        entity.Property(e => e.UpdatedAt)
+            .HasColumnType("timestamp")
+            .HasColumnName("updated_at");
+
+        entity.HasKey(e => e.Id)
+            .HasName("PRIMARY");
 
         entity.HasIndex(e => e.ProductId, "schedule_cleaning_products_product_id_foreign");
 
         entity.HasIndex(e => e.ScheduleCleaningId, "schedule_cleaning_products_schedule_cleaning_id_foreign");
 
-        entity.Property(e => e.Id).HasColumnName("id");
-        entity.Property(e => e.CreatedAt)
-            .HasColumnType("timestamp")
-            .HasColumnName("created_at");
-        entity.Property(e => e.DiscountPercentage).HasColumnName("discount_percentage");
-        entity.Property(e => e.PaymentMethod)
-            .HasMaxLength(255)
-            .HasDefaultValueSql("'invoice'")
-            .HasColumnName("payment_method");
-        entity.Property(e => e.Price)
-            .HasColumnType("decimal(8,2) unsigned")
-            .HasColumnName("price");
-        entity.Property(e => e.ProductId).HasColumnName("product_id");
-        entity.Property(e => e.Quantity)
-            .HasColumnType("decimal(8,2) unsigned")
-            .HasColumnName("quantity");
-        entity.Property(e => e.ScheduleCleaningId).HasColumnName("schedule_cleaning_id");
-        entity.Property(e => e.UpdatedAt)
-            .HasColumnType("timestamp")
-            .HasColumnName("updated_at");
+        entity.ToTable("schedule_cleaning_products").UseCollation(DatabaseConstants.Collations.Unicode);
 
-        entity.HasOne(d => d.Product).WithMany(p => p.ScheduleCleaningProducts)
+        entity.HasOne(d => d.Product)
+            .WithMany(p => p.ScheduleCleaningProducts)
             .HasForeignKey(d => d.ProductId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired()
             .HasConstraintName("schedule_cleaning_products_product_id_foreign");
 
-        entity.HasOne(d => d.ScheduleCleaning).WithMany(p => p.ScheduleCleaningProducts)
+        entity.HasOne(d => d.ScheduleCleaning)
+            .WithMany(p => p.ScheduleCleaningProducts)
             .HasForeignKey(d => d.ScheduleCleaningId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired()
             .HasConstraintName("schedule_cleaning_products_schedule_cleaning_id_foreign");
     }
 }

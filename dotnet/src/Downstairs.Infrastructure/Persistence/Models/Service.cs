@@ -8,6 +8,8 @@ public partial class Service
 
     public string Type { get; set; } = null!;
 
+    public string MembershipType { get; set; } = null!;
+
     public decimal Price { get; set; }
 
     public byte VatGroup { get; set; }
@@ -24,7 +26,9 @@ public partial class Service
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
-    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+    public virtual ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();
+
+    public virtual ICollection<ServiceAddon> ServiceAddons { get; set; } = new List<ServiceAddon>();
 
     public virtual ICollection<ServiceQuarter> ServiceQuarters { get; set; } = new List<ServiceQuarter>();
 

@@ -26,13 +26,23 @@ public partial class Property
 
     public virtual ICollection<KeyPlace> KeyPlaces { get; set; } = new List<KeyPlace>();
 
+    public virtual ICollection<LaundryOrder> LaundryOrderDeliveryProperties { get; set; } = new List<LaundryOrder>();
+
+    public virtual ICollection<LaundryOrder> LaundryOrderPickupProperties { get; set; } = new List<LaundryOrder>();
+
     public virtual PropertyType PropertyType { get; set; } = null!;
 
     public virtual ICollection<PropertyUser> PropertyUsers { get; set; } = new List<PropertyUser>();
 
     public virtual ICollection<ScheduleCleaning> ScheduleCleanings { get; set; } = new List<ScheduleCleaning>();
 
-    public virtual ICollection<Subscription> Subscriptions { get; set; } = new List<Subscription>();
+    public virtual ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();
 
-    public virtual ICollection<UnassignSubscription> UnassignSubscriptions { get; set; } = new List<UnassignSubscription>();
+    public virtual ICollection<SubscriptionCleaningDetail> SubscriptionCleaningDetails { get; set; } = new List<SubscriptionCleaningDetail>();
+
+    public virtual ICollection<SubscriptionLaundryDetail> SubscriptionLaundryDetailDeliveryProperties { get; set; } = new List<SubscriptionLaundryDetail>();
+
+    public virtual ICollection<SubscriptionLaundryDetail> SubscriptionLaundryDetailPickupProperties { get; set; } = new List<SubscriptionLaundryDetail>();
+
+    public virtual ICollection<Subscription> Subscriptions { get; set; } = new List<Subscription>();
 }

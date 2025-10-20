@@ -6,6 +6,8 @@ public partial class FixedPrice
 
     public long UserId { get; set; }
 
+    public string Type { get; set; } = null!;
+
     public DateOnly? StartDate { get; set; }
 
     public DateOnly? EndDate { get; set; }
@@ -25,4 +27,6 @@ public partial class FixedPrice
     public virtual ICollection<Subscription> Subscriptions { get; set; } = new List<Subscription>();
 
     public virtual User User { get; set; } = null!;
+
+    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }

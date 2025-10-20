@@ -9,16 +9,24 @@ internal sealed class MigrationConfiguration : IEntityTypeConfiguration<Migratio
 {
     public void Configure(EntityTypeBuilder<Migration> entity)
     {
-        entity.HasKey(e => e.Id).HasName("PRIMARY");
+        entity.Property(e => e.Id)
+            .ValueGeneratedOnAdd()
+            .HasColumnType("int")
+            .HasColumnName("id");
 
-        entity
-            .ToTable("migrations")
-            .UseCollation(DatabaseConstants.Collations.Unicode);
+        entity.Property(e => e.Batch)
+            .HasColumnType("int")
+            .HasColumnName("batch");
 
-        entity.Property(e => e.Id).HasColumnName("id");
-        entity.Property(e => e.Batch).HasColumnName("batch");
         entity.Property(e => e.Migration1)
+            .IsRequired()
             .HasMaxLength(255)
+            .HasColumnType("varchar(255)")
             .HasColumnName("migration");
+
+        entity.HasKey(e => e.Id)
+            .HasName("PRIMARY");
+
+        entity.ToTable("migrations").UseCollation(DatabaseConstants.Collations.Unicode);
     }
 }

@@ -9,29 +9,46 @@ internal sealed class CountryConfiguration : IEntityTypeConfiguration<Country>
 {
     public void Configure(EntityTypeBuilder<Country> entity)
     {
-        entity.HasKey(e => e.Id).HasName("PRIMARY");
+        entity.Property(e => e.Id)
+            .ValueGeneratedOnAdd()
+            .HasColumnType("bigint")
+            .HasColumnName("id");
 
-        entity
-            .ToTable("countries")
-            .UseCollation(DatabaseConstants.Collations.Unicode);
-
-        entity.Property(e => e.Id).HasColumnName("id");
         entity.Property(e => e.Code)
+            .IsRequired()
             .HasMaxLength(2)
-            .IsFixedLength()
-            .HasColumnName("code");
+            .HasColumnType("char(2)")
+            .HasColumnName("code")
+            .IsFixedLength();
+
         entity.Property(e => e.Currency)
+            .IsRequired()
             .HasMaxLength(3)
-            .IsFixedLength()
-            .HasColumnName("currency");
+            .HasColumnType("char(3)")
+            .HasColumnName("currency")
+            .IsFixedLength();
+
         entity.Property(e => e.DialCode)
+            .IsRequired()
             .HasMaxLength(255)
+            .HasColumnType("varchar(255)")
             .HasColumnName("dial_code");
+
         entity.Property(e => e.Flag)
+            .IsRequired()
             .HasMaxLength(255)
+            .HasColumnType("varchar(255)")
             .HasColumnName("flag");
+
         entity.Property(e => e.Name)
+            .IsRequired()
             .HasMaxLength(255)
+            .HasColumnType("varchar(255)")
             .HasColumnName("name");
+
+        entity.HasKey(e => e.Id)
+            .HasName("PRIMARY");
+
+        entity.ToTable("countries").UseCollation(DatabaseConstants.Collations.Unicode);
     }
 }

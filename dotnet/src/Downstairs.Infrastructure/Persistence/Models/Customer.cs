@@ -8,7 +8,7 @@ public partial class Customer
 
     public long? CustomerRefId { get; set; }
 
-    public long AddressId { get; set; }
+    public long? AddressId { get; set; }
 
     public string MembershipType { get; set; } = null!;
 
@@ -18,7 +18,7 @@ public partial class Customer
 
     public string Name { get; set; } = null!;
 
-    public string Email { get; set; } = null!;
+    public string? Email { get; set; }
 
     public string? Phone1 { get; set; }
 
@@ -36,7 +36,7 @@ public partial class Customer
 
     public DateTime? DeletedAt { get; set; }
 
-    public virtual Address Address { get; set; } = null!;
+    public virtual Address? Address { get; set; }
 
     public virtual Customer? CustomerRef { get; set; }
 
@@ -46,11 +46,15 @@ public partial class Customer
 
     public virtual ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
 
+    public virtual ICollection<LaundryOrder> LaundryOrders { get; set; } = new List<LaundryOrder>();
+
     public virtual ICollection<OldCustomer> OldCustomers { get; set; } = new List<OldCustomer>();
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
     public virtual ICollection<ScheduleCleaning> ScheduleCleanings { get; set; } = new List<ScheduleCleaning>();
+
+    public virtual ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();
 
     public virtual ICollection<Subscription> Subscriptions { get; set; } = new List<Subscription>();
 

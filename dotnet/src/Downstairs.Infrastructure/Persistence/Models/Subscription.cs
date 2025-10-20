@@ -6,15 +6,19 @@ public partial class Subscription
 
     public long UserId { get; set; }
 
-    public long CustomerId { get; set; }
+    public long? CustomerId { get; set; }
 
     public long? TeamId { get; set; }
 
-    public long PropertyId { get; set; }
+    public long? PropertyId { get; set; }
 
     public long ServiceId { get; set; }
 
     public long? FixedPriceId { get; set; }
+
+    public string SubscribableType { get; set; } = null!;
+
+    public long SubscribableId { get; set; }
 
     public short Frequency { get; set; }
 
@@ -22,13 +26,13 @@ public partial class Subscription
 
     public DateOnly? EndAt { get; set; }
 
-    public TimeOnly StartTimeAt { get; set; }
+    public DateTime? StartTimeAt { get; set; }
 
-    public TimeOnly EndTimeAt { get; set; }
+    public DateTime? EndTimeAt { get; set; }
 
-    public short Quarters { get; set; }
+    public short? Quarters { get; set; }
 
-    public short RefillSequence { get; set; }
+    public short? RefillSequence { get; set; }
 
     public bool IsPaused { get; set; }
 
@@ -42,19 +46,23 @@ public partial class Subscription
 
     public DateTime? DeletedAt { get; set; }
 
-    public virtual Customer Customer { get; set; } = null!;
+    public virtual Customer? Customer { get; set; }
 
     public virtual FixedPrice? FixedPrice { get; set; }
 
+    public virtual ICollection<LaundryOrder> LaundryOrders { get; set; } = new List<LaundryOrder>();
+
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
-    public virtual Property Property { get; set; } = null!;
+    public virtual Property? Property { get; set; }
 
     public virtual ICollection<ScheduleCleaning> ScheduleCleanings { get; set; } = new List<ScheduleCleaning>();
 
+    public virtual ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();
+
     public virtual Service Service { get; set; } = null!;
 
-    public virtual ICollection<SubscriptionProduct> SubscriptionProducts { get; set; } = new List<SubscriptionProduct>();
+    public virtual ICollection<SubscriptionItem> SubscriptionItems { get; set; } = new List<SubscriptionItem>();
 
     public virtual ICollection<SubscriptionStaffDetail> SubscriptionStaffDetails { get; set; } = new List<SubscriptionStaffDetail>();
 

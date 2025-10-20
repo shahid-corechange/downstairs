@@ -6,19 +6,25 @@ public partial class MonthlyWorkHour
 
     public string? FortnoxId { get; set; }
 
+    public long? EmployeeId { get; set; }
+
     public string? Fullname { get; set; }
 
     public int? Month { get; set; }
 
     public int? Year { get; set; }
 
-    public decimal? TotalWorkHours { get; set; }
-
     public decimal AdjustmentHours { get; set; }
 
     public decimal BookingHours { get; set; }
 
-    public long ScheduleCleaningDeviation { get; set; }
+    public decimal ScheduleWorkHours { get; set; }
+
+    public decimal StoreWorkHours { get; set; }
+
+    public decimal TotalWorkHours { get; set; }
+
+    public long ScheduleDeviation { get; set; }
 
     public long ScheduleEmployeeDeviation { get; set; }
 }

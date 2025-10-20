@@ -9,27 +9,44 @@ internal sealed class CreditCreditTransactionConfiguration : IEntityTypeConfigur
 {
     public void Configure(EntityTypeBuilder<CreditCreditTransaction> entity)
     {
-        entity.HasKey(e => e.Id).HasName("PRIMARY");
+        entity.Property(e => e.Id)
+            .ValueGeneratedOnAdd()
+            .HasColumnType("bigint")
+            .HasColumnName("id");
 
-        entity
-            .ToTable("credit_credit_transaction")
-            .UseCollation(DatabaseConstants.Collations.Unicode);
+        entity.Property(e => e.Amount)
+            .HasColumnType("tinyint")
+            .HasColumnName("amount");
+
+        entity.Property(e => e.CreditId)
+            .HasColumnType("bigint")
+            .HasColumnName("credit_id");
+
+        entity.Property(e => e.CreditTransactionId)
+            .HasColumnType("bigint")
+            .HasColumnName("credit_transaction_id");
+
+        entity.HasKey(e => e.Id)
+            .HasName("PRIMARY");
 
         entity.HasIndex(e => e.CreditId, "credit_credit_transaction_credit_id_foreign");
 
         entity.HasIndex(e => e.CreditTransactionId, "credit_credit_transaction_credit_transaction_id_foreign");
 
-        entity.Property(e => e.Id).HasColumnName("id");
-        entity.Property(e => e.Amount).HasColumnName("amount");
-        entity.Property(e => e.CreditId).HasColumnName("credit_id");
-        entity.Property(e => e.CreditTransactionId).HasColumnName("credit_transaction_id");
+        entity.ToTable("credit_credit_transaction").UseCollation(DatabaseConstants.Collations.Unicode);
 
-        entity.HasOne(d => d.Credit).WithMany(p => p.CreditCreditTransactions)
+        entity.HasOne(d => d.Credit)
+            .WithMany(p => p.CreditCreditTransactions)
             .HasForeignKey(d => d.CreditId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired()
             .HasConstraintName("credit_credit_transaction_credit_id_foreign");
 
-        entity.HasOne(d => d.CreditTransaction).WithMany(p => p.CreditCreditTransactions)
+        entity.HasOne(d => d.CreditTransaction)
+            .WithMany(p => p.CreditCreditTransactions)
             .HasForeignKey(d => d.CreditTransactionId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired()
             .HasConstraintName("credit_credit_transaction_credit_transaction_id_foreign");
     }
 }

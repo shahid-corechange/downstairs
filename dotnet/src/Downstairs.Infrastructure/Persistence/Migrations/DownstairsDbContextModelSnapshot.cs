@@ -95,6 +95,75 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
                 });
 
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Addon", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("color")
+                        .HasDefaultValueSql("'#718096'");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("created_at");
+
+                    b.Property<short>("CreditPrice")
+                        .HasColumnType("smallint")
+                        .HasColumnName("credit_price");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<string>("FortnoxArticleId")
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("fortnox_article_id");
+
+                    b.Property<bool>("HasRut")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("has_rut");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(8,2)")
+                        .HasColumnName("price");
+
+                    b.Property<string>("ThumbnailImage")
+                        .HasColumnType("text")
+                        .HasColumnName("thumbnail_image");
+
+                    b.Property<string>("Unit")
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("unit");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("updated_at");
+
+                    b.Property<sbyte>("VatGroup")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint")
+                        .HasColumnName("vat_group")
+                        .HasDefaultValueSql("'25'");
+
+                    b.HasKey("Id")
+                        .HasName("PRIMARY");
+
+                    b.ToTable("addons", (string)null);
+
+                    MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
+                });
+
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Address", b =>
                 {
                     b.Property<long>("Id")
@@ -302,6 +371,140 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
                 });
 
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.CashierAttendance", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CheckInAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("check_in_at");
+
+                    b.Property<long?>("CheckInCauserId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("check_in_causer_id");
+
+                    b.Property<DateTime?>("CheckOutAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("check_out_at");
+
+                    b.Property<long?>("CheckOutCauserId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("check_out_causer_id");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<long>("StoreId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("store_id");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("updated_at");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("user_id");
+
+                    b.Property<long?>("WorkHourId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("work_hour_id");
+
+                    b.HasKey("Id")
+                        .HasName("PRIMARY");
+
+                    b.HasIndex(new[] { "CheckInCauserId" }, "cashier_attendances_check_in_causer_id_foreign");
+
+                    b.HasIndex(new[] { "CheckOutCauserId" }, "cashier_attendances_check_out_causer_id_foreign");
+
+                    b.HasIndex(new[] { "StoreId" }, "cashier_attendances_store_id_foreign");
+
+                    b.HasIndex(new[] { "UserId" }, "cashier_attendances_user_id_foreign");
+
+                    b.HasIndex(new[] { "WorkHourId" }, "cashier_attendances_work_hour_id_foreign");
+
+                    b.ToTable("cashier_attendances", (string)null);
+
+                    MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Category", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<string>("ThumbnailImage")
+                        .HasColumnType("text")
+                        .HasColumnName("thumbnail_image");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("PRIMARY");
+
+                    b.ToTable("categories", (string)null);
+
+                    MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Categoryable", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CategoryId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("category_id");
+
+                    b.Property<long>("CategoryableId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("categoryable_id");
+
+                    b.Property<string>("CategoryableType")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("categoryable_type");
+
+                    b.HasKey("Id")
+                        .HasName("PRIMARY");
+
+                    b.HasIndex(new[] { "CategoryId" }, "categoryables_category_id_foreign");
+
+                    b.HasIndex(new[] { "CategoryableType", "CategoryableId" }, "categoryables_categoryable_type_categoryable_id_index");
+
+                    b.ToTable("categoryables", (string)null);
+
+                    MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
+                });
+
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.City", b =>
                 {
                     b.Property<long>("Id")
@@ -398,21 +601,25 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("description");
 
-                    b.Property<byte>("InitialAmount")
-                        .HasColumnType("tinyint unsigned")
+                    b.Property<sbyte>("InitialAmount")
+                        .HasColumnType("tinyint")
                         .HasColumnName("initial_amount");
 
                     b.Property<long?>("IssuerId")
                         .HasColumnType("bigint")
                         .HasColumnName("issuer_id");
 
-                    b.Property<byte>("RemainingAmount")
-                        .HasColumnType("tinyint unsigned")
+                    b.Property<sbyte>("RemainingAmount")
+                        .HasColumnType("tinyint")
                         .HasColumnName("remaining_amount");
 
                     b.Property<long?>("ScheduleCleaningId")
                         .HasColumnType("bigint")
                         .HasColumnName("schedule_cleaning_id");
+
+                    b.Property<long?>("ScheduleId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("schedule_id");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -439,6 +646,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
                     b.HasIndex(new[] { "ScheduleCleaningId" }, "credits_schedule_cleaning_id_foreign");
 
+                    b.HasIndex(new[] { "ScheduleId" }, "credits_schedule_id_foreign");
+
                     b.HasIndex(new[] { "UserId" }, "credits_user_id_foreign");
 
                     b.HasIndex(new[] { "ValidUntil" }, "credits_valid_until_index");
@@ -457,8 +666,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<byte>("Amount")
-                        .HasColumnType("tinyint unsigned")
+                    b.Property<sbyte>("Amount")
+                        .HasColumnType("tinyint")
                         .HasColumnName("amount");
 
                     b.Property<long>("CreditId")
@@ -507,6 +716,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("schedule_cleaning_id");
 
+                    b.Property<long?>("ScheduleId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("schedule_id");
+
                     b.Property<long>("TotalAmount")
                         .HasColumnType("bigint")
                         .HasColumnName("total_amount");
@@ -531,6 +744,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     b.HasIndex(new[] { "IssuerId" }, "credit_transactions_issuer_id_foreign");
 
                     b.HasIndex(new[] { "ScheduleCleaningId" }, "credit_transactions_schedule_cleaning_id_foreign");
+
+                    b.HasIndex(new[] { "ScheduleId" }, "credit_transactions_schedule_id_foreign");
 
                     b.HasIndex(new[] { "UserId" }, "credit_transactions_user_id_foreign");
 
@@ -584,7 +799,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("AddressId")
+                    b.Property<long?>("AddressId")
                         .HasColumnType("bigint")
                         .HasColumnName("address_id");
 
@@ -612,7 +827,6 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasDefaultValueSql("'30'");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)")
                         .HasColumnName("email");
@@ -720,8 +934,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<uint?>("UsageLimit")
-                        .HasColumnType("int unsigned")
+                    b.Property<int?>("UsageLimit")
+                        .HasColumnType("int")
                         .HasColumnName("usage_limit");
 
                     b.Property<long>("UserId")
@@ -804,9 +1018,13 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("reason");
 
-                    b.Property<long>("ScheduleCleaningId")
+                    b.Property<long?>("ScheduleCleaningId")
                         .HasColumnType("bigint")
                         .HasColumnName("schedule_cleaning_id");
+
+                    b.Property<long?>("ScheduleId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("schedule_id");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -825,6 +1043,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasName("PRIMARY");
 
                     b.HasIndex(new[] { "ScheduleCleaningId" }, "deviations_schedule_cleaning_id_foreign");
+
+                    b.HasIndex(new[] { "ScheduleId" }, "deviations_schedule_id_foreign");
 
                     b.HasIndex(new[] { "Type" }, "deviations_type_index");
 
@@ -1042,6 +1262,14 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("date")
                         .HasColumnName("start_date");
 
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("type")
+                        .HasDefaultValueSql("'cleaning'");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
@@ -1084,11 +1312,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("has_rut");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(8,2) unsigned")
+                        .HasColumnType("decimal(8,2)")
                         .HasColumnName("price");
 
-                    b.Property<uint>("Quantity")
-                        .HasColumnType("int unsigned")
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int")
                         .HasColumnName("quantity");
 
                     b.Property<string>("Type")
@@ -1100,9 +1328,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<byte>("VatGroup")
+                    b.Property<sbyte>("VatGroup")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint unsigned")
+                        .HasColumnType("tinyint")
                         .HasColumnName("vat_group")
                         .HasDefaultValueSql("'25'");
 
@@ -1171,6 +1399,14 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("id");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("category")
+                        .HasDefaultValueSql("'invoice'");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -1306,6 +1542,296 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
                 });
 
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.LaundryOrder", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CauserId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("causer_id");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("created_at");
+
+                    b.Property<long>("CustomerId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("customer_id");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<long?>("DeliveryPropertyId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("delivery_property_id");
+
+                    b.Property<long?>("DeliveryTeamId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("delivery_team_id");
+
+                    b.Property<TimeOnly?>("DeliveryTime")
+                        .HasColumnType("time")
+                        .HasColumnName("delivery_time");
+
+                    b.Property<long>("LaundryPreferenceId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("laundry_preference_id");
+
+                    b.Property<DateTime>("OrderedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("ordered_at");
+
+                    b.Property<DateTime?>("PaidAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("paid_at");
+
+                    b.Property<string>("PaymentMethod")
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("payment_method");
+
+                    b.Property<long?>("PickupPropertyId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("pickup_property_id");
+
+                    b.Property<long?>("PickupTeamId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("pickup_team_id");
+
+                    b.Property<TimeOnly?>("PickupTime")
+                        .HasColumnType("time")
+                        .HasColumnName("pickup_time");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("status")
+                        .HasDefaultValueSql("'pending'");
+
+                    b.Property<long>("StoreId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("store_id");
+
+                    b.Property<long?>("SubscriptionId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("subscription_id");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("updated_at");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("PRIMARY");
+
+                    b.HasIndex(new[] { "CauserId" }, "laundry_orders_causer_id_foreign");
+
+                    b.HasIndex(new[] { "CustomerId" }, "laundry_orders_customer_id_foreign");
+
+                    b.HasIndex(new[] { "DeliveryPropertyId" }, "laundry_orders_delivery_property_id_foreign");
+
+                    b.HasIndex(new[] { "DeliveryTeamId" }, "laundry_orders_delivery_team_id_foreign");
+
+                    b.HasIndex(new[] { "LaundryPreferenceId" }, "laundry_orders_laundry_preference_id_foreign");
+
+                    b.HasIndex(new[] { "PickupPropertyId" }, "laundry_orders_pickup_property_id_foreign");
+
+                    b.HasIndex(new[] { "PickupTeamId" }, "laundry_orders_pickup_team_id_foreign");
+
+                    b.HasIndex(new[] { "StoreId" }, "laundry_orders_store_id_foreign");
+
+                    b.HasIndex(new[] { "SubscriptionId" }, "laundry_orders_subscription_id_foreign");
+
+                    b.HasIndex(new[] { "UserId" }, "laundry_orders_user_id_foreign");
+
+                    b.ToTable("laundry_orders", (string)null);
+
+                    MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.LaundryOrderHistory", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CauserId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("causer_id");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<long>("LaundryOrderId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("laundry_order_id");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("note");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("type");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("PRIMARY");
+
+                    b.HasIndex(new[] { "CauserId" }, "laundry_order_histories_causer_id_foreign");
+
+                    b.HasIndex(new[] { "LaundryOrderId" }, "laundry_order_histories_laundry_order_id_foreign");
+
+                    b.ToTable("laundry_order_histories", (string)null);
+
+                    MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.LaundryOrderProduct", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("created_at");
+
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(8,2)")
+                        .HasColumnName("discount");
+
+                    b.Property<bool>("HasRut")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("has_rut");
+
+                    b.Property<long>("LaundryOrderId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("laundry_order_id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("text")
+                        .HasColumnName("note");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(8,2)")
+                        .HasColumnName("price");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("product_id");
+
+                    b.Property<sbyte>("Quantity")
+                        .HasColumnType("tinyint")
+                        .HasColumnName("quantity");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("updated_at");
+
+                    b.Property<sbyte>("VatGroup")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint")
+                        .HasColumnName("vat_group")
+                        .HasDefaultValueSql("'25'");
+
+                    b.HasKey("Id")
+                        .HasName("PRIMARY");
+
+                    b.HasIndex(new[] { "LaundryOrderId" }, "laundry_order_products_laundry_order_id_foreign");
+
+                    b.HasIndex(new[] { "ProductId" }, "laundry_order_products_product_id_foreign");
+
+                    b.ToTable("laundry_order_products", (string)null);
+
+                    MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.LaundryPreference", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<short>("Hours")
+                        .HasColumnType("smallint")
+                        .HasColumnName("hours");
+
+                    b.Property<bool>("IncludeHolidays")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("include_holidays");
+
+                    b.Property<decimal>("Percentage")
+                        .HasColumnType("decimal(8,2)")
+                        .HasColumnName("percentage");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(8,2)")
+                        .HasColumnName("price");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("updated_at");
+
+                    b.Property<sbyte>("VatGroup")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint")
+                        .HasColumnName("vat_group")
+                        .HasDefaultValueSql("'25'");
+
+                    b.HasKey("Id")
+                        .HasName("PRIMARY");
+
+                    b.ToTable("laundry_preferences", (string)null);
+
+                    MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
+                });
+
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.LeaveRegistration", b =>
                 {
                     b.Property<long>("Id")
@@ -1405,12 +1931,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Metum", b =>
                 {
-                    b.Property<uint>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int unsigned")
+                        .HasColumnType("int")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<uint>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -1463,12 +1989,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Migration", b =>
                 {
-                    b.Property<uint>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int unsigned")
+                        .HasColumnType("int")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<uint>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Batch")
                         .HasColumnType("int")
@@ -1550,6 +2076,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("decimal(47,4)")
                         .HasColumnName("booking_hours");
 
+                    b.Property<long?>("EmployeeId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("employee_id")
+                        .HasDefaultValueSql("'0'");
+
                     b.Property<string>("FortnoxId")
                         .HasColumnType("text")
                         .HasColumnName("fortnox_id")
@@ -1565,17 +2096,27 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("int")
                         .HasColumnName("month");
 
-                    b.Property<long>("ScheduleCleaningDeviation")
+                    b.Property<long>("ScheduleDeviation")
                         .HasColumnType("bigint")
-                        .HasColumnName("schedule_cleaning_deviation");
+                        .HasColumnName("schedule_deviation");
 
                     b.Property<long>("ScheduleEmployeeDeviation")
                         .HasColumnType("bigint")
                         .HasColumnName("schedule_employee_deviation");
 
-                    b.Property<decimal?>("TotalWorkHours")
+                    b.Property<decimal>("ScheduleWorkHours")
                         .HasPrecision(47, 4)
                         .HasColumnType("decimal(47,4)")
+                        .HasColumnName("schedule_work_hours");
+
+                    b.Property<decimal>("StoreWorkHours")
+                        .HasPrecision(47, 4)
+                        .HasColumnType("decimal(47,4)")
+                        .HasColumnName("store_work_hours");
+
+                    b.Property<decimal>("TotalWorkHours")
+                        .HasPrecision(48, 4)
+                        .HasColumnType("decimal(48,4)")
                         .HasColumnName("total_work_hours");
 
                     b.Property<long>("UserId")
@@ -1883,6 +2424,14 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("is_per_order");
 
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("type")
+                        .HasDefaultValueSql("'cleaning'");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
@@ -1925,11 +2474,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("order_fixed_price_id");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(8,2) unsigned")
+                        .HasColumnType("decimal(8,2)")
                         .HasColumnName("price");
 
-                    b.Property<uint>("Quantity")
-                        .HasColumnType("int unsigned")
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int")
                         .HasColumnName("quantity");
 
                     b.Property<string>("Type")
@@ -1942,9 +2491,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<byte>("VatGroup")
+                    b.Property<sbyte>("VatGroup")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint unsigned")
+                        .HasColumnType("tinyint")
                         .HasColumnName("vat_group")
                         .HasDefaultValueSql("'25'");
 
@@ -1976,8 +2525,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("description");
 
-                    b.Property<byte>("DiscountPercentage")
-                        .HasColumnType("tinyint unsigned")
+                    b.Property<sbyte>("DiscountPercentage")
+                        .HasColumnType("tinyint")
                         .HasColumnName("discount_percentage");
 
                     b.Property<string>("FortnoxArticleId")
@@ -1998,11 +2547,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("order_id");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(8,2) unsigned")
+                        .HasPrecision(8, 2)
+                        .HasColumnType("decimal(8,2)")
                         .HasColumnName("price");
 
                     b.Property<decimal>("Quantity")
-                        .HasColumnType("decimal(8,2) unsigned")
+                        .HasColumnType("decimal(8,2)")
                         .HasColumnName("quantity");
 
                     b.Property<string>("Unit")
@@ -2259,11 +2809,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<decimal>("PreviousPrice")
-                        .HasColumnType("decimal(8,2) unsigned")
+                        .HasColumnType("decimal(8,2)")
                         .HasColumnName("previous_price");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(8,2) unsigned")
+                        .HasColumnType("decimal(8,2)")
                         .HasColumnName("price");
 
                     b.Property<long>("PriceAdjustmentId")
@@ -2282,9 +2832,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<byte>("VatGroup")
+                    b.Property<sbyte>("VatGroup")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint unsigned")
+                        .HasColumnType("tinyint")
                         .HasColumnName("vat_group")
                         .HasDefaultValueSql("'25'");
 
@@ -2309,16 +2859,24 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long?>("CategoryId")
+                    b.Property<long?>("AddonId")
                         .HasColumnType("bigint")
-                        .HasColumnName("category_id");
+                        .HasColumnName("addon_id");
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("color")
+                        .HasDefaultValueSql("'#718096'");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<ushort?>("CreditPrice")
-                        .HasColumnType("smallint unsigned")
+                    b.Property<short?>("CreditPrice")
+                        .HasColumnType("smallint")
                         .HasColumnName("credit_price");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -2334,21 +2892,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("has_rut");
 
-                    b.Property<bool>("InApp")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("in_app");
-
-                    b.Property<bool>("InStore")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("in_store");
-
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(8,2) unsigned")
+                        .HasColumnType("decimal(8,2)")
                         .HasColumnName("price");
-
-                    b.Property<long?>("ServiceId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("service_id");
 
                     b.Property<string>("ThumbnailImage")
                         .HasColumnType("text")
@@ -2363,25 +2909,21 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<byte>("VatGroup")
+                    b.Property<sbyte>("VatGroup")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint unsigned")
+                        .HasColumnType("tinyint")
                         .HasColumnName("vat_group")
                         .HasDefaultValueSql("'25'");
 
                     b.HasKey("Id")
                         .HasName("PRIMARY");
 
-                    b.HasIndex(new[] { "CategoryId" }, "products_category_id_foreign");
-
-                    b.HasIndex(new[] { "ServiceId" }, "products_service_id_foreign");
-
                     b.ToTable("products", (string)null);
 
                     MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
                 });
 
-            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ProductCategory", b =>
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Productable", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -2390,22 +2932,27 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp")
-                        .HasColumnName("created_at");
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("product_id");
 
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp")
-                        .HasColumnName("deleted_at");
+                    b.Property<long>("ProductableId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("productable_id");
 
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp")
-                        .HasColumnName("updated_at");
+                    b.Property<string>("ProductableType")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("productable_type");
 
                     b.HasKey("Id")
                         .HasName("PRIMARY");
 
-                    b.ToTable("product_categories", (string)null);
+                    b.HasIndex(new[] { "ProductId" }, "productables_product_id_foreign");
+
+                    b.HasIndex(new[] { "ProductableType", "ProductableId" }, "productables_productable_type_productable_id_index");
+
+                    b.ToTable("productables", (string)null);
 
                     MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
                 });
@@ -2637,6 +3184,204 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
                 });
 
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Schedule", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long?>("CancelableId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("cancelable_id");
+
+                    b.Property<string>("CancelableType")
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("cancelable_type");
+
+                    b.Property<DateTime?>("CanceledAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("canceled_at");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("created_at");
+
+                    b.Property<long?>("CustomerId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("customer_id");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<DateTime>("EndAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("end_at");
+
+                    b.Property<bool>("IsFixed")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_fixed");
+
+                    b.Property<string>("KeyInformation")
+                        .HasColumnType("text")
+                        .HasColumnName("key_information");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("text")
+                        .HasColumnName("note");
+
+                    b.Property<DateTime?>("OriginalStartAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("original_start_at");
+
+                    b.Property<long>("PropertyId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("property_id");
+
+                    b.Property<short>("Quarters")
+                        .HasColumnType("smallint")
+                        .HasColumnName("quarters");
+
+                    b.Property<long>("ScheduleableId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("scheduleable_id");
+
+                    b.Property<string>("ScheduleableType")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("scheduleable_type");
+
+                    b.Property<long>("ServiceId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("service_id");
+
+                    b.Property<DateTime>("StartAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("start_at");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("status")
+                        .HasDefaultValueSql("'booked'");
+
+                    b.Property<long?>("SubscriptionId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("subscription_id");
+
+                    b.Property<long?>("TeamId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("team_id");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("updated_at");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("PRIMARY");
+
+                    b.HasIndex(new[] { "CancelableId" }, "schedules_cancelable_id_index");
+
+                    b.HasIndex(new[] { "CancelableType" }, "schedules_cancelable_type_index");
+
+                    b.HasIndex(new[] { "CustomerId" }, "schedules_customer_id_foreign");
+
+                    b.HasIndex(new[] { "OriginalStartAt" }, "schedules_original_start_at_index");
+
+                    b.HasIndex(new[] { "PropertyId" }, "schedules_property_id_foreign");
+
+                    b.HasIndex(new[] { "ScheduleableType", "ScheduleableId" }, "schedules_scheduleable_type_scheduleable_id_index");
+
+                    b.HasIndex(new[] { "ServiceId" }, "schedules_service_id_foreign");
+
+                    b.HasIndex(new[] { "StartAt" }, "schedules_start_at_index");
+
+                    b.HasIndex(new[] { "Status" }, "schedules_status_index");
+
+                    b.HasIndex(new[] { "SubscriptionId" }, "schedules_subscription_id_foreign");
+
+                    b.HasIndex(new[] { "TeamId" }, "schedules_team_id_foreign");
+
+                    b.HasIndex(new[] { "UserId" }, "schedules_user_id_foreign");
+
+                    b.ToTable("schedules", (string)null);
+
+                    MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleChangeRequest", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long?>("CauserId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("causer_id");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<DateTime>("EndAtChanged")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("end_at_changed");
+
+                    b.Property<DateTime?>("OriginalEndAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("original_end_at");
+
+                    b.Property<DateTime?>("OriginalStartAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("original_start_at");
+
+                    b.Property<long>("ScheduleId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("schedule_id");
+
+                    b.Property<DateTime>("StartAtChanged")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("start_at_changed");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("status")
+                        .HasDefaultValueSql("'pending'");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("PRIMARY");
+
+                    b.HasIndex(new[] { "CauserId" }, "schedule_change_requests_causer_id_foreign");
+
+                    b.HasIndex(new[] { "ScheduleId" }, "schedule_change_requests_schedule_id_foreign");
+
+                    b.ToTable("schedule_change_requests", (string)null);
+
+                    MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
+                });
+
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleCleaning", b =>
                 {
                     b.Property<long>("Id")
@@ -2662,7 +3407,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<long>("CustomerId")
+                    b.Property<long?>("CustomerId")
                         .HasColumnType("bigint")
                         .HasColumnName("customer_id");
 
@@ -2670,17 +3415,27 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("deleted_at");
 
-                    b.Property<DateTime>("EndAt")
+                    b.Property<DateTime?>("EndAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("end_at");
 
-                    b.Property<bool>("IsFixed")
+                    b.Property<bool?>("IsFixed")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_fixed");
+                        .HasColumnName("is_fixed")
+                        .HasDefaultValueSql("'0'");
 
                     b.Property<string>("KeyInformation")
                         .HasColumnType("text")
                         .HasColumnName("key_information");
+
+                    b.Property<long?>("LaundryOrderId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("laundry_order_id");
+
+                    b.Property<string>("LaundryType")
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("laundry_type");
 
                     b.Property<string>("Note")
                         .HasColumnType("json")
@@ -2690,7 +3445,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("original_start_at");
 
-                    b.Property<long>("PropertyId")
+                    b.Property<long?>("PropertyId")
                         .HasColumnType("bigint")
                         .HasColumnName("property_id");
 
@@ -2698,22 +3453,21 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("smallint")
                         .HasColumnName("quarters");
 
-                    b.Property<DateTime>("StartAt")
+                    b.Property<DateTime?>("StartAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("start_at");
 
                     b.Property<string>("Status")
-                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("varchar(255)")
                         .HasColumnName("status")
                         .HasDefaultValueSql("'booked'");
 
-                    b.Property<long>("SubscriptionId")
+                    b.Property<long?>("SubscriptionId")
                         .HasColumnType("bigint")
                         .HasColumnName("subscription_id");
 
-                    b.Property<long>("TeamId")
+                    b.Property<long?>("TeamId")
                         .HasColumnType("bigint")
                         .HasColumnName("team_id");
 
@@ -2729,6 +3483,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     b.HasIndex(new[] { "CustomerId" }, "schedule_cleanings_customer_id_foreign");
 
                     b.HasIndex(new[] { "EndAt" }, "schedule_cleanings_end_at_index");
+
+                    b.HasIndex(new[] { "LaundryOrderId" }, "schedule_cleanings_laundry_order_id_foreign");
+
+                    b.HasIndex(new[] { "LaundryType" }, "schedule_cleanings_laundry_type_index");
 
                     b.HasIndex(new[] { "PropertyId" }, "schedule_cleanings_property_id_foreign");
 
@@ -2873,8 +3631,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<byte>("DiscountPercentage")
-                        .HasColumnType("tinyint unsigned")
+                    b.Property<sbyte>("DiscountPercentage")
+                        .HasColumnType("tinyint")
                         .HasColumnName("discount_percentage");
 
                     b.Property<string>("PaymentMethod")
@@ -2886,7 +3644,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasDefaultValueSql("'invoice'");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(8,2) unsigned")
+                        .HasColumnType("decimal(8,2)")
                         .HasColumnName("price");
 
                     b.Property<long>("ProductId")
@@ -2894,7 +3652,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("product_id");
 
                     b.Property<decimal>("Quantity")
-                        .HasColumnType("decimal(8,2) unsigned")
+                        .HasColumnType("decimal(8,2)")
                         .HasColumnName("quantity");
 
                     b.Property<long>("ScheduleCleaningId")
@@ -2950,6 +3708,54 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
                 });
 
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleDeviation", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<bool>("IsHandled")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_handled");
+
+                    b.Property<string>("Meta")
+                        .HasColumnType("json")
+                        .HasColumnName("meta");
+
+                    b.Property<long>("ScheduleId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("schedule_id");
+
+                    b.Property<string>("Types")
+                        .IsRequired()
+                        .HasColumnType("json")
+                        .HasColumnName("types");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("PRIMARY");
+
+                    b.HasIndex(new[] { "ScheduleId" }, "schedule_deviations_schedule_id_foreign");
+
+                    b.ToTable("schedule_deviations", (string)null);
+
+                    MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
+                });
+
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleEmployee", b =>
                 {
                     b.Property<long>("Id")
@@ -2990,12 +3796,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("decimal(10,2)")
                         .HasColumnName("end_longitude");
 
-                    b.Property<long>("ScheduleableId")
+                    b.Property<long?>("ScheduleId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("schedule_id");
+
+                    b.Property<long?>("ScheduleableId")
                         .HasColumnType("bigint")
                         .HasColumnName("scheduleable_id");
 
                     b.Property<string>("ScheduleableType")
-                        .IsRequired()
                         .HasColumnType("varchar(255)")
                         .HasColumnName("scheduleable_type");
 
@@ -3042,6 +3851,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
                     b.HasIndex(new[] { "ScheduleableType", "ScheduleableId" }, "schedule_employeeableable_index");
 
+                    b.HasIndex(new[] { "ScheduleId" }, "schedule_employees_schedule_id_foreign");
+
                     b.HasIndex(new[] { "Status" }, "schedule_employees_status_index");
 
                     b.HasIndex(new[] { "UserId" }, "schedule_employees_user_id_foreign");
@@ -3053,7 +3864,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
                 });
 
-            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleStore", b =>
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleItem", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -3062,55 +3873,62 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<int>("ContactId")
-                        .HasColumnType("int")
-                        .HasColumnName("contact_id");
-
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp")
-                        .HasColumnName("deleted_at");
+                    b.Property<sbyte>("DiscountPercentage")
+                        .HasColumnType("tinyint")
+                        .HasColumnName("discount_percentage");
 
-                    b.Property<int>("DistrictId")
-                        .HasColumnType("int")
-                        .HasColumnName("district_id");
+                    b.Property<long>("ItemableId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("itemable_id");
 
-                    b.Property<DateTime>("EndAt")
-                        .HasColumnType("timestamp")
-                        .HasColumnName("end_at");
+                    b.Property<string>("ItemableType")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("itemable_type");
 
-                    b.Property<DateTime>("StartAt")
-                        .HasColumnType("timestamp")
-                        .HasColumnName("start_at");
-
-                    b.Property<string>("Status")
+                    b.Property<string>("PaymentMethod")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)")
-                        .HasColumnName("status")
-                        .HasDefaultValueSql("'draft'");
+                        .HasColumnName("payment_method")
+                        .HasDefaultValueSql("'invoice'");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(8,2)")
+                        .HasColumnName("price");
+
+                    b.Property<decimal>("Quantity")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(8,2)")
+                        .HasColumnName("quantity")
+                        .HasDefaultValueSql("'1.00'");
+
+                    b.Property<long>("ScheduleId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("schedule_id");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int")
-                        .HasColumnName("user_id");
-
                     b.HasKey("Id")
                         .HasName("PRIMARY");
 
-                    b.ToTable("schedule_stores", (string)null);
+                    b.HasIndex(new[] { "ItemableType", "ItemableId" }, "schedule_items_itemable_type_itemable_id_index");
+
+                    b.HasIndex(new[] { "ScheduleId" }, "schedule_items_schedule_id_foreign");
+
+                    b.ToTable("schedule_items", (string)null);
 
                     MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
                 });
 
-            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleStoreDetail", b =>
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleLaundry", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -3119,25 +3937,18 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<DateTime?>("BeginsAtChanged")
-                        .HasColumnType("datetime")
-                        .HasColumnName("begins_at_changed");
-
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp")
-                        .HasColumnName("deleted_at");
+                    b.Property<long>("LaundryOrderId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("laundry_order_id");
 
-                    b.Property<DateTime?>("EndsAtChanged")
-                        .HasColumnType("datetime")
-                        .HasColumnName("ends_at_changed");
-
-                    b.Property<int>("ScheduleStoreId")
-                        .HasColumnType("int")
-                        .HasColumnName("schedule_store_id");
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("type");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
@@ -3146,7 +3957,44 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     b.HasKey("Id")
                         .HasName("PRIMARY");
 
-                    b.ToTable("schedule_store_details", (string)null);
+                    b.HasIndex(new[] { "LaundryOrderId" }, "schedule_laundries_laundry_order_id_foreign");
+
+                    b.HasIndex(new[] { "Type" }, "schedule_laundries_type_index");
+
+                    b.ToTable("schedule_laundries", (string)null);
+
+                    MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleTask", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CustomTaskId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("custom_task_id");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_completed");
+
+                    b.Property<long>("ScheduleId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("schedule_id");
+
+                    b.HasKey("Id")
+                        .HasName("PRIMARY");
+
+                    b.HasIndex(new[] { "CustomTaskId" }, "schedule_tasks_custom_task_id_foreign");
+
+                    b.HasIndex(new[] { "ScheduleId" }, "schedule_tasks_schedule_id_foreign");
+
+                    b.ToTable("schedule_tasks", (string)null);
 
                     MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
                 });
@@ -3177,8 +4025,13 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("has_rut");
 
+                    b.Property<string>("MembershipType")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("membership_type");
+
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(8,2) unsigned")
+                        .HasColumnType("decimal(8,2)")
                         .HasColumnName("price");
 
                     b.Property<string>("ThumbnailImage")
@@ -3194,18 +4047,49 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<byte>("VatGroup")
+                    b.Property<sbyte>("VatGroup")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint unsigned")
+                        .HasColumnType("tinyint")
                         .HasColumnName("vat_group")
                         .HasDefaultValueSql("'25'");
 
                     b.HasKey("Id")
                         .HasName("PRIMARY");
 
+                    b.HasIndex(new[] { "MembershipType" }, "services_membership_type_index");
+
                     b.HasIndex(new[] { "Type" }, "services_type_index");
 
                     b.ToTable("services", (string)null);
+
+                    MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ServiceAddon", b =>
+                {
+                    b.Property<long>("MyRowId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("my_row_id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("MyRowId"));
+
+                    b.Property<long>("AddonId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("addon_id");
+
+                    b.Property<long>("ServiceId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("service_id");
+
+                    b.HasKey("MyRowId")
+                        .HasName("PRIMARY");
+
+                    b.HasIndex(new[] { "AddonId" }, "service_addons_addon_id_foreign");
+
+                    b.HasIndex(new[] { "ServiceId" }, "service_addons_service_id_foreign");
+
+                    b.ToTable("service_addons", (string)null);
 
                     MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
                 });
@@ -3223,16 +4107,16 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<uint>("MaxSquareMeters")
-                        .HasColumnType("int unsigned")
+                    b.Property<int>("MaxSquareMeters")
+                        .HasColumnType("int")
                         .HasColumnName("max_square_meters");
 
-                    b.Property<uint>("MinSquareMeters")
-                        .HasColumnType("int unsigned")
+                    b.Property<int>("MinSquareMeters")
+                        .HasColumnType("int")
                         .HasColumnName("min_square_meters");
 
-                    b.Property<uint>("Quarters")
-                        .HasColumnType("int unsigned")
+                    b.Property<int>("Quarters")
+                        .HasColumnType("int")
                         .HasColumnName("quarters");
 
                     b.Property<long>("ServiceId")
@@ -3253,6 +4137,251 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
                 });
 
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Store", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("AddressId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("address_id");
+
+                    b.Property<string>("CompanyNumber")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("company_number");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<string>("DialCode")
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("dial_code");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("email");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("Phone")
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("phone");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("PRIMARY");
+
+                    b.HasIndex(new[] { "AddressId" }, "stores_address_id_foreign");
+
+                    b.ToTable("stores", (string)null);
+
+                    MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.StoreProduct", b =>
+                {
+                    b.Property<long>("StoreId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("store_id");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("product_id");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("status")
+                        .HasDefaultValueSql("'active'");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("StoreId", "ProductId")
+                        .HasName("PRIMARY")
+                        .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+
+                    b.HasIndex(new[] { "ProductId" }, "store_products_product_id_foreign");
+
+                    b.ToTable("store_products", (string)null);
+
+                    MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.StoreSale", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CauserId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("causer_id");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<string>("PaymentMethod")
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("payment_method");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("status");
+
+                    b.Property<long>("StoreId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("store_id");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("PRIMARY");
+
+                    b.HasIndex(new[] { "CauserId" }, "store_sales_causer_id_foreign");
+
+                    b.HasIndex(new[] { "StoreId" }, "store_sales_store_id_foreign");
+
+                    b.ToTable("store_sales", (string)null);
+
+                    MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.StoreSaleProduct", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("created_at");
+
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(8,2)")
+                        .HasColumnName("discount");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("text")
+                        .HasColumnName("note");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(8,2)")
+                        .HasColumnName("price");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("product_id");
+
+                    b.Property<sbyte>("Quantity")
+                        .HasColumnType("tinyint")
+                        .HasColumnName("quantity");
+
+                    b.Property<long>("StoreSaleId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("store_sale_id");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("updated_at");
+
+                    b.Property<sbyte>("VatGroup")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint")
+                        .HasColumnName("vat_group")
+                        .HasDefaultValueSql("'25'");
+
+                    b.HasKey("Id")
+                        .HasName("PRIMARY");
+
+                    b.HasIndex(new[] { "ProductId" }, "store_sale_products_product_id_foreign");
+
+                    b.HasIndex(new[] { "StoreSaleId" }, "store_sale_products_store_sale_id_foreign");
+
+                    b.ToTable("store_sale_products", (string)null);
+
+                    MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.StoreUser", b =>
+                {
+                    b.Property<long>("MyRowId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("my_row_id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("MyRowId"));
+
+                    b.Property<long>("StoreId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("store_id");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("MyRowId")
+                        .HasName("PRIMARY");
+
+                    b.HasIndex(new[] { "StoreId" }, "store_users_store_id_foreign");
+
+                    b.HasIndex(new[] { "UserId" }, "store_users_user_id_foreign");
+
+                    b.ToTable("store_users", (string)null);
+
+                    MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
+                });
+
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Subscription", b =>
                 {
                     b.Property<long>("Id")
@@ -3266,7 +4395,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<long>("CustomerId")
+                    b.Property<long?>("CustomerId")
                         .HasColumnType("bigint")
                         .HasColumnName("customer_id");
 
@@ -3282,8 +4411,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("date")
                         .HasColumnName("end_at");
 
-                    b.Property<TimeOnly>("EndTimeAt")
-                        .HasColumnType("time")
+                    b.Property<DateTime?>("EndTimeAt")
+                        .HasColumnType("timestamp")
                         .HasColumnName("end_time_at");
 
                     b.Property<long?>("FixedPriceId")
@@ -3302,15 +4431,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("is_paused");
 
-                    b.Property<long>("PropertyId")
+                    b.Property<long?>("PropertyId")
                         .HasColumnType("bigint")
                         .HasColumnName("property_id");
 
-                    b.Property<short>("Quarters")
+                    b.Property<short?>("Quarters")
                         .HasColumnType("smallint")
                         .HasColumnName("quarters");
 
-                    b.Property<short>("RefillSequence")
+                    b.Property<short?>("RefillSequence")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("smallint")
                         .HasColumnName("refill_sequence")
@@ -3324,9 +4453,18 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("date")
                         .HasColumnName("start_at");
 
-                    b.Property<TimeOnly>("StartTimeAt")
-                        .HasColumnType("time")
+                    b.Property<DateTime?>("StartTimeAt")
+                        .HasColumnType("timestamp")
                         .HasColumnName("start_time_at");
+
+                    b.Property<long>("SubscribableId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("subscribable_id");
+
+                    b.Property<string>("SubscribableType")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("subscribable_type");
 
                     b.Property<long?>("TeamId")
                         .HasColumnType("bigint")
@@ -3351,6 +4489,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
                     b.HasIndex(new[] { "ServiceId" }, "subscriptions_service_id_foreign");
 
+                    b.HasIndex(new[] { "SubscribableId", "SubscribableType" }, "subscriptions_subscribable_id_subscribable_type_index");
+
                     b.HasIndex(new[] { "TeamId" }, "subscriptions_team_id_foreign");
 
                     b.HasIndex(new[] { "UserId" }, "subscriptions_user_id_foreign");
@@ -3360,7 +4500,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
                 });
 
-            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.SubscriptionDetail", b =>
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.SubscriptionCleaningDetail", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -3373,57 +4513,43 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp")
-                        .HasColumnName("deleted_at");
+                    b.Property<TimeOnly>("EndTime")
+                        .HasColumnType("time")
+                        .HasColumnName("end_time");
 
-                    b.Property<decimal>("PriceEstablish")
-                        .HasPrecision(8, 2)
-                        .HasColumnType("decimal(8,2)")
-                        .HasColumnName("price_establish");
+                    b.Property<long>("PropertyId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("property_id");
 
-                    b.Property<decimal>("PriceMaterial")
-                        .HasPrecision(8, 2)
-                        .HasColumnType("decimal(8,2)")
-                        .HasColumnName("price_material");
+                    b.Property<short>("Quarters")
+                        .HasColumnType("smallint")
+                        .HasColumnName("quarters");
 
-                    b.Property<decimal>("PricePerQuarters")
-                        .HasPrecision(8, 2)
-                        .HasColumnType("decimal(8,2)")
-                        .HasColumnName("price_per_quarters");
+                    b.Property<TimeOnly>("StartTime")
+                        .HasColumnType("time")
+                        .HasColumnName("start_time");
 
-                    b.Property<decimal>("PricePerSquarefeet")
-                        .HasPrecision(8, 2)
-                        .HasColumnType("decimal(8,2)")
-                        .HasColumnName("price_per_squarefeet");
-
-                    b.Property<int>("Squarefeet")
-                        .HasColumnType("int")
-                        .HasColumnName("squarefeet");
-
-                    b.Property<int>("SubscriptionId")
-                        .HasColumnType("int")
-                        .HasColumnName("subscription_id");
+                    b.Property<long>("TeamId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("team_id");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<int>("VatId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("vat_id")
-                        .HasDefaultValueSql("'25'");
-
                     b.HasKey("Id")
                         .HasName("PRIMARY");
 
-                    b.ToTable("subscription_details", (string)null);
+                    b.HasIndex(new[] { "PropertyId" }, "subscription_cleaning_details_property_id_foreign");
+
+                    b.HasIndex(new[] { "TeamId" }, "subscription_cleaning_details_team_id_foreign");
+
+                    b.ToTable("subscription_cleaning_details", (string)null);
 
                     MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
                 });
 
-            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.SubscriptionProduct", b =>
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.SubscriptionItem", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -3436,13 +4562,20 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<long>("ProductId")
+                    b.Property<long>("ItemableId")
                         .HasColumnType("bigint")
-                        .HasColumnName("product_id");
+                        .HasColumnName("itemable_id");
 
-                    b.Property<int?>("Quantity")
-                        .HasColumnType("int")
-                        .HasColumnName("quantity");
+                    b.Property<string>("ItemableType")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("itemable_type");
+
+                    b.Property<short>("Quantity")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("smallint")
+                        .HasColumnName("quantity")
+                        .HasDefaultValueSql("'1'");
 
                     b.Property<long>("SubscriptionId")
                         .HasColumnType("bigint")
@@ -3455,11 +4588,80 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     b.HasKey("Id")
                         .HasName("PRIMARY");
 
-                    b.HasIndex(new[] { "ProductId" }, "subscription_product_product_id_foreign");
+                    b.HasIndex(new[] { "ItemableType", "ItemableId" }, "subscription_items_itemable_type_itemable_id_index");
 
-                    b.HasIndex(new[] { "SubscriptionId" }, "subscription_product_subscription_id_foreign");
+                    b.HasIndex(new[] { "SubscriptionId" }, "subscription_items_subscription_id_foreign");
 
-                    b.ToTable("subscription_product", (string)null);
+                    b.ToTable("subscription_items", (string)null);
+
+                    MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.SubscriptionLaundryDetail", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("created_at");
+
+                    b.Property<long?>("DeliveryPropertyId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("delivery_property_id");
+
+                    b.Property<long?>("DeliveryTeamId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("delivery_team_id");
+
+                    b.Property<TimeOnly?>("DeliveryTime")
+                        .HasColumnType("time")
+                        .HasColumnName("delivery_time");
+
+                    b.Property<long>("LaundryPreferenceId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("laundry_preference_id");
+
+                    b.Property<long?>("PickupPropertyId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("pickup_property_id");
+
+                    b.Property<long?>("PickupTeamId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("pickup_team_id");
+
+                    b.Property<TimeOnly?>("PickupTime")
+                        .HasColumnType("time")
+                        .HasColumnName("pickup_time");
+
+                    b.Property<long>("StoreId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("store_id");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("PRIMARY");
+
+                    b.HasIndex(new[] { "DeliveryPropertyId" }, "subscription_laundry_details_delivery_property_id_foreign");
+
+                    b.HasIndex(new[] { "DeliveryTeamId" }, "subscription_laundry_details_delivery_team_id_foreign");
+
+                    b.HasIndex(new[] { "LaundryPreferenceId" }, "subscription_laundry_details_laundry_preference_id_foreign");
+
+                    b.HasIndex(new[] { "PickupPropertyId" }, "subscription_laundry_details_pickup_property_id_foreign");
+
+                    b.HasIndex(new[] { "PickupTeamId" }, "subscription_laundry_details_pickup_team_id_foreign");
+
+                    b.HasIndex(new[] { "StoreId" }, "subscription_laundry_details_store_id_foreign");
+
+                    b.ToTable("subscription_laundry_details", (string)null);
 
                     MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
                 });
@@ -3481,7 +4683,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("deleted_at");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool?>("IsActive")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("is_active")
@@ -3588,7 +4790,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("description");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool?>("IsActive")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("is_active")
@@ -3757,11 +4959,19 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
+                    b.Property<string>("AddonIds")
+                        .HasColumnType("json")
+                        .HasColumnName("addon_ids");
+
+                    b.Property<string>("CleaningDetail")
+                        .HasColumnType("json")
+                        .HasColumnName("cleaning_detail");
+
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<long>("CustomerId")
+                    b.Property<long?>("CustomerId")
                         .HasColumnType("bigint")
                         .HasColumnName("customer_id");
 
@@ -3774,7 +4984,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("end_at");
 
                     b.Property<decimal?>("FixedPrice")
-                        .HasColumnType("decimal(8,2) unsigned")
+                        .HasColumnType("decimal(8,2)")
                         .HasColumnName("fixed_price");
 
                     b.Property<short>("Frequency")
@@ -3785,23 +4995,13 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("is_fixed");
 
-                    b.Property<string>("ProductIds")
+                    b.Property<string>("LaundryDetail")
                         .HasColumnType("json")
-                        .HasColumnName("product_ids");
+                        .HasColumnName("laundry_detail");
 
-                    b.Property<long>("PropertyId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("property_id");
-
-                    b.Property<short>("Quarters")
-                        .HasColumnType("smallint")
-                        .HasColumnName("quarters");
-
-                    b.Property<short>("RefillSequence")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("smallint")
-                        .HasColumnName("refill_sequence")
-                        .HasDefaultValueSql("'12'");
+                    b.Property<string>("ProductCarts")
+                        .HasColumnType("json")
+                        .HasColumnName("product_carts");
 
                     b.Property<long>("ServiceId")
                         .HasColumnType("bigint")
@@ -3810,10 +5010,6 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     b.Property<DateOnly>("StartAt")
                         .HasColumnType("date")
                         .HasColumnName("start_at");
-
-                    b.Property<TimeOnly>("StartTimeAt")
-                        .HasColumnType("time")
-                        .HasColumnName("start_time_at");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
@@ -3827,8 +5023,6 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasName("PRIMARY");
 
                     b.HasIndex(new[] { "CustomerId" }, "unassign_subscriptions_customer_id_foreign");
-
-                    b.HasIndex(new[] { "PropertyId" }, "unassign_subscriptions_property_id_foreign");
 
                     b.HasIndex(new[] { "ServiceId" }, "unassign_subscriptions_service_id_foreign");
 
@@ -3935,81 +5129,6 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
                 });
 
-            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.UserDiscount", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp")
-                        .HasColumnName("created_at");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<int>("Discount")
-                        .HasColumnType("int")
-                        .HasColumnName("discount");
-
-                    b.Property<int?>("ProductGroup")
-                        .HasColumnType("int")
-                        .HasColumnName("product_group");
-
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int")
-                        .HasColumnName("product_id");
-
-                    b.Property<int>("Repeatable")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("repeatable")
-                        .HasDefaultValueSql("'1'");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
-                        .HasColumnName("status")
-                        .HasDefaultValueSql("'active'");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
-                        .HasColumnName("type")
-                        .HasDefaultValueSql("'cleaning'");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp")
-                        .HasColumnName("updated_at");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int")
-                        .HasColumnName("user_id");
-
-                    b.Property<DateTime?>("ValidFromAt")
-                        .HasColumnType("datetime")
-                        .HasColumnName("valid_from_at");
-
-                    b.Property<DateTime?>("ValidToAt")
-                        .HasColumnType("datetime")
-                        .HasColumnName("valid_to_at");
-
-                    b.HasKey("Id")
-                        .HasName("PRIMARY");
-
-                    b.ToTable("user_discounts", (string)null);
-
-                    MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
-                });
-
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.UserInfo", b =>
                 {
                     b.Property<long>("Id")
@@ -4028,18 +5147,22 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("Currency")
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)")
-                        .HasColumnName("currency");
+                        .HasColumnName("currency")
+                        .HasDefaultValueSql("'SEK'");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("deleted_at");
 
                     b.Property<string>("Language")
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)")
-                        .HasColumnName("language");
+                        .HasColumnName("language")
+                        .HasDefaultValueSql("'sv_SE'");
 
                     b.Property<sbyte?>("Marketing")
                         .HasColumnType("tinyint")
@@ -4053,9 +5176,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasDefaultValueSql("'app'");
 
                     b.Property<string>("Timezone")
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)")
-                        .HasColumnName("timezone");
+                        .HasColumnName("timezone")
+                        .HasDefaultValueSql("'Europe/Stockholm'");
 
                     b.Property<string>("TwoFactorAuth")
                         .IsRequired()
@@ -4208,6 +5333,14 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("time")
                         .HasColumnName("start_time");
 
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("type")
+                        .HasDefaultValueSql("'schedule'");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
@@ -4228,25 +5361,49 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
                 });
 
-            modelBuilder.Entity("RoleHasPermission", b =>
+            modelBuilder.Entity("FixedPriceProduct", b =>
                 {
-                    b.Property<long>("PermissionId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("permission_id");
+                    b.Property<long>("FixedPricesId")
+                        .HasColumnType("bigint");
 
-                    b.Property<long>("RoleId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("role_id");
+                    b.Property<long>("ProductsId")
+                        .HasColumnType("bigint");
 
-                    b.HasKey("PermissionId", "RoleId")
-                        .HasName("PRIMARY")
-                        .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+                    b.HasKey("FixedPricesId", "ProductsId");
 
-                    b.HasIndex(new[] { "RoleId" }, "role_has_permissions_role_id_foreign");
+                    b.HasIndex("ProductsId");
 
-                    b.ToTable("role_has_permissions", (string)null);
+                    b.ToTable("FixedPriceProduct");
+                });
 
-                    MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
+            modelBuilder.Entity("OrderFixedPriceProduct", b =>
+                {
+                    b.Property<long>("OrderFixedPricesId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ProductsId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("OrderFixedPricesId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("OrderFixedPriceProduct");
+                });
+
+            modelBuilder.Entity("PermissionRole", b =>
+                {
+                    b.Property<long>("PermissionsId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("RolesId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("PermissionsId", "RolesId");
+
+                    b.HasIndex("RolesId");
+
+                    b.ToTable("PermissionRole");
                 });
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Address", b =>
@@ -4259,6 +5416,63 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasConstraintName("addresses_city_id_foreign");
 
                     b.Navigation("City");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.CashierAttendance", b =>
+                {
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.User", "CheckInCauser")
+                        .WithMany("CashierAttendanceCheckInCausers")
+                        .HasForeignKey("CheckInCauserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("cashier_attendances_check_in_causer_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.User", "CheckOutCauser")
+                        .WithMany("CashierAttendanceCheckOutCausers")
+                        .HasForeignKey("CheckOutCauserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("cashier_attendances_check_out_causer_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Store", "Store")
+                        .WithMany("CashierAttendances")
+                        .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("cashier_attendances_store_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.User", "User")
+                        .WithMany("CashierAttendanceUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("cashier_attendances_user_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.WorkHour", "WorkHour")
+                        .WithMany("CashierAttendances")
+                        .HasForeignKey("WorkHourId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("cashier_attendances_work_hour_id_foreign");
+
+                    b.Navigation("CheckInCauser");
+
+                    b.Navigation("CheckOutCauser");
+
+                    b.Navigation("Store");
+
+                    b.Navigation("User");
+
+                    b.Navigation("WorkHour");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Categoryable", b =>
+                {
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Category", "Category")
+                        .WithMany("Categoryables")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("categoryables_category_id_foreign");
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.City", b =>
@@ -4287,6 +5501,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("credits_schedule_cleaning_id_foreign");
 
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Schedule", "Schedule")
+                        .WithMany("Credits")
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("credits_schedule_id_foreign");
+
                     b.HasOne("Downstairs.Infrastructure.Persistence.Models.User", "User")
                         .WithMany("CreditUsers")
                         .HasForeignKey("UserId")
@@ -4295,6 +5515,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasConstraintName("credits_user_id_foreign");
 
                     b.Navigation("Issuer");
+
+                    b.Navigation("Schedule");
 
                     b.Navigation("ScheduleCleaning");
 
@@ -4336,6 +5558,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("credit_transactions_schedule_cleaning_id_foreign");
 
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Schedule", "Schedule")
+                        .WithMany("CreditTransactions")
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("credit_transactions_schedule_id_foreign");
+
                     b.HasOne("Downstairs.Infrastructure.Persistence.Models.User", "User")
                         .WithMany("CreditTransactionUsers")
                         .HasForeignKey("UserId")
@@ -4344,6 +5572,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasConstraintName("credit_transactions_user_id_foreign");
 
                     b.Navigation("Issuer");
+
+                    b.Navigation("Schedule");
 
                     b.Navigation("ScheduleCleaning");
 
@@ -4356,7 +5586,6 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .WithMany("Customers")
                         .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("customers_address_id_foreign");
 
                     b.HasOne("Downstairs.Infrastructure.Persistence.Models.Customer", "CustomerRef")
@@ -4409,8 +5638,13 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .WithMany("Deviations")
                         .HasForeignKey("ScheduleCleaningId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("deviations_schedule_cleaning_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Schedule", "Schedule")
+                        .WithMany("Deviations")
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("deviations_schedule_id_foreign");
 
                     b.HasOne("Downstairs.Infrastructure.Persistence.Models.User", "User")
                         .WithMany("Deviations")
@@ -4418,6 +5652,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("deviations_user_id_foreign");
+
+                    b.Navigation("Schedule");
 
                     b.Navigation("ScheduleCleaning");
 
@@ -4499,6 +5735,136 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasConstraintName("key_places_property_id_foreign");
 
                     b.Navigation("Property");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.LaundryOrder", b =>
+                {
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.User", "Causer")
+                        .WithMany("LaundryOrderCausers")
+                        .HasForeignKey("CauserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("laundry_orders_causer_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Customer", "Customer")
+                        .WithMany("LaundryOrders")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("laundry_orders_customer_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Property", "DeliveryProperty")
+                        .WithMany("LaundryOrderDeliveryProperties")
+                        .HasForeignKey("DeliveryPropertyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("laundry_orders_delivery_property_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Team", "DeliveryTeam")
+                        .WithMany("LaundryOrderDeliveryTeams")
+                        .HasForeignKey("DeliveryTeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("laundry_orders_delivery_team_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.LaundryPreference", "LaundryPreference")
+                        .WithMany("LaundryOrders")
+                        .HasForeignKey("LaundryPreferenceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("laundry_orders_laundry_preference_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Property", "PickupProperty")
+                        .WithMany("LaundryOrderPickupProperties")
+                        .HasForeignKey("PickupPropertyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("laundry_orders_pickup_property_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Team", "PickupTeam")
+                        .WithMany("LaundryOrderPickupTeams")
+                        .HasForeignKey("PickupTeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("laundry_orders_pickup_team_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Store", "Store")
+                        .WithMany("LaundryOrders")
+                        .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("laundry_orders_store_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Subscription", "Subscription")
+                        .WithMany("LaundryOrders")
+                        .HasForeignKey("SubscriptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("laundry_orders_subscription_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.User", "User")
+                        .WithMany("LaundryOrderUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("laundry_orders_user_id_foreign");
+
+                    b.Navigation("Causer");
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("DeliveryProperty");
+
+                    b.Navigation("DeliveryTeam");
+
+                    b.Navigation("LaundryPreference");
+
+                    b.Navigation("PickupProperty");
+
+                    b.Navigation("PickupTeam");
+
+                    b.Navigation("Store");
+
+                    b.Navigation("Subscription");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.LaundryOrderHistory", b =>
+                {
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.User", "Causer")
+                        .WithMany("LaundryOrderHistories")
+                        .HasForeignKey("CauserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("laundry_order_histories_causer_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.LaundryOrder", "LaundryOrder")
+                        .WithMany("LaundryOrderHistories")
+                        .HasForeignKey("LaundryOrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("laundry_order_histories_laundry_order_id_foreign");
+
+                    b.Navigation("Causer");
+
+                    b.Navigation("LaundryOrder");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.LaundryOrderProduct", b =>
+                {
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.LaundryOrder", "LaundryOrder")
+                        .WithMany("LaundryOrderProducts")
+                        .HasForeignKey("LaundryOrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("laundry_order_products_laundry_order_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Product", "Product")
+                        .WithMany("LaundryOrderProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("laundry_order_products_product_id_foreign");
+
+                    b.Navigation("LaundryOrder");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.LeaveRegistration", b =>
@@ -4685,23 +6051,16 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     b.Navigation("PriceAdjustment");
                 });
 
-            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Product", b =>
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Productable", b =>
                 {
-                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.ProductCategory", "Category")
-                        .WithMany("Products")
-                        .HasForeignKey("CategoryId")
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Product", "Product")
+                        .WithMany("Productables")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .HasConstraintName("products_category_id_foreign");
+                        .IsRequired()
+                        .HasConstraintName("productables_product_id_foreign");
 
-                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Service", "Service")
-                        .WithMany("Products")
-                        .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .HasConstraintName("products_service_id_foreign");
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Service");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Property", b =>
@@ -4758,37 +6117,115 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Schedule", b =>
+                {
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Customer", "Customer")
+                        .WithMany("Schedules")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("schedules_customer_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Property", "Property")
+                        .WithMany("Schedules")
+                        .HasForeignKey("PropertyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("schedules_property_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Service", "Service")
+                        .WithMany("Schedules")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("schedules_service_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Subscription", "Subscription")
+                        .WithMany("Schedules")
+                        .HasForeignKey("SubscriptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("schedules_subscription_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Team", "Team")
+                        .WithMany("Schedules")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("schedules_team_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.User", "User")
+                        .WithMany("Schedules")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("schedules_user_id_foreign");
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Property");
+
+                    b.Navigation("Service");
+
+                    b.Navigation("Subscription");
+
+                    b.Navigation("Team");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleChangeRequest", b =>
+                {
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.User", "Causer")
+                        .WithMany("ScheduleChangeRequests")
+                        .HasForeignKey("CauserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("schedule_change_requests_causer_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Schedule", "Schedule")
+                        .WithMany("ScheduleChangeRequests")
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("schedule_change_requests_schedule_id_foreign");
+
+                    b.Navigation("Causer");
+
+                    b.Navigation("Schedule");
+                });
+
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleCleaning", b =>
                 {
                     b.HasOne("Downstairs.Infrastructure.Persistence.Models.Customer", "Customer")
                         .WithMany("ScheduleCleanings")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("schedule_cleanings_customer_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.LaundryOrder", "LaundryOrder")
+                        .WithMany("ScheduleCleanings")
+                        .HasForeignKey("LaundryOrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("schedule_cleanings_laundry_order_id_foreign");
 
                     b.HasOne("Downstairs.Infrastructure.Persistence.Models.Property", "Property")
                         .WithMany("ScheduleCleanings")
                         .HasForeignKey("PropertyId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("schedule_cleanings_property_id_foreign");
 
                     b.HasOne("Downstairs.Infrastructure.Persistence.Models.Subscription", "Subscription")
                         .WithMany("ScheduleCleanings")
                         .HasForeignKey("SubscriptionId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("schedule_cleanings_subscription_id_foreign");
 
                     b.HasOne("Downstairs.Infrastructure.Persistence.Models.Team", "Team")
                         .WithMany("ScheduleCleanings")
                         .HasForeignKey("TeamId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("schedule_cleanings_team_id_foreign");
 
                     b.Navigation("Customer");
+
+                    b.Navigation("LaundryOrder");
 
                     b.Navigation("Property");
 
@@ -4871,8 +6308,26 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     b.Navigation("ScheduleCleaning");
                 });
 
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleDeviation", b =>
+                {
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Schedule", "Schedule")
+                        .WithMany("ScheduleDeviations")
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("schedule_deviations_schedule_id_foreign");
+
+                    b.Navigation("Schedule");
+                });
+
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleEmployee", b =>
                 {
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Schedule", "Schedule")
+                        .WithMany("ScheduleEmployees")
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("schedule_employees_schedule_id_foreign");
+
                     b.HasOne("Downstairs.Infrastructure.Persistence.Models.User", "User")
                         .WithMany("ScheduleEmployees")
                         .HasForeignKey("UserId")
@@ -4886,9 +6341,77 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("schedule_employees_work_hour_id_foreign");
 
+                    b.Navigation("Schedule");
+
                     b.Navigation("User");
 
                     b.Navigation("WorkHour");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleItem", b =>
+                {
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Schedule", "Schedule")
+                        .WithMany("ScheduleItems")
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("schedule_items_schedule_id_foreign");
+
+                    b.Navigation("Schedule");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleLaundry", b =>
+                {
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.LaundryOrder", "LaundryOrder")
+                        .WithMany("ScheduleLaundries")
+                        .HasForeignKey("LaundryOrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("schedule_laundries_laundry_order_id_foreign");
+
+                    b.Navigation("LaundryOrder");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleTask", b =>
+                {
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.CustomTask", "CustomTask")
+                        .WithMany("ScheduleTasks")
+                        .HasForeignKey("CustomTaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("schedule_tasks_custom_task_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Schedule", "Schedule")
+                        .WithMany("ScheduleTasks")
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("schedule_tasks_schedule_id_foreign");
+
+                    b.Navigation("CustomTask");
+
+                    b.Navigation("Schedule");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ServiceAddon", b =>
+                {
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Addon", "Addon")
+                        .WithMany("ServiceAddons")
+                        .HasForeignKey("AddonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("service_addons_addon_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Service", "Service")
+                        .WithMany("ServiceAddons")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("service_addons_service_id_foreign");
+
+                    b.Navigation("Addon");
+
+                    b.Navigation("Service");
                 });
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ServiceQuarter", b =>
@@ -4903,13 +6426,108 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     b.Navigation("Service");
                 });
 
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Store", b =>
+                {
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Address", "Address")
+                        .WithMany("Stores")
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("stores_address_id_foreign");
+
+                    b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.StoreProduct", b =>
+                {
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Product", "Product")
+                        .WithMany("StoreProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("store_products_product_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Store", "Store")
+                        .WithMany("StoreProducts")
+                        .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("store_products_store_id_foreign");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Store");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.StoreSale", b =>
+                {
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.User", "Causer")
+                        .WithMany("StoreSales")
+                        .HasForeignKey("CauserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("store_sales_causer_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Store", "Store")
+                        .WithMany("StoreSales")
+                        .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("store_sales_store_id_foreign");
+
+                    b.Navigation("Causer");
+
+                    b.Navigation("Store");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.StoreSaleProduct", b =>
+                {
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Product", "Product")
+                        .WithMany("StoreSaleProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("store_sale_products_product_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.StoreSale", "StoreSale")
+                        .WithMany("StoreSaleProducts")
+                        .HasForeignKey("StoreSaleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("store_sale_products_store_sale_id_foreign");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("StoreSale");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.StoreUser", b =>
+                {
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Store", "Store")
+                        .WithMany("StoreUsers")
+                        .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("store_users_store_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.User", "User")
+                        .WithMany("StoreUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("store_users_user_id_foreign");
+
+                    b.Navigation("Store");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Subscription", b =>
                 {
                     b.HasOne("Downstairs.Infrastructure.Persistence.Models.Customer", "Customer")
                         .WithMany("Subscriptions")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("subscriptions_customer_id_foreign");
 
                     b.HasOne("Downstairs.Infrastructure.Persistence.Models.FixedPrice", "FixedPrice")
@@ -4922,7 +6540,6 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .WithMany("Subscriptions")
                         .HasForeignKey("PropertyId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("subscriptions_property_id_foreign");
 
                     b.HasOne("Downstairs.Infrastructure.Persistence.Models.Service", "Service")
@@ -4958,25 +6575,90 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.SubscriptionProduct", b =>
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.SubscriptionCleaningDetail", b =>
                 {
-                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Product", "Product")
-                        .WithMany("SubscriptionProducts")
-                        .HasForeignKey("ProductId")
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Property", "Property")
+                        .WithMany("SubscriptionCleaningDetails")
+                        .HasForeignKey("PropertyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("subscription_product_product_id_foreign");
+                        .HasConstraintName("subscription_cleaning_details_property_id_foreign");
 
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Team", "Team")
+                        .WithMany("SubscriptionCleaningDetails")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("subscription_cleaning_details_team_id_foreign");
+
+                    b.Navigation("Property");
+
+                    b.Navigation("Team");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.SubscriptionItem", b =>
+                {
                     b.HasOne("Downstairs.Infrastructure.Persistence.Models.Subscription", "Subscription")
-                        .WithMany("SubscriptionProducts")
+                        .WithMany("SubscriptionItems")
                         .HasForeignKey("SubscriptionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("subscription_product_subscription_id_foreign");
-
-                    b.Navigation("Product");
+                        .HasConstraintName("subscription_items_subscription_id_foreign");
 
                     b.Navigation("Subscription");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.SubscriptionLaundryDetail", b =>
+                {
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Property", "DeliveryProperty")
+                        .WithMany("SubscriptionLaundryDetailDeliveryProperties")
+                        .HasForeignKey("DeliveryPropertyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("subscription_laundry_details_delivery_property_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Team", "DeliveryTeam")
+                        .WithMany("SubscriptionLaundryDetailDeliveryTeams")
+                        .HasForeignKey("DeliveryTeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("subscription_laundry_details_delivery_team_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.LaundryPreference", "LaundryPreference")
+                        .WithMany("SubscriptionLaundryDetails")
+                        .HasForeignKey("LaundryPreferenceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("subscription_laundry_details_laundry_preference_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Property", "PickupProperty")
+                        .WithMany("SubscriptionLaundryDetailPickupProperties")
+                        .HasForeignKey("PickupPropertyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("subscription_laundry_details_pickup_property_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Team", "PickupTeam")
+                        .WithMany("SubscriptionLaundryDetailPickupTeams")
+                        .HasForeignKey("PickupTeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("subscription_laundry_details_pickup_team_id_foreign");
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Store", "Store")
+                        .WithMany("SubscriptionLaundryDetails")
+                        .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("subscription_laundry_details_store_id_foreign");
+
+                    b.Navigation("DeliveryProperty");
+
+                    b.Navigation("DeliveryTeam");
+
+                    b.Navigation("LaundryPreference");
+
+                    b.Navigation("PickupProperty");
+
+                    b.Navigation("PickupTeam");
+
+                    b.Navigation("Store");
                 });
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.SubscriptionStaffDetail", b =>
@@ -5069,15 +6751,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .WithMany("UnassignSubscriptions")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("unassign_subscriptions_customer_id_foreign");
-
-                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Property", "Property")
-                        .WithMany("UnassignSubscriptions")
-                        .HasForeignKey("PropertyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("unassign_subscriptions_property_id_foreign");
 
                     b.HasOne("Downstairs.Infrastructure.Persistence.Models.Service", "Service")
                         .WithMany("UnassignSubscriptions")
@@ -5094,8 +6768,6 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasConstraintName("unassign_subscriptions_user_id_foreign");
 
                     b.Navigation("Customer");
-
-                    b.Navigation("Property");
 
                     b.Navigation("Service");
 
@@ -5126,21 +6798,54 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("RoleHasPermission", b =>
+            modelBuilder.Entity("FixedPriceProduct", b =>
+                {
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.FixedPrice", null)
+                        .WithMany()
+                        .HasForeignKey("FixedPricesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("OrderFixedPriceProduct", b =>
+                {
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.OrderFixedPrice", null)
+                        .WithMany()
+                        .HasForeignKey("OrderFixedPricesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Downstairs.Infrastructure.Persistence.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PermissionRole", b =>
                 {
                     b.HasOne("Downstairs.Infrastructure.Persistence.Models.Permission", null)
                         .WithMany()
-                        .HasForeignKey("PermissionId")
+                        .HasForeignKey("PermissionsId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("role_has_permissions_permission_id_foreign");
+                        .IsRequired();
 
                     b.HasOne("Downstairs.Infrastructure.Persistence.Models.Role", null)
                         .WithMany()
-                        .HasForeignKey("RoleId")
+                        .HasForeignKey("RolesId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("role_has_permissions_role_id_foreign");
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Addon", b =>
+                {
+                    b.Navigation("ServiceAddons");
                 });
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Address", b =>
@@ -5150,6 +6855,13 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     b.Navigation("Employees");
 
                     b.Navigation("Properties");
+
+                    b.Navigation("Stores");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Category", b =>
+                {
+                    b.Navigation("Categoryables");
                 });
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.City", b =>
@@ -5176,6 +6888,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 {
                     b.Navigation("ScheduleCleaningTasks");
 
+                    b.Navigation("ScheduleTasks");
+
                     b.Navigation("Tasks");
                 });
 
@@ -5187,11 +6901,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
                     b.Navigation("Invoices");
 
+                    b.Navigation("LaundryOrders");
+
                     b.Navigation("OldCustomers");
 
                     b.Navigation("Orders");
 
                     b.Navigation("ScheduleCleanings");
+
+                    b.Navigation("Schedules");
 
                     b.Navigation("Subscriptions");
 
@@ -5215,6 +6933,24 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Invoice", b =>
                 {
                     b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.LaundryOrder", b =>
+                {
+                    b.Navigation("LaundryOrderHistories");
+
+                    b.Navigation("LaundryOrderProducts");
+
+                    b.Navigation("ScheduleCleanings");
+
+                    b.Navigation("ScheduleLaundries");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.LaundryPreference", b =>
+                {
+                    b.Navigation("LaundryOrders");
+
+                    b.Navigation("SubscriptionLaundryDetails");
                 });
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.LeaveRegistration", b =>
@@ -5246,27 +6982,38 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Product", b =>
                 {
+                    b.Navigation("LaundryOrderProducts");
+
+                    b.Navigation("Productables");
+
                     b.Navigation("ScheduleCleaningProducts");
 
-                    b.Navigation("SubscriptionProducts");
-                });
+                    b.Navigation("StoreProducts");
 
-            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ProductCategory", b =>
-                {
-                    b.Navigation("Products");
+                    b.Navigation("StoreSaleProducts");
                 });
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Property", b =>
                 {
                     b.Navigation("KeyPlaces");
 
+                    b.Navigation("LaundryOrderDeliveryProperties");
+
+                    b.Navigation("LaundryOrderPickupProperties");
+
                     b.Navigation("PropertyUsers");
 
                     b.Navigation("ScheduleCleanings");
 
-                    b.Navigation("Subscriptions");
+                    b.Navigation("Schedules");
 
-                    b.Navigation("UnassignSubscriptions");
+                    b.Navigation("SubscriptionCleaningDetails");
+
+                    b.Navigation("SubscriptionLaundryDetailDeliveryProperties");
+
+                    b.Navigation("SubscriptionLaundryDetailPickupProperties");
+
+                    b.Navigation("Subscriptions");
                 });
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.PropertyType", b =>
@@ -5277,6 +7024,25 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Role", b =>
                 {
                     b.Navigation("ModelHasRoles");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Schedule", b =>
+                {
+                    b.Navigation("CreditTransactions");
+
+                    b.Navigation("Credits");
+
+                    b.Navigation("Deviations");
+
+                    b.Navigation("ScheduleChangeRequests");
+
+                    b.Navigation("ScheduleDeviations");
+
+                    b.Navigation("ScheduleEmployees");
+
+                    b.Navigation("ScheduleItems");
+
+                    b.Navigation("ScheduleTasks");
                 });
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleCleaning", b =>
@@ -5307,7 +7073,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 {
                     b.Navigation("Orders");
 
-                    b.Navigation("Products");
+                    b.Navigation("Schedules");
+
+                    b.Navigation("ServiceAddons");
 
                     b.Navigation("ServiceQuarters");
 
@@ -5316,20 +7084,56 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     b.Navigation("UnassignSubscriptions");
                 });
 
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Store", b =>
+                {
+                    b.Navigation("CashierAttendances");
+
+                    b.Navigation("LaundryOrders");
+
+                    b.Navigation("StoreProducts");
+
+                    b.Navigation("StoreSales");
+
+                    b.Navigation("StoreUsers");
+
+                    b.Navigation("SubscriptionLaundryDetails");
+                });
+
+            modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.StoreSale", b =>
+                {
+                    b.Navigation("StoreSaleProducts");
+                });
+
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Subscription", b =>
                 {
+                    b.Navigation("LaundryOrders");
+
                     b.Navigation("Orders");
 
                     b.Navigation("ScheduleCleanings");
 
-                    b.Navigation("SubscriptionProducts");
+                    b.Navigation("Schedules");
+
+                    b.Navigation("SubscriptionItems");
 
                     b.Navigation("SubscriptionStaffDetails");
                 });
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Team", b =>
                 {
+                    b.Navigation("LaundryOrderDeliveryTeams");
+
+                    b.Navigation("LaundryOrderPickupTeams");
+
                     b.Navigation("ScheduleCleanings");
+
+                    b.Navigation("Schedules");
+
+                    b.Navigation("SubscriptionCleaningDetails");
+
+                    b.Navigation("SubscriptionLaundryDetailDeliveryTeams");
+
+                    b.Navigation("SubscriptionLaundryDetailPickupTeams");
 
                     b.Navigation("Subscriptions");
 
@@ -5338,6 +7142,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.User", b =>
                 {
+                    b.Navigation("CashierAttendanceCheckInCausers");
+
+                    b.Navigation("CashierAttendanceCheckOutCausers");
+
+                    b.Navigation("CashierAttendanceUsers");
+
                     b.Navigation("CreditIssuers");
 
                     b.Navigation("CreditTransactionIssuers");
@@ -5358,6 +7168,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
                     b.Navigation("Invoices");
 
+                    b.Navigation("LaundryOrderCausers");
+
+                    b.Navigation("LaundryOrderHistories");
+
+                    b.Navigation("LaundryOrderUsers");
+
                     b.Navigation("Notifications");
 
                     b.Navigation("Orders");
@@ -5368,9 +7184,17 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
                     b.Navigation("RutCoApplicants");
 
+                    b.Navigation("ScheduleChangeRequests");
+
                     b.Navigation("ScheduleCleaningChangeRequests");
 
                     b.Navigation("ScheduleEmployees");
+
+                    b.Navigation("Schedules");
+
+                    b.Navigation("StoreSales");
+
+                    b.Navigation("StoreUsers");
 
                     b.Navigation("SubscriptionStaffDetails");
 
@@ -5389,6 +7213,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.WorkHour", b =>
                 {
+                    b.Navigation("CashierAttendances");
+
                     b.Navigation("ScheduleEmployees");
                 });
 #pragma warning restore 612, 618

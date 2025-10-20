@@ -9,43 +9,74 @@ internal sealed class UserInfoConfiguration : IEntityTypeConfiguration<UserInfo>
 {
     public void Configure(EntityTypeBuilder<UserInfo> entity)
     {
-        entity.HasKey(e => e.Id).HasName("PRIMARY");
+        entity.Property(e => e.Id)
+            .ValueGeneratedOnAdd()
+            .HasColumnType("bigint")
+            .HasColumnName("id");
 
-        entity
-            .ToTable("user_infos")
-            .UseCollation(DatabaseConstants.Collations.Unicode);
-
-        entity.Property(e => e.Id).HasColumnName("id");
         entity.Property(e => e.Avatar)
             .HasColumnType("text")
             .HasColumnName("avatar");
+
         entity.Property(e => e.CreatedAt)
             .HasColumnType("timestamp")
             .HasColumnName("created_at");
+
         entity.Property(e => e.Currency)
+            .ValueGeneratedOnAdd()
             .HasMaxLength(255)
-            .HasColumnName("currency");
+            .HasColumnType("varchar(255)")
+            .HasColumnName("currency")
+            .HasDefaultValueSql("'SEK'");
+
         entity.Property(e => e.DeletedAt)
             .HasColumnType("timestamp")
             .HasColumnName("deleted_at");
+
         entity.Property(e => e.Language)
+            .ValueGeneratedOnAdd()
             .HasMaxLength(255)
-            .HasColumnName("language");
-        entity.Property(e => e.Marketing).HasColumnName("marketing");
+            .HasColumnType("varchar(255)")
+            .HasColumnName("language")
+            .HasDefaultValueSql("'sv_SE'");
+
+        entity.Property(e => e.Marketing)
+            .HasColumnType("tinyint")
+            .HasColumnName("marketing");
+
         entity.Property(e => e.NotificationMethod)
+            .ValueGeneratedOnAdd()
             .HasMaxLength(255)
-            .HasDefaultValueSql("'app'")
-            .HasColumnName("notification_method");
+            .HasColumnType("varchar(255)")
+            .HasColumnName("notification_method")
+            .HasDefaultValueSql("'app'");
+
         entity.Property(e => e.Timezone)
+            .ValueGeneratedOnAdd()
             .HasMaxLength(255)
-            .HasColumnName("timezone");
+            .HasColumnType("varchar(255)")
+            .HasColumnName("timezone")
+            .HasDefaultValueSql("'Europe/Stockholm'");
+
         entity.Property(e => e.TwoFactorAuth)
+            .IsRequired()
+            .ValueGeneratedOnAdd()
             .HasMaxLength(255)
-            .HasDefaultValueSql("'disabled'")
-            .HasColumnName("two_factor_auth");
+            .HasColumnType("varchar(255)")
+            .HasColumnName("two_factor_auth")
+            .HasDefaultValueSql("'disabled'");
+
         entity.Property(e => e.UpdatedAt)
             .HasColumnType("timestamp")
             .HasColumnName("updated_at");
-        entity.Property(e => e.UserId).HasColumnName("user_id");
+
+        entity.Property(e => e.UserId)
+            .HasColumnType("bigint")
+            .HasColumnName("user_id");
+
+        entity.HasKey(e => e.Id)
+            .HasName("PRIMARY");
+
+        entity.ToTable("user_infos").UseCollation(DatabaseConstants.Collations.Unicode);
     }
 }
