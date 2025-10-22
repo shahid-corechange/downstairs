@@ -11,7 +11,7 @@ internal sealed class AddonConfiguration : IEntityTypeConfiguration<Addon>
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.Color)
@@ -27,7 +27,7 @@ internal sealed class AddonConfiguration : IEntityTypeConfiguration<Addon>
             .HasColumnName("created_at");
 
         entity.Property(e => e.CreditPrice)
-            .HasColumnType("smallint")
+            .HasColumnType("smallint unsigned")
             .HasColumnName("credit_price");
 
         entity.Property(e => e.DeletedAt)
@@ -62,7 +62,7 @@ internal sealed class AddonConfiguration : IEntityTypeConfiguration<Addon>
 
         entity.Property(e => e.VatGroup)
             .ValueGeneratedOnAdd()
-            .HasColumnType("tinyint")
+            .HasColumnType("tinyint unsigned")
             .HasColumnName("vat_group")
             .HasDefaultValueSql("'25'");
 

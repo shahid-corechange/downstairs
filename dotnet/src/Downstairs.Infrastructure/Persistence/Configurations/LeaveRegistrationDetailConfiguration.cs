@@ -11,7 +11,7 @@ internal sealed class LeaveRegistrationDetailConfiguration : IEntityTypeConfigur
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -28,7 +28,7 @@ internal sealed class LeaveRegistrationDetailConfiguration : IEntityTypeConfigur
             .HasColumnName("fortnox_absence_transaction_id");
 
         entity.Property(e => e.LeaveRegistrationId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("leave_registration_id");
 
         entity.Property(e => e.StartAt)

@@ -11,11 +11,11 @@ internal sealed class PropertyConfiguration : IEntityTypeConfiguration<Property>
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.AddressId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("address_id");
 
         entity.Property(e => e.CreatedAt)
@@ -38,12 +38,12 @@ internal sealed class PropertyConfiguration : IEntityTypeConfiguration<Property>
             .HasDefaultValueSql("'private'");
 
         entity.Property(e => e.PropertyTypeId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("property_type_id");
 
         entity.Property(e => e.SquareMeter)
             .HasPrecision(8, 2)
-            .HasColumnType("decimal(8,2)")
+            .HasColumnType("decimal(8,2) unsigned")
             .HasColumnName("square_meter");
 
         entity.Property(e => e.Status)

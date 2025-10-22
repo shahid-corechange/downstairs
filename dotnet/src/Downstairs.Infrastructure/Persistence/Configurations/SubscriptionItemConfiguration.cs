@@ -11,7 +11,7 @@ internal sealed class SubscriptionItemConfiguration : IEntityTypeConfiguration<S
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -19,7 +19,7 @@ internal sealed class SubscriptionItemConfiguration : IEntityTypeConfiguration<S
             .HasColumnName("created_at");
 
         entity.Property(e => e.ItemableId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("itemable_id");
 
         entity.Property(e => e.ItemableType)
@@ -29,12 +29,12 @@ internal sealed class SubscriptionItemConfiguration : IEntityTypeConfiguration<S
 
         entity.Property(e => e.Quantity)
             .ValueGeneratedOnAdd()
-            .HasColumnType("smallint")
+            .HasColumnType("smallint unsigned")
             .HasColumnName("quantity")
             .HasDefaultValueSql("'1'");
 
         entity.Property(e => e.SubscriptionId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("subscription_id");
 
         entity.Property(e => e.UpdatedAt)

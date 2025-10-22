@@ -11,11 +11,11 @@ internal sealed class StoreSaleConfiguration : IEntityTypeConfiguration<StoreSal
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CauserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("causer_id");
 
         entity.Property(e => e.CreatedAt)
@@ -38,7 +38,7 @@ internal sealed class StoreSaleConfiguration : IEntityTypeConfiguration<StoreSal
             .HasColumnName("status");
 
         entity.Property(e => e.StoreId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("store_id");
 
         entity.Property(e => e.UpdatedAt)

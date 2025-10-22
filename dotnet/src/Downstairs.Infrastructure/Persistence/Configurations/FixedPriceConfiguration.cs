@@ -11,7 +11,7 @@ internal sealed class FixedPriceConfiguration : IEntityTypeConfiguration<FixedPr
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -28,6 +28,7 @@ internal sealed class FixedPriceConfiguration : IEntityTypeConfiguration<FixedPr
 
         entity.Property(e => e.IsPerOrder)
             .HasColumnType("tinyint(1)")
+            .HasDefaultValueSql("'0'")
             .HasColumnName("is_per_order");
 
         entity.Property(e => e.StartDate)
@@ -47,15 +48,15 @@ internal sealed class FixedPriceConfiguration : IEntityTypeConfiguration<FixedPr
             .HasColumnName("updated_at");
 
         entity.Property(e => e.UserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("user_id");
 
         entity.HasKey(e => e.Id)
             .HasName("PRIMARY");
 
-        entity.HasIndex(e => e.CreatedAt, "fixed_prices_created_at_index");
-
         entity.HasIndex(e => e.UserId, "fixed_prices_user_id_foreign");
+        
+        entity.HasIndex(e => e.CreatedAt, "fixed_prices_created_at_index");
 
         entity.ToTable("fixed_prices").UseCollation(DatabaseConstants.Collations.Unicode);
 

@@ -11,11 +11,11 @@ internal sealed class LaundryOrderHistoryConfiguration : IEntityTypeConfiguratio
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CauserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("causer_id");
 
         entity.Property(e => e.CreatedAt)
@@ -27,7 +27,7 @@ internal sealed class LaundryOrderHistoryConfiguration : IEntityTypeConfiguratio
             .HasColumnName("deleted_at");
 
         entity.Property(e => e.LaundryOrderId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("laundry_order_id");
 
         entity.Property(e => e.Note)
@@ -48,9 +48,9 @@ internal sealed class LaundryOrderHistoryConfiguration : IEntityTypeConfiguratio
         entity.HasKey(e => e.Id)
             .HasName("PRIMARY");
 
-        entity.HasIndex(e => e.CauserId, "laundry_order_histories_causer_id_foreign");
-
         entity.HasIndex(e => e.LaundryOrderId, "laundry_order_histories_laundry_order_id_foreign");
+        
+        entity.HasIndex(e => e.CauserId, "laundry_order_histories_causer_id_foreign");
 
         entity.ToTable("laundry_order_histories").UseCollation(DatabaseConstants.Collations.Unicode);
 

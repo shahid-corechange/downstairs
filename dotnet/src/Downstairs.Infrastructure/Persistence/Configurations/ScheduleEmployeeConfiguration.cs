@@ -11,7 +11,7 @@ internal sealed class ScheduleEmployeeConfiguration : IEntityTypeConfiguration<S
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -37,20 +37,20 @@ internal sealed class ScheduleEmployeeConfiguration : IEntityTypeConfiguration<S
 
         entity.Property(e => e.EndLatitude)
             .HasPrecision(10, 2)
-            .HasColumnType("decimal(10,2)")
+            .HasColumnType("decimal(10,2) unsigned")
             .HasColumnName("end_latitude");
 
         entity.Property(e => e.EndLongitude)
             .HasPrecision(10, 2)
-            .HasColumnType("decimal(10,2)")
+            .HasColumnType("decimal(10,2) unsigned")
             .HasColumnName("end_longitude");
 
         entity.Property(e => e.ScheduleId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("schedule_id");
 
         entity.Property(e => e.ScheduleableId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("scheduleable_id");
 
         entity.Property(e => e.ScheduleableType)
@@ -68,12 +68,12 @@ internal sealed class ScheduleEmployeeConfiguration : IEntityTypeConfiguration<S
 
         entity.Property(e => e.StartLatitude)
             .HasPrecision(10, 2)
-            .HasColumnType("decimal(10,2)")
+            .HasColumnType("decimal(10,2) unsigned")
             .HasColumnName("start_latitude");
 
         entity.Property(e => e.StartLongitude)
             .HasPrecision(10, 2)
-            .HasColumnType("decimal(10,2)")
+            .HasColumnType("decimal(10,2) unsigned")
             .HasColumnName("start_longitude");
 
         entity.Property(e => e.Status)
@@ -88,11 +88,11 @@ internal sealed class ScheduleEmployeeConfiguration : IEntityTypeConfiguration<S
             .HasColumnName("updated_at");
 
         entity.Property(e => e.UserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("user_id");
 
         entity.Property(e => e.WorkHourId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("work_hour_id");
 
         entity.HasKey(e => e.Id)

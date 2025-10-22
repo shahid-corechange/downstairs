@@ -11,7 +11,7 @@ internal sealed class RutCoApplicantConfiguration : IEntityTypeConfiguration<Rut
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -34,7 +34,8 @@ internal sealed class RutCoApplicantConfiguration : IEntityTypeConfiguration<Rut
 
         entity.Property(e => e.IsEnabled)
             .HasColumnType("tinyint(1)")
-            .HasColumnName("is_enabled");
+            .HasColumnName("is_enabled")
+            .HasDefaultValueSql("'0'");
 
         entity.Property(e => e.Name)
             .IsRequired()
@@ -60,7 +61,7 @@ internal sealed class RutCoApplicantConfiguration : IEntityTypeConfiguration<Rut
             .HasColumnName("updated_at");
 
         entity.Property(e => e.UserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("user_id");
 
         entity.HasKey(e => e.Id)

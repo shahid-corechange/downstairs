@@ -11,11 +11,11 @@ internal sealed class CustomerConfiguration : IEntityTypeConfiguration<Customer>
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.AddressId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("address_id");
 
         entity.Property(e => e.CreatedAt)
@@ -23,7 +23,7 @@ internal sealed class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .HasColumnName("created_at");
 
         entity.Property(e => e.CustomerRefId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("customer_ref_id");
 
         entity.Property(e => e.DeletedAt)
@@ -102,11 +102,11 @@ internal sealed class CustomerConfiguration : IEntityTypeConfiguration<Customer>
 
         entity.HasIndex(e => e.AddressId, "customers_address_id_foreign");
 
-        entity.HasIndex(e => e.CustomerRefId, "customers_customer_ref_id_foreign");
-
         entity.HasIndex(e => e.MembershipType, "customers_membership_type_index");
 
         entity.HasIndex(e => e.Type, "customers_type_index");
+
+        entity.HasIndex(e => e.CustomerRefId, "customers_customer_ref_id_foreign");
 
         entity.ToTable("customers").UseCollation(DatabaseConstants.Collations.Unicode);
 

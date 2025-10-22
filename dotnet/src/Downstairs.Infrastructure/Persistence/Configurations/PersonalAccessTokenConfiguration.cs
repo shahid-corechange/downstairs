@@ -11,7 +11,7 @@ internal sealed class PersonalAccessTokenConfiguration : IEntityTypeConfiguratio
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.Abilities)
@@ -42,7 +42,7 @@ internal sealed class PersonalAccessTokenConfiguration : IEntityTypeConfiguratio
             .HasColumnName("token");
 
         entity.Property(e => e.TokenableId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("tokenable_id");
 
         entity.Property(e => e.TokenableType)

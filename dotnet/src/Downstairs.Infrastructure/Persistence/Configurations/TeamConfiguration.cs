@@ -11,7 +11,7 @@ internal sealed class TeamConfiguration : IEntityTypeConfiguration<Team>
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.Avatar)
@@ -37,6 +37,7 @@ internal sealed class TeamConfiguration : IEntityTypeConfiguration<Team>
 
         entity.Property(e => e.IsActive)
             .ValueGeneratedOnAdd()
+            .IsRequired()
             .HasColumnType("tinyint(1)")
             .HasColumnName("is_active")
             .HasDefaultValueSql("'1'");

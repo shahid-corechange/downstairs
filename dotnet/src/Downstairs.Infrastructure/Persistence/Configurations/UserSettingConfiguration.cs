@@ -11,7 +11,7 @@ internal sealed class UserSettingConfiguration : IEntityTypeConfiguration<UserSe
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -33,7 +33,7 @@ internal sealed class UserSettingConfiguration : IEntityTypeConfiguration<UserSe
             .HasColumnName("updated_at");
 
         entity.Property(e => e.UserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("user_id");
 
         entity.Property(e => e.Value)

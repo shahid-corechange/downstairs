@@ -11,7 +11,7 @@ internal sealed class SubscriptionLaundryDetailConfiguration : IEntityTypeConfig
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -19,11 +19,11 @@ internal sealed class SubscriptionLaundryDetailConfiguration : IEntityTypeConfig
             .HasColumnName("created_at");
 
         entity.Property(e => e.DeliveryPropertyId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("delivery_property_id");
 
         entity.Property(e => e.DeliveryTeamId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("delivery_team_id");
 
         entity.Property(e => e.DeliveryTime)
@@ -31,15 +31,15 @@ internal sealed class SubscriptionLaundryDetailConfiguration : IEntityTypeConfig
             .HasColumnName("delivery_time");
 
         entity.Property(e => e.LaundryPreferenceId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("laundry_preference_id");
 
         entity.Property(e => e.PickupPropertyId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("pickup_property_id");
 
         entity.Property(e => e.PickupTeamId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("pickup_team_id");
 
         entity.Property(e => e.PickupTime)
@@ -47,7 +47,7 @@ internal sealed class SubscriptionLaundryDetailConfiguration : IEntityTypeConfig
             .HasColumnName("pickup_time");
 
         entity.Property(e => e.StoreId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("store_id");
 
         entity.Property(e => e.UpdatedAt)

@@ -11,7 +11,7 @@ internal sealed class PermissionConfiguration : IEntityTypeConfiguration<Permiss
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)

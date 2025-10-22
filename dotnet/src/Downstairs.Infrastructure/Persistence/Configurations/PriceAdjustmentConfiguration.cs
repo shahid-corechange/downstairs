@@ -11,11 +11,11 @@ internal sealed class PriceAdjustmentConfiguration : IEntityTypeConfiguration<Pr
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CauserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("causer_id");
 
         entity.Property(e => e.CreatedAt)
@@ -37,7 +37,7 @@ internal sealed class PriceAdjustmentConfiguration : IEntityTypeConfiguration<Pr
 
         entity.Property(e => e.Price)
             .HasPrecision(8, 2)
-            .HasColumnType("decimal(8,2)")
+            .HasColumnType("decimal(8,2) unsigned")
             .HasColumnName("price");
 
         entity.Property(e => e.PriceType)

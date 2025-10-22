@@ -11,12 +11,12 @@ internal sealed class AddressConfiguration : IEntityTypeConfiguration<Address>
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.Accuracy)
             .HasPrecision(11, 8)
-            .HasColumnType("decimal(11,8)")
+            .HasColumnType("decimal(11,8) unsigned")
             .HasColumnName("accuracy");
 
         entity.Property(e => e.Address1)
@@ -34,7 +34,7 @@ internal sealed class AddressConfiguration : IEntityTypeConfiguration<Address>
             .HasColumnName("area");
 
         entity.Property(e => e.CityId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("city_id");
 
         entity.Property(e => e.CreatedAt)
@@ -47,12 +47,12 @@ internal sealed class AddressConfiguration : IEntityTypeConfiguration<Address>
 
         entity.Property(e => e.Latitude)
             .HasPrecision(11, 8)
-            .HasColumnType("decimal(11,8)")
+            .HasColumnType("decimal(11,8) unsigned")
             .HasColumnName("latitude");
 
         entity.Property(e => e.Longitude)
             .HasPrecision(11, 8)
-            .HasColumnType("decimal(11,8)")
+            .HasColumnType("decimal(11,8) unsigned")
             .HasColumnName("longitude");
 
         entity.Property(e => e.PostalCode)

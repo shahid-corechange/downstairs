@@ -11,11 +11,11 @@ internal sealed class BlindIndexConfiguration : IEntityTypeConfiguration<BlindIn
     {
         entity.Property(e => e.MyRowId)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("my_row_id");
 
         entity.Property(e => e.IndexableId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("indexable_id");
 
         entity.Property(e => e.IndexableType)

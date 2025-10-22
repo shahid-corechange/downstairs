@@ -11,7 +11,7 @@ internal sealed class SubscriptionStaffDetailConfiguration : IEntityTypeConfigur
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -23,6 +23,7 @@ internal sealed class SubscriptionStaffDetailConfiguration : IEntityTypeConfigur
             .HasColumnName("deleted_at");
 
         entity.Property(e => e.IsActive)
+            .IsRequired()
             .ValueGeneratedOnAdd()
             .HasColumnType("tinyint(1)")
             .HasColumnName("is_active")
@@ -33,7 +34,7 @@ internal sealed class SubscriptionStaffDetailConfiguration : IEntityTypeConfigur
             .HasColumnName("quarters");
 
         entity.Property(e => e.SubscriptionId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("subscription_id");
 
         entity.Property(e => e.UpdatedAt)
@@ -41,7 +42,7 @@ internal sealed class SubscriptionStaffDetailConfiguration : IEntityTypeConfigur
             .HasColumnName("updated_at");
 
         entity.Property(e => e.UserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("user_id");
 
         entity.HasKey(e => e.Id)

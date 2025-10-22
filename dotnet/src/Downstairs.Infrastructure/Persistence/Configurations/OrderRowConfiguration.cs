@@ -11,7 +11,7 @@ internal sealed class OrderRowConfiguration : IEntityTypeConfiguration<OrderRow>
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -23,8 +23,9 @@ internal sealed class OrderRowConfiguration : IEntityTypeConfiguration<OrderRow>
             .HasColumnName("description");
 
         entity.Property(e => e.DiscountPercentage)
-            .HasColumnType("tinyint")
-            .HasColumnName("discount_percentage");
+            .HasColumnType("tinyint unsigned")
+            .HasColumnName("discount_percentage")
+            .HasDefaultValueSql("'0'");
 
         entity.Property(e => e.FortnoxArticleId)
             .HasMaxLength(255)
@@ -40,16 +41,15 @@ internal sealed class OrderRowConfiguration : IEntityTypeConfiguration<OrderRow>
             .HasColumnName("internal_note");
 
         entity.Property(e => e.OrderId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("order_id");
 
         entity.Property(e => e.Price)
-            .HasPrecision(8, 2)
             .HasColumnType("decimal(8,2)")
             .HasColumnName("price");
 
         entity.Property(e => e.Quantity)
-            .HasColumnType("decimal(8,2)")
+            .HasColumnType("decimal(8,2) unsigned")
             .HasColumnName("quantity");
 
         entity.Property(e => e.Unit)

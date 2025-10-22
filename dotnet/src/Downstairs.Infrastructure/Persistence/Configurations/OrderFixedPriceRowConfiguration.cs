@@ -11,7 +11,7 @@ internal sealed class OrderFixedPriceRowConfiguration : IEntityTypeConfiguration
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -28,15 +28,15 @@ internal sealed class OrderFixedPriceRowConfiguration : IEntityTypeConfiguration
             .HasColumnName("has_rut");
 
         entity.Property(e => e.OrderFixedPriceId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("order_fixed_price_id");
 
         entity.Property(e => e.Price)
-            .HasColumnType("decimal(8,2)")
+            .HasColumnType("decimal(8,2) unsigned")
             .HasColumnName("price");
 
         entity.Property(e => e.Quantity)
-            .HasColumnType("int")
+            .HasColumnType("int unsigned")
             .HasColumnName("quantity");
 
         entity.Property(e => e.Type)
@@ -51,7 +51,7 @@ internal sealed class OrderFixedPriceRowConfiguration : IEntityTypeConfiguration
 
         entity.Property(e => e.VatGroup)
             .ValueGeneratedOnAdd()
-            .HasColumnType("tinyint")
+            .HasColumnType("tinyint unsigned")
             .HasColumnName("vat_group")
             .HasDefaultValueSql("'25'");
 

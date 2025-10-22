@@ -11,11 +11,11 @@ internal sealed class AuthenticationLogConfiguration : IEntityTypeConfiguration<
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.AuthenticatableId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("authenticatable_id");
 
         entity.Property(e => e.AuthenticatableType)
@@ -25,6 +25,7 @@ internal sealed class AuthenticationLogConfiguration : IEntityTypeConfiguration<
 
         entity.Property(e => e.ClearedByUser)
             .HasColumnType("tinyint(1)")
+            .HasDefaultValueSql("'0'")
             .HasColumnName("cleared_by_user");
 
         entity.Property(e => e.IpAddress)
@@ -42,6 +43,7 @@ internal sealed class AuthenticationLogConfiguration : IEntityTypeConfiguration<
 
         entity.Property(e => e.LoginSuccessful)
             .HasColumnType("tinyint(1)")
+            .HasDefaultValueSql("'0'")
             .HasColumnName("login_successful");
 
         entity.Property(e => e.LogoutAt)

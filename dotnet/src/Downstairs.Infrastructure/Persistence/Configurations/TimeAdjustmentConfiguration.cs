@@ -11,11 +11,11 @@ internal sealed class TimeAdjustmentConfiguration : IEntityTypeConfiguration<Tim
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CauserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("causer_id");
 
         entity.Property(e => e.CreatedAt)
@@ -33,7 +33,7 @@ internal sealed class TimeAdjustmentConfiguration : IEntityTypeConfiguration<Tim
             .HasColumnName("reason");
 
         entity.Property(e => e.ScheduleEmployeeId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("schedule_employee_id");
 
         entity.Property(e => e.UpdatedAt)

@@ -11,7 +11,7 @@ internal sealed class StoreSaleProductConfiguration : IEntityTypeConfiguration<S
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -19,8 +19,9 @@ internal sealed class StoreSaleProductConfiguration : IEntityTypeConfiguration<S
             .HasColumnName("created_at");
 
         entity.Property(e => e.Discount)
-            .HasColumnType("decimal(8,2)")
-            .HasColumnName("discount");
+            .HasColumnType("decimal(8,2) unsigned")
+            .HasColumnName("discount")
+            .HasDefaultValueSql("'0.00'");
 
         entity.Property(e => e.Name)
             .IsRequired()
@@ -33,19 +34,19 @@ internal sealed class StoreSaleProductConfiguration : IEntityTypeConfiguration<S
             .HasColumnName("note");
 
         entity.Property(e => e.Price)
-            .HasColumnType("decimal(8,2)")
+            .HasColumnType("decimal(8,2) unsigned")
             .HasColumnName("price");
 
         entity.Property(e => e.ProductId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("product_id");
 
         entity.Property(e => e.Quantity)
-            .HasColumnType("tinyint")
+            .HasColumnType("tinyint unsigned")
             .HasColumnName("quantity");
 
         entity.Property(e => e.StoreSaleId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("store_sale_id");
 
         entity.Property(e => e.UpdatedAt)
@@ -54,7 +55,7 @@ internal sealed class StoreSaleProductConfiguration : IEntityTypeConfiguration<S
 
         entity.Property(e => e.VatGroup)
             .ValueGeneratedOnAdd()
-            .HasColumnType("tinyint")
+            .HasColumnType("tinyint unsigned")
             .HasColumnName("vat_group")
             .HasDefaultValueSql("'25'");
 

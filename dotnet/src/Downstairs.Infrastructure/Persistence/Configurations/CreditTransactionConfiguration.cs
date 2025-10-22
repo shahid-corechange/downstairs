@@ -11,7 +11,7 @@ internal sealed class CreditTransactionConfiguration : IEntityTypeConfiguration<
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -24,19 +24,19 @@ internal sealed class CreditTransactionConfiguration : IEntityTypeConfiguration<
             .HasColumnName("description");
 
         entity.Property(e => e.IssuerId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("issuer_id");
 
         entity.Property(e => e.ScheduleCleaningId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("schedule_cleaning_id");
 
         entity.Property(e => e.ScheduleId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("schedule_id");
 
         entity.Property(e => e.TotalAmount)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("total_amount");
 
         entity.Property(e => e.Type)
@@ -50,19 +50,19 @@ internal sealed class CreditTransactionConfiguration : IEntityTypeConfiguration<
             .HasColumnName("updated_at");
 
         entity.Property(e => e.UserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("user_id");
 
         entity.HasKey(e => e.Id)
             .HasName("PRIMARY");
 
-        entity.HasIndex(e => e.IssuerId, "credit_transactions_issuer_id_foreign");
-
         entity.HasIndex(e => e.ScheduleCleaningId, "credit_transactions_schedule_cleaning_id_foreign");
 
-        entity.HasIndex(e => e.ScheduleId, "credit_transactions_schedule_id_foreign");
-
         entity.HasIndex(e => e.UserId, "credit_transactions_user_id_foreign");
+        
+        entity.HasIndex(e => e.IssuerId, "credit_transactions_issuer_id_foreign");
+
+        entity.HasIndex(e => e.ScheduleId, "credit_transactions_schedule_id_foreign");
 
         entity.ToTable("credit_transactions").UseCollation(DatabaseConstants.Collations.Unicode);
 

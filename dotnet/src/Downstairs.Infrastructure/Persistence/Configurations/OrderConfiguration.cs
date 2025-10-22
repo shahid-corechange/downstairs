@@ -11,7 +11,7 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -19,7 +19,7 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
             .HasColumnName("created_at");
 
         entity.Property(e => e.CustomerId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("customer_id");
 
         entity.Property(e => e.DeletedAt)
@@ -27,15 +27,15 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
             .HasColumnName("deleted_at");
 
         entity.Property(e => e.InvoiceId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("invoice_id");
 
         entity.Property(e => e.OrderFixedPriceId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("order_fixed_price_id");
 
         entity.Property(e => e.OrderableId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("orderable_id");
 
         entity.Property(e => e.OrderableType)
@@ -60,7 +60,7 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
             .HasDefaultValueSql("'invoice'");
 
         entity.Property(e => e.ServiceId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("service_id");
 
         entity.Property(e => e.Status)
@@ -72,7 +72,7 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
             .HasDefaultValueSql("'draft'");
 
         entity.Property(e => e.SubscriptionId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("subscription_id");
 
         entity.Property(e => e.UpdatedAt)
@@ -80,25 +80,25 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
             .HasColumnName("updated_at");
 
         entity.Property(e => e.UserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("user_id");
 
         entity.HasKey(e => e.Id)
             .HasName("PRIMARY");
 
-        entity.HasIndex(e => new { e.OrderableType, e.OrderableId }, "orderable_index");
+        entity.HasIndex(e => e.UserId, "orders_user_id_foreign");
 
         entity.HasIndex(e => e.CustomerId, "orders_customer_id_foreign");
+
+        entity.HasIndex(e => e.ServiceId, "orders_service_id_foreign");
+
+        entity.HasIndex(e => new { e.OrderableType, e.OrderableId }, "orderable_index");
 
         entity.HasIndex(e => e.InvoiceId, "orders_invoice_id_foreign");
 
         entity.HasIndex(e => e.OrderFixedPriceId, "orders_order_fixed_price_id_foreign");
 
-        entity.HasIndex(e => e.ServiceId, "orders_service_id_foreign");
-
         entity.HasIndex(e => e.SubscriptionId, "orders_subscription_id_foreign");
-
-        entity.HasIndex(e => e.UserId, "orders_user_id_foreign");
 
         entity.ToTable("orders").UseCollation(DatabaseConstants.Collations.Unicode);
 
@@ -119,7 +119,8 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
             .WithMany(p => p.Orders)
             .HasForeignKey(d => d.OrderFixedPriceId)
             .OnDelete(DeleteBehavior.Cascade)
-            .HasConstraintName("orders_order_fixed_price_id_foreign");
+            .HasConstraintName("orders_order_fixed_price_id_foreign")
+            .HasAnnotation("Relational:OnUpdate", "RESTRICT");
 
         entity.HasOne(d => d.Service)
             .WithMany(p => p.Orders)
@@ -131,7 +132,8 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
             .WithMany(p => p.Orders)
             .HasForeignKey(d => d.SubscriptionId)
             .OnDelete(DeleteBehavior.Cascade)
-            .HasConstraintName("orders_subscription_id_foreign");
+            .HasConstraintName("orders_subscription_id_foreign")
+            .HasAnnotation("Relational:OnUpdate", "RESTRICT");
 
         entity.HasOne(d => d.User)
             .WithMany(p => p.Orders)

@@ -11,7 +11,7 @@ internal sealed class NotificationConfiguration : IEntityTypeConfiguration<Notif
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -30,6 +30,7 @@ internal sealed class NotificationConfiguration : IEntityTypeConfiguration<Notif
 
         entity.Property(e => e.IsRead)
             .HasColumnType("tinyint(1)")
+            .HasDefaultValueSql("'0'")
             .HasColumnName("is_read");
 
         entity.Property(e => e.Title)
@@ -49,7 +50,7 @@ internal sealed class NotificationConfiguration : IEntityTypeConfiguration<Notif
             .HasColumnName("updated_at");
 
         entity.Property(e => e.UserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("user_id");
 
         entity.HasKey(e => e.Id)

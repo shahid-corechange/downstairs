@@ -11,11 +11,11 @@ internal sealed class OldOrderConfiguration : IEntityTypeConfiguration<OldOrder>
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.OldOrderId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("old_order_id");
 
         entity.HasKey(e => e.Id)

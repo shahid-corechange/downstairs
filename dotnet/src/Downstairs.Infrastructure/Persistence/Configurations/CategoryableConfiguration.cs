@@ -11,15 +11,15 @@ internal sealed class CategoryableConfiguration : IEntityTypeConfiguration<Categ
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CategoryId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("category_id");
 
         entity.Property(e => e.CategoryableId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("categoryable_id");
 
         entity.Property(e => e.CategoryableType)

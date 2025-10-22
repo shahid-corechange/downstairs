@@ -13,17 +13,17 @@ internal sealed class MonthlyWorkHourConfiguration : IEntityTypeConfiguration<Mo
 
         entity.Property(e => e.AdjustmentHours)
             .HasPrecision(51, 4)
-            .HasColumnType("decimal(51,4)")
+            .HasColumnType("decimal(51,4) unsigned")
             .HasColumnName("adjustment_hours");
 
         entity.Property(e => e.BookingHours)
             .HasPrecision(47, 4)
-            .HasColumnType("decimal(47,4)")
+            .HasColumnType("decimal(47,4) unsigned")
             .HasColumnName("booking_hours");
 
         entity.Property(e => e.EmployeeId)
-            .HasColumnType("bigint")
             .HasColumnName("employee_id")
+            .HasColumnType("bigint unsigned")
             .HasDefaultValueSql("'0'");
 
         entity.Property(e => e.FortnoxId)
@@ -42,30 +42,28 @@ internal sealed class MonthlyWorkHourConfiguration : IEntityTypeConfiguration<Mo
             .HasColumnName("month");
 
         entity.Property(e => e.ScheduleDeviation)
-            .HasColumnType("bigint")
             .HasColumnName("schedule_deviation");
 
         entity.Property(e => e.ScheduleEmployeeDeviation)
-            .HasColumnType("bigint")
             .HasColumnName("schedule_employee_deviation");
 
         entity.Property(e => e.ScheduleWorkHours)
             .HasPrecision(47, 4)
-            .HasColumnType("decimal(47,4)")
+            .HasColumnType("decimal(47,4) unsigned")
             .HasColumnName("schedule_work_hours");
 
         entity.Property(e => e.StoreWorkHours)
             .HasPrecision(47, 4)
-            .HasColumnType("decimal(47,4)")
+            .HasColumnType("decimal(47,4) unsigned")
             .HasColumnName("store_work_hours");
 
         entity.Property(e => e.TotalWorkHours)
             .HasPrecision(48, 4)
-            .HasColumnType("decimal(48,4)")
+            .HasColumnType("decimal(48,4) unsigned")
             .HasColumnName("total_work_hours");
 
         entity.Property(e => e.UserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("user_id");
 
         entity.Property(e => e.Year)

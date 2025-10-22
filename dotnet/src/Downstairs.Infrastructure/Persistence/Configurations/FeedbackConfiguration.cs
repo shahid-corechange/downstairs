@@ -11,7 +11,7 @@ internal sealed class FeedbackConfiguration : IEntityTypeConfiguration<Feedback>
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -28,7 +28,7 @@ internal sealed class FeedbackConfiguration : IEntityTypeConfiguration<Feedback>
             .HasColumnName("description");
 
         entity.Property(e => e.FeedbackableId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("feedbackable_id");
 
         entity.Property(e => e.FeedbackableType)

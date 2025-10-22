@@ -11,7 +11,7 @@ internal sealed class SubscriptionConfiguration : IEntityTypeConfiguration<Subsc
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -19,7 +19,7 @@ internal sealed class SubscriptionConfiguration : IEntityTypeConfiguration<Subsc
             .HasColumnName("created_at");
 
         entity.Property(e => e.CustomerId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("customer_id");
 
         entity.Property(e => e.DeletedAt)
@@ -39,7 +39,7 @@ internal sealed class SubscriptionConfiguration : IEntityTypeConfiguration<Subsc
             .HasColumnName("end_time_at");
 
         entity.Property(e => e.FixedPriceId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("fixed_price_id");
 
         entity.Property(e => e.Frequency)
@@ -48,14 +48,16 @@ internal sealed class SubscriptionConfiguration : IEntityTypeConfiguration<Subsc
 
         entity.Property(e => e.IsFixed)
             .HasColumnType("tinyint(1)")
-            .HasColumnName("is_fixed");
+            .HasColumnName("is_fixed")
+            .HasDefaultValueSql("'0'");
 
         entity.Property(e => e.IsPaused)
             .HasColumnType("tinyint(1)")
-            .HasColumnName("is_paused");
+            .HasColumnName("is_paused")
+            .HasDefaultValueSql("'0'");
 
         entity.Property(e => e.PropertyId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("property_id");
 
         entity.Property(e => e.Quarters)
@@ -69,7 +71,7 @@ internal sealed class SubscriptionConfiguration : IEntityTypeConfiguration<Subsc
             .HasDefaultValueSql("'12'");
 
         entity.Property(e => e.ServiceId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("service_id");
 
         entity.Property(e => e.StartAt)
@@ -81,7 +83,7 @@ internal sealed class SubscriptionConfiguration : IEntityTypeConfiguration<Subsc
             .HasColumnName("start_time_at");
 
         entity.Property(e => e.SubscribableId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("subscribable_id");
 
         entity.Property(e => e.SubscribableType)
@@ -90,7 +92,7 @@ internal sealed class SubscriptionConfiguration : IEntityTypeConfiguration<Subsc
             .HasColumnName("subscribable_type");
 
         entity.Property(e => e.TeamId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("team_id");
 
         entity.Property(e => e.UpdatedAt)
@@ -98,7 +100,7 @@ internal sealed class SubscriptionConfiguration : IEntityTypeConfiguration<Subsc
             .HasColumnName("updated_at");
 
         entity.Property(e => e.UserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("user_id");
 
         entity.HasKey(e => e.Id)
@@ -130,7 +132,8 @@ internal sealed class SubscriptionConfiguration : IEntityTypeConfiguration<Subsc
             .WithMany(p => p.Subscriptions)
             .HasForeignKey(d => d.FixedPriceId)
             .OnDelete(DeleteBehavior.Cascade)
-            .HasConstraintName("subscriptions_fixed_price_id_foreign");
+            .HasConstraintName("subscriptions_fixed_price_id_foreign")
+            .HasAnnotation("Relational:OnUpdate", "RESTRICT");
 
         entity.HasOne(d => d.Property)
             .WithMany(p => p.Subscriptions)

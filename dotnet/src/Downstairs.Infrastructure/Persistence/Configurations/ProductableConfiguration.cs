@@ -11,15 +11,15 @@ internal sealed class ProductableConfiguration : IEntityTypeConfiguration<Produc
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.ProductId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("product_id");
 
         entity.Property(e => e.ProductableId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("productable_id");
 
         entity.Property(e => e.ProductableType)

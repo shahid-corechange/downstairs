@@ -11,7 +11,7 @@ internal sealed class PasswordResetTokenConfiguration : IEntityTypeConfiguration
     {
         entity.Property(e => e.MyRowId)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("my_row_id");
 
         entity.Property(e => e.CreatedAt)

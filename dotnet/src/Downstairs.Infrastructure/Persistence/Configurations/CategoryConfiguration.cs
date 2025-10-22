@@ -11,7 +11,7 @@ internal sealed class CategoryConfiguration : IEntityTypeConfiguration<Category>
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)

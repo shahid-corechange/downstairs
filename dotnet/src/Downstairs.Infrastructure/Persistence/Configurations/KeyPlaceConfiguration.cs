@@ -11,7 +11,7 @@ internal sealed class KeyPlaceConfiguration : IEntityTypeConfiguration<KeyPlace>
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -23,7 +23,7 @@ internal sealed class KeyPlaceConfiguration : IEntityTypeConfiguration<KeyPlace>
             .HasColumnName("deleted_at");
 
         entity.Property(e => e.PropertyId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("property_id");
 
         entity.Property(e => e.UpdatedAt)

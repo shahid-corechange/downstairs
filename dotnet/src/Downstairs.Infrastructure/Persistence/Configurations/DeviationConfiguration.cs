@@ -11,7 +11,7 @@ internal sealed class DeviationConfiguration : IEntityTypeConfiguration<Deviatio
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -24,6 +24,7 @@ internal sealed class DeviationConfiguration : IEntityTypeConfiguration<Deviatio
 
         entity.Property(e => e.IsHandled)
             .HasColumnType("tinyint(1)")
+            .HasDefaultValueSql("'0'")
             .HasColumnName("is_handled");
 
         entity.Property(e => e.Reason)
@@ -31,11 +32,11 @@ internal sealed class DeviationConfiguration : IEntityTypeConfiguration<Deviatio
             .HasColumnName("reason");
 
         entity.Property(e => e.ScheduleCleaningId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("schedule_cleaning_id");
 
         entity.Property(e => e.ScheduleId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("schedule_id");
 
         entity.Property(e => e.Type)
@@ -48,7 +49,7 @@ internal sealed class DeviationConfiguration : IEntityTypeConfiguration<Deviatio
             .HasColumnName("updated_at");
 
         entity.Property(e => e.UserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("user_id");
 
         entity.HasKey(e => e.Id)
@@ -56,11 +57,11 @@ internal sealed class DeviationConfiguration : IEntityTypeConfiguration<Deviatio
 
         entity.HasIndex(e => e.ScheduleCleaningId, "deviations_schedule_cleaning_id_foreign");
 
-        entity.HasIndex(e => e.ScheduleId, "deviations_schedule_id_foreign");
+        entity.HasIndex(e => e.UserId, "deviations_user_id_foreign");
 
         entity.HasIndex(e => e.Type, "deviations_type_index");
 
-        entity.HasIndex(e => e.UserId, "deviations_user_id_foreign");
+        entity.HasIndex(e => e.ScheduleId, "deviations_schedule_id_foreign");
 
         entity.ToTable("deviations").UseCollation(DatabaseConstants.Collations.Unicode);
 

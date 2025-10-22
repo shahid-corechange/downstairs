@@ -11,7 +11,7 @@ internal sealed class UnassignSubscriptionConfiguration : IEntityTypeConfigurati
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.AddonIds)
@@ -27,7 +27,7 @@ internal sealed class UnassignSubscriptionConfiguration : IEntityTypeConfigurati
             .HasColumnName("created_at");
 
         entity.Property(e => e.CustomerId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("customer_id");
 
         entity.Property(e => e.Description)
@@ -39,7 +39,7 @@ internal sealed class UnassignSubscriptionConfiguration : IEntityTypeConfigurati
             .HasColumnName("end_at");
 
         entity.Property(e => e.FixedPrice)
-            .HasColumnType("decimal(8,2)")
+            .HasColumnType("decimal(8,2) unsigned")
             .HasColumnName("fixed_price");
 
         entity.Property(e => e.Frequency)
@@ -48,7 +48,8 @@ internal sealed class UnassignSubscriptionConfiguration : IEntityTypeConfigurati
 
         entity.Property(e => e.IsFixed)
             .HasColumnType("tinyint(1)")
-            .HasColumnName("is_fixed");
+            .HasColumnName("is_fixed")
+            .HasDefaultValueSql("'0'");
 
         entity.Property(e => e.LaundryDetail)
             .HasColumnType("json")
@@ -59,7 +60,7 @@ internal sealed class UnassignSubscriptionConfiguration : IEntityTypeConfigurati
             .HasColumnName("product_carts");
 
         entity.Property(e => e.ServiceId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("service_id");
 
         entity.Property(e => e.StartAt)
@@ -71,7 +72,7 @@ internal sealed class UnassignSubscriptionConfiguration : IEntityTypeConfigurati
             .HasColumnName("updated_at");
 
         entity.Property(e => e.UserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("user_id");
 
         entity.HasKey(e => e.Id)

@@ -11,7 +11,7 @@ internal sealed class ScheduleDeviationConfiguration : IEntityTypeConfiguration<
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -24,14 +24,15 @@ internal sealed class ScheduleDeviationConfiguration : IEntityTypeConfiguration<
 
         entity.Property(e => e.IsHandled)
             .HasColumnType("tinyint(1)")
-            .HasColumnName("is_handled");
+            .HasColumnName("is_handled")
+            .HasDefaultValueSql("'0'");
 
         entity.Property(e => e.Meta)
             .HasColumnType("json")
             .HasColumnName("meta");
 
         entity.Property(e => e.ScheduleId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("schedule_id");
 
         entity.Property(e => e.Types)

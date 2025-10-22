@@ -10,11 +10,11 @@ internal sealed class ModelHasRoleConfiguration : IEntityTypeConfiguration<Model
     public void Configure(EntityTypeBuilder<ModelHasRole> entity)
     {
         entity.Property(e => e.RoleId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("role_id");
 
         entity.Property(e => e.ModelId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("model_id");
 
         entity.Property(e => e.ModelType)

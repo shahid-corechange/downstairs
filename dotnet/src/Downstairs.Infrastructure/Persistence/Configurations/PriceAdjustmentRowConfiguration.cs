@@ -11,11 +11,11 @@ internal sealed class PriceAdjustmentRowConfiguration : IEntityTypeConfiguration
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.AdjustableId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("adjustable_id");
 
         entity.Property(e => e.AdjustableType)
@@ -28,15 +28,15 @@ internal sealed class PriceAdjustmentRowConfiguration : IEntityTypeConfiguration
             .HasColumnName("created_at");
 
         entity.Property(e => e.PreviousPrice)
-            .HasColumnType("decimal(8,2)")
+            .HasColumnType("decimal(8,2) unsigned")
             .HasColumnName("previous_price");
 
         entity.Property(e => e.Price)
-            .HasColumnType("decimal(8,2)")
+            .HasColumnType("decimal(8,2) unsigned")
             .HasColumnName("price");
 
         entity.Property(e => e.PriceAdjustmentId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("price_adjustment_id");
 
         entity.Property(e => e.Status)
@@ -53,7 +53,7 @@ internal sealed class PriceAdjustmentRowConfiguration : IEntityTypeConfiguration
 
         entity.Property(e => e.VatGroup)
             .ValueGeneratedOnAdd()
-            .HasColumnType("tinyint")
+            .HasColumnType("tinyint unsigned")
             .HasColumnName("vat_group")
             .HasDefaultValueSql("'25'");
 

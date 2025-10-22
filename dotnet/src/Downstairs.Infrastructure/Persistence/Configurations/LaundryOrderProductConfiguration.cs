@@ -11,7 +11,7 @@ internal sealed class LaundryOrderProductConfiguration : IEntityTypeConfiguratio
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -19,7 +19,8 @@ internal sealed class LaundryOrderProductConfiguration : IEntityTypeConfiguratio
             .HasColumnName("created_at");
 
         entity.Property(e => e.Discount)
-            .HasColumnType("decimal(8,2)")
+            .HasColumnType("decimal(8,2) unsigned")
+            .HasDefaultValueSql("'0.00'")
             .HasColumnName("discount");
 
         entity.Property(e => e.HasRut)
@@ -27,7 +28,7 @@ internal sealed class LaundryOrderProductConfiguration : IEntityTypeConfiguratio
             .HasColumnName("has_rut");
 
         entity.Property(e => e.LaundryOrderId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("laundry_order_id");
 
         entity.Property(e => e.Name)
@@ -41,15 +42,15 @@ internal sealed class LaundryOrderProductConfiguration : IEntityTypeConfiguratio
             .HasColumnName("note");
 
         entity.Property(e => e.Price)
-            .HasColumnType("decimal(8,2)")
+            .HasColumnType("decimal(8,2) unsigned")
             .HasColumnName("price");
 
         entity.Property(e => e.ProductId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("product_id");
 
         entity.Property(e => e.Quantity)
-            .HasColumnType("tinyint")
+            .HasColumnType("tinyint unsigned")
             .HasColumnName("quantity");
 
         entity.Property(e => e.UpdatedAt)
@@ -58,7 +59,7 @@ internal sealed class LaundryOrderProductConfiguration : IEntityTypeConfiguratio
 
         entity.Property(e => e.VatGroup)
             .ValueGeneratedOnAdd()
-            .HasColumnType("tinyint")
+            .HasColumnType("tinyint unsigned")
             .HasColumnName("vat_group")
             .HasDefaultValueSql("'25'");
 

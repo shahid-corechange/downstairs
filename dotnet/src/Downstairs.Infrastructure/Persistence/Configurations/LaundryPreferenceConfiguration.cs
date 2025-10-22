@@ -11,7 +11,7 @@ internal sealed class LaundryPreferenceConfiguration : IEntityTypeConfiguration<
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -23,19 +23,22 @@ internal sealed class LaundryPreferenceConfiguration : IEntityTypeConfiguration<
             .HasColumnName("deleted_at");
 
         entity.Property(e => e.Hours)
-            .HasColumnType("smallint")
+            .HasColumnType("smallint unsigned")
             .HasColumnName("hours");
 
         entity.Property(e => e.IncludeHolidays)
             .HasColumnType("tinyint(1)")
+            .HasDefaultValueSql("'0'")
             .HasColumnName("include_holidays");
 
         entity.Property(e => e.Percentage)
-            .HasColumnType("decimal(8,2)")
+            .HasColumnType("decimal(8,2) unsigned")
+            .HasDefaultValueSql("'0.00'")
             .HasColumnName("percentage");
 
         entity.Property(e => e.Price)
-            .HasColumnType("decimal(8,2)")
+            .HasColumnType("decimal(8,2) unsigned")
+            .HasDefaultValueSql("'0.00'")
             .HasColumnName("price");
 
         entity.Property(e => e.UpdatedAt)
@@ -44,7 +47,7 @@ internal sealed class LaundryPreferenceConfiguration : IEntityTypeConfiguration<
 
         entity.Property(e => e.VatGroup)
             .ValueGeneratedOnAdd()
-            .HasColumnType("tinyint")
+            .HasColumnType("tinyint unsigned")
             .HasColumnName("vat_group")
             .HasDefaultValueSql("'25'");
 

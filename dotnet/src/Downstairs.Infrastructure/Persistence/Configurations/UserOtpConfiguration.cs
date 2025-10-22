@@ -11,7 +11,7 @@ internal sealed class UserOtpConfiguration : IEntityTypeConfiguration<UserOtp>
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)

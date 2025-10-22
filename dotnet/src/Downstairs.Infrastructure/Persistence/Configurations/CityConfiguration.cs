@@ -11,11 +11,11 @@ internal sealed class CityConfiguration : IEntityTypeConfiguration<City>
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CountryId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("country_id");
 
         entity.Property(e => e.Name)

@@ -11,7 +11,7 @@ internal sealed class SubscriptionCleaningDetailConfiguration : IEntityTypeConfi
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -23,11 +23,11 @@ internal sealed class SubscriptionCleaningDetailConfiguration : IEntityTypeConfi
             .HasColumnName("end_time");
 
         entity.Property(e => e.PropertyId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("property_id");
 
         entity.Property(e => e.Quarters)
-            .HasColumnType("smallint")
+            .HasColumnType("smallint unsigned")
             .HasColumnName("quarters");
 
         entity.Property(e => e.StartTime)
@@ -35,7 +35,7 @@ internal sealed class SubscriptionCleaningDetailConfiguration : IEntityTypeConfi
             .HasColumnName("start_time");
 
         entity.Property(e => e.TeamId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("team_id");
 
         entity.Property(e => e.UpdatedAt)

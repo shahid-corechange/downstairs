@@ -11,7 +11,7 @@ internal sealed class OrderFixedPriceConfiguration : IEntityTypeConfiguration<Or
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -23,12 +23,13 @@ internal sealed class OrderFixedPriceConfiguration : IEntityTypeConfiguration<Or
             .HasColumnName("deleted_at");
 
         entity.Property(e => e.FixedPriceId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("fixed_price_id");
 
         entity.Property(e => e.IsPerOrder)
             .HasColumnType("tinyint(1)")
-            .HasColumnName("is_per_order");
+            .HasColumnName("is_per_order")
+            .HasDefaultValueSql("'0'");
 
         entity.Property(e => e.Type)
             .IsRequired()

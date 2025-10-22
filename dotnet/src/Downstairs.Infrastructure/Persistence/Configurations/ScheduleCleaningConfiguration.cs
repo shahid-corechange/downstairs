@@ -11,11 +11,11 @@ internal sealed class ScheduleCleaningConfiguration : IEntityTypeConfiguration<S
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CancelableId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("cancelable_id");
 
         entity.Property(e => e.CancelableType)
@@ -31,7 +31,7 @@ internal sealed class ScheduleCleaningConfiguration : IEntityTypeConfiguration<S
             .HasColumnName("created_at");
 
         entity.Property(e => e.CustomerId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("customer_id");
 
         entity.Property(e => e.DeletedAt)
@@ -53,7 +53,7 @@ internal sealed class ScheduleCleaningConfiguration : IEntityTypeConfiguration<S
             .HasColumnName("key_information");
 
         entity.Property(e => e.LaundryOrderId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("laundry_order_id");
 
         entity.Property(e => e.LaundryType)
@@ -69,7 +69,7 @@ internal sealed class ScheduleCleaningConfiguration : IEntityTypeConfiguration<S
             .HasColumnName("original_start_at");
 
         entity.Property(e => e.PropertyId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("property_id");
 
         entity.Property(e => e.Quarters)
@@ -87,11 +87,11 @@ internal sealed class ScheduleCleaningConfiguration : IEntityTypeConfiguration<S
             .HasDefaultValueSql("'booked'");
 
         entity.Property(e => e.SubscriptionId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("subscription_id");
 
         entity.Property(e => e.TeamId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("team_id");
 
         entity.Property(e => e.UpdatedAt)

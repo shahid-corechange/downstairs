@@ -11,11 +11,11 @@ internal sealed class ScheduleConfiguration : IEntityTypeConfiguration<Schedule>
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CancelableId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("cancelable_id");
 
         entity.Property(e => e.CancelableType)
@@ -31,7 +31,7 @@ internal sealed class ScheduleConfiguration : IEntityTypeConfiguration<Schedule>
             .HasColumnName("created_at");
 
         entity.Property(e => e.CustomerId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("customer_id");
 
         entity.Property(e => e.DeletedAt)
@@ -44,7 +44,8 @@ internal sealed class ScheduleConfiguration : IEntityTypeConfiguration<Schedule>
 
         entity.Property(e => e.IsFixed)
             .HasColumnType("tinyint(1)")
-            .HasColumnName("is_fixed");
+            .HasColumnName("is_fixed")
+            .HasDefaultValueSql("'0'");
 
         entity.Property(e => e.KeyInformation)
             .HasColumnType("text")
@@ -59,7 +60,7 @@ internal sealed class ScheduleConfiguration : IEntityTypeConfiguration<Schedule>
             .HasColumnName("original_start_at");
 
         entity.Property(e => e.PropertyId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("property_id");
 
         entity.Property(e => e.Quarters)
@@ -67,7 +68,7 @@ internal sealed class ScheduleConfiguration : IEntityTypeConfiguration<Schedule>
             .HasColumnName("quarters");
 
         entity.Property(e => e.ScheduleableId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("scheduleable_id");
 
         entity.Property(e => e.ScheduleableType)
@@ -76,7 +77,7 @@ internal sealed class ScheduleConfiguration : IEntityTypeConfiguration<Schedule>
             .HasColumnName("scheduleable_type");
 
         entity.Property(e => e.ServiceId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("service_id");
 
         entity.Property(e => e.StartAt)
@@ -91,11 +92,11 @@ internal sealed class ScheduleConfiguration : IEntityTypeConfiguration<Schedule>
             .HasDefaultValueSql("'booked'");
 
         entity.Property(e => e.SubscriptionId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("subscription_id");
 
         entity.Property(e => e.TeamId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("team_id");
 
         entity.Property(e => e.UpdatedAt)
@@ -103,7 +104,7 @@ internal sealed class ScheduleConfiguration : IEntityTypeConfiguration<Schedule>
             .HasColumnName("updated_at");
 
         entity.Property(e => e.UserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("user_id");
 
         entity.HasKey(e => e.Id)

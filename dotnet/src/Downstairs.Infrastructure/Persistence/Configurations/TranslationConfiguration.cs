@@ -11,7 +11,7 @@ internal sealed class TranslationConfiguration : IEntityTypeConfiguration<Transl
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -40,7 +40,7 @@ internal sealed class TranslationConfiguration : IEntityTypeConfiguration<Transl
             .HasColumnName("sv_SE");
 
         entity.Property(e => e.TranslationableId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("translationable_id");
 
         entity.Property(e => e.TranslationableType)

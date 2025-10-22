@@ -11,7 +11,7 @@ internal sealed class ScheduleItemConfiguration : IEntityTypeConfiguration<Sched
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -19,11 +19,12 @@ internal sealed class ScheduleItemConfiguration : IEntityTypeConfiguration<Sched
             .HasColumnName("created_at");
 
         entity.Property(e => e.DiscountPercentage)
-            .HasColumnType("tinyint")
+            .HasColumnType("tinyint unsigned")
+            .HasDefaultValueSql("'0'")
             .HasColumnName("discount_percentage");
 
         entity.Property(e => e.ItemableId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("itemable_id");
 
         entity.Property(e => e.ItemableType)
@@ -40,17 +41,17 @@ internal sealed class ScheduleItemConfiguration : IEntityTypeConfiguration<Sched
             .HasDefaultValueSql("'invoice'");
 
         entity.Property(e => e.Price)
-            .HasColumnType("decimal(8,2)")
+            .HasColumnType("decimal(8,2) unsigned")
             .HasColumnName("price");
 
         entity.Property(e => e.Quantity)
             .ValueGeneratedOnAdd()
-            .HasColumnType("decimal(8,2)")
+            .HasColumnType("decimal(8,2) unsigned")
             .HasColumnName("quantity")
             .HasDefaultValueSql("'1.00'");
 
         entity.Property(e => e.ScheduleId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("schedule_id");
 
         entity.Property(e => e.UpdatedAt)

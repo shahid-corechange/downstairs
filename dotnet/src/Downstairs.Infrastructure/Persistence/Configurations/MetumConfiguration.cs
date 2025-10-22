@@ -11,7 +11,7 @@ internal sealed class MetumConfiguration : IEntityTypeConfiguration<Metum>
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("int")
+            .HasColumnType("int unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -24,7 +24,7 @@ internal sealed class MetumConfiguration : IEntityTypeConfiguration<Metum>
             .HasColumnName("key");
 
         entity.Property(e => e.MetableId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("metable_id");
 
         entity.Property(e => e.MetableType)

@@ -11,7 +11,7 @@ internal sealed class CustomTaskConfiguration : IEntityTypeConfiguration<CustomT
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -19,7 +19,7 @@ internal sealed class CustomTaskConfiguration : IEntityTypeConfiguration<CustomT
             .HasColumnName("created_at");
 
         entity.Property(e => e.TaskableId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("taskable_id");
 
         entity.Property(e => e.TaskableType)

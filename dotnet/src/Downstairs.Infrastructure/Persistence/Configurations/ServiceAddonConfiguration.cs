@@ -11,15 +11,15 @@ internal sealed class ServiceAddonConfiguration : IEntityTypeConfiguration<Servi
     {
         entity.Property(e => e.MyRowId)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("my_row_id");
 
         entity.Property(e => e.AddonId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("addon_id");
 
         entity.Property(e => e.ServiceId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("service_id");
 
         entity.HasKey(e => e.MyRowId)

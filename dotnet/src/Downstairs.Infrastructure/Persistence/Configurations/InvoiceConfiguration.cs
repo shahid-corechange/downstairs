@@ -11,7 +11,7 @@ internal sealed class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.Category)
@@ -27,7 +27,7 @@ internal sealed class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
             .HasColumnName("created_at");
 
         entity.Property(e => e.CustomerId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("customer_id");
 
         entity.Property(e => e.DeletedAt)
@@ -39,11 +39,11 @@ internal sealed class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
             .HasColumnName("due_at");
 
         entity.Property(e => e.FortnoxInvoiceId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("fortnox_invoice_id");
 
         entity.Property(e => e.FortnoxTaxReductionId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("fortnox_tax_reduction_id");
 
         entity.Property(e => e.Month)
@@ -68,21 +68,25 @@ internal sealed class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
         entity.Property(e => e.TotalGross)
             .HasPrecision(12, 2)
             .HasColumnType("decimal(12,2)")
+            .HasDefaultValueSql("'0.00'")
             .HasColumnName("total_gross");
 
         entity.Property(e => e.TotalNet)
             .HasPrecision(12, 2)
             .HasColumnType("decimal(12,2)")
+            .HasDefaultValueSql("'0.00'")
             .HasColumnName("total_net");
 
         entity.Property(e => e.TotalRut)
             .HasPrecision(12, 2)
             .HasColumnType("decimal(12,2)")
+            .HasDefaultValueSql("'0.00'")
             .HasColumnName("total_rut");
 
         entity.Property(e => e.TotalVat)
             .HasPrecision(12, 2)
             .HasColumnType("decimal(12,2)")
+            .HasDefaultValueSql("'0.00'")
             .HasColumnName("total_vat");
 
         entity.Property(e => e.Type)
@@ -94,7 +98,7 @@ internal sealed class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
             .HasColumnName("updated_at");
 
         entity.Property(e => e.UserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("user_id");
 
         entity.Property(e => e.Year)
@@ -106,13 +110,13 @@ internal sealed class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
 
         entity.HasIndex(e => e.CustomerId, "invoices_customer_id_foreign");
 
+        entity.HasIndex(e => e.UserId, "invoices_user_id_foreign");
+
+        entity.HasIndex(e => e.Type, "invoices_type_index");
+        
         entity.HasIndex(e => e.Month, "invoices_month_index");
 
         entity.HasIndex(e => e.Status, "invoices_status_index");
-
-        entity.HasIndex(e => e.Type, "invoices_type_index");
-
-        entity.HasIndex(e => e.UserId, "invoices_user_id_foreign");
 
         entity.HasIndex(e => e.Year, "invoices_year_index");
 

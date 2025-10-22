@@ -11,15 +11,15 @@ internal sealed class OldCustomerConfiguration : IEntityTypeConfiguration<OldCus
     {
         entity.Property(e => e.MyRowId)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("my_row_id");
 
         entity.Property(e => e.CustomerId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("customer_id");
 
         entity.Property(e => e.OldCustomerId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("old_customer_id");
 
         entity.HasKey(e => e.MyRowId)

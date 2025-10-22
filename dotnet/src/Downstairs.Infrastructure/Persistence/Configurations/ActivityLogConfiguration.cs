@@ -11,15 +11,17 @@ internal sealed class ActivityLogConfiguration : IEntityTypeConfiguration<Activi
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.BatchUuid)
             .HasColumnType("char(36)")
-            .HasColumnName("batch_uuid");
+            .HasColumnName("batch_uuid")
+            .HasCharSet(DatabaseConstants.CharSets.Utf8mb4)
+            .UseCollation(DatabaseConstants.Collations.Unicode);
 
         entity.Property(e => e.CauserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("causer_id");
 
         entity.Property(e => e.CauserType)
@@ -49,7 +51,7 @@ internal sealed class ActivityLogConfiguration : IEntityTypeConfiguration<Activi
             .HasColumnName("properties");
 
         entity.Property(e => e.SubjectId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("subject_id");
 
         entity.Property(e => e.SubjectType)
@@ -63,13 +65,13 @@ internal sealed class ActivityLogConfiguration : IEntityTypeConfiguration<Activi
         entity.HasKey(e => e.Id)
             .HasName("PRIMARY");
 
-        entity.HasIndex(e => e.CreatedAt, "activity_log_created_at_index");
-
-        entity.HasIndex(e => e.LogName, "activity_log_log_name_index");
+        entity.HasIndex(e => new { e.SubjectType, e.SubjectId }, "subject");
 
         entity.HasIndex(e => new { e.CauserType, e.CauserId }, "causer");
 
-        entity.HasIndex(e => new { e.SubjectType, e.SubjectId }, "subject");
+        entity.HasIndex(e => e.LogName, "activity_log_log_name_index");
+
+        entity.HasIndex(e => e.CreatedAt, "activity_log_created_at_index");
 
         entity.ToTable("activity_log").UseCollation(DatabaseConstants.Collations.Unicode);
     }

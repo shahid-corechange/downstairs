@@ -11,11 +11,11 @@ internal sealed class StoreConfiguration : IEntityTypeConfiguration<Store>
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.AddressId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("address_id");
 
         entity.Property(e => e.CompanyNumber)

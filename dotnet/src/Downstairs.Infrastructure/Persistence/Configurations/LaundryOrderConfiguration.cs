@@ -11,11 +11,11 @@ internal sealed class LaundryOrderConfiguration : IEntityTypeConfiguration<Laund
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CauserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("causer_id");
 
         entity.Property(e => e.CreatedAt)
@@ -23,7 +23,7 @@ internal sealed class LaundryOrderConfiguration : IEntityTypeConfiguration<Laund
             .HasColumnName("created_at");
 
         entity.Property(e => e.CustomerId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("customer_id");
 
         entity.Property(e => e.DeletedAt)
@@ -31,11 +31,11 @@ internal sealed class LaundryOrderConfiguration : IEntityTypeConfiguration<Laund
             .HasColumnName("deleted_at");
 
         entity.Property(e => e.DeliveryPropertyId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("delivery_property_id");
 
         entity.Property(e => e.DeliveryTeamId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("delivery_team_id");
 
         entity.Property(e => e.DeliveryTime)
@@ -43,7 +43,7 @@ internal sealed class LaundryOrderConfiguration : IEntityTypeConfiguration<Laund
             .HasColumnName("delivery_time");
 
         entity.Property(e => e.LaundryPreferenceId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("laundry_preference_id");
 
         entity.Property(e => e.OrderedAt)
@@ -60,11 +60,11 @@ internal sealed class LaundryOrderConfiguration : IEntityTypeConfiguration<Laund
             .HasColumnName("payment_method");
 
         entity.Property(e => e.PickupPropertyId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("pickup_property_id");
 
         entity.Property(e => e.PickupTeamId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("pickup_team_id");
 
         entity.Property(e => e.PickupTime)
@@ -80,11 +80,11 @@ internal sealed class LaundryOrderConfiguration : IEntityTypeConfiguration<Laund
             .HasDefaultValueSql("'pending'");
 
         entity.Property(e => e.StoreId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("store_id");
 
         entity.Property(e => e.SubscriptionId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("subscription_id");
 
         entity.Property(e => e.UpdatedAt)
@@ -92,31 +92,31 @@ internal sealed class LaundryOrderConfiguration : IEntityTypeConfiguration<Laund
             .HasColumnName("updated_at");
 
         entity.Property(e => e.UserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("user_id");
 
         entity.HasKey(e => e.Id)
             .HasName("PRIMARY");
 
+        entity.HasIndex(e => e.StoreId, "laundry_orders_store_id_foreign");
+
+        entity.HasIndex(e => e.UserId, "laundry_orders_user_id_foreign");
+        
         entity.HasIndex(e => e.CauserId, "laundry_orders_causer_id_foreign");
 
-        entity.HasIndex(e => e.CustomerId, "laundry_orders_customer_id_foreign");
-
-        entity.HasIndex(e => e.DeliveryPropertyId, "laundry_orders_delivery_property_id_foreign");
-
-        entity.HasIndex(e => e.DeliveryTeamId, "laundry_orders_delivery_team_id_foreign");
-
         entity.HasIndex(e => e.LaundryPreferenceId, "laundry_orders_laundry_preference_id_foreign");
+
+        entity.HasIndex(e => e.SubscriptionId, "laundry_orders_subscription_id_foreign");
+
+        entity.HasIndex(e => e.CustomerId, "laundry_orders_customer_id_foreign");
 
         entity.HasIndex(e => e.PickupPropertyId, "laundry_orders_pickup_property_id_foreign");
 
         entity.HasIndex(e => e.PickupTeamId, "laundry_orders_pickup_team_id_foreign");
 
-        entity.HasIndex(e => e.StoreId, "laundry_orders_store_id_foreign");
+        entity.HasIndex(e => e.DeliveryPropertyId, "laundry_orders_delivery_property_id_foreign");
 
-        entity.HasIndex(e => e.SubscriptionId, "laundry_orders_subscription_id_foreign");
-
-        entity.HasIndex(e => e.UserId, "laundry_orders_user_id_foreign");
+        entity.HasIndex(e => e.DeliveryTeamId, "laundry_orders_delivery_team_id_foreign");
 
         entity.ToTable("laundry_orders").UseCollation(DatabaseConstants.Collations.Unicode);
 

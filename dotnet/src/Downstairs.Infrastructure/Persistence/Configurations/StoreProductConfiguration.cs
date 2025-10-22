@@ -10,11 +10,11 @@ internal sealed class StoreProductConfiguration : IEntityTypeConfiguration<Store
     public void Configure(EntityTypeBuilder<StoreProduct> entity)
     {
         entity.Property(e => e.StoreId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("store_id");
 
         entity.Property(e => e.ProductId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("product_id");
 
         entity.Property(e => e.CreatedAt)

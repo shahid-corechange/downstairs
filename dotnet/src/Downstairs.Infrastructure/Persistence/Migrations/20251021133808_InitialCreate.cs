@@ -19,7 +19,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "activity_log",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     log_name = table.Column<string>(type: "varchar(255)", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -29,13 +29,14 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     @event = table.Column<string>(name: "event", type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    subject_id = table.Column<long>(type: "bigint", nullable: true),
+                    subject_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
                     causer_type = table.Column<string>(type: "varchar(255)", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    causer_id = table.Column<long>(type: "bigint", nullable: true),
+                    causer_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
                     properties = table.Column<string>(type: "json", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    batch_uuid = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    batch_uuid = table.Column<Guid>(type: "char(36)", nullable: true, collation: "utf8mb4_unicode_ci")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
@@ -50,15 +51,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "addons",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     fortnox_article_id = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     unit = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
-                    credit_price = table.Column<short>(type: "smallint", nullable: false),
-                    vat_group = table.Column<sbyte>(type: "tinyint", nullable: false, defaultValueSql: "'25'"),
+                    credit_price = table.Column<ushort>(type: "smallint unsigned", nullable: false),
+                    vat_group = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'25'"),
                     has_rut = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     thumbnail_image = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -79,19 +80,19 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "authentication_log",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     authenticatable_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    authenticatable_id = table.Column<long>(type: "bigint", nullable: false),
+                    authenticatable_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     ip_address = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     user_agent = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     login_at = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    login_successful = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    login_successful = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'0'"),
                     logout_at = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    cleared_by_user = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    cleared_by_user = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'0'"),
                     location = table.Column<string>(type: "json", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
@@ -106,11 +107,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "blind_indexes",
                 columns: table => new
                 {
-                    my_row_id = table.Column<long>(type: "bigint", nullable: false)
+                    my_row_id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     indexable_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    indexable_id = table.Column<long>(type: "bigint", nullable: false),
+                    indexable_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     name = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     value = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
@@ -127,7 +128,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "block_days",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     block_date = table.Column<DateOnly>(type: "date", nullable: false),
                     start_block_time = table.Column<TimeOnly>(type: "time", nullable: true),
@@ -146,7 +147,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "categories",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     thumbnail_image = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -165,7 +166,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "countries",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     code = table.Column<string>(type: "char(2)", fixedLength: true, maxLength: 2, nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -189,11 +190,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "custom_tasks",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     taskable_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    taskable_id = table.Column<long>(type: "bigint", nullable: false),
+                    taskable_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
@@ -208,7 +209,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "failed_jobs",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     uuid = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -233,11 +234,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "feedbacks",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     feedbackable_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    feedbackable_id = table.Column<long>(type: "bigint", nullable: false),
+                    feedbackable_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     option = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     description = table.Column<string>(type: "text", nullable: false, collation: "utf8mb4_unicode_ci")
@@ -257,7 +258,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "global_settings",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     key = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -279,13 +280,13 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "laundry_preferences",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
-                    percentage = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
-                    vat_group = table.Column<sbyte>(type: "tinyint", nullable: false, defaultValueSql: "'25'"),
-                    hours = table.Column<short>(type: "smallint", nullable: false),
-                    include_holidays = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    price = table.Column<decimal>(type: "decimal(8,2)", nullable: false, defaultValueSql: "'0.00'"),
+                    percentage = table.Column<decimal>(type: "decimal(8,2)", nullable: false, defaultValueSql: "'0.00'"),
+                    vat_group = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'25'"),
+                    hours = table.Column<ushort>(type: "smallint unsigned", nullable: false),
+                    include_holidays = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'0'"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
@@ -301,11 +302,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "meta",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
+                    id = table.Column<uint>(type: "int unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     metable_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    metable_id = table.Column<long>(type: "bigint", nullable: false),
+                    metable_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     key = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     value = table.Column<string>(type: "longtext", nullable: true, collation: "utf8mb4_unicode_ci")
@@ -327,7 +328,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "migrations",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
+                    id = table.Column<uint>(type: "int unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     migration = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -344,7 +345,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "oauth_remote_tokens",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     app_name = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -372,9 +373,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "old_orders",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    old_order_id = table.Column<long>(type: "bigint", nullable: false)
+                    old_order_id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -387,7 +388,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "password_reset_tokens",
                 columns: table => new
                 {
-                    my_row_id = table.Column<long>(type: "bigint", nullable: false)
+                    my_row_id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     email = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -406,7 +407,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "permissions",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     name = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -426,11 +427,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "personal_access_tokens",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     tokenable_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    tokenable_id = table.Column<long>(type: "bigint", nullable: false),
+                    tokenable_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     name = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     token = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: false, collation: "utf8mb4_unicode_ci")
@@ -453,15 +454,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "products",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     fortnox_article_id = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     unit = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
-                    credit_price = table.Column<short>(type: "smallint", nullable: true),
-                    vat_group = table.Column<sbyte>(type: "tinyint", nullable: false, defaultValueSql: "'25'"),
+                    credit_price = table.Column<ushort>(type: "smallint unsigned", nullable: true),
+                    vat_group = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'25'"),
                     has_rut = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     thumbnail_image = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -470,7 +471,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    addon_id = table.Column<long>(type: "bigint", nullable: true)
+                    addon_id = table.Column<ulong>(type: "bigint unsigned", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -483,7 +484,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "property_types",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
@@ -499,7 +500,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "roles",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     name = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -519,7 +520,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "services",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     fortnox_article_id = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -528,7 +529,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     membership_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
-                    vat_group = table.Column<sbyte>(type: "tinyint", nullable: false, defaultValueSql: "'25'"),
+                    vat_group = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'25'"),
                     has_rut = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     thumbnail_image = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -547,7 +548,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "teams",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -557,7 +558,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     description = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    is_active = table.Column<bool>(type: "tinyint(1)", nullable: true, defaultValueSql: "'1'"),
+                    is_active = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'1'"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
@@ -573,11 +574,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "translations",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     translationable_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    translationable_id = table.Column<long>(type: "bigint", nullable: false),
+                    translationable_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     key = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     en_US = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
@@ -601,9 +602,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "user_infos",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    user_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     avatar = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     language = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, defaultValueSql: "'sv_SE'", collation: "utf8mb4_unicode_ci")
@@ -632,7 +633,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "user_otps",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
                     otp = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
@@ -654,7 +655,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "users",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     first_name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -693,12 +694,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "categoryables",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    category_id = table.Column<long>(type: "bigint", nullable: false),
+                    category_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     categoryable_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    categoryable_id = table.Column<long>(type: "bigint", nullable: false)
+                    categoryable_id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -717,9 +718,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "cities",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    country_id = table.Column<long>(type: "bigint", nullable: false),
+                    country_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
@@ -740,10 +741,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "model_has_permissions",
                 columns: table => new
                 {
-                    permission_id = table.Column<long>(type: "bigint", nullable: false),
+                    permission_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     model_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    model_id = table.Column<long>(type: "bigint", nullable: false)
+                    model_id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -763,12 +764,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "productables",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    product_id = table.Column<long>(type: "bigint", nullable: false),
+                    product_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     productable_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    productable_id = table.Column<long>(type: "bigint", nullable: false)
+                    productable_id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -787,10 +788,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "model_has_roles",
                 columns: table => new
                 {
-                    role_id = table.Column<long>(type: "bigint", nullable: false),
+                    role_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     model_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    model_id = table.Column<long>(type: "bigint", nullable: false)
+                    model_id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -810,8 +811,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "PermissionRole",
                 columns: table => new
                 {
-                    PermissionsId = table.Column<long>(type: "bigint", nullable: false),
-                    RolesId = table.Column<long>(type: "bigint", nullable: false)
+                    PermissionsId = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    RolesId = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -836,10 +837,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "service_addons",
                 columns: table => new
                 {
-                    my_row_id = table.Column<long>(type: "bigint", nullable: false)
+                    my_row_id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    service_id = table.Column<long>(type: "bigint", nullable: false),
-                    addon_id = table.Column<long>(type: "bigint", nullable: false)
+                    service_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    addon_id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -864,12 +865,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "service_quarters",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    service_id = table.Column<long>(type: "bigint", nullable: false),
-                    min_square_meters = table.Column<int>(type: "int", nullable: false),
-                    max_square_meters = table.Column<int>(type: "int", nullable: false),
-                    quarters = table.Column<int>(type: "int", nullable: false),
+                    service_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    min_square_meters = table.Column<uint>(type: "int unsigned", nullable: false),
+                    max_square_meters = table.Column<uint>(type: "int unsigned", nullable: false),
+                    quarters = table.Column<uint>(type: "int unsigned", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
@@ -890,15 +891,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "customer_discounts",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    user_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     type = table.Column<string>(type: "varchar(255)", nullable: false, defaultValueSql: "'cleaning'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    value = table.Column<int>(type: "int", nullable: false),
+                    value = table.Column<int>(type: "int", nullable: false, defaultValueSql: "'0'"),
                     start_date = table.Column<DateOnly>(type: "date", nullable: true),
                     end_date = table.Column<DateOnly>(type: "date", nullable: true),
-                    usage_limit = table.Column<int>(type: "int", nullable: true),
+                    usage_limit = table.Column<uint>(type: "int unsigned", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
@@ -920,14 +921,14 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "fixed_prices",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    user_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     type = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'cleaning'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     start_date = table.Column<DateOnly>(type: "date", nullable: true),
                     end_date = table.Column<DateOnly>(type: "date", nullable: true),
-                    is_per_order = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    is_per_order = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'0'"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
@@ -949,9 +950,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "notifications",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    user_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     hub = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     type = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
@@ -960,7 +961,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     description = table.Column<string>(type: "text", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    is_read = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    is_read = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'0'"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
@@ -981,9 +982,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "price_adjustments",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    causer_id = table.Column<long>(type: "bigint", nullable: false),
+                    causer_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     type = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     description = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
@@ -1015,9 +1016,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "rut_co_applicants",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    user_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     identity_number = table.Column<string>(type: "text", nullable: false, collation: "utf8mb4_unicode_ci")
@@ -1028,7 +1029,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     pause_start_date = table.Column<DateOnly>(type: "date", nullable: true),
                     pause_end_date = table.Column<DateOnly>(type: "date", nullable: true),
-                    is_enabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    is_enabled = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'0'"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
@@ -1050,10 +1051,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "team_user",
                 columns: table => new
                 {
-                    my_row_id = table.Column<long>(type: "bigint", nullable: false)
+                    my_row_id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    team_id = table.Column<long>(type: "bigint", nullable: false),
-                    user_id = table.Column<long>(type: "bigint", nullable: false)
+                    team_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    user_id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1078,9 +1079,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "user_settings",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    user_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     key = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     value = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
@@ -1107,9 +1108,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "work_hours",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    user_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     fortnox_attendance_id = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     type = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'schedule'", collation: "utf8mb4_unicode_ci")
@@ -1137,9 +1138,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "addresses",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    city_id = table.Column<long>(type: "bigint", nullable: false),
+                    city_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     address = table.Column<string>(type: "text", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     address_2 = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
@@ -1172,14 +1173,14 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "fixed_price_rows",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    fixed_price_id = table.Column<long>(type: "bigint", nullable: false),
+                    fixed_price_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    quantity = table.Column<int>(type: "int", nullable: false),
+                    quantity = table.Column<uint>(type: "int unsigned", nullable: false),
                     price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
-                    vat_group = table.Column<sbyte>(type: "tinyint", nullable: false, defaultValueSql: "'25'"),
+                    vat_group = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'25'"),
                     has_rut = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
@@ -1201,8 +1202,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "FixedPriceProduct",
                 columns: table => new
                 {
-                    FixedPricesId = table.Column<long>(type: "bigint", nullable: false),
-                    ProductsId = table.Column<long>(type: "bigint", nullable: false)
+                    FixedPricesId = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    ProductsId = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1227,12 +1228,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "order_fixed_prices",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    fixed_price_id = table.Column<long>(type: "bigint", nullable: true),
+                    fixed_price_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
                     type = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'cleaning'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    is_per_order = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    is_per_order = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'0'"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
@@ -1254,15 +1255,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "price_adjustment_rows",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    price_adjustment_id = table.Column<long>(type: "bigint", nullable: false),
+                    price_adjustment_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     adjustable_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    adjustable_id = table.Column<long>(type: "bigint", nullable: false),
+                    adjustable_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     previous_price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
                     price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
-                    vat_group = table.Column<sbyte>(type: "tinyint", nullable: false, defaultValueSql: "'25'"),
+                    vat_group = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'25'"),
                     status = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'pending'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
@@ -1285,12 +1286,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "customers",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     fortnox_id = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    customer_ref_id = table.Column<long>(type: "bigint", nullable: true),
-                    address_id = table.Column<long>(type: "bigint", nullable: true),
+                    customer_ref_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    address_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
                     membership_type = table.Column<string>(type: "varchar(255)", nullable: false, defaultValueSql: "'private'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     type = table.Column<string>(type: "varchar(255)", nullable: false, defaultValueSql: "'primary'", collation: "utf8mb4_unicode_ci")
@@ -1337,12 +1338,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "employees",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     fortnox_id = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
-                    address_id = table.Column<long>(type: "bigint", nullable: false),
+                    user_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    address_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     identity_number = table.Column<string>(type: "text", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
@@ -1353,7 +1354,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     dial_code = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    is_valid_identity = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    is_valid_identity = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'0'"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
@@ -1381,10 +1382,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "properties",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    address_id = table.Column<long>(type: "bigint", nullable: false),
-                    property_type_id = table.Column<long>(type: "bigint", nullable: false),
+                    address_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    property_type_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     membership_type = table.Column<string>(type: "varchar(255)", nullable: false, defaultValueSql: "'private'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     square_meter = table.Column<decimal>(type: "decimal(8,2)", precision: 8, scale: 2, nullable: false),
@@ -1419,9 +1420,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "stores",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    address_id = table.Column<long>(type: "bigint", nullable: false),
+                    address_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     company_number = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
@@ -1453,16 +1454,16 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "order_fixed_price_rows",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    order_fixed_price_id = table.Column<long>(type: "bigint", nullable: false),
+                    order_fixed_price_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     type = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     description = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    quantity = table.Column<int>(type: "int", nullable: false),
+                    quantity = table.Column<uint>(type: "int unsigned", nullable: false),
                     price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
-                    vat_group = table.Column<sbyte>(type: "tinyint", nullable: false, defaultValueSql: "'25'"),
+                    vat_group = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'25'"),
                     has_rut = table.Column<sbyte>(type: "tinyint", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
@@ -1484,8 +1485,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "OrderFixedPriceProduct",
                 columns: table => new
                 {
-                    OrderFixedPricesId = table.Column<long>(type: "bigint", nullable: false),
-                    ProductsId = table.Column<long>(type: "bigint", nullable: false)
+                    OrderFixedPricesId = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    ProductsId = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1510,10 +1511,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "customer_user",
                 columns: table => new
                 {
-                    my_row_id = table.Column<long>(type: "bigint", nullable: false)
+                    my_row_id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    customer_id = table.Column<long>(type: "bigint", nullable: false),
-                    user_id = table.Column<long>(type: "bigint", nullable: false)
+                    customer_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    user_id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1538,12 +1539,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "invoices",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
-                    customer_id = table.Column<long>(type: "bigint", nullable: false),
-                    fortnox_invoice_id = table.Column<long>(type: "bigint", nullable: true),
-                    fortnox_tax_reduction_id = table.Column<long>(type: "bigint", nullable: true),
+                    user_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    customer_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    fortnox_invoice_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    fortnox_tax_reduction_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
                     type = table.Column<string>(type: "varchar(255)", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     category = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'invoice'", collation: "utf8mb4_unicode_ci")
@@ -1552,10 +1553,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     year = table.Column<int>(type: "int", nullable: false),
                     remark = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    total_gross = table.Column<decimal>(type: "decimal(12,2)", precision: 12, scale: 2, nullable: false),
-                    total_net = table.Column<decimal>(type: "decimal(12,2)", precision: 12, scale: 2, nullable: false),
-                    total_vat = table.Column<decimal>(type: "decimal(12,2)", precision: 12, scale: 2, nullable: false),
-                    total_rut = table.Column<decimal>(type: "decimal(12,2)", precision: 12, scale: 2, nullable: false),
+                    total_gross = table.Column<decimal>(type: "decimal(12,2)", precision: 12, scale: 2, nullable: false, defaultValueSql: "'0.00'"),
+                    total_net = table.Column<decimal>(type: "decimal(12,2)", precision: 12, scale: 2, nullable: false, defaultValueSql: "'0.00'"),
+                    total_vat = table.Column<decimal>(type: "decimal(12,2)", precision: 12, scale: 2, nullable: false, defaultValueSql: "'0.00'"),
+                    total_rut = table.Column<decimal>(type: "decimal(12,2)", precision: 12, scale: 2, nullable: false, defaultValueSql: "'0.00'"),
                     status = table.Column<string>(type: "varchar(255)", nullable: false, defaultValueSql: "'open'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     sent_at = table.Column<DateTime>(type: "timestamp", nullable: true),
@@ -1587,10 +1588,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "old_customers",
                 columns: table => new
                 {
-                    my_row_id = table.Column<long>(type: "bigint", nullable: false)
+                    my_row_id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    customer_id = table.Column<long>(type: "bigint", nullable: false),
-                    old_customer_id = table.Column<long>(type: "bigint", nullable: false)
+                    customer_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    old_customer_id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1609,15 +1610,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "unassign_subscriptions",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
-                    customer_id = table.Column<long>(type: "bigint", nullable: true),
-                    service_id = table.Column<long>(type: "bigint", nullable: false),
+                    user_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    customer_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    service_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     frequency = table.Column<short>(type: "smallint", nullable: false),
                     start_at = table.Column<DateOnly>(type: "date", nullable: false),
                     end_at = table.Column<DateOnly>(type: "date", nullable: true),
-                    is_fixed = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    is_fixed = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'0'"),
                     description = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     fixed_price = table.Column<decimal>(type: "decimal(8,2)", nullable: true),
@@ -1661,14 +1662,14 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "leave_registrations",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    employee_id = table.Column<long>(type: "bigint", nullable: false),
+                    employee_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     type = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     start_at = table.Column<DateTime>(type: "datetime", nullable: false),
                     end_at = table.Column<DateTime>(type: "datetime", nullable: true),
-                    is_stopped = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    is_stopped = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'0'"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
@@ -1690,9 +1691,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "key_places",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    property_id = table.Column<long>(type: "bigint", nullable: true),
+                    property_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
@@ -1714,10 +1715,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "property_user",
                 columns: table => new
                 {
-                    my_row_id = table.Column<long>(type: "bigint", nullable: false)
+                    my_row_id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    property_id = table.Column<long>(type: "bigint", nullable: false),
-                    user_id = table.Column<long>(type: "bigint", nullable: false)
+                    property_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    user_id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1742,11 +1743,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "subscription_cleaning_details",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    property_id = table.Column<long>(type: "bigint", nullable: false),
-                    team_id = table.Column<long>(type: "bigint", nullable: false),
-                    quarters = table.Column<short>(type: "smallint", nullable: false),
+                    property_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    team_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    quarters = table.Column<ushort>(type: "smallint unsigned", nullable: false),
                     start_time = table.Column<TimeOnly>(type: "time", nullable: false),
                     end_time = table.Column<TimeOnly>(type: "time", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
@@ -1775,17 +1776,17 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "subscriptions",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
-                    customer_id = table.Column<long>(type: "bigint", nullable: true),
-                    team_id = table.Column<long>(type: "bigint", nullable: true),
-                    property_id = table.Column<long>(type: "bigint", nullable: true),
-                    service_id = table.Column<long>(type: "bigint", nullable: false),
-                    fixed_price_id = table.Column<long>(type: "bigint", nullable: true),
+                    user_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    customer_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    team_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    property_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    service_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    fixed_price_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
                     subscribable_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    subscribable_id = table.Column<long>(type: "bigint", nullable: false),
+                    subscribable_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     frequency = table.Column<short>(type: "smallint", nullable: false),
                     start_at = table.Column<DateOnly>(type: "date", nullable: false),
                     end_at = table.Column<DateOnly>(type: "date", nullable: true),
@@ -1793,8 +1794,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     end_time_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     quarters = table.Column<short>(type: "smallint", nullable: true),
                     refill_sequence = table.Column<short>(type: "smallint", nullable: true, defaultValueSql: "'12'"),
-                    is_paused = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    is_fixed = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    is_paused = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'0'"),
+                    is_fixed = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'0'"),
                     description = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
@@ -1848,15 +1849,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "cashier_attendances",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
-                    store_id = table.Column<long>(type: "bigint", nullable: false),
-                    work_hour_id = table.Column<long>(type: "bigint", nullable: true),
+                    user_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    store_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    work_hour_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
                     check_in_at = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    check_in_causer_id = table.Column<long>(type: "bigint", nullable: true),
+                    check_in_causer_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
                     check_out_at = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    check_out_causer_id = table.Column<long>(type: "bigint", nullable: true),
+                    check_out_causer_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
@@ -1902,8 +1903,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "store_products",
                 columns: table => new
                 {
-                    store_id = table.Column<long>(type: "bigint", nullable: false),
-                    product_id = table.Column<long>(type: "bigint", nullable: false),
+                    store_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    product_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     status = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'active'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
@@ -1933,10 +1934,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "store_sales",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    store_id = table.Column<long>(type: "bigint", nullable: false),
-                    causer_id = table.Column<long>(type: "bigint", nullable: false),
+                    store_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    causer_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     status = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     payment_method = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
@@ -1968,10 +1969,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "store_users",
                 columns: table => new
                 {
-                    my_row_id = table.Column<long>(type: "bigint", nullable: false)
+                    my_row_id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    store_id = table.Column<long>(type: "bigint", nullable: false),
-                    user_id = table.Column<long>(type: "bigint", nullable: false)
+                    store_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    user_id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1996,15 +1997,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "subscription_laundry_details",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    store_id = table.Column<long>(type: "bigint", nullable: false),
-                    laundry_preference_id = table.Column<long>(type: "bigint", nullable: false),
-                    pickup_property_id = table.Column<long>(type: "bigint", nullable: true),
-                    pickup_team_id = table.Column<long>(type: "bigint", nullable: true),
+                    store_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    laundry_preference_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    pickup_property_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    pickup_team_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
                     pickup_time = table.Column<TimeOnly>(type: "time", nullable: true),
-                    delivery_property_id = table.Column<long>(type: "bigint", nullable: true),
-                    delivery_team_id = table.Column<long>(type: "bigint", nullable: true),
+                    delivery_property_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    delivery_team_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
                     delivery_time = table.Column<TimeOnly>(type: "time", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
@@ -2056,9 +2057,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "leave_registration_details",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    leave_registration_id = table.Column<long>(type: "bigint", nullable: false),
+                    leave_registration_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     fortnox_absence_transaction_id = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     start_at = table.Column<DateTime>(type: "datetime", nullable: false),
@@ -2083,19 +2084,19 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "laundry_orders",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    store_id = table.Column<long>(type: "bigint", nullable: false),
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
-                    causer_id = table.Column<long>(type: "bigint", nullable: false),
-                    laundry_preference_id = table.Column<long>(type: "bigint", nullable: false),
-                    subscription_id = table.Column<long>(type: "bigint", nullable: true),
-                    customer_id = table.Column<long>(type: "bigint", nullable: false),
-                    pickup_property_id = table.Column<long>(type: "bigint", nullable: true),
-                    pickup_team_id = table.Column<long>(type: "bigint", nullable: true),
+                    store_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    user_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    causer_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    laundry_preference_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    subscription_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    customer_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    pickup_property_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    pickup_team_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
                     pickup_time = table.Column<TimeOnly>(type: "time", nullable: true),
-                    delivery_property_id = table.Column<long>(type: "bigint", nullable: true),
-                    delivery_team_id = table.Column<long>(type: "bigint", nullable: true),
+                    delivery_property_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    delivery_team_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
                     delivery_time = table.Column<TimeOnly>(type: "time", nullable: true),
                     status = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'pending'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -2178,17 +2179,17 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "orders",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
-                    customer_id = table.Column<long>(type: "bigint", nullable: false),
-                    service_id = table.Column<long>(type: "bigint", nullable: true),
-                    subscription_id = table.Column<long>(type: "bigint", nullable: true),
-                    invoice_id = table.Column<long>(type: "bigint", nullable: true),
-                    order_fixed_price_id = table.Column<long>(type: "bigint", nullable: true),
+                    user_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    customer_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    service_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    subscription_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    invoice_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    order_fixed_price_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
                     orderable_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    orderable_id = table.Column<long>(type: "bigint", nullable: false),
+                    orderable_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     status = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'draft'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     paid_by = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'invoice'", collation: "utf8mb4_unicode_ci")
@@ -2246,17 +2247,17 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "schedules",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
-                    service_id = table.Column<long>(type: "bigint", nullable: false),
-                    team_id = table.Column<long>(type: "bigint", nullable: true),
-                    customer_id = table.Column<long>(type: "bigint", nullable: true),
-                    property_id = table.Column<long>(type: "bigint", nullable: false),
-                    subscription_id = table.Column<long>(type: "bigint", nullable: true),
+                    user_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    service_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    team_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    customer_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    property_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    subscription_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
                     scheduleable_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    scheduleable_id = table.Column<long>(type: "bigint", nullable: false),
+                    scheduleable_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     status = table.Column<string>(type: "varchar(255)", nullable: false, defaultValueSql: "'booked'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     start_at = table.Column<DateTime>(type: "timestamp", nullable: false),
@@ -2270,7 +2271,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     cancelable_type = table.Column<string>(type: "varchar(255)", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    cancelable_id = table.Column<long>(type: "bigint", nullable: true),
+                    cancelable_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
@@ -2323,13 +2324,13 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "subscription_items",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    subscription_id = table.Column<long>(type: "bigint", nullable: false),
+                    subscription_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     itemable_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    itemable_id = table.Column<long>(type: "bigint", nullable: false),
-                    quantity = table.Column<short>(type: "smallint", nullable: false, defaultValueSql: "'1'"),
+                    itemable_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    quantity = table.Column<ushort>(type: "smallint unsigned", nullable: false, defaultValueSql: "'1'"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
@@ -2350,12 +2351,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "subscription_staff_details",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    subscription_id = table.Column<long>(type: "bigint", nullable: false),
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    subscription_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    user_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     quarters = table.Column<int>(type: "int", nullable: false),
-                    is_active = table.Column<bool>(type: "tinyint(1)", nullable: true, defaultValueSql: "'1'"),
+                    is_active = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'1'"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
@@ -2383,18 +2384,18 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "store_sale_products",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    store_sale_id = table.Column<long>(type: "bigint", nullable: false),
-                    product_id = table.Column<long>(type: "bigint", nullable: false),
+                    store_sale_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    product_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     note = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    quantity = table.Column<sbyte>(type: "tinyint", nullable: false),
+                    quantity = table.Column<byte>(type: "tinyint unsigned", nullable: false),
                     price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
-                    vat_group = table.Column<sbyte>(type: "tinyint", nullable: false, defaultValueSql: "'25'"),
-                    discount = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
+                    vat_group = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'25'"),
+                    discount = table.Column<decimal>(type: "decimal(8,2)", nullable: false, defaultValueSql: "'0.00'"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
@@ -2421,14 +2422,14 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "laundry_order_histories",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    laundry_order_id = table.Column<long>(type: "bigint", nullable: false),
+                    laundry_order_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     type = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     note = table.Column<string>(type: "text", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    causer_id = table.Column<long>(type: "bigint", nullable: false),
+                    causer_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
@@ -2456,18 +2457,18 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "laundry_order_products",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    laundry_order_id = table.Column<long>(type: "bigint", nullable: false),
-                    product_id = table.Column<long>(type: "bigint", nullable: false),
+                    laundry_order_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    product_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     note = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    quantity = table.Column<sbyte>(type: "tinyint", nullable: false),
+                    quantity = table.Column<byte>(type: "tinyint unsigned", nullable: false),
                     price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
-                    vat_group = table.Column<sbyte>(type: "tinyint", nullable: false, defaultValueSql: "'25'"),
-                    discount = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
+                    vat_group = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'25'"),
+                    discount = table.Column<decimal>(type: "decimal(8,2)", nullable: false, defaultValueSql: "'0.00'"),
                     has_rut = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
@@ -2495,15 +2496,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "schedule_cleanings",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    subscription_id = table.Column<long>(type: "bigint", nullable: true),
-                    laundry_order_id = table.Column<long>(type: "bigint", nullable: true),
+                    subscription_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    laundry_order_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
                     laundry_type = table.Column<string>(type: "varchar(255)", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    team_id = table.Column<long>(type: "bigint", nullable: true),
-                    customer_id = table.Column<long>(type: "bigint", nullable: true),
-                    property_id = table.Column<long>(type: "bigint", nullable: true),
+                    team_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    customer_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    property_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
                     status = table.Column<string>(type: "varchar(255)", nullable: true, defaultValueSql: "'booked'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     start_at = table.Column<DateTime>(type: "timestamp", nullable: true),
@@ -2517,7 +2518,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     cancelable_type = table.Column<string>(type: "varchar(255)", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    cancelable_id = table.Column<long>(type: "bigint", nullable: true),
+                    cancelable_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true),
@@ -2564,9 +2565,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "schedule_laundries",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    laundry_order_id = table.Column<long>(type: "bigint", nullable: false),
+                    laundry_order_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
@@ -2589,9 +2590,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "order_rows",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    order_id = table.Column<long>(type: "bigint", nullable: false),
+                    order_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     fortnox_article_id = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     description = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
@@ -2600,7 +2601,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     unit = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     price = table.Column<decimal>(type: "decimal(8,2)", precision: 8, scale: 2, nullable: false),
-                    discount_percentage = table.Column<sbyte>(type: "tinyint", nullable: false),
+                    discount_percentage = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'0'"),
                     vat = table.Column<short>(type: "smallint", nullable: false, defaultValueSql: "'25'"),
                     has_rut = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     internal_note = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
@@ -2625,10 +2626,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "schedule_change_requests",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    schedule_id = table.Column<long>(type: "bigint", nullable: false),
-                    causer_id = table.Column<long>(type: "bigint", nullable: true),
+                    schedule_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    causer_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
                     original_start_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     start_at_changed = table.Column<DateTime>(type: "timestamp", nullable: false),
                     original_end_at = table.Column<DateTime>(type: "timestamp", nullable: true),
@@ -2662,12 +2663,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "schedule_deviations",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    schedule_id = table.Column<long>(type: "bigint", nullable: false),
+                    schedule_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     types = table.Column<string>(type: "json", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    is_handled = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    is_handled = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'0'"),
                     meta = table.Column<string>(type: "json", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
@@ -2691,14 +2692,14 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "schedule_employees",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    schedule_id = table.Column<long>(type: "bigint", nullable: true),
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    schedule_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    user_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     scheduleable_type = table.Column<string>(type: "varchar(255)", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    scheduleable_id = table.Column<long>(type: "bigint", nullable: true),
-                    work_hour_id = table.Column<long>(type: "bigint", nullable: true),
+                    scheduleable_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    work_hour_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
                     start_latitude = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: true),
                     start_longitude = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: true),
                     start_ip = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
@@ -2746,15 +2747,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "schedule_items",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    schedule_id = table.Column<long>(type: "bigint", nullable: false),
+                    schedule_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     itemable_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    itemable_id = table.Column<long>(type: "bigint", nullable: false),
+                    itemable_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
                     quantity = table.Column<decimal>(type: "decimal(8,2)", nullable: false, defaultValueSql: "'1.00'"),
-                    discount_percentage = table.Column<sbyte>(type: "tinyint", nullable: false),
+                    discount_percentage = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'0'"),
                     payment_method = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'invoice'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
@@ -2777,11 +2778,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "schedule_tasks",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    custom_task_id = table.Column<long>(type: "bigint", nullable: false),
-                    schedule_id = table.Column<long>(type: "bigint", nullable: false),
-                    is_completed = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    custom_task_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    schedule_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    is_completed = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'0'")
                 },
                 constraints: table =>
                 {
@@ -2806,15 +2807,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "credit_transactions",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
-                    schedule_cleaning_id = table.Column<long>(type: "bigint", nullable: true),
-                    schedule_id = table.Column<long>(type: "bigint", nullable: true),
-                    issuer_id = table.Column<long>(type: "bigint", nullable: true),
+                    user_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    schedule_cleaning_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    schedule_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    issuer_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
                     type = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    total_amount = table.Column<long>(type: "bigint", nullable: false),
+                    total_amount = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     description = table.Column<string>(type: "text", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
@@ -2855,14 +2856,14 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "credits",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
-                    schedule_cleaning_id = table.Column<long>(type: "bigint", nullable: true),
-                    schedule_id = table.Column<long>(type: "bigint", nullable: true),
-                    issuer_id = table.Column<long>(type: "bigint", nullable: true),
-                    initial_amount = table.Column<sbyte>(type: "tinyint", nullable: false),
-                    remaining_amount = table.Column<sbyte>(type: "tinyint", nullable: false),
+                    user_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    schedule_cleaning_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    schedule_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    issuer_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    initial_amount = table.Column<byte>(type: "tinyint unsigned", nullable: false),
+                    remaining_amount = table.Column<byte>(type: "tinyint unsigned", nullable: false),
                     type = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     description = table.Column<string>(type: "text", nullable: false, collation: "utf8mb4_unicode_ci")
@@ -2906,16 +2907,16 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "deviations",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    schedule_id = table.Column<long>(type: "bigint", nullable: true),
-                    schedule_cleaning_id = table.Column<long>(type: "bigint", nullable: true),
-                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    schedule_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    schedule_cleaning_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    user_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     reason = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    is_handled = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    is_handled = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'0'"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
@@ -2949,10 +2950,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "schedule_cleaning_change_requests",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    schedule_cleaning_id = table.Column<long>(type: "bigint", nullable: false),
-                    causer_id = table.Column<long>(type: "bigint", nullable: true),
+                    schedule_cleaning_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    causer_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
                     original_start_at = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     start_at_changed = table.Column<DateTime>(type: "timestamp", nullable: true),
@@ -2988,12 +2989,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "schedule_cleaning_deviations",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    schedule_cleaning_id = table.Column<long>(type: "bigint", nullable: false),
+                    schedule_cleaning_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     types = table.Column<string>(type: "json", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    is_handled = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    is_handled = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'0'"),
                     meta = table.Column<string>(type: "json", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
@@ -3017,13 +3018,13 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "schedule_cleaning_products",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    schedule_cleaning_id = table.Column<long>(type: "bigint", nullable: false),
-                    product_id = table.Column<long>(type: "bigint", nullable: false),
+                    schedule_cleaning_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    product_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
                     quantity = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
-                    discount_percentage = table.Column<sbyte>(type: "tinyint", nullable: false),
+                    discount_percentage = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'0'"),
                     payment_method = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'invoice'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
@@ -3052,11 +3053,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "schedule_cleaning_tasks",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    custom_task_id = table.Column<long>(type: "bigint", nullable: false),
-                    schedule_cleaning_id = table.Column<long>(type: "bigint", nullable: false),
-                    is_completed = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    custom_task_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    schedule_cleaning_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    is_completed = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'0'")
                 },
                 constraints: table =>
                 {
@@ -3081,15 +3082,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "tasks",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    custom_task_id = table.Column<long>(type: "bigint", nullable: false),
-                    schedule_employee_id = table.Column<long>(type: "bigint", nullable: false),
+                    custom_task_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    schedule_employee_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     description = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    is_completed = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    is_completed = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'0'")
                 },
                 constraints: table =>
                 {
@@ -3114,10 +3115,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "time_adjustments",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    schedule_employee_id = table.Column<long>(type: "bigint", nullable: false),
-                    causer_id = table.Column<long>(type: "bigint", nullable: false),
+                    schedule_employee_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    causer_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     quarters = table.Column<sbyte>(type: "tinyint", nullable: false),
                     reason = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -3147,11 +3148,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "credit_credit_transaction",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    credit_id = table.Column<long>(type: "bigint", nullable: false),
-                    credit_transaction_id = table.Column<long>(type: "bigint", nullable: false),
-                    amount = table.Column<sbyte>(type: "tinyint", nullable: false)
+                    credit_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    credit_transaction_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    amount = table.Column<byte>(type: "tinyint unsigned", nullable: false)
                 },
                 constraints: table =>
                 {

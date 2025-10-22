@@ -11,19 +11,20 @@ internal sealed class ScheduleTaskConfiguration : IEntityTypeConfiguration<Sched
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CustomTaskId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("custom_task_id");
 
         entity.Property(e => e.IsCompleted)
             .HasColumnType("tinyint(1)")
-            .HasColumnName("is_completed");
+            .HasColumnName("is_completed")
+            .HasDefaultValueSql("'0'");
 
         entity.Property(e => e.ScheduleId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("schedule_id");
 
         entity.HasKey(e => e.Id)

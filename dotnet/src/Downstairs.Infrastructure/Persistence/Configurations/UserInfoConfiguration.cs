@@ -11,7 +11,7 @@ internal sealed class UserInfoConfiguration : IEntityTypeConfiguration<UserInfo>
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.Avatar)
@@ -71,7 +71,7 @@ internal sealed class UserInfoConfiguration : IEntityTypeConfiguration<UserInfo>
             .HasColumnName("updated_at");
 
         entity.Property(e => e.UserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("user_id");
 
         entity.HasKey(e => e.Id)

@@ -11,7 +11,7 @@ internal sealed class ServiceQuarterConfiguration : IEntityTypeConfiguration<Ser
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -19,19 +19,19 @@ internal sealed class ServiceQuarterConfiguration : IEntityTypeConfiguration<Ser
             .HasColumnName("created_at");
 
         entity.Property(e => e.MaxSquareMeters)
-            .HasColumnType("int")
+            .HasColumnType("int unsigned")
             .HasColumnName("max_square_meters");
 
         entity.Property(e => e.MinSquareMeters)
-            .HasColumnType("int")
+            .HasColumnType("int unsigned")
             .HasColumnName("min_square_meters");
 
         entity.Property(e => e.Quarters)
-            .HasColumnType("int")
+            .HasColumnType("int unsigned")
             .HasColumnName("quarters");
 
         entity.Property(e => e.ServiceId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("service_id");
 
         entity.Property(e => e.UpdatedAt)

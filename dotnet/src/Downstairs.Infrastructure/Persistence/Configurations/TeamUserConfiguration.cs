@@ -11,15 +11,15 @@ internal sealed class TeamUserConfiguration : IEntityTypeConfiguration<TeamUser>
     {
         entity.Property(e => e.MyRowId)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("my_row_id");
 
         entity.Property(e => e.TeamId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("team_id");
 
         entity.Property(e => e.UserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("user_id");
 
         entity.HasKey(e => e.MyRowId)

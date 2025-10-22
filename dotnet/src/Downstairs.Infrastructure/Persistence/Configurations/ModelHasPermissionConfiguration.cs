@@ -10,11 +10,11 @@ internal sealed class ModelHasPermissionConfiguration : IEntityTypeConfiguration
     public void Configure(EntityTypeBuilder<ModelHasPermission> entity)
     {
         entity.Property(e => e.PermissionId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("permission_id");
 
         entity.Property(e => e.ModelId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("model_id");
 
         entity.Property(e => e.ModelType)

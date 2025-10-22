@@ -11,11 +11,11 @@ internal sealed class TaskConfiguration : IEntityTypeConfiguration<TaskEntity>
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CustomTaskId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("custom_task_id");
 
         entity.Property(e => e.Description)
@@ -24,7 +24,8 @@ internal sealed class TaskConfiguration : IEntityTypeConfiguration<TaskEntity>
 
         entity.Property(e => e.IsCompleted)
             .HasColumnType("tinyint(1)")
-            .HasColumnName("is_completed");
+            .HasColumnName("is_completed")
+            .HasDefaultValueSql("'0'");
 
         entity.Property(e => e.Name)
             .IsRequired()
@@ -33,7 +34,7 @@ internal sealed class TaskConfiguration : IEntityTypeConfiguration<TaskEntity>
             .HasColumnName("name");
 
         entity.Property(e => e.ScheduleEmployeeId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("schedule_employee_id");
 
         entity.HasKey(e => e.Id)

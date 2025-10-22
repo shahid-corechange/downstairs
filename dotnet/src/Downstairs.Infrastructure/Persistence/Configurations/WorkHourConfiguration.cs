@@ -11,7 +11,7 @@ internal sealed class WorkHourConfiguration : IEntityTypeConfiguration<WorkHour>
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -48,7 +48,7 @@ internal sealed class WorkHourConfiguration : IEntityTypeConfiguration<WorkHour>
             .HasColumnName("updated_at");
 
         entity.Property(e => e.UserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("user_id");
 
         entity.HasKey(e => e.Id)

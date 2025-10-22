@@ -11,7 +11,7 @@ internal sealed class CustomerDiscountConfiguration : IEntityTypeConfiguration<C
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -42,29 +42,30 @@ internal sealed class CustomerDiscountConfiguration : IEntityTypeConfiguration<C
             .HasColumnName("updated_at");
 
         entity.Property(e => e.UsageLimit)
-            .HasColumnType("int")
+            .HasColumnType("int unsigned")
             .HasColumnName("usage_limit");
 
         entity.Property(e => e.UserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("user_id");
 
         entity.Property(e => e.Value)
             .HasColumnType("int")
+            .HasDefaultValueSql("'0'")
             .HasColumnName("value");
 
         entity.HasKey(e => e.Id)
             .HasName("PRIMARY");
 
-        entity.HasIndex(e => e.CreatedAt, "customer_discounts_created_at_index");
-
-        entity.HasIndex(e => e.EndDate, "customer_discounts_end_date_index");
-
-        entity.HasIndex(e => e.StartDate, "customer_discounts_start_date_index");
+        entity.HasIndex(e => e.UserId, "customer_discounts_user_id_foreign");
 
         entity.HasIndex(e => e.Type, "customer_discounts_type_index");
 
-        entity.HasIndex(e => e.UserId, "customer_discounts_user_id_foreign");
+        entity.HasIndex(e => e.StartDate, "customer_discounts_start_date_index");
+
+        entity.HasIndex(e => e.EndDate, "customer_discounts_end_date_index");
+        
+        entity.HasIndex(e => e.CreatedAt, "customer_discounts_created_at_index");
 
         entity.ToTable("customer_discounts").UseCollation(DatabaseConstants.Collations.Unicode);
 

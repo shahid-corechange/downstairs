@@ -11,7 +11,7 @@ internal sealed class MigrationConfiguration : IEntityTypeConfiguration<Migratio
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("int")
+            .HasColumnType("int unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.Batch)

@@ -11,19 +11,19 @@ internal sealed class CreditCreditTransactionConfiguration : IEntityTypeConfigur
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.Amount)
-            .HasColumnType("tinyint")
+            .HasColumnType("tinyint unsigned")
             .HasColumnName("amount");
 
         entity.Property(e => e.CreditId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("credit_id");
 
         entity.Property(e => e.CreditTransactionId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("credit_transaction_id");
 
         entity.HasKey(e => e.Id)

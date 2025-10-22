@@ -11,11 +11,11 @@ internal sealed class ScheduleCleaningChangeRequestConfiguration : IEntityTypeCo
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CauserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("causer_id");
 
         entity.Property(e => e.CreatedAt)
@@ -41,7 +41,7 @@ internal sealed class ScheduleCleaningChangeRequestConfiguration : IEntityTypeCo
             .HasColumnName("original_start_at");
 
         entity.Property(e => e.ScheduleCleaningId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("schedule_cleaning_id");
 
         entity.Property(e => e.StartAtChanged)

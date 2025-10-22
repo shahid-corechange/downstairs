@@ -11,7 +11,7 @@ internal sealed class LeaveRegistrationConfiguration : IEntityTypeConfiguration<
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CreatedAt)
@@ -23,7 +23,7 @@ internal sealed class LeaveRegistrationConfiguration : IEntityTypeConfiguration<
             .HasColumnName("deleted_at");
 
         entity.Property(e => e.EmployeeId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("employee_id");
 
         entity.Property(e => e.EndAt)
@@ -32,6 +32,7 @@ internal sealed class LeaveRegistrationConfiguration : IEntityTypeConfiguration<
 
         entity.Property(e => e.IsStopped)
             .HasColumnType("tinyint(1)")
+            .HasDefaultValueSql("'0'")
             .HasColumnName("is_stopped");
 
         entity.Property(e => e.StartAt)

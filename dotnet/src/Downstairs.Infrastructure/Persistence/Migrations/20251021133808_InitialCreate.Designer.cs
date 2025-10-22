@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Downstairs.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(DownstairsDbContext))]
-    [Migration("20251020110222_InitialCreate")]
+    [Migration("20251021133808_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -29,19 +29,22 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ActivityLog", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<Guid?>("BatchUuid")
                         .HasColumnType("char(36)")
-                        .HasColumnName("batch_uuid");
+                        .HasColumnName("batch_uuid")
+                        .UseCollation("utf8mb4_unicode_ci");
 
-                    b.Property<long?>("CauserId")
-                        .HasColumnType("bigint")
+                    MySqlPropertyBuilderExtensions.HasCharSet(b.Property<Guid?>("BatchUuid"), "utf8mb4");
+
+                    b.Property<ulong?>("CauserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("causer_id");
 
                     b.Property<string>("CauserType")
@@ -70,8 +73,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("json")
                         .HasColumnName("properties");
 
-                    b.Property<long?>("SubjectId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("SubjectId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("subject_id");
 
                     b.Property<string>("SubjectType")
@@ -100,12 +103,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Addon", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<string>("Color")
                         .IsRequired()
@@ -119,8 +122,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<short>("CreditPrice")
-                        .HasColumnType("smallint")
+                    b.Property<ushort>("CreditPrice")
+                        .HasColumnType("smallint unsigned")
                         .HasColumnName("credit_price");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -153,9 +156,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<sbyte>("VatGroup")
+                    b.Property<byte>("VatGroup")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint")
+                        .HasColumnType("tinyint unsigned")
                         .HasColumnName("vat_group")
                         .HasDefaultValueSql("'25'");
 
@@ -169,16 +172,16 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Address", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<decimal?>("Accuracy")
                         .HasPrecision(11, 8)
-                        .HasColumnType("decimal(11,8)")
+                        .HasColumnType("decimal(11,8) unsigned")
                         .HasColumnName("accuracy");
 
                     b.Property<string>("Address1")
@@ -195,8 +198,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("varchar(255)")
                         .HasColumnName("area");
 
-                    b.Property<long>("CityId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("CityId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("city_id");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -209,12 +212,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
                     b.Property<decimal?>("Latitude")
                         .HasPrecision(11, 8)
-                        .HasColumnType("decimal(11,8)")
+                        .HasColumnType("decimal(11,8) unsigned")
                         .HasColumnName("latitude");
 
                     b.Property<decimal?>("Longitude")
                         .HasPrecision(11, 8)
-                        .HasColumnType("decimal(11,8)")
+                        .HasColumnType("decimal(11,8) unsigned")
                         .HasColumnName("longitude");
 
                     b.Property<string>("PostalCode")
@@ -239,15 +242,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.AuthenticationLog", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
-                    b.Property<long>("AuthenticatableId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("AuthenticatableId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("authenticatable_id");
 
                     b.Property<string>("AuthenticatableType")
@@ -256,8 +259,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("authenticatable_type");
 
                     b.Property<bool>("ClearedByUser")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
-                        .HasColumnName("cleared_by_user");
+                        .HasColumnName("cleared_by_user")
+                        .HasDefaultValueSql("'0'");
 
                     b.Property<string>("IpAddress")
                         .HasMaxLength(45)
@@ -273,8 +278,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("login_at");
 
                     b.Property<bool>("LoginSuccessful")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
-                        .HasColumnName("login_successful");
+                        .HasColumnName("login_successful")
+                        .HasDefaultValueSql("'0'");
 
                     b.Property<DateTime?>("LogoutAt")
                         .HasColumnType("timestamp")
@@ -296,15 +303,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.BlindIndex", b =>
                 {
-                    b.Property<long>("MyRowId")
+                    b.Property<ulong>("MyRowId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("my_row_id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("MyRowId"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("MyRowId"));
 
-                    b.Property<long>("IndexableId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("IndexableId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("indexable_id");
 
                     b.Property<string>("IndexableType")
@@ -339,12 +346,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.BlockDay", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateOnly>("BlockDate")
                         .HasColumnType("date")
@@ -376,27 +383,27 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.CashierAttendance", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime>("CheckInAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("check_in_at");
 
-                    b.Property<long?>("CheckInCauserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("CheckInCauserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("check_in_causer_id");
 
                     b.Property<DateTime?>("CheckOutAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("check_out_at");
 
-                    b.Property<long?>("CheckOutCauserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("CheckOutCauserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("check_out_causer_id");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -407,20 +414,20 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("deleted_at");
 
-                    b.Property<long>("StoreId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("StoreId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("store_id");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("UserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("user_id");
 
-                    b.Property<long?>("WorkHourId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("WorkHourId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("work_hour_id");
 
                     b.HasKey("Id")
@@ -443,12 +450,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Category", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -476,19 +483,19 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Categoryable", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
-                    b.Property<long>("CategoryId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("CategoryId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("category_id");
 
-                    b.Property<long>("CategoryableId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("CategoryableId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("categoryable_id");
 
                     b.Property<string>("CategoryableType")
@@ -510,15 +517,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.City", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
-                    b.Property<long>("CountryId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("CountryId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("country_id");
 
                     b.Property<string>("Name")
@@ -539,12 +546,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Country", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -588,12 +595,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Credit", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -604,24 +611,24 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("description");
 
-                    b.Property<sbyte>("InitialAmount")
-                        .HasColumnType("tinyint")
+                    b.Property<byte>("InitialAmount")
+                        .HasColumnType("tinyint unsigned")
                         .HasColumnName("initial_amount");
 
-                    b.Property<long?>("IssuerId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("IssuerId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("issuer_id");
 
-                    b.Property<sbyte>("RemainingAmount")
-                        .HasColumnType("tinyint")
+                    b.Property<byte>("RemainingAmount")
+                        .HasColumnType("tinyint unsigned")
                         .HasColumnName("remaining_amount");
 
-                    b.Property<long?>("ScheduleCleaningId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("ScheduleCleaningId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("schedule_cleaning_id");
 
-                    b.Property<long?>("ScheduleId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("ScheduleId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("schedule_id");
 
                     b.Property<string>("Type")
@@ -634,8 +641,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("UserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("user_id");
 
                     b.Property<DateTime>("ValidUntil")
@@ -662,23 +669,23 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.CreditCreditTransaction", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
-                    b.Property<sbyte>("Amount")
-                        .HasColumnType("tinyint")
+                    b.Property<byte>("Amount")
+                        .HasColumnType("tinyint unsigned")
                         .HasColumnName("amount");
 
-                    b.Property<long>("CreditId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("CreditId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("credit_id");
 
-                    b.Property<long>("CreditTransactionId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("CreditTransactionId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("credit_transaction_id");
 
                     b.HasKey("Id")
@@ -695,12 +702,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.CreditTransaction", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -711,20 +718,20 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("description");
 
-                    b.Property<long?>("IssuerId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("IssuerId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("issuer_id");
 
-                    b.Property<long?>("ScheduleCleaningId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("ScheduleCleaningId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("schedule_cleaning_id");
 
-                    b.Property<long?>("ScheduleId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("ScheduleId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("schedule_id");
 
-                    b.Property<long>("TotalAmount")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("TotalAmount")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("total_amount");
 
                     b.Property<string>("Type")
@@ -737,8 +744,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("UserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id")
@@ -759,19 +766,19 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.CustomTask", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<long>("TaskableId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("TaskableId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("taskable_id");
 
                     b.Property<string>("TaskableType")
@@ -795,23 +802,23 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Customer", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
-                    b.Property<long?>("AddressId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("AddressId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("address_id");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<long?>("CustomerRefId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("CustomerRefId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("customer_ref_id");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -903,12 +910,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.CustomerDiscount", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -937,17 +944,19 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<int?>("UsageLimit")
-                        .HasColumnType("int")
+                    b.Property<uint?>("UsageLimit")
+                        .HasColumnType("int unsigned")
                         .HasColumnName("usage_limit");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("UserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("user_id");
 
                     b.Property<int>("Value")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("value");
+                        .HasColumnName("value")
+                        .HasDefaultValueSql("'0'");
 
                     b.HasKey("Id")
                         .HasName("PRIMARY");
@@ -969,19 +978,19 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.CustomerUser", b =>
                 {
-                    b.Property<long>("MyRowId")
+                    b.Property<ulong>("MyRowId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("my_row_id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("MyRowId"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("MyRowId"));
 
-                    b.Property<long>("CustomerId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("CustomerId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("customer_id");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("UserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("user_id");
 
                     b.HasKey("MyRowId")
@@ -998,12 +1007,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Deviation", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -1014,19 +1023,21 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("deleted_at");
 
                     b.Property<bool>("IsHandled")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_handled");
+                        .HasColumnName("is_handled")
+                        .HasDefaultValueSql("'0'");
 
                     b.Property<string>("Reason")
                         .HasColumnType("text")
                         .HasColumnName("reason");
 
-                    b.Property<long?>("ScheduleCleaningId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("ScheduleCleaningId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("schedule_cleaning_id");
 
-                    b.Property<long?>("ScheduleId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("ScheduleId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("schedule_id");
 
                     b.Property<string>("Type")
@@ -1038,8 +1049,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("UserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id")
@@ -1060,15 +1071,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Employee", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
-                    b.Property<long>("AddressId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("AddressId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("address_id");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -1100,8 +1111,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("identity_number");
 
                     b.Property<bool>("IsValidIdentity")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_valid_identity");
+                        .HasColumnName("is_valid_identity")
+                        .HasDefaultValueSql("'0'");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -1118,8 +1131,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("UserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id")
@@ -1136,12 +1149,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.FailedJob", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<string>("Connection")
                         .IsRequired()
@@ -1187,12 +1200,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Feedback", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -1207,8 +1220,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("description");
 
-                    b.Property<long>("FeedbackableId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("FeedbackableId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("feedbackable_id");
 
                     b.Property<string>("FeedbackableType")
@@ -1238,12 +1251,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.FixedPrice", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -1258,8 +1271,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("end_date");
 
                     b.Property<bool>("IsPerOrder")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_per_order");
+                        .HasColumnName("is_per_order")
+                        .HasDefaultValueSql("'0'");
 
                     b.Property<DateOnly?>("StartDate")
                         .HasColumnType("date")
@@ -1277,8 +1292,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("UserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id")
@@ -1295,19 +1310,19 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.FixedPriceRow", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<long>("FixedPriceId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("FixedPriceId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("fixed_price_id");
 
                     b.Property<bool>("HasRut")
@@ -1315,11 +1330,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("has_rut");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(8,2)")
+                        .HasColumnType("decimal(8,2) unsigned")
                         .HasColumnName("price");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int")
+                    b.Property<uint>("Quantity")
+                        .HasColumnType("int unsigned")
                         .HasColumnName("quantity");
 
                     b.Property<string>("Type")
@@ -1331,9 +1346,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<sbyte>("VatGroup")
+                    b.Property<byte>("VatGroup")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint")
+                        .HasColumnType("tinyint unsigned")
                         .HasColumnName("vat_group")
                         .HasDefaultValueSql("'25'");
 
@@ -1351,12 +1366,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.GlobalSetting", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -1396,12 +1411,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Invoice", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<string>("Category")
                         .IsRequired()
@@ -1415,8 +1430,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<long>("CustomerId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("CustomerId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("customer_id");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -1427,12 +1442,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("due_at");
 
-                    b.Property<long?>("FortnoxInvoiceId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("FortnoxInvoiceId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("fortnox_invoice_id");
 
-                    b.Property<long?>("FortnoxTaxReductionId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("FortnoxTaxReductionId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("fortnox_tax_reduction_id");
 
                     b.Property<int>("Month")
@@ -1455,24 +1470,32 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasDefaultValueSql("'open'");
 
                     b.Property<decimal>("TotalGross")
+                        .ValueGeneratedOnAdd()
                         .HasPrecision(12, 2)
                         .HasColumnType("decimal(12,2)")
-                        .HasColumnName("total_gross");
+                        .HasColumnName("total_gross")
+                        .HasDefaultValueSql("'0.00'");
 
                     b.Property<decimal>("TotalNet")
+                        .ValueGeneratedOnAdd()
                         .HasPrecision(12, 2)
                         .HasColumnType("decimal(12,2)")
-                        .HasColumnName("total_net");
+                        .HasColumnName("total_net")
+                        .HasDefaultValueSql("'0.00'");
 
                     b.Property<decimal>("TotalRut")
+                        .ValueGeneratedOnAdd()
                         .HasPrecision(12, 2)
                         .HasColumnType("decimal(12,2)")
-                        .HasColumnName("total_rut");
+                        .HasColumnName("total_rut")
+                        .HasDefaultValueSql("'0.00'");
 
                     b.Property<decimal>("TotalVat")
+                        .ValueGeneratedOnAdd()
                         .HasPrecision(12, 2)
                         .HasColumnType("decimal(12,2)")
-                        .HasColumnName("total_vat");
+                        .HasColumnName("total_vat")
+                        .HasDefaultValueSql("'0.00'");
 
                     b.Property<string>("Type")
                         .HasColumnType("varchar(255)")
@@ -1482,8 +1505,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("UserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("user_id");
 
                     b.Property<int>("Year")
@@ -1512,12 +1535,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.KeyPlace", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -1527,8 +1550,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("deleted_at");
 
-                    b.Property<long?>("PropertyId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("PropertyId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("property_id");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -1547,43 +1570,43 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.LaundryOrder", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
-                    b.Property<long>("CauserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("CauserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("causer_id");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<long>("CustomerId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("CustomerId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("customer_id");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("deleted_at");
 
-                    b.Property<long?>("DeliveryPropertyId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("DeliveryPropertyId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("delivery_property_id");
 
-                    b.Property<long?>("DeliveryTeamId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("DeliveryTeamId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("delivery_team_id");
 
                     b.Property<TimeOnly?>("DeliveryTime")
                         .HasColumnType("time")
                         .HasColumnName("delivery_time");
 
-                    b.Property<long>("LaundryPreferenceId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("LaundryPreferenceId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("laundry_preference_id");
 
                     b.Property<DateTime>("OrderedAt")
@@ -1599,12 +1622,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("varchar(255)")
                         .HasColumnName("payment_method");
 
-                    b.Property<long?>("PickupPropertyId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("PickupPropertyId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("pickup_property_id");
 
-                    b.Property<long?>("PickupTeamId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("PickupTeamId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("pickup_team_id");
 
                     b.Property<TimeOnly?>("PickupTime")
@@ -1619,20 +1642,20 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("status")
                         .HasDefaultValueSql("'pending'");
 
-                    b.Property<long>("StoreId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("StoreId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("store_id");
 
-                    b.Property<long?>("SubscriptionId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("SubscriptionId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("subscription_id");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("UserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id")
@@ -1665,15 +1688,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.LaundryOrderHistory", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
-                    b.Property<long>("CauserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("CauserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("causer_id");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -1684,8 +1707,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("deleted_at");
 
-                    b.Property<long>("LaundryOrderId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("LaundryOrderId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("laundry_order_id");
 
                     b.Property<string>("Note")
@@ -1717,27 +1740,29 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.LaundryOrderProduct", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
                     b.Property<decimal>("Discount")
-                        .HasColumnType("decimal(8,2)")
-                        .HasColumnName("discount");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(8,2) unsigned")
+                        .HasColumnName("discount")
+                        .HasDefaultValueSql("'0.00'");
 
                     b.Property<bool>("HasRut")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("has_rut");
 
-                    b.Property<long>("LaundryOrderId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("LaundryOrderId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("laundry_order_id");
 
                     b.Property<string>("Name")
@@ -1751,24 +1776,24 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("note");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(8,2)")
+                        .HasColumnType("decimal(8,2) unsigned")
                         .HasColumnName("price");
 
-                    b.Property<long>("ProductId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("ProductId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("product_id");
 
-                    b.Property<sbyte>("Quantity")
-                        .HasColumnType("tinyint")
+                    b.Property<byte>("Quantity")
+                        .HasColumnType("tinyint unsigned")
                         .HasColumnName("quantity");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<sbyte>("VatGroup")
+                    b.Property<byte>("VatGroup")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint")
+                        .HasColumnType("tinyint unsigned")
                         .HasColumnName("vat_group")
                         .HasDefaultValueSql("'25'");
 
@@ -1786,12 +1811,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.LaundryPreference", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -1801,29 +1826,35 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("deleted_at");
 
-                    b.Property<short>("Hours")
-                        .HasColumnType("smallint")
+                    b.Property<ushort>("Hours")
+                        .HasColumnType("smallint unsigned")
                         .HasColumnName("hours");
 
                     b.Property<bool>("IncludeHolidays")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
-                        .HasColumnName("include_holidays");
+                        .HasColumnName("include_holidays")
+                        .HasDefaultValueSql("'0'");
 
                     b.Property<decimal>("Percentage")
-                        .HasColumnType("decimal(8,2)")
-                        .HasColumnName("percentage");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(8,2) unsigned")
+                        .HasColumnName("percentage")
+                        .HasDefaultValueSql("'0.00'");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(8,2)")
-                        .HasColumnName("price");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(8,2) unsigned")
+                        .HasColumnName("price")
+                        .HasDefaultValueSql("'0.00'");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<sbyte>("VatGroup")
+                    b.Property<byte>("VatGroup")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint")
+                        .HasColumnType("tinyint unsigned")
                         .HasColumnName("vat_group")
                         .HasDefaultValueSql("'25'");
 
@@ -1837,12 +1868,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.LeaveRegistration", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -1852,8 +1883,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("deleted_at");
 
-                    b.Property<long>("EmployeeId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("EmployeeId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("employee_id");
 
                     b.Property<DateTime?>("EndAt")
@@ -1861,8 +1892,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("end_at");
 
                     b.Property<bool>("IsStopped")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_stopped");
+                        .HasColumnName("is_stopped")
+                        .HasDefaultValueSql("'0'");
 
                     b.Property<DateTime>("StartAt")
                         .HasColumnType("datetime")
@@ -1890,12 +1923,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.LeaveRegistrationDetail", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -1910,8 +1943,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("varchar(255)")
                         .HasColumnName("fortnox_absence_transaction_id");
 
-                    b.Property<long>("LeaveRegistrationId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("LeaveRegistrationId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("leave_registration_id");
 
                     b.Property<DateTime>("StartAt")
@@ -1934,12 +1967,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Metum", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<uint>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("int unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<uint>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -1950,8 +1983,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("varchar(255)")
                         .HasColumnName("key");
 
-                    b.Property<long>("MetableId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("MetableId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("metable_id");
 
                     b.Property<string>("MetableType")
@@ -1992,12 +2025,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Migration", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<uint>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("int unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<uint>("Id"));
 
                     b.Property<int>("Batch")
                         .HasColumnType("int")
@@ -2019,12 +2052,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ModelHasPermission", b =>
                 {
-                    b.Property<long>("PermissionId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("PermissionId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("permission_id");
 
-                    b.Property<long>("ModelId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("ModelId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("model_id");
 
                     b.Property<string>("ModelType")
@@ -2044,12 +2077,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ModelHasRole", b =>
                 {
-                    b.Property<long>("RoleId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("RoleId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("role_id");
 
-                    b.Property<long>("ModelId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("ModelId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("model_id");
 
                     b.Property<string>("ModelType")
@@ -2071,16 +2104,16 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 {
                     b.Property<decimal>("AdjustmentHours")
                         .HasPrecision(51, 4)
-                        .HasColumnType("decimal(51,4)")
+                        .HasColumnType("decimal(51,4) unsigned")
                         .HasColumnName("adjustment_hours");
 
                     b.Property<decimal>("BookingHours")
                         .HasPrecision(47, 4)
-                        .HasColumnType("decimal(47,4)")
+                        .HasColumnType("decimal(47,4) unsigned")
                         .HasColumnName("booking_hours");
 
-                    b.Property<long?>("EmployeeId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("EmployeeId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("employee_id")
                         .HasDefaultValueSql("'0'");
 
@@ -2109,21 +2142,21 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
                     b.Property<decimal>("ScheduleWorkHours")
                         .HasPrecision(47, 4)
-                        .HasColumnType("decimal(47,4)")
+                        .HasColumnType("decimal(47,4) unsigned")
                         .HasColumnName("schedule_work_hours");
 
                     b.Property<decimal>("StoreWorkHours")
                         .HasPrecision(47, 4)
-                        .HasColumnType("decimal(47,4)")
+                        .HasColumnType("decimal(47,4) unsigned")
                         .HasColumnName("store_work_hours");
 
                     b.Property<decimal>("TotalWorkHours")
                         .HasPrecision(48, 4)
-                        .HasColumnType("decimal(48,4)")
+                        .HasColumnType("decimal(48,4) unsigned")
                         .HasColumnName("total_work_hours");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("UserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("user_id");
 
                     b.Property<int?>("Year")
@@ -2137,12 +2170,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Notification", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -2159,8 +2192,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("hub");
 
                     b.Property<bool>("IsRead")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_read");
+                        .HasColumnName("is_read")
+                        .HasDefaultValueSql("'0'");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -2178,8 +2213,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("UserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id")
@@ -2194,12 +2229,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.OauthRemoteToken", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("AccessExpiresAt")
                         .HasColumnType("timestamp")
@@ -2256,19 +2291,19 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.OldCustomer", b =>
                 {
-                    b.Property<long>("MyRowId")
+                    b.Property<ulong>("MyRowId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("my_row_id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("MyRowId"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("MyRowId"));
 
-                    b.Property<long>("CustomerId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("CustomerId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("customer_id");
 
-                    b.Property<long>("OldCustomerId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("OldCustomerId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("old_customer_id");
 
                     b.HasKey("MyRowId")
@@ -2283,15 +2318,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.OldOrder", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
-                    b.Property<long>("OldOrderId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("OldOrderId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("old_order_id");
 
                     b.HasKey("Id")
@@ -2304,35 +2339,35 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Order", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<long>("CustomerId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("CustomerId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("customer_id");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("deleted_at");
 
-                    b.Property<long?>("InvoiceId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("InvoiceId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("invoice_id");
 
-                    b.Property<long?>("OrderFixedPriceId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("OrderFixedPriceId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("order_fixed_price_id");
 
-                    b.Property<long>("OrderableId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("OrderableId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("orderable_id");
 
                     b.Property<string>("OrderableType")
@@ -2356,8 +2391,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("paid_by")
                         .HasDefaultValueSql("'invoice'");
 
-                    b.Property<long?>("ServiceId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("ServiceId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("service_id");
 
                     b.Property<string>("Status")
@@ -2368,16 +2403,16 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("status")
                         .HasDefaultValueSql("'draft'");
 
-                    b.Property<long?>("SubscriptionId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("SubscriptionId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("subscription_id");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("UserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id")
@@ -2404,12 +2439,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.OrderFixedPrice", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -2419,13 +2454,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("deleted_at");
 
-                    b.Property<long?>("FixedPriceId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("FixedPriceId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("fixed_price_id");
 
                     b.Property<bool>("IsPerOrder")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_per_order");
+                        .HasColumnName("is_per_order")
+                        .HasDefaultValueSql("'0'");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -2452,12 +2489,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.OrderFixedPriceRow", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -2472,16 +2509,16 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("tinyint")
                         .HasColumnName("has_rut");
 
-                    b.Property<long>("OrderFixedPriceId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("OrderFixedPriceId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("order_fixed_price_id");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(8,2)")
+                        .HasColumnType("decimal(8,2) unsigned")
                         .HasColumnName("price");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int")
+                    b.Property<uint>("Quantity")
+                        .HasColumnType("int unsigned")
                         .HasColumnName("quantity");
 
                     b.Property<string>("Type")
@@ -2494,9 +2531,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<sbyte>("VatGroup")
+                    b.Property<byte>("VatGroup")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint")
+                        .HasColumnType("tinyint unsigned")
                         .HasColumnName("vat_group")
                         .HasDefaultValueSql("'25'");
 
@@ -2513,12 +2550,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.OrderRow", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -2528,9 +2565,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("description");
 
-                    b.Property<sbyte>("DiscountPercentage")
-                        .HasColumnType("tinyint")
-                        .HasColumnName("discount_percentage");
+                    b.Property<byte>("DiscountPercentage")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint unsigned")
+                        .HasColumnName("discount_percentage")
+                        .HasDefaultValueSql("'0'");
 
                     b.Property<string>("FortnoxArticleId")
                         .HasMaxLength(255)
@@ -2545,17 +2584,17 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("internal_note");
 
-                    b.Property<long>("OrderId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("OrderId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("order_id");
 
                     b.Property<decimal>("Price")
                         .HasPrecision(8, 2)
-                        .HasColumnType("decimal(8,2)")
+                        .HasColumnType("decimal(8,2) unsigned")
                         .HasColumnName("price");
 
                     b.Property<decimal>("Quantity")
-                        .HasColumnType("decimal(8,2)")
+                        .HasColumnType("decimal(8,2) unsigned")
                         .HasColumnName("quantity");
 
                     b.Property<string>("Unit")
@@ -2585,12 +2624,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.PasswordResetToken", b =>
                 {
-                    b.Property<long>("MyRowId")
+                    b.Property<ulong>("MyRowId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("my_row_id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("MyRowId"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("MyRowId"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -2619,12 +2658,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Permission", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -2657,12 +2696,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.PersonalAccessToken", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<string>("Abilities")
                         .HasColumnType("text")
@@ -2691,8 +2730,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("varchar(64)")
                         .HasColumnName("token");
 
-                    b.Property<long>("TokenableId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("TokenableId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("tokenable_id");
 
                     b.Property<string>("TokenableType")
@@ -2722,15 +2761,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.PriceAdjustment", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
-                    b.Property<long>("CauserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("CauserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("causer_id");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -2752,7 +2791,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
                     b.Property<decimal>("Price")
                         .HasPrecision(8, 2)
-                        .HasColumnType("decimal(8,2)")
+                        .HasColumnType("decimal(8,2) unsigned")
                         .HasColumnName("price");
 
                     b.Property<string>("PriceType")
@@ -2791,15 +2830,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.PriceAdjustmentRow", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
-                    b.Property<long>("AdjustableId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("AdjustableId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("adjustable_id");
 
                     b.Property<string>("AdjustableType")
@@ -2812,15 +2851,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<decimal>("PreviousPrice")
-                        .HasColumnType("decimal(8,2)")
+                        .HasColumnType("decimal(8,2) unsigned")
                         .HasColumnName("previous_price");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(8,2)")
+                        .HasColumnType("decimal(8,2) unsigned")
                         .HasColumnName("price");
 
-                    b.Property<long>("PriceAdjustmentId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("PriceAdjustmentId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("price_adjustment_id");
 
                     b.Property<string>("Status")
@@ -2835,9 +2874,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<sbyte>("VatGroup")
+                    b.Property<byte>("VatGroup")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint")
+                        .HasColumnType("tinyint unsigned")
                         .HasColumnName("vat_group")
                         .HasDefaultValueSql("'25'");
 
@@ -2855,15 +2894,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Product", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
-                    b.Property<long?>("AddonId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("AddonId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("addon_id");
 
                     b.Property<string>("Color")
@@ -2878,8 +2917,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<short?>("CreditPrice")
-                        .HasColumnType("smallint")
+                    b.Property<ushort?>("CreditPrice")
+                        .HasColumnType("smallint unsigned")
                         .HasColumnName("credit_price");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -2896,7 +2935,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("has_rut");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(8,2)")
+                        .HasColumnType("decimal(8,2) unsigned")
                         .HasColumnName("price");
 
                     b.Property<string>("ThumbnailImage")
@@ -2912,9 +2951,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<sbyte>("VatGroup")
+                    b.Property<byte>("VatGroup")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint")
+                        .HasColumnType("tinyint unsigned")
                         .HasColumnName("vat_group")
                         .HasDefaultValueSql("'25'");
 
@@ -2928,19 +2967,19 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Productable", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
-                    b.Property<long>("ProductId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("ProductId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("product_id");
 
-                    b.Property<long>("ProductableId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("ProductableId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("productable_id");
 
                     b.Property<string>("ProductableType")
@@ -2962,15 +3001,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Property", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
-                    b.Property<long>("AddressId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("AddressId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("address_id");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -2992,13 +3031,13 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("membership_type")
                         .HasDefaultValueSql("'private'");
 
-                    b.Property<long>("PropertyTypeId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("PropertyTypeId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("property_type_id");
 
                     b.Property<decimal>("SquareMeter")
                         .HasPrecision(8, 2)
-                        .HasColumnType("decimal(8,2)")
+                        .HasColumnType("decimal(8,2) unsigned")
                         .HasColumnName("square_meter");
 
                     b.Property<string>("Status")
@@ -3029,12 +3068,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.PropertyType", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -3054,19 +3093,19 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.PropertyUser", b =>
                 {
-                    b.Property<long>("MyRowId")
+                    b.Property<ulong>("MyRowId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("my_row_id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("MyRowId"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("MyRowId"));
 
-                    b.Property<long>("PropertyId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("PropertyId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("property_id");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("UserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("user_id");
 
                     b.HasKey("MyRowId")
@@ -3083,12 +3122,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Role", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -3121,12 +3160,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.RutCoApplicant", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -3147,8 +3186,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("identity_number");
 
                     b.Property<bool>("IsEnabled")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_enabled");
+                        .HasColumnName("is_enabled")
+                        .HasDefaultValueSql("'0'");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -3173,8 +3214,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("UserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id")
@@ -3189,15 +3230,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Schedule", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
-                    b.Property<long?>("CancelableId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("CancelableId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("cancelable_id");
 
                     b.Property<string>("CancelableType")
@@ -3212,8 +3253,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<long?>("CustomerId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("CustomerId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("customer_id");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -3240,16 +3281,16 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("original_start_at");
 
-                    b.Property<long>("PropertyId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("PropertyId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("property_id");
 
                     b.Property<short>("Quarters")
                         .HasColumnType("smallint")
                         .HasColumnName("quarters");
 
-                    b.Property<long>("ScheduleableId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("ScheduleableId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("scheduleable_id");
 
                     b.Property<string>("ScheduleableType")
@@ -3257,8 +3298,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("varchar(255)")
                         .HasColumnName("scheduleable_type");
 
-                    b.Property<long>("ServiceId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("ServiceId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("service_id");
 
                     b.Property<DateTime>("StartAt")
@@ -3272,20 +3313,20 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("status")
                         .HasDefaultValueSql("'booked'");
 
-                    b.Property<long?>("SubscriptionId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("SubscriptionId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("subscription_id");
 
-                    b.Property<long?>("TeamId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("TeamId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("team_id");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("UserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id")
@@ -3322,15 +3363,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleChangeRequest", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
-                    b.Property<long?>("CauserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("CauserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("causer_id");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -3353,8 +3394,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("original_start_at");
 
-                    b.Property<long>("ScheduleId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("ScheduleId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("schedule_id");
 
                     b.Property<DateTime>("StartAtChanged")
@@ -3387,15 +3428,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleCleaning", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
-                    b.Property<long?>("CancelableId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("CancelableId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("cancelable_id");
 
                     b.Property<string>("CancelableType")
@@ -3410,8 +3451,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<long?>("CustomerId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("CustomerId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("customer_id");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -3432,8 +3473,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("key_information");
 
-                    b.Property<long?>("LaundryOrderId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("LaundryOrderId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("laundry_order_id");
 
                     b.Property<string>("LaundryType")
@@ -3448,8 +3489,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("original_start_at");
 
-                    b.Property<long?>("PropertyId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("PropertyId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("property_id");
 
                     b.Property<short?>("Quarters")
@@ -3466,12 +3507,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("status")
                         .HasDefaultValueSql("'booked'");
 
-                    b.Property<long?>("SubscriptionId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("SubscriptionId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("subscription_id");
 
-                    b.Property<long?>("TeamId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("TeamId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("team_id");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -3508,15 +3549,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleCleaningChangeRequest", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
-                    b.Property<long?>("CauserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("CauserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("causer_id");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -3541,8 +3582,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("varchar(255)")
                         .HasColumnName("original_start_at");
 
-                    b.Property<long>("ScheduleCleaningId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("ScheduleCleaningId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("schedule_cleaning_id");
 
                     b.Property<DateTime?>("StartAtChanged")
@@ -3575,12 +3616,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleCleaningDeviation", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -3591,15 +3632,17 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("deleted_at");
 
                     b.Property<bool>("IsHandled")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_handled");
+                        .HasColumnName("is_handled")
+                        .HasDefaultValueSql("'0'");
 
                     b.Property<string>("Meta")
                         .HasColumnType("json")
                         .HasColumnName("meta");
 
-                    b.Property<long>("ScheduleCleaningId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("ScheduleCleaningId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("schedule_cleaning_id");
 
                     b.Property<string>("Types")
@@ -3623,20 +3666,22 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleCleaningProduct", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<sbyte>("DiscountPercentage")
-                        .HasColumnType("tinyint")
-                        .HasColumnName("discount_percentage");
+                    b.Property<byte>("DiscountPercentage")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint unsigned")
+                        .HasColumnName("discount_percentage")
+                        .HasDefaultValueSql("'0'");
 
                     b.Property<string>("PaymentMethod")
                         .IsRequired()
@@ -3647,19 +3692,19 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasDefaultValueSql("'invoice'");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(8,2)")
+                        .HasColumnType("decimal(8,2) unsigned")
                         .HasColumnName("price");
 
-                    b.Property<long>("ProductId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("ProductId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("product_id");
 
                     b.Property<decimal>("Quantity")
-                        .HasColumnType("decimal(8,2)")
+                        .HasColumnType("decimal(8,2) unsigned")
                         .HasColumnName("quantity");
 
-                    b.Property<long>("ScheduleCleaningId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("ScheduleCleaningId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("schedule_cleaning_id");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -3680,23 +3725,25 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleCleaningTask", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
-                    b.Property<long>("CustomTaskId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("CustomTaskId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("custom_task_id");
 
                     b.Property<bool>("IsCompleted")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_completed");
+                        .HasColumnName("is_completed")
+                        .HasDefaultValueSql("'0'");
 
-                    b.Property<long>("ScheduleCleaningId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("ScheduleCleaningId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("schedule_cleaning_id");
 
                     b.HasKey("Id")
@@ -3713,12 +3760,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleDeviation", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -3729,15 +3776,17 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("deleted_at");
 
                     b.Property<bool>("IsHandled")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_handled");
+                        .HasColumnName("is_handled")
+                        .HasDefaultValueSql("'0'");
 
                     b.Property<string>("Meta")
                         .HasColumnType("json")
                         .HasColumnName("meta");
 
-                    b.Property<long>("ScheduleId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("ScheduleId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("schedule_id");
 
                     b.Property<string>("Types")
@@ -3761,12 +3810,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleEmployee", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -3791,20 +3840,20 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
                     b.Property<decimal?>("EndLatitude")
                         .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(10,2) unsigned")
                         .HasColumnName("end_latitude");
 
                     b.Property<decimal?>("EndLongitude")
                         .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(10,2) unsigned")
                         .HasColumnName("end_longitude");
 
-                    b.Property<long?>("ScheduleId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("ScheduleId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("schedule_id");
 
-                    b.Property<long?>("ScheduleableId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("ScheduleableId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("scheduleable_id");
 
                     b.Property<string>("ScheduleableType")
@@ -3822,12 +3871,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
                     b.Property<decimal?>("StartLatitude")
                         .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(10,2) unsigned")
                         .HasColumnName("start_latitude");
 
                     b.Property<decimal?>("StartLongitude")
                         .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)")
+                        .HasColumnType("decimal(10,2) unsigned")
                         .HasColumnName("start_longitude");
 
                     b.Property<string>("Status")
@@ -3841,12 +3890,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("UserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("user_id");
 
-                    b.Property<long?>("WorkHourId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("WorkHourId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("work_hour_id");
 
                     b.HasKey("Id")
@@ -3869,23 +3918,25 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleItem", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<sbyte>("DiscountPercentage")
-                        .HasColumnType("tinyint")
-                        .HasColumnName("discount_percentage");
+                    b.Property<byte>("DiscountPercentage")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint unsigned")
+                        .HasColumnName("discount_percentage")
+                        .HasDefaultValueSql("'0'");
 
-                    b.Property<long>("ItemableId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("ItemableId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("itemable_id");
 
                     b.Property<string>("ItemableType")
@@ -3902,17 +3953,17 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasDefaultValueSql("'invoice'");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(8,2)")
+                        .HasColumnType("decimal(8,2) unsigned")
                         .HasColumnName("price");
 
                     b.Property<decimal>("Quantity")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(8,2)")
+                        .HasColumnType("decimal(8,2) unsigned")
                         .HasColumnName("quantity")
                         .HasDefaultValueSql("'1.00'");
 
-                    b.Property<long>("ScheduleId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("ScheduleId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("schedule_id");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -3933,19 +3984,19 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleLaundry", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<long>("LaundryOrderId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("LaundryOrderId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("laundry_order_id");
 
                     b.Property<string>("Type")
@@ -3971,23 +4022,25 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ScheduleTask", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
-                    b.Property<long>("CustomTaskId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("CustomTaskId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("custom_task_id");
 
                     b.Property<bool>("IsCompleted")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_completed");
+                        .HasColumnName("is_completed")
+                        .HasDefaultValueSql("'0'");
 
-                    b.Property<long>("ScheduleId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("ScheduleId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("schedule_id");
 
                     b.HasKey("Id")
@@ -4004,12 +4057,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Service", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -4034,7 +4087,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("membership_type");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(8,2)")
+                        .HasColumnType("decimal(8,2) unsigned")
                         .HasColumnName("price");
 
                     b.Property<string>("ThumbnailImage")
@@ -4050,9 +4103,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<sbyte>("VatGroup")
+                    b.Property<byte>("VatGroup")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint")
+                        .HasColumnType("tinyint unsigned")
                         .HasColumnName("vat_group")
                         .HasDefaultValueSql("'25'");
 
@@ -4070,19 +4123,19 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ServiceAddon", b =>
                 {
-                    b.Property<long>("MyRowId")
+                    b.Property<ulong>("MyRowId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("my_row_id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("MyRowId"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("MyRowId"));
 
-                    b.Property<long>("AddonId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("AddonId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("addon_id");
 
-                    b.Property<long>("ServiceId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("ServiceId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("service_id");
 
                     b.HasKey("MyRowId")
@@ -4099,31 +4152,31 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.ServiceQuarter", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<int>("MaxSquareMeters")
-                        .HasColumnType("int")
+                    b.Property<uint>("MaxSquareMeters")
+                        .HasColumnType("int unsigned")
                         .HasColumnName("max_square_meters");
 
-                    b.Property<int>("MinSquareMeters")
-                        .HasColumnType("int")
+                    b.Property<uint>("MinSquareMeters")
+                        .HasColumnType("int unsigned")
                         .HasColumnName("min_square_meters");
 
-                    b.Property<int>("Quarters")
-                        .HasColumnType("int")
+                    b.Property<uint>("Quarters")
+                        .HasColumnType("int unsigned")
                         .HasColumnName("quarters");
 
-                    b.Property<long>("ServiceId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("ServiceId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("service_id");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -4142,15 +4195,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Store", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
-                    b.Property<long>("AddressId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("AddressId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("address_id");
 
                     b.Property<string>("CompanyNumber")
@@ -4204,12 +4257,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.StoreProduct", b =>
                 {
-                    b.Property<long>("StoreId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("StoreId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("store_id");
 
-                    b.Property<long>("ProductId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("ProductId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("product_id");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -4241,15 +4294,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.StoreSale", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
-                    b.Property<long>("CauserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("CauserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("causer_id");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -4271,8 +4324,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("varchar(255)")
                         .HasColumnName("status");
 
-                    b.Property<long>("StoreId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("StoreId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("store_id");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -4293,20 +4346,22 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.StoreSaleProduct", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
                     b.Property<decimal>("Discount")
-                        .HasColumnType("decimal(8,2)")
-                        .HasColumnName("discount");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(8,2) unsigned")
+                        .HasColumnName("discount")
+                        .HasDefaultValueSql("'0.00'");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -4319,28 +4374,28 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("note");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(8,2)")
+                        .HasColumnType("decimal(8,2) unsigned")
                         .HasColumnName("price");
 
-                    b.Property<long>("ProductId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("ProductId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("product_id");
 
-                    b.Property<sbyte>("Quantity")
-                        .HasColumnType("tinyint")
+                    b.Property<byte>("Quantity")
+                        .HasColumnType("tinyint unsigned")
                         .HasColumnName("quantity");
 
-                    b.Property<long>("StoreSaleId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("StoreSaleId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("store_sale_id");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<sbyte>("VatGroup")
+                    b.Property<byte>("VatGroup")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint")
+                        .HasColumnType("tinyint unsigned")
                         .HasColumnName("vat_group")
                         .HasDefaultValueSql("'25'");
 
@@ -4358,19 +4413,19 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.StoreUser", b =>
                 {
-                    b.Property<long>("MyRowId")
+                    b.Property<ulong>("MyRowId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("my_row_id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("MyRowId"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("MyRowId"));
 
-                    b.Property<long>("StoreId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("StoreId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("store_id");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("UserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("user_id");
 
                     b.HasKey("MyRowId")
@@ -4387,19 +4442,19 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Subscription", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<long?>("CustomerId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("CustomerId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("customer_id");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -4418,8 +4473,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("end_time_at");
 
-                    b.Property<long?>("FixedPriceId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("FixedPriceId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("fixed_price_id");
 
                     b.Property<short>("Frequency")
@@ -4427,15 +4482,19 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("frequency");
 
                     b.Property<bool>("IsFixed")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_fixed");
+                        .HasColumnName("is_fixed")
+                        .HasDefaultValueSql("'0'");
 
                     b.Property<bool>("IsPaused")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_paused");
+                        .HasColumnName("is_paused")
+                        .HasDefaultValueSql("'0'");
 
-                    b.Property<long?>("PropertyId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("PropertyId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("property_id");
 
                     b.Property<short?>("Quarters")
@@ -4448,8 +4507,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("refill_sequence")
                         .HasDefaultValueSql("'12'");
 
-                    b.Property<long>("ServiceId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("ServiceId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("service_id");
 
                     b.Property<DateOnly>("StartAt")
@@ -4460,8 +4519,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("start_time_at");
 
-                    b.Property<long>("SubscribableId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("SubscribableId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("subscribable_id");
 
                     b.Property<string>("SubscribableType")
@@ -4469,16 +4528,16 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("varchar(255)")
                         .HasColumnName("subscribable_type");
 
-                    b.Property<long?>("TeamId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("TeamId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("team_id");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("UserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id")
@@ -4505,12 +4564,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.SubscriptionCleaningDetail", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -4520,20 +4579,20 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("time")
                         .HasColumnName("end_time");
 
-                    b.Property<long>("PropertyId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("PropertyId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("property_id");
 
-                    b.Property<short>("Quarters")
-                        .HasColumnType("smallint")
+                    b.Property<ushort>("Quarters")
+                        .HasColumnType("smallint unsigned")
                         .HasColumnName("quarters");
 
                     b.Property<TimeOnly>("StartTime")
                         .HasColumnType("time")
                         .HasColumnName("start_time");
 
-                    b.Property<long>("TeamId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("TeamId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("team_id");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -4554,19 +4613,19 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.SubscriptionItem", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<long>("ItemableId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("ItemableId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("itemable_id");
 
                     b.Property<string>("ItemableType")
@@ -4574,14 +4633,14 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("varchar(255)")
                         .HasColumnName("itemable_type");
 
-                    b.Property<short>("Quantity")
+                    b.Property<ushort>("Quantity")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("smallint")
+                        .HasColumnType("smallint unsigned")
                         .HasColumnName("quantity")
                         .HasDefaultValueSql("'1'");
 
-                    b.Property<long>("SubscriptionId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("SubscriptionId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("subscription_id");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -4602,47 +4661,47 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.SubscriptionLaundryDetail", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<long?>("DeliveryPropertyId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("DeliveryPropertyId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("delivery_property_id");
 
-                    b.Property<long?>("DeliveryTeamId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("DeliveryTeamId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("delivery_team_id");
 
                     b.Property<TimeOnly?>("DeliveryTime")
                         .HasColumnType("time")
                         .HasColumnName("delivery_time");
 
-                    b.Property<long>("LaundryPreferenceId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("LaundryPreferenceId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("laundry_preference_id");
 
-                    b.Property<long?>("PickupPropertyId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("PickupPropertyId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("pickup_property_id");
 
-                    b.Property<long?>("PickupTeamId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("PickupTeamId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("pickup_team_id");
 
                     b.Property<TimeOnly?>("PickupTime")
                         .HasColumnType("time")
                         .HasColumnName("pickup_time");
 
-                    b.Property<long>("StoreId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("StoreId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("store_id");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -4671,12 +4730,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.SubscriptionStaffDetail", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -4686,7 +4745,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("deleted_at");
 
-                    b.Property<bool?>("IsActive")
+                    b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("is_active")
@@ -4696,16 +4755,16 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("int")
                         .HasColumnName("quarters");
 
-                    b.Property<long>("SubscriptionId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("SubscriptionId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("subscription_id");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("UserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id")
@@ -4722,15 +4781,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Task", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
-                    b.Property<long>("CustomTaskId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("CustomTaskId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("custom_task_id");
 
                     b.Property<string>("Description")
@@ -4738,8 +4797,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("description");
 
                     b.Property<bool>("IsCompleted")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_completed");
+                        .HasColumnName("is_completed")
+                        .HasDefaultValueSql("'0'");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -4747,8 +4808,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("varchar(255)")
                         .HasColumnName("name");
 
-                    b.Property<long>("ScheduleEmployeeId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("ScheduleEmployeeId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("schedule_employee_id");
 
                     b.HasKey("Id")
@@ -4765,12 +4826,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Team", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<string>("Avatar")
                         .HasColumnType("text")
@@ -4793,7 +4854,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("description");
 
-                    b.Property<bool?>("IsActive")
+                    b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("is_active")
@@ -4820,19 +4881,19 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.TeamUser", b =>
                 {
-                    b.Property<long>("MyRowId")
+                    b.Property<ulong>("MyRowId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("my_row_id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("MyRowId"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("MyRowId"));
 
-                    b.Property<long>("TeamId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("TeamId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("team_id");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("UserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("user_id");
 
                     b.HasKey("MyRowId")
@@ -4849,15 +4910,15 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.TimeAdjustment", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
-                    b.Property<long>("CauserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("CauserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("causer_id");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -4874,8 +4935,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("varchar(255)")
                         .HasColumnName("reason");
 
-                    b.Property<long>("ScheduleEmployeeId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("ScheduleEmployeeId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("schedule_employee_id");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -4896,12 +4957,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Translation", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -4928,8 +4989,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("sv_SE");
 
-                    b.Property<long>("TranslationableId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("TranslationableId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("translationable_id");
 
                     b.Property<string>("TranslationableType")
@@ -4955,12 +5016,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.UnassignSubscription", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<string>("AddonIds")
                         .HasColumnType("json")
@@ -4974,8 +5035,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("created_at");
 
-                    b.Property<long?>("CustomerId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong?>("CustomerId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("customer_id");
 
                     b.Property<string>("Description")
@@ -4987,7 +5048,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("end_at");
 
                     b.Property<decimal?>("FixedPrice")
-                        .HasColumnType("decimal(8,2)")
+                        .HasColumnType("decimal(8,2) unsigned")
                         .HasColumnName("fixed_price");
 
                     b.Property<short>("Frequency")
@@ -4995,8 +5056,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("frequency");
 
                     b.Property<bool>("IsFixed")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_fixed");
+                        .HasColumnName("is_fixed")
+                        .HasDefaultValueSql("'0'");
 
                     b.Property<string>("LaundryDetail")
                         .HasColumnType("json")
@@ -5006,8 +5069,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("json")
                         .HasColumnName("product_carts");
 
-                    b.Property<long>("ServiceId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("ServiceId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("service_id");
 
                     b.Property<DateOnly>("StartAt")
@@ -5018,8 +5081,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("UserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id")
@@ -5038,12 +5101,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.User", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<string>("Cellphone")
                         .HasColumnType("varchar(255)")
@@ -5134,12 +5197,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.UserInfo", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<string>("Avatar")
                         .HasColumnType("text")
@@ -5197,8 +5260,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("UserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id")
@@ -5211,12 +5274,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.UserOtp", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -5256,12 +5319,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.UserSetting", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -5281,8 +5344,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("UserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("user_id");
 
                     b.Property<string>("Value")
@@ -5308,12 +5371,12 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.WorkHour", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<ulong>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("Id"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp")
@@ -5348,8 +5411,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp")
                         .HasColumnName("updated_at");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint")
+                    b.Property<ulong>("UserId")
+                        .HasColumnType("bigint unsigned")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id")
@@ -5366,11 +5429,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("FixedPriceProduct", b =>
                 {
-                    b.Property<long>("FixedPricesId")
-                        .HasColumnType("bigint");
+                    b.Property<ulong>("FixedPricesId")
+                        .HasColumnType("bigint unsigned");
 
-                    b.Property<long>("ProductsId")
-                        .HasColumnType("bigint");
+                    b.Property<ulong>("ProductsId")
+                        .HasColumnType("bigint unsigned");
 
                     b.HasKey("FixedPricesId", "ProductsId");
 
@@ -5381,11 +5444,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("OrderFixedPriceProduct", b =>
                 {
-                    b.Property<long>("OrderFixedPricesId")
-                        .HasColumnType("bigint");
+                    b.Property<ulong>("OrderFixedPricesId")
+                        .HasColumnType("bigint unsigned");
 
-                    b.Property<long>("ProductsId")
-                        .HasColumnType("bigint");
+                    b.Property<ulong>("ProductsId")
+                        .HasColumnType("bigint unsigned");
 
                     b.HasKey("OrderFixedPricesId", "ProductsId");
 
@@ -5396,11 +5459,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("PermissionRole", b =>
                 {
-                    b.Property<long>("PermissionsId")
-                        .HasColumnType("bigint");
+                    b.Property<ulong>("PermissionsId")
+                        .HasColumnType("bigint unsigned");
 
-                    b.Property<long>("RolesId")
-                        .HasColumnType("bigint");
+                    b.Property<ulong>("RolesId")
+                        .HasColumnType("bigint unsigned");
 
                     b.HasKey("PermissionsId", "RolesId");
 
@@ -5961,7 +6024,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .WithMany("Orders")
                         .HasForeignKey("OrderFixedPriceId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .HasConstraintName("orders_order_fixed_price_id_foreign");
+                        .HasConstraintName("orders_order_fixed_price_id_foreign")
+                        .HasAnnotation("Relational:OnUpdate", "RESTRICT");
 
                     b.HasOne("Downstairs.Infrastructure.Persistence.Models.Service", "Service")
                         .WithMany("Orders")
@@ -5973,7 +6037,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .WithMany("Orders")
                         .HasForeignKey("SubscriptionId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .HasConstraintName("orders_subscription_id_foreign");
+                        .HasConstraintName("orders_subscription_id_foreign")
+                        .HasAnnotation("Relational:OnUpdate", "RESTRICT");
 
                     b.HasOne("Downstairs.Infrastructure.Persistence.Models.User", "User")
                         .WithMany("Orders")

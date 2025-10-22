@@ -11,7 +11,7 @@ internal sealed class CashierAttendanceConfiguration : IEntityTypeConfiguration<
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.CheckInAt)
@@ -19,7 +19,7 @@ internal sealed class CashierAttendanceConfiguration : IEntityTypeConfiguration<
             .HasColumnName("check_in_at");
 
         entity.Property(e => e.CheckInCauserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("check_in_causer_id");
 
         entity.Property(e => e.CheckOutAt)
@@ -27,7 +27,7 @@ internal sealed class CashierAttendanceConfiguration : IEntityTypeConfiguration<
             .HasColumnName("check_out_at");
 
         entity.Property(e => e.CheckOutCauserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("check_out_causer_id");
 
         entity.Property(e => e.CreatedAt)
@@ -39,7 +39,7 @@ internal sealed class CashierAttendanceConfiguration : IEntityTypeConfiguration<
             .HasColumnName("deleted_at");
 
         entity.Property(e => e.StoreId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("store_id");
 
         entity.Property(e => e.UpdatedAt)
@@ -47,25 +47,25 @@ internal sealed class CashierAttendanceConfiguration : IEntityTypeConfiguration<
             .HasColumnName("updated_at");
 
         entity.Property(e => e.UserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("user_id");
 
         entity.Property(e => e.WorkHourId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("work_hour_id");
 
         entity.HasKey(e => e.Id)
             .HasName("PRIMARY");
 
-        entity.HasIndex(e => e.CheckInCauserId, "cashier_attendances_check_in_causer_id_foreign");
-
-        entity.HasIndex(e => e.CheckOutCauserId, "cashier_attendances_check_out_causer_id_foreign");
+        entity.HasIndex(e => e.UserId, "cashier_attendances_user_id_foreign");
 
         entity.HasIndex(e => e.StoreId, "cashier_attendances_store_id_foreign");
 
-        entity.HasIndex(e => e.UserId, "cashier_attendances_user_id_foreign");
-
         entity.HasIndex(e => e.WorkHourId, "cashier_attendances_work_hour_id_foreign");
+
+        entity.HasIndex(e => e.CheckInCauserId, "cashier_attendances_check_in_causer_id_foreign");
+
+        entity.HasIndex(e => e.CheckOutCauserId, "cashier_attendances_check_out_causer_id_foreign");
 
         entity.ToTable("cashier_attendances").UseCollation(DatabaseConstants.Collations.Unicode);
 

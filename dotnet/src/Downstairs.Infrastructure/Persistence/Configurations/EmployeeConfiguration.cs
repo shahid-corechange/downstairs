@@ -11,11 +11,11 @@ internal sealed class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
     {
         entity.Property(e => e.Id)
             .ValueGeneratedOnAdd()
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
         entity.Property(e => e.AddressId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("address_id");
 
         entity.Property(e => e.CreatedAt)
@@ -48,6 +48,7 @@ internal sealed class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
 
         entity.Property(e => e.IsValidIdentity)
             .HasColumnType("tinyint(1)")
+            .HasDefaultValueSql("'0'")
             .HasColumnName("is_valid_identity");
 
         entity.Property(e => e.Name)
@@ -66,7 +67,7 @@ internal sealed class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
             .HasColumnName("updated_at");
 
         entity.Property(e => e.UserId)
-            .HasColumnType("bigint")
+            .HasColumnType("bigint unsigned")
             .HasColumnName("user_id");
 
         entity.HasKey(e => e.Id)
