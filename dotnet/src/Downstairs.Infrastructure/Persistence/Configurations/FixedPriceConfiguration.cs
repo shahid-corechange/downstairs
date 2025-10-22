@@ -55,7 +55,7 @@ internal sealed class FixedPriceConfiguration : IEntityTypeConfiguration<FixedPr
             .HasName("PRIMARY");
 
         entity.HasIndex(e => e.UserId, "fixed_prices_user_id_foreign");
-        
+
         entity.HasIndex(e => e.CreatedAt, "fixed_prices_created_at_index");
 
         entity.ToTable("fixed_prices").UseCollation(DatabaseConstants.Collations.Unicode);

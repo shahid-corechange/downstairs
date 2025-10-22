@@ -64,7 +64,7 @@ internal sealed class CustomerDiscountConfiguration : IEntityTypeConfiguration<C
         entity.HasIndex(e => e.StartDate, "customer_discounts_start_date_index");
 
         entity.HasIndex(e => e.EndDate, "customer_discounts_end_date_index");
-        
+
         entity.HasIndex(e => e.CreatedAt, "customer_discounts_created_at_index");
 
         entity.ToTable("customer_discounts").UseCollation(DatabaseConstants.Collations.Unicode);

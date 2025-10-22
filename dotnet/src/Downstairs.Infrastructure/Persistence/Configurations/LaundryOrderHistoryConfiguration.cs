@@ -49,7 +49,7 @@ internal sealed class LaundryOrderHistoryConfiguration : IEntityTypeConfiguratio
             .HasName("PRIMARY");
 
         entity.HasIndex(e => e.LaundryOrderId, "laundry_order_histories_laundry_order_id_foreign");
-        
+
         entity.HasIndex(e => e.CauserId, "laundry_order_histories_causer_id_foreign");
 
         entity.ToTable("laundry_order_histories").UseCollation(DatabaseConstants.Collations.Unicode);

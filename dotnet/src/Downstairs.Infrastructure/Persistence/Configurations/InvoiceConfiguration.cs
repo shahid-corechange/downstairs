@@ -113,7 +113,7 @@ internal sealed class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
         entity.HasIndex(e => e.UserId, "invoices_user_id_foreign");
 
         entity.HasIndex(e => e.Type, "invoices_type_index");
-        
+
         entity.HasIndex(e => e.Month, "invoices_month_index");
 
         entity.HasIndex(e => e.Status, "invoices_status_index");

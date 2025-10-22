@@ -59,7 +59,7 @@ internal sealed class CreditTransactionConfiguration : IEntityTypeConfiguration<
         entity.HasIndex(e => e.ScheduleCleaningId, "credit_transactions_schedule_cleaning_id_foreign");
 
         entity.HasIndex(e => e.UserId, "credit_transactions_user_id_foreign");
-        
+
         entity.HasIndex(e => e.IssuerId, "credit_transactions_issuer_id_foreign");
 
         entity.HasIndex(e => e.ScheduleId, "credit_transactions_schedule_id_foreign");

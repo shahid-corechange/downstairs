@@ -101,7 +101,7 @@ internal sealed class LaundryOrderConfiguration : IEntityTypeConfiguration<Laund
         entity.HasIndex(e => e.StoreId, "laundry_orders_store_id_foreign");
 
         entity.HasIndex(e => e.UserId, "laundry_orders_user_id_foreign");
-        
+
         entity.HasIndex(e => e.CauserId, "laundry_orders_causer_id_foreign");
 
         entity.HasIndex(e => e.LaundryPreferenceId, "laundry_orders_laundry_preference_id_foreign");

@@ -68,7 +68,7 @@ temp/
 cache/
 
 # GitHub
-.github/
+#.github/
 
 # JetBrains / Rider
 .idea/
