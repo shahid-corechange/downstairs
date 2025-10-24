@@ -68,6 +68,7 @@ class CustomerAccountController extends BaseUserController
             ],
             defaultFilter: [
                 'status_eq' => UserStatusEnum::Active(),
+                'isCompanyContact_eq' => false,
             ],
             pagination: 'page',
             show: 'all',
@@ -128,6 +129,7 @@ class CustomerAccountController extends BaseUserController
             ]);
             $user->info->update($request->toArray());
 
+            // handles customer->user sync
             if ($user->primaryCustomer->membership_type === MembershipTypeEnum::Private()) {
                 $user->primaryCustomer->update([
                     'name' => $user->fullname,

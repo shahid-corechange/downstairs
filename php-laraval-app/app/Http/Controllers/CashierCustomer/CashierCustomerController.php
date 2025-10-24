@@ -47,6 +47,7 @@ class CashierCustomerController extends BaseUserController
         $queries = $this->getQueries(
             defaultFilter: [
                 'roles_name_in' => 'Customer,Company',
+                'isCompanyContact_eq' => false,
             ],
         );
         $paginatedData = User::applyFilterSortAndPaginate($queries);

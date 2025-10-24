@@ -1,9 +1,10 @@
+﻿using System;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Downstairs.Infrastructure.Persistence.Migrations
+namespace Downstairs.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -807,24 +808,24 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
 
             migrationBuilder.CreateTable(
-                name: "PermissionRole",
+                name: "role_has_permissions",
                 columns: table => new
                 {
-                    PermissionsId = table.Column<ulong>(type: "bigint unsigned", nullable: false),
-                    RolesId = table.Column<ulong>(type: "bigint unsigned", nullable: false)
+                    role_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    permission_id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PermissionRole", x => new { x.PermissionsId, x.RolesId });
+                    table.PrimaryKey("PK_role_has_permissions", x => new { x.role_id, x.permission_id });
                     table.ForeignKey(
-                        name: "FK_PermissionRole_permissions_PermissionsId",
-                        column: x => x.PermissionsId,
+                        name: "FK_role_has_permissions_permissions_permission_id",
+                        column: x => x.permission_id,
                         principalTable: "permissions",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PermissionRole_roles_RolesId",
-                        column: x => x.RolesId,
+                        name: "FK_role_has_permissions_roles_role_id",
+                        column: x => x.role_id,
                         principalTable: "roles",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -1169,6 +1170,32 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
 
             migrationBuilder.CreateTable(
+                name: "fixed_price_laundry_products",
+                columns: table => new
+                {
+                    fixed_price_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    product_id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_fixed_price_laundry_products", x => new { x.fixed_price_id, x.product_id });
+                    table.ForeignKey(
+                        name: "FK_fixed_price_laundry_products_fixed_prices_fixed_price_id",
+                        column: x => x.fixed_price_id,
+                        principalTable: "fixed_prices",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_fixed_price_laundry_products_products_product_id",
+                        column: x => x.product_id,
+                        principalTable: "products",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
                 name: "fixed_price_rows",
                 columns: table => new
                 {
@@ -1191,32 +1218,6 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         name: "fixed_price_rows_fixed_price_id_foreign",
                         column: x => x.fixed_price_id,
                         principalTable: "fixed_prices",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4")
-                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
-
-            migrationBuilder.CreateTable(
-                name: "FixedPriceProduct",
-                columns: table => new
-                {
-                    FixedPricesId = table.Column<ulong>(type: "bigint unsigned", nullable: false),
-                    ProductsId = table.Column<ulong>(type: "bigint unsigned", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FixedPriceProduct", x => new { x.FixedPricesId, x.ProductsId });
-                    table.ForeignKey(
-                        name: "FK_FixedPriceProduct_fixed_prices_FixedPricesId",
-                        column: x => x.FixedPricesId,
-                        principalTable: "fixed_prices",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_FixedPriceProduct_products_ProductsId",
-                        column: x => x.ProductsId,
-                        principalTable: "products",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -1450,6 +1451,32 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
 
             migrationBuilder.CreateTable(
+                name: "order_fixed_price_laundry_products",
+                columns: table => new
+                {
+                    order_fixed_price_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    product_id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_order_fixed_price_laundry_products", x => new { x.order_fixed_price_id, x.product_id });
+                    table.ForeignKey(
+                        name: "FK_order_fixed_price_laundry_products_order_fixed_prices_order_~",
+                        column: x => x.order_fixed_price_id,
+                        principalTable: "order_fixed_prices",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_order_fixed_price_laundry_products_products_product_id",
+                        column: x => x.product_id,
+                        principalTable: "products",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4")
+                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
+
+            migrationBuilder.CreateTable(
                 name: "order_fixed_price_rows",
                 columns: table => new
                 {
@@ -1474,32 +1501,6 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         name: "order_fixed_price_rows_order_fixed_price_id_foreign",
                         column: x => x.order_fixed_price_id,
                         principalTable: "order_fixed_prices",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4")
-                .Annotation("Relational:Collation", "utf8mb4_unicode_ci");
-
-            migrationBuilder.CreateTable(
-                name: "OrderFixedPriceProduct",
-                columns: table => new
-                {
-                    OrderFixedPricesId = table.Column<ulong>(type: "bigint unsigned", nullable: false),
-                    ProductsId = table.Column<ulong>(type: "bigint unsigned", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OrderFixedPriceProduct", x => new { x.OrderFixedPricesId, x.ProductsId });
-                    table.ForeignKey(
-                        name: "FK_OrderFixedPriceProduct_order_fixed_prices_OrderFixedPricesId",
-                        column: x => x.OrderFixedPricesId,
-                        principalTable: "order_fixed_prices",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_OrderFixedPriceProduct_products_ProductsId",
-                        column: x => x.ProductsId,
-                        principalTable: "products",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -2263,7 +2264,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     end_at = table.Column<DateTime>(type: "timestamp", nullable: false),
                     original_start_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     quarters = table.Column<short>(type: "smallint", nullable: false),
-                    is_fixed = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    is_fixed = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'0'"),
                     key_information = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     note = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
@@ -2599,7 +2600,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     quantity = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
                     unit = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    price = table.Column<decimal>(type: "decimal(8,2)", precision: 8, scale: 2, nullable: false),
+                    price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
                     discount_percentage = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'0'"),
                     vat = table.Column<short>(type: "smallint", nullable: false, defaultValueSql: "'25'"),
                     has_rut = table.Column<bool>(type: "tinyint(1)", nullable: false),
@@ -3415,6 +3416,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 columns: new[] { "feedbackable_type", "feedbackable_id" });
 
             migrationBuilder.CreateIndex(
+                name: "IX_fixed_price_laundry_products_product_id",
+                table: "fixed_price_laundry_products",
+                column: "product_id");
+
+            migrationBuilder.CreateIndex(
                 name: "fixed_price_rows_fixed_price_id_foreign",
                 table: "fixed_price_rows",
                 column: "fixed_price_id");
@@ -3433,11 +3439,6 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "fixed_prices_user_id_foreign",
                 table: "fixed_prices",
                 column: "user_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FixedPriceProduct_ProductsId",
-                table: "FixedPriceProduct",
-                column: "ProductsId");
 
             migrationBuilder.CreateIndex(
                 name: "global_settings_key_index",
@@ -3606,6 +3607,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 column: "customer_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_order_fixed_price_laundry_products_product_id",
+                table: "order_fixed_price_laundry_products",
+                column: "product_id");
+
+            migrationBuilder.CreateIndex(
                 name: "order_fixed_price_rows_order_fixed_price_id_foreign",
                 table: "order_fixed_price_rows",
                 column: "order_fixed_price_id");
@@ -3619,11 +3625,6 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "order_rows_order_id_foreign",
                 table: "order_rows",
                 column: "order_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OrderFixedPriceProduct_ProductsId",
-                table: "OrderFixedPriceProduct",
-                column: "ProductsId");
 
             migrationBuilder.CreateIndex(
                 name: "orderable_index",
@@ -3664,11 +3665,6 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "password_reset_tokens_email_index",
                 table: "password_reset_tokens",
                 column: "email");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PermissionRole_RolesId",
-                table: "PermissionRole",
-                column: "RolesId");
 
             migrationBuilder.CreateIndex(
                 name: "permissions_name_guard_name_unique",
@@ -3742,6 +3738,11 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "property_user_user_id_foreign",
                 table: "property_user",
                 column: "user_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_role_has_permissions_permission_id",
+                table: "role_has_permissions",
+                column: "permission_id");
 
             migrationBuilder.CreateIndex(
                 name: "roles_name_guard_name_unique",
@@ -4266,10 +4267,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "feedbacks");
 
             migrationBuilder.DropTable(
-                name: "fixed_price_rows");
+                name: "fixed_price_laundry_products");
 
             migrationBuilder.DropTable(
-                name: "FixedPriceProduct");
+                name: "fixed_price_rows");
 
             migrationBuilder.DropTable(
                 name: "global_settings");
@@ -4311,19 +4312,16 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "old_orders");
 
             migrationBuilder.DropTable(
+                name: "order_fixed_price_laundry_products");
+
+            migrationBuilder.DropTable(
                 name: "order_fixed_price_rows");
 
             migrationBuilder.DropTable(
                 name: "order_rows");
 
             migrationBuilder.DropTable(
-                name: "OrderFixedPriceProduct");
-
-            migrationBuilder.DropTable(
                 name: "password_reset_tokens");
-
-            migrationBuilder.DropTable(
-                name: "PermissionRole");
 
             migrationBuilder.DropTable(
                 name: "personal_access_tokens");
@@ -4336,6 +4334,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "property_user");
+
+            migrationBuilder.DropTable(
+                name: "role_has_permissions");
 
             migrationBuilder.DropTable(
                 name: "rut_co_applicants");
@@ -4434,13 +4435,13 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "orders");
 
             migrationBuilder.DropTable(
+                name: "price_adjustments");
+
+            migrationBuilder.DropTable(
                 name: "permissions");
 
             migrationBuilder.DropTable(
                 name: "roles");
-
-            migrationBuilder.DropTable(
-                name: "price_adjustments");
 
             migrationBuilder.DropTable(
                 name: "addons");

@@ -24,7 +24,7 @@ CREATE TABLE `properties` (
   `address_id` bigint unsigned NOT NULL,
   `property_type_id` bigint unsigned NOT NULL,
   `membership_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'private',
-  `square_meter` decimal(8,2) NOT NULL,
+  `square_meter` decimal(8,2) unsigned NOT NULL,
   `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
   `key_information` json DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,

@@ -4,6 +4,7 @@ use App\Enums\CacheEnum;
 use App\Enums\PermissionsEnum;
 use App\Http\Controllers\Company\CompanyAccountController;
 use App\Http\Controllers\Company\CompanyAddressController;
+use App\Http\Controllers\Company\CompanyPrimaryController;
 use App\Http\Controllers\Company\CompanyWizardController;
 
 Route::prefix('companies')->name('companies.')->group(function () {
@@ -88,8 +89,16 @@ Route::prefix('companies')->name('companies.')->group(function () {
                 ->middleware(
                     middleware_tags(
                         'permission',
-                        PermissionsEnum::CompaniesPrimaryAddressUpdate(),
                         PermissionsEnum::CompanyInvoiceAddressesUpdate()
+                    )
+                )
+                ->middleware('throttle:5,1');
+            Route::patch('{customer}/primary', [CompanyPrimaryController::class, 'update'])
+                ->name('update-primary')
+                ->middleware(
+                    middleware_tags(
+                        'permission',
+                        PermissionsEnum::CompaniesPrimaryAddressUpdate(),
                     )
                 )
                 ->middleware('throttle:5,1');

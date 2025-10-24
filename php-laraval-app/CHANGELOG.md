@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.30.0](https://dev.azure.com/downstairs-service/application/_git/laravel-app/compare/v1.29.0...v1.30.0) (2025-10-24)
+
+
+### Features
+
+* add confirmation dialog for incomplete customer information in EditForm ([bb0c641](https://dev.azure.com/downstairs-service/application/_git/laravel-app/commit/bb0c641691096ef78587c262a49ff662ed959e88))
+* add notification method handling to user forms and DTOs for improved user communication ([b1c8d0b](https://dev.azure.com/downstairs-service/application/_git/laravel-app/commit/b1c8d0b07d12366b3a5a34828eafc38d050cd0c6))
+* add user info fields to customer overview and remove edit modal ([fe963ce](https://dev.azure.com/downstairs-service/application/_git/laravel-app/commit/fe963ce233a673c46d6bd996e592c179046fab2a))
+* enhance customer and company overview to include notification method display ([b9d0514](https://dev.azure.com/downstairs-service/application/_git/laravel-app/commit/b9d0514c4628fb9d5b4db8e3e299ec3032f8d3a3))
+* enhance ScheduleEmployeeController with caching and transaction locks for improved concurrency handling ([25d515f](https://dev.azure.com/downstairs-service/application/_git/laravel-app/commit/25d515fcb83f77f6959ec9ef7555fc84d564cfa1))
+* enhance user DTOs and controllers to improve validation and address handling ([9d0dc3c](https://dev.azure.com/downstairs-service/application/_git/laravel-app/commit/9d0dc3cc1ba648efe8b4954ab6264dd77206e85a))
+* enhance user DTOs and forms to include additional user information and notification methods ([07e77c2](https://dev.azure.com/downstairs-service/application/_git/laravel-app/commit/07e77c2039e62e760261bd7deadab142b6e22452))
+* enhance user DTOs and forms to include notification method for improved user communication options ([91fe11d](https://dev.azure.com/downstairs-service/application/_git/laravel-app/commit/91fe11d511ec1884fa1d6ce5b2772923e4f4f196))
+* enhance user forms and DTOs to improve address validation and notification method handling ([652745b](https://dev.azure.com/downstairs-service/application/_git/laravel-app/commit/652745b6c3fc9c13237cc71bd9601a90fd923589))
+* improve address validation and customer completeness checks in forms ([8157ddd](https://dev.azure.com/downstairs-service/application/_git/laravel-app/commit/8157ddd6b9d4ae683f6615b71e3d1c4950dcc3b7))
+* improve ScheduleEmployeeController by adding status checks to prevent redundant processing ([7bd0bb2](https://dev.azure.com/downstairs-service/application/_git/laravel-app/commit/7bd0bb2c39a8135a06b529696da5fc8fde5238c8))
+* refactor company overview to remove EditModal and enhance user data handling ([2665886](https://dev.azure.com/downstairs-service/application/_git/laravel-app/commit/2665886c8ba928f19103f78d11fe07f9afd32bbc))
+* update user DTO and forms to improve validation and handle optional fields ([52ab116](https://dev.azure.com/downstairs-service/application/_git/laravel-app/commit/52ab1167a432bb54b150730d40c955f017c94afa))
+* update user forms and DTOs to improve validation and user information handling ([48fba48](https://dev.azure.com/downstairs-service/application/_git/laravel-app/commit/48fba480742f3984317795f457b885a580d9fe3b))
+
 ## [1.29.0](https://dev.azure.com/downstairs-service/application/_git/laravel-app/compare/v1.28.0...v1.29.0) (2025-10-02)
 
 

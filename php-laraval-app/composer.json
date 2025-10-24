@@ -1,7 +1,7 @@
 {
   "name": "downstairstech/downstairs",
   "type": "project",
-  "version": "1.29.0",
+  "version": "1.30.0",
   "description": "The Metronic in the Laravel Framework.",
   "keywords": [
     "framework",

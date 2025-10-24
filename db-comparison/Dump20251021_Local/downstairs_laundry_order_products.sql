@@ -28,7 +28,7 @@ CREATE TABLE `laundry_order_products` (
   `quantity` tinyint unsigned NOT NULL,
   `price` decimal(8,2) unsigned NOT NULL,
   `vat_group` tinyint unsigned NOT NULL DEFAULT '25',
-  `discount` decimal(8,2) unsigned NOT NULL,
+  `discount` decimal(8,2) unsigned NOT NULL DEFAULT '0.00',
   `has_rut` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,

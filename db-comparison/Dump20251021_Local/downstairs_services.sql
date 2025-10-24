@@ -24,7 +24,7 @@ CREATE TABLE `services` (
   `fortnox_article_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `membership_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `price` decimal(8,2) NOT NULL,
+  `price` decimal(8,2) unsigned NOT NULL,
   `vat_group` tinyint unsigned NOT NULL DEFAULT '25',
   `has_rut` tinyint(1) NOT NULL,
   `thumbnail_image` text COLLATE utf8mb4_unicode_ci,

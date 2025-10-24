@@ -7,7 +7,7 @@ import {
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import AuthorizationGuard from "@/components/AuthorizationGuard";
@@ -46,10 +46,11 @@ const ViewModal = ({
   const [expandableContent, setExpandableContent] = useState<React.ReactNode>();
   const [expandableTitle, setExpandableTitle] = useState<string>();
   const [activeTabIndex, setActiveTabIndex] = useState(activeTab);
+  const [userData, setUserData] = useState<User | undefined>(data);
 
-  const customers = useGetCustomerAddresses(data?.id, {
+  const customers = useGetCustomerAddresses(userData?.id, {
     request: {
-      include: ["address.city.country"],
+      include: ["address.city.country", "users.info"],
       only: [
         "id",
         "customerRefId",
@@ -74,10 +75,11 @@ const ViewModal = ({
         "address.city.name",
         "address.city.countryId",
         "address.city.country.name",
+        "users.info.notificationMethod",
       ],
     },
     query: {
-      enabled: !!data?.id && isOpen,
+      enabled: !!userData?.id && isOpen,
     },
   });
 
@@ -85,6 +87,10 @@ const ViewModal = ({
     setIsExpanded(true);
     setExpandableContent(expansion.content);
     setExpandableTitle(expansion.title);
+  };
+
+  const handleTitleUpdate = (title: string) => {
+    setExpandableTitle(title);
   };
 
   const handleShrink = () => {
@@ -104,6 +110,17 @@ const ViewModal = ({
     setActiveTabIndex(0);
   };
 
+  const handleUserDataUpdate = (updatedUser: User) => {
+    setUserData(updatedUser);
+  };
+
+  // Update local userData when data prop changes
+  useEffect(() => {
+    if (data) {
+      setUserData(data);
+    }
+  }, [data]);
+
   return (
     <Modal
       bodyContainer={{ p: 8 }}
@@ -116,7 +133,7 @@ const ViewModal = ({
       onShrink={handleShrink}
       size="full"
     >
-      {data && !customers.isFetching && customers.data ? (
+      {userData && !customers.isFetching && customers.data ? (
         <Tabs index={activeTabIndex} onChange={handleChangeTab}>
           <Box overflow="auto">
             <TabList minW="fit-content">
@@ -152,17 +169,20 @@ const ViewModal = ({
           <TabPanels>
             <AuthorizationGuard permissions="customers primary address read">
               <PrimaryPanel
-                userId={data.id}
+                userId={userData.id}
+                userData={userData}
                 customers={customers.data}
                 onModalExpansion={handleModalExpansion}
                 onModalShrink={handleShrink}
                 onRefetch={() => customers.refetch()}
+                onUserDataUpdate={handleUserDataUpdate}
+                onTitleUpdate={handleTitleUpdate}
                 py={8}
               />
             </AuthorizationGuard>
             <AuthorizationGuard permissions="customer invoice addresses index">
               <InvoicePanel
-                userId={data.id}
+                userId={userData.id}
                 customers={customers.data}
                 onModalExpansion={handleModalExpansion}
                 onModalShrink={handleShrink}
@@ -172,17 +192,17 @@ const ViewModal = ({
             </AuthorizationGuard>
             <AuthorizationGuard permissions="customer schedules index">
               <SchedulePanel
-                userId={data.id}
+                userId={userData.id}
                 onRefetch={() => customers.refetch()}
                 py={8}
               />
             </AuthorizationGuard>
             <AuthorizationGuard permissions="customer schedule histories index">
-              <ScheduleHistoryPanel userId={data.id} py={8} />
+              <ScheduleHistoryPanel userId={userData.id} py={8} />
             </AuthorizationGuard>
             <AuthorizationGuard permissions="customer credits index">
               <CreditPanel
-                userId={data.id}
+                userId={userData.id}
                 onModalExpansion={handleModalExpansion}
                 onModalShrink={handleShrink}
                 py={8}
@@ -190,7 +210,7 @@ const ViewModal = ({
             </AuthorizationGuard>
             <AuthorizationGuard permissions="customer rut co applicant index">
               <RutCoApplicantPanel
-                userId={data.id}
+                userId={userData.id}
                 onModalExpansion={handleModalExpansion}
                 onModalShrink={handleShrink}
                 onRefetch={() => customers.refetch()}
@@ -199,7 +219,7 @@ const ViewModal = ({
             </AuthorizationGuard>
             <AuthorizationGuard permissions="customer discounts index">
               <DiscountPanel
-                data={data}
+                data={userData}
                 onModalExpansion={handleModalExpansion}
                 onModalShrink={handleShrink}
                 py={8}
@@ -207,14 +227,14 @@ const ViewModal = ({
             </AuthorizationGuard>
             <AuthorizationGuard permissions="fixed prices index">
               <FixedPricePanel
-                data={data}
+                data={userData}
                 onModalExpansion={handleModalExpansion}
                 onModalShrink={handleShrink}
                 py={8}
               />
             </AuthorizationGuard>
             <AuthorizationGuard permissions="properties index">
-              <PropertyPanel userId={data.id} py={8} />
+              <PropertyPanel userId={userData.id} py={8} />
             </AuthorizationGuard>
           </TabPanels>
         </Tabs>

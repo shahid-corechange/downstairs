@@ -14,7 +14,7 @@ services:
       - app-logs:/var/www/html/share/logs/app
       - scheduler-logs:/var/www/html/share/logs/scheduler
       - queue-worker-logs:/var/www/html/share/logs/queue-worker
-    image: registryproductiondownstairs.azurecr.io/laravel/nginx:1.29.0
+    image: registryproductiondownstairs.azurecr.io/laravel/nginx:1.30.0
   app:
     environment:
       - APP_TYPE=app
@@ -24,7 +24,7 @@ services:
       - "9000"
     volumes:
       - app-logs:/var/www/html/storage/logs
-    image: registryproductiondownstairs.azurecr.io/laravel/php-fpm:1.29.0
+    image: registryproductiondownstairs.azurecr.io/laravel/php-fpm:1.30.0
   scheduler:
     networks:
       - downstairs
@@ -33,7 +33,7 @@ services:
       - app-logs:/var/www/html/storage/share/logs/app
       - queue-worker-logs:/var/www/html/storage/share/logs/queue-worker
     command: crond -f -L /dev/null
-    image: registryproductiondownstairs.azurecr.io/laravel/php-fpm:1.29.0
+    image: registryproductiondownstairs.azurecr.io/laravel/php-fpm:1.30.0
   queue-worker:
     environment:
       - APP_TYPE=queue-worker
@@ -41,7 +41,7 @@ services:
       - downstairs
     volumes:
       - queue-worker-logs:/var/www/html/storage/logs
-    image: registryproductiondownstairs.azurecr.io/laravel/php-fpm:1.29.0
+    image: registryproductiondownstairs.azurecr.io/laravel/php-fpm:1.30.0
     restart: always
 volumes:
   app-logs:

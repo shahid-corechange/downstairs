@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Downstairs.Infrastructure.Persistence.Seeders.Base;
 
@@ -20,7 +21,7 @@ public abstract class ValidatedSeeder : BaseSeeder
     /// <param name="validationFunc">Validation function to execute</param>
     /// <param name="entityName">Entity name for logging</param>
     /// <returns>True if validation passes</returns>
-    protected async Task<bool> ValidateSeededDataAsync<T>(DbSet<T> dbSet, Func<IQueryable<T>, Task<bool>> validationFunc, string entityName = null) where T : class
+    protected async Task<bool> ValidateSeededDataAsync<T>(DbSet<T> dbSet, Func<IQueryable<T>, Task<bool>> validationFunc, string? entityName = null) where T : class
     {
         entityName ??= typeof(T).Name;
 
@@ -56,7 +57,7 @@ public abstract class ValidatedSeeder : BaseSeeder
     /// <param name="minimumCount">Minimum number of records required</param>
     /// <param name="entityName">Entity name for logging</param>
     /// <returns>True if minimum count is met</returns>
-    protected async Task<bool> ValidateMinimumCountAsync<T>(DbSet<T> dbSet, int minimumCount, string entityName = null) where T : class
+    protected async Task<bool> ValidateMinimumCountAsync<T>(DbSet<T> dbSet, int minimumCount, string? entityName = null) where T : class
     {
         entityName ??= typeof(T).Name;
 
@@ -85,7 +86,7 @@ public abstract class ValidatedSeeder : BaseSeeder
     /// <param name="relationshipValidationFunc">Function to validate relationships</param>
     /// <param name="entityName">Entity name for logging</param>
     /// <returns>True if relationships are valid</returns>
-    protected async Task<bool> ValidateRelationshipsAsync<T>(DbSet<T> dbSet, Func<IQueryable<T>, Task<bool>> relationshipValidationFunc, string entityName = null) where T : class
+    protected async Task<bool> ValidateRelationshipsAsync<T>(DbSet<T> dbSet, Func<IQueryable<T>, Task<bool>> relationshipValidationFunc, string? entityName = null) where T : class
     {
         entityName ??= typeof(T).Name;
 

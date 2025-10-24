@@ -7,7 +7,7 @@ import {
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import AuthorizationGuard from "@/components/AuthorizationGuard";
@@ -47,10 +47,11 @@ const ViewModal = ({
   const [expandableContent, setExpandableContent] = useState<React.ReactNode>();
   const [expandableTitle, setExpandableTitle] = useState<string>();
   const [activeTabIndex, setActiveTabIndex] = useState(activeTab);
+  const [userData, setUserData] = useState<User | undefined>(user);
 
   const customers = useGetCompanyAddresses(companyId, {
     request: {
-      include: ["address.city.country"],
+      include: ["address.city.country", "users.info"],
       only: [
         "id",
         "customerRefId",
@@ -75,6 +76,7 @@ const ViewModal = ({
         "address.city.name",
         "address.city.countryId",
         "address.city.country.name",
+        "users.info.notificationMethod",
       ],
     },
     query: {
@@ -86,6 +88,10 @@ const ViewModal = ({
     setIsExpanded(true);
     setExpandableContent(expansion.content);
     setExpandableTitle(expansion.title);
+  };
+
+  const handleTitleUpdate = (title: string) => {
+    setExpandableTitle(title);
   };
 
   const handleShrink = () => {
@@ -105,6 +111,17 @@ const ViewModal = ({
     setActiveTabIndex(0);
   };
 
+  const handleUserDataUpdate = (updatedUser: User) => {
+    setUserData(updatedUser);
+  };
+
+  // Update local userData when user prop changes
+  useEffect(() => {
+    if (user) {
+      setUserData(user);
+    }
+  }, [user]);
+
   return (
     <Modal
       bodyContainer={{ p: 8 }}
@@ -117,7 +134,7 @@ const ViewModal = ({
       onShrink={handleShrink}
       size="full"
     >
-      {companyId && user && !customers.isFetching && customers.data ? (
+      {companyId && userData && !customers.isFetching && customers.data ? (
         <Tabs index={activeTabIndex} onChange={handleChangeTab}>
           <Box overflow="auto">
             <TabList minW="fit-content">
@@ -151,10 +168,13 @@ const ViewModal = ({
             <AuthorizationGuard permissions="companies primary address read">
               <PrimaryPanel
                 companyId={companyId}
+                userData={userData}
                 customers={customers.data}
                 onModalExpansion={handleModalExpansion}
                 onModalShrink={handleShrink}
                 onRefetch={() => customers.refetch()}
+                onUserDataUpdate={handleUserDataUpdate}
+                onTitleUpdate={handleTitleUpdate}
                 py={8}
               />
             </AuthorizationGuard>
@@ -180,7 +200,7 @@ const ViewModal = ({
             </AuthorizationGuard>
             <AuthorizationGuard permissions="company credits index">
               <CreditPanel
-                userId={user.id}
+                userId={userData.id}
                 onModalExpansion={handleModalExpansion}
                 onModalShrink={handleShrink}
                 py={8}
@@ -188,7 +208,7 @@ const ViewModal = ({
             </AuthorizationGuard>
             <AuthorizationGuard permissions="company discounts index">
               <DiscountPanel
-                data={user}
+                data={userData}
                 onModalExpansion={handleModalExpansion}
                 onModalShrink={handleShrink}
                 py={8}
@@ -196,14 +216,14 @@ const ViewModal = ({
             </AuthorizationGuard>
             <AuthorizationGuard permissions="company fixed prices index">
               <FixedPricePanel
-                data={user}
+                data={userData}
                 onModalExpansion={handleModalExpansion}
                 onModalShrink={handleShrink}
                 py={8}
               />
             </AuthorizationGuard>
             <AuthorizationGuard permissions="properties index">
-              <PropertyPanel userId={user.id} py={8} />
+              <PropertyPanel userId={userData.id} py={8} />
             </AuthorizationGuard>
           </TabPanels>
         </Tabs>

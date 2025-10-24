@@ -7,6 +7,7 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  useConst,
 } from "@chakra-ui/react";
 import { router, usePage } from "@inertiajs/react";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -20,6 +21,9 @@ import PhoneInput from "@/components/PhoneInput";
 
 import { INVOICE_DUE_DAYS, INVOICE_METHODS } from "@/constants/invoice";
 import { DEFAULT_COUNTRY_ID, DEFAULT_COUNTRY_NAME } from "@/constants/location";
+import { NOTIFICATION_METHOD_OPTIONS } from "@/constants/notification";
+
+import locales from "@/data/locales.json";
 
 import { useDebounce } from "@/hooks/debounce";
 
@@ -49,11 +53,30 @@ type FormValues = {
   address2?: string;
   discountId?: number;
   discountPercentage?: number;
+  // user
+  firstName: string;
+  lastName: string;
+  userEmail: string;
+  cellphone: string;
+  language: string;
+  timezone: string;
+  notificationMethod: string;
+  status: string;
 };
 
 const panelFields: (keyof FormValues)[][] = [
   ["name", "identityNumber", "email", "dueDays", "invoiceMethod", "phone1"],
   ["country", "address", "address2", "postalCode", "cityId"],
+  [
+    "firstName",
+    "lastName",
+    "userEmail",
+    "cellphone",
+    "language",
+    "timezone",
+    "notificationMethod",
+    "status",
+  ],
 ];
 
 interface EditFormProps {
@@ -94,8 +117,18 @@ const EditForm = ({
       postalCode: customer.address?.postalCode,
       discountId: discount?.id,
       discountPercentage: discount?.value,
+      // User
+      firstName: customer.users?.[0]?.firstName,
+      lastName: customer.users?.[0]?.lastName,
+      userEmail: customer.users?.[0]?.email,
+      cellphone: customer.users?.[0]?.formattedCellphone,
+      language: customer.users?.[0]?.info?.language ?? "",
+      timezone: customer.users?.[0]?.info?.timezone ?? "",
+      notificationMethod: customer.users?.[0]?.info?.notificationMethod ?? "",
+      status: customer.users?.[0]?.status,
     },
   });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [countryLabel, setCountryLabel] = useState(
     customer.address?.city?.country?.name ?? DEFAULT_COUNTRY_NAME,
@@ -110,9 +143,11 @@ const EditForm = ({
   const isLocationUpdated = useRef(false);
 
   const countryId = watch("country");
-  const postalCode = watch("postalCode");
   const address = watch("address");
-  const email = watch("email");
+  const postalCode = watch("postalCode");
+  const cityId = watch("cityId");
+  const userEmail = watch("userEmail");
+
   const countries = useGetCountries({
     request: {
       only: ["id", "name", "code", "dialCode"],
@@ -122,6 +157,25 @@ const EditForm = ({
   const dialCodes = useMemo(
     () => countries.data?.map((country) => `+${country.dialCode}`) ?? [],
     [countries.data],
+  );
+
+  // exclude email notification method if email is not provided
+  const notificationMethodOptions = useMemo(
+    () =>
+      getTranslatedOptions(NOTIFICATION_METHOD_OPTIONS).filter((option) =>
+        !userEmail ? option.value !== "email" : true,
+      ),
+    [userEmail],
+  );
+
+  const statusOptions = useConst(
+    getTranslatedOptions([
+      "active",
+      "inactive",
+      "suspended",
+      "pending",
+      "blocked",
+    ]),
   );
 
   const debouncedAddress = useDebounce(
@@ -134,6 +188,7 @@ const EditForm = ({
       only: ["id", "name"],
     },
   });
+
   const geocode = useGetGeocodeService({
     ...debouncedAddress,
     options: {
@@ -158,6 +213,12 @@ const EditForm = ({
 
   const invoiceMethodOptions = getTranslatedOptions(INVOICE_METHODS);
 
+  // to update address, needs to provide address, postal code, and city id
+  const isAddressRequired = useMemo(
+    () => !!(address || postalCode || cityId),
+    [address, postalCode, cityId],
+  );
+
   const handleError = (errors: (keyof FormValues)[]) => {
     const field = errors[0];
     const index = panelFields.findIndex((fields) => fields.includes(field));
@@ -168,27 +229,27 @@ const EditForm = ({
     (values) => {
       setIsSubmitting(true);
 
-      router.patch(
-        `/cashier/customers/${userId}/private`,
-        {
-          membershipType: "private",
-          latitude,
-          longitude,
-          ...values,
+      const payload = {
+        ...values,
+        membershipType: "private",
+        latitude: latitude,
+        longitude: longitude,
+      };
+
+      // Submit Customer First
+      router.patch(`/cashier/customers/${userId}/private`, payload, {
+        onFinish: () => setIsSubmitting(false),
+        onSuccess: () => {
+          onCancel();
+          onRefetch();
         },
-        {
-          onFinish: () => setIsSubmitting(false),
-          onSuccess: () => {
-            onCancel();
-            onRefetch();
-          },
-          onError: (errors) => {
-            handleError(Object.keys(errors) as (keyof FormValues)[]);
-          },
+        onError: (errors) => {
+          handleError(Object.keys(errors) as (keyof FormValues)[]);
         },
-      );
+      });
     },
     (errors) => {
+      setIsSubmitting(false);
       handleError(Object.keys(errors) as (keyof FormValues)[]);
     },
   );
@@ -212,6 +273,7 @@ const EditForm = ({
         <TabList>
           <Tab>{t("profile")}</Tab>
           <Tab>{t("address")}</Tab>
+          <Tab>{t("user info")}</Tab>
         </TabList>
         <TabPanels>
           <TabPanel display="flex" flexDirection="column" gap={4} py={6}>
@@ -228,15 +290,20 @@ const EditForm = ({
               errorText={
                 errors.identityNumber?.message || serverErrors.identityNumber
               }
-              isRequired
               {...register("identityNumber", {
-                required: t("validation field required"),
+                required: customer.isFull
+                  ? t("validation field required")
+                  : false,
               })}
+              isRequired={customer.isFull}
             />
             <Input
               labelText={t("email")}
               errorText={errors.email?.message || serverErrors.email}
               {...register("email", {
+                required: customer.isFull
+                  ? t("validation field required")
+                  : false,
                 validate: {
                   email: (value) => {
                     if (!value) {
@@ -246,6 +313,7 @@ const EditForm = ({
                   },
                 },
               })}
+              isRequired={customer.isFull}
             />
             <Autocomplete
               options={INVOICE_DUE_DAYS}
@@ -328,12 +396,15 @@ const EditForm = ({
               labelText={t("address")}
               errorText={errors.address?.message || serverErrors.address}
               {...register("address", {
-                required: email ? t("validation field required") : false,
+                required:
+                  isAddressRequired || customer.isFull
+                    ? t("validation field required")
+                    : false,
                 onChange: () => {
                   isLocationUpdated.current = true;
                 },
               })}
-              isRequired={!!email}
+              isRequired={isAddressRequired || customer.isFull}
             />
             <Input
               labelText={t("address 2")}
@@ -348,7 +419,10 @@ const EditForm = ({
                   errors.postalCode?.message || serverErrors.postalCode
                 }
                 {...register("postalCode", {
-                  required: email ? t("validation field required") : false,
+                  required:
+                    isAddressRequired || customer.isFull
+                      ? t("validation field required")
+                      : false,
                   minLength: {
                     value: 1,
                     message: t("validation field min", { min: 1 }),
@@ -357,15 +431,18 @@ const EditForm = ({
                     isLocationUpdated.current = true;
                   },
                 })}
-                isRequired={!!email}
+                isRequired={isAddressRequired || customer.isFull}
               />
               <Autocomplete
                 options={cityOptions}
                 labelText={t("postal locality")}
                 errorText={errors.cityId?.message || serverErrors.cityId}
-                value={watch("cityId")}
+                value={cityId}
                 {...register("cityId", {
-                  required: email ? t("validation field required") : false,
+                  required:
+                    isAddressRequired || customer.isFull
+                      ? t("validation field required")
+                      : false,
                   valueAsNumber: true,
                   onChange: (e) => {
                     const element = e.target as HTMLInputElement;
@@ -375,7 +452,7 @@ const EditForm = ({
                   },
                 })}
                 isLoading={cities.isLoading}
-                isRequired={!!email}
+                isRequired={isAddressRequired || customer.isFull}
               />
             </Flex>
             <Skeleton isLoaded={!geocode.isFetching} rounded="md">
@@ -402,6 +479,101 @@ const EditForm = ({
                 }}
               />
             </Skeleton>
+          </TabPanel>
+          <TabPanel display="flex" flexDirection="column" gap={4} py={6}>
+            <Flex gap={4}>
+              <Input
+                labelText={t("first name")}
+                errorText={errors.firstName?.message || serverErrors.firstName}
+                isRequired
+                {...register("firstName", {
+                  required: t("validation field required"),
+                })}
+              />
+              <Input
+                labelText={t("last name")}
+                errorText={errors.lastName?.message || serverErrors.lastName}
+                {...register("lastName", {
+                  required:
+                    customer.users?.[0]?.email || userEmail
+                      ? t("validation field required")
+                      : false,
+                })}
+                isRequired={!!(customer.users?.[0]?.email || userEmail)}
+              />
+            </Flex>
+            <Input
+              labelText={t("user email")}
+              errorText={errors.userEmail?.message || serverErrors.userEmail}
+              {...register("userEmail", {
+                required:
+                  customer.users?.[0]?.email || userEmail
+                    ? t("validation field required")
+                    : false,
+                validate: {
+                  email: (value) => {
+                    if (!value) {
+                      return true;
+                    }
+                    return validateEmail(value);
+                  },
+                },
+              })}
+              type="email"
+              isRequired={!!(customer.users?.[0]?.email || userEmail)}
+            />
+            <PhoneInput
+              labelText={t("user phone")}
+              errorText={errors.cellphone?.message || serverErrors.cellphone}
+              dialCodes={dialCodes}
+              value={watch("cellphone")}
+              {...register("cellphone", {
+                required: t("validation field required"),
+                validate: validatePhone,
+              })}
+              isRequired
+            />
+            <Flex gap={4}>
+              <Input
+                labelText={t("timezone")}
+                defaultValue={watch("timezone")}
+                isRequired
+                isDisabled
+              />
+              <Autocomplete
+                options={locales}
+                labelText={t("language")}
+                errorText={errors.language?.message || serverErrors.language}
+                value={watch("language")}
+                isRequired
+                {...register("language", {
+                  required: t("validation field required"),
+                })}
+              />
+            </Flex>
+            <Autocomplete
+              options={notificationMethodOptions}
+              labelText={t("notification method")}
+              errorText={
+                errors.notificationMethod?.message ||
+                serverErrors.notificationMethod
+              }
+              value={watch("notificationMethod")}
+              {...register("notificationMethod", {
+                required: t("validation field required"),
+              })}
+              isRequired
+            />
+            <Autocomplete
+              options={statusOptions}
+              labelText={t("status")}
+              errorText={errors.status?.message || serverErrors.status}
+              value={watch("status")}
+              {...register("status", {
+                required: t("validation field required"),
+              })}
+              isRequired
+            />
           </TabPanel>
         </TabPanels>
       </Tabs>

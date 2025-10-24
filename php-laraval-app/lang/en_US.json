@@ -1885,5 +1885,13 @@
 
   "deprecated": "Deprecated",
 
-  "addons visibility notice": "Visible in the app under the chosen add-on"
+  "addons visibility notice": "Visible in the app under the chosen add-on",
+
+  "user info": "User Info",
+  "user email": "User Email",
+  "user phone": "User Phone",
+
+  "incomplete customer information": "Incomplete Customer Information",
+  "this is laundry customer": "This is a laundry customer that needs to be updated from the cashiers or fill necessary information here",
+  "okay": "Okay"
 }

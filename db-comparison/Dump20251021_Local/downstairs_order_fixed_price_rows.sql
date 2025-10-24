@@ -25,7 +25,7 @@ CREATE TABLE `order_fixed_price_rows` (
   `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `quantity` int unsigned NOT NULL,
-  `price` decimal(8,2) NOT NULL,
+  `price` decimal(8,2) unsigned NOT NULL,
   `vat_group` tinyint unsigned NOT NULL DEFAULT '25',
   `has_rut` tinyint NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,

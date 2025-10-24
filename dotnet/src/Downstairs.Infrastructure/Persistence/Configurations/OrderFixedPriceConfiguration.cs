@@ -55,5 +55,14 @@ internal sealed class OrderFixedPriceConfiguration : IEntityTypeConfiguration<Or
             .HasForeignKey(d => d.FixedPriceId)
             .OnDelete(DeleteBehavior.Cascade)
             .HasConstraintName("order_fixed_prices_fixed_price_id_foreign");
+
+        // Configure many-to-many relationship with Product using correct table name
+        entity.HasMany(o => o.Products)
+            .WithMany(p => p.OrderFixedPrices)
+            .UsingEntity(
+                "order_fixed_price_laundry_products",
+                l => l.HasOne(typeof(Product)).WithMany().HasForeignKey("product_id").HasPrincipalKey(nameof(Product.Id)),
+                r => r.HasOne(typeof(OrderFixedPrice)).WithMany().HasForeignKey("order_fixed_price_id").HasPrincipalKey(nameof(OrderFixedPrice.Id)),
+                j => j.HasKey("order_fixed_price_id", "product_id"));
     }
 }

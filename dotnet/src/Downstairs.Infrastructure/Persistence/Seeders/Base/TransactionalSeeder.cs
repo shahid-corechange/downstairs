@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Logging;
+
 namespace Downstairs.Infrastructure.Persistence.Seeders.Base;
 
 /// <summary>

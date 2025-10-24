@@ -155,7 +155,7 @@ class Schedule extends Model
         'refund' => [
             'subscription.fixedPrice' => ['is_per_order'],
             'subscription.fixedPrice.rows' => ['price'],
-            'subscription.service' => ['price'],
+            'service' => ['price'],
         ],
         'canceled_by' => ['cancelable' => ['name', 'first_name', 'last_name']],
     ];

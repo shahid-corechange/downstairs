@@ -21,7 +21,6 @@ import { PageFilterItem, PaginatedPageProps } from "@/types";
 
 import getColumns from "./column";
 import DeleteModal from "./components/DeleteModal";
-import EditModal from "./components/EditModal";
 import RestoreModal from "./components/RestoreModal";
 import ViewModal from "./components/ViewModal";
 import { CompanyPageProps } from "./types";
@@ -68,14 +67,10 @@ const CompanyOverviewPage = ({
           orFilters={filter.orFilters}
           pagination={pagination}
           fetchFn={getCompanies}
-          withEdit={(row) =>
-            hasPermission("companies update") && !row.original.deletedAt
-          }
           withDelete={(row) =>
             hasPermission("companies delete") && !row.original.deletedAt
           }
           withRestore={hasPermission("companies restore")}
-          onEdit={(row) => openModal("edit", row.original)}
           onDelete={(row) => openModal("delete", row.original)}
           onRestore={(row) => openModal("restore", row.original)}
           actions={[
@@ -100,12 +95,6 @@ const CompanyOverviewPage = ({
         companyId={modalData?.id}
         user={modalData?.companyUser}
         isOpen={modal === "view"}
-        onClose={closeModal}
-      />
-      <EditModal
-        data={modalData}
-        user={modalData?.companyUser}
-        isOpen={modal === "edit"}
         onClose={closeModal}
       />
       <DeleteModal

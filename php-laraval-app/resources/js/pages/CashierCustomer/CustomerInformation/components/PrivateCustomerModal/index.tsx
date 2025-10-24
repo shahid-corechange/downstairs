@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import { AiOutlineFieldTime, AiOutlineIdcard } from "react-icons/ai";
 import { HiOutlineMail } from "react-icons/hi";
 import { LuPhone } from "react-icons/lu";
+import { MdOutlineNotifications } from "react-icons/md";
 import { TbFileInvoice } from "react-icons/tb";
 
 import Map from "@/components/Map";
@@ -116,7 +117,18 @@ const PrivateCustomerForm = ({
             {customer ? t(customer.invoiceMethod) : ""}
           </Text>
         </Flex>
-        <Flex align="center" gap={4} flex={1}></Flex>
+        <Flex align="center" gap={4} flex={1}>
+          <Tooltip label={t("notification method")}>
+            <Flex align="center">
+              <Icon as={MdOutlineNotifications} />
+            </Flex>
+          </Tooltip>
+          <Text fontSize="sm" fontWeight="300">
+            {customer
+              ? t(customer.users?.[0]?.info?.notificationMethod ?? "")
+              : ""}
+          </Text>
+        </Flex>
       </Flex>
       {!!customer?.address?.latitude && !!customer?.address.longitude && (
         <Map
@@ -159,7 +171,7 @@ const PrivateCustomerForm = ({
                       onRefetch={onRefetch}
                     />
                   ),
-                  title: t("edit customer address"),
+                  title: t("customer info"),
                 })
               : null
           }

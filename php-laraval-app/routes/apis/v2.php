@@ -112,7 +112,7 @@ Route::middleware(['localization', 'timezone'])->group(function () {
                                 'cache',
                                 CacheEnum::Notifications(),
                             ))
-                            ->middleware('throttle:1,5');
+                            ->middleware('throttle:5,1');
                         Route::post('{schedule}/end', [ScheduleEmployeeController::class, 'end'])
                             ->middleware(middleware_tags(
                                 'cache',
@@ -120,9 +120,9 @@ Route::middleware(['localization', 'timezone'])->group(function () {
                                 CacheEnum::WorkHours(),
                                 CacheEnum::Invoices(),
                             ))
-                            ->middleware('throttle:1,5');
+                            ->middleware('throttle:5,1');
                         Route::post('{scheduleId}/cancel', [ScheduleEmployeeController::class, 'cancel'])
-                            ->middleware('throttle:1,5');
+                            ->middleware('throttle:5,1');
                     });
                 });
             });

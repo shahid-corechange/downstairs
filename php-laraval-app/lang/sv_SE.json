@@ -1881,5 +1881,13 @@
 
   "deprecated": "Föråldrad",
 
-  "addons visibility notice": "Visas i appen under det valda tillägget"
+  "addons visibility notice": "Visas i appen under det valda tillägget",
+
+  "user info": "Användarinformation",
+  "user email": "Användarens e-post",
+  "user phone": "Användarens telefon",
+
+  "incomplete customer information": "Inkomplett kundinformation",
+  "this is laundry customer": "Detta är en tvättkund som behöver uppdateras från kassörer eller fyll in nödvändig information här",
+  "okay": "Ok"
 }

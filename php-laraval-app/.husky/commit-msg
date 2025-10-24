@@ -1,0 +1,53 @@
+#! /usr/bin/bash
+
+function panic {
+  if [[ -n $TERM && ! $TERM = "dumb" ]]; then
+    echo -e "\033[0;31m$@\033[0m" 1>&2
+  else
+    echo -e "$@" 1>&2
+  fi
+
+  exit 1
+}
+
+function pretty_print {
+  local hook=$1
+  local error_status=$2
+  local color=""
+  local status=""
+
+  if [[ $error_status = 0 ]]; then
+    color="\e[1;32m"
+    status="SUCCESS"
+  else
+    color="\e[1;31m"
+    status="FAILED"
+  fi
+
+  local total_length=`expr length "$hook$status"`
+  local max_length=75
+
+  echo -n "$hook"
+  for i in $(seq $((max_length - total_length))); do
+    echo -n "."
+  done
+
+  if [[ -n $TERM && ! $TERM = "dumb" ]]; then
+    echo -e " $color$status\e[0m"
+  else
+    echo " $status"
+  fi
+}
+
+echo "Validating commit message"
+
+COMMIT_MESSAGE=$(cat $1)
+
+if [[ ! "$COMMIT_MESSAGE" =~ ^(build|chore|ci|docs|feat|fix|perf|refactor|style|test)(\([^()]*\))?\!?: ]]; then
+  pretty_print "Commit Message Format" 1
+  panic "Invalid commit message format. Please follow the commit guidelines:\n" \
+    "https://dev.azure.com/downstairs-service/application/_wiki/wikis/application.wiki/3/Contributing?anchor=4.-commit-the-changes"
+  exit 1
+fi
+
+pretty_print "Commit Message Format" 0

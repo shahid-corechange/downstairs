@@ -59,6 +59,7 @@ class Customer extends Model implements CipherSweetEncrypted
     protected $appends = [
         'company_contact_users',
         'formatted_phone1',
+        'is_full',
     ];
 
     /**
@@ -86,6 +87,7 @@ class Customer extends Model implements CipherSweetEncrypted
      */
     protected array $accessorsFields = [
         'formatted_phone1' => ['dial_code', 'phone1'],
+        'is_full' => ['email', 'address_id'],
     ];
 
     /**
@@ -165,6 +167,11 @@ class Customer extends Model implements CipherSweetEncrypted
         }
 
         return "+{$this->dial_code} {$this->phone1}";
+    }
+
+    public function getIsFullAttribute(): bool
+    {
+        return $this->email && $this->address_id && $this->identity_number !== '';
     }
 
     public function address(): BelongsTo

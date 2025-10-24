@@ -49,11 +49,6 @@ class Deviation extends Model
         return $this->belongsTo(User::class)->withTrashed();
     }
 
-    public function scheduleCleaning(): BelongsTo
-    {
-        return $this->belongsTo(ScheduleCleaning::class)->withTrashed();
-    }
-
     public function schedule(): BelongsTo
     {
         return $this->belongsTo(Schedule::class)->withTrashed();

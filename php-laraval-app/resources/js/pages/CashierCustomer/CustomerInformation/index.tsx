@@ -33,7 +33,7 @@ const CustomerInformationModal = ({
     refetch,
   } = useGetCashierCustomerAddresses(userId, {
     request: {
-      include: ["address.city.country"],
+      include: ["address.city.country", "users.info", "companyUser.info"],
       only: [
         "id",
         "customerRefId",
@@ -48,6 +48,7 @@ const CustomerInformationModal = ({
         "dueDays",
         "invoiceMethod",
         "deletedAt",
+        "isFull",
         "address.address",
         "address.address2",
         "address.fullAddress",
@@ -58,6 +59,20 @@ const CustomerInformationModal = ({
         "address.city.name",
         "address.city.countryId",
         "address.city.country.name",
+        "users.firstName",
+        "users.lastName",
+        "users.fullname",
+        "users.identityNumber",
+        "users.email",
+        "users.formattedCellphone",
+        "users.status",
+        "users.info.timezone",
+        "users.info.language",
+        "users.info.notificationMethod",
+        "companyUser.firstName",
+        "companyUser.email",
+        "companyUser.formattedCellphone",
+        "companyUser.info.notificationMethod",
       ],
       filter: {
         eq: {

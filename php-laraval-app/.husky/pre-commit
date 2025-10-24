@@ -1,0 +1,84 @@
+#! /usr/bin/bash
+
+function panic {
+  if [[ -n $TERM && ! $TERM = "dumb" ]]; then
+    echo -e "\033[0;31m$@\033[0m" 1>&2
+  else
+    echo -e "$@" 1>&2
+  fi
+
+  exit 1
+}
+
+function pretty_print {
+  local hook=$1
+  local error_status=$2
+  local color=""
+  local status=""
+
+  if [[ $error_status = 0 ]]; then
+    color="\e[1;32m"
+    status="SUCCESS"
+  else
+    color="\e[1;31m"
+    status="FAILED"
+  fi
+
+  local total_length=`expr length "$hook$status"`
+  local max_length=75
+
+  echo -n "$hook"
+  for i in $(seq $((max_length - total_length))); do
+    echo -n "."
+  done
+
+  if [[ -n $TERM && ! $TERM = "dumb" ]]; then
+    echo -e " $color$status\e[0m"
+  else
+    echo " $status"
+  fi
+}
+
+echo "Running pre-commit hooks"
+
+if [[ -n $(git diff --name-only) ]]; then
+  panic "Some files are not staged yet, please stage or stash it first."
+fi
+
+CURRENT_BRANCH=$(git branch --show-current)
+
+if [[ $CURRENT_BRANCH = "staging" || $CURRENT_BRANCH = "main" ]]; then
+  panic "Unable to commit changes directly to $CURRENT_BRANCH," \
+    "Please create a feature branch and commit from there instead."
+fi
+
+HOOKS='Prettier:npx prettier --ignore-unknown --write $(git diff --name-only --cached --diff-filter=ACMR)
+Pint:vendor/bin/pint --dirty
+PHPLint:vendor/bin/phplint --exclude vendor -- $(git diff --name-only --cached --diff-filter=ACMR)
+PHP Code Sniffer:vendor/bin/phpcs $(git diff --name-only --cached --diff-filter=ACMR)
+Lint Staged:yarn lint-staged -q'
+HOOKS_ERROR_REPORT=""
+
+readarray -t HOOKS_LIST <<< "$HOOKS"
+
+for hook in "${HOOKS_LIST[@]}"; do
+  name=$(echo $hook | cut -d ':' -f1)
+  cmd=$(echo $hook | cut -d ':' -f2)
+  report=$(eval $cmd 2>&1)
+
+  exit_code=$?
+  pretty_print "$name" $exit_code
+
+  if [[ ! $exit_code = 0 ]]; then
+    HOOKS_ERROR_REPORT+=$'\n'"============= Hooks $name Error ============="$'\n'"$report"$'\n'
+  fi
+done
+
+echo -e "$HOOKS_ERROR_REPORT"
+
+if [[ -n "$HOOKS_ERROR_REPORT" ]]; then
+  panic "Some hooks checking failed," \
+    "please fix the problem on failed hooks first."
+elif [[ -n $(git diff --name-only) ]]; then
+  panic "Hooks modified some files, please review and stage the files."
+fi

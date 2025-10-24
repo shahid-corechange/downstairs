@@ -56,7 +56,51 @@ builder.Property(x => x.Price).HasColumnType("decimal(8,2) unsigned");
 
 ---
 
-### **Step 4 — Apply Charset & Collation Globally**
+### **Step 4 — Configure Many-to-Many Table Names**
+
+**CRITICAL:** EF Core generates incorrect table names for many-to-many relationships. Always configure them explicitly:
+
+#### **Required Many-to-Many Configurations:**
+
+**Permission ↔ Role:** Table name must be `role_has_permissions`
+```csharp
+// In PermissionConfiguration.cs
+entity.HasMany(p => p.Roles)
+    .WithMany(r => r.Permissions)
+    .UsingEntity(
+        "role_has_permissions",
+        l => l.HasOne(typeof(Role)).WithMany().HasForeignKey("role_id").HasPrincipalKey(nameof(Role.Id)),
+        r => r.HasOne(typeof(Permission)).WithMany().HasForeignKey("permission_id").HasPrincipalKey(nameof(Permission.Id)),
+        j => j.HasKey("role_id", "permission_id"));
+```
+
+**FixedPrice ↔ Product:** Table name must be `fixed_price_laundry_products`
+```csharp
+// In FixedPriceConfiguration.cs
+entity.HasMany(f => f.Products)
+    .WithMany(p => p.FixedPrices)
+    .UsingEntity(
+        "fixed_price_laundry_products",
+        l => l.HasOne(typeof(Product)).WithMany().HasForeignKey("product_id").HasPrincipalKey(nameof(Product.Id)),
+        r => r.HasOne(typeof(FixedPrice)).WithMany().HasForeignKey("fixed_price_id").HasPrincipalKey(nameof(FixedPrice.Id)),
+        j => j.HasKey("fixed_price_id", "product_id"));
+```
+
+**OrderFixedPrice ↔ Product:** Table name must be `order_fixed_price_laundry_products`
+```csharp
+// In OrderFixedPriceConfiguration.cs
+entity.HasMany(o => o.Products)
+    .WithMany(p => p.OrderFixedPrices)
+    .UsingEntity(
+        "order_fixed_price_laundry_products",
+        l => l.HasOne(typeof(Product)).WithMany().HasForeignKey("product_id").HasPrincipalKey(nameof(Product.Id)),
+        r => r.HasOne(typeof(OrderFixedPrice)).WithMany().HasForeignKey("order_fixed_price_id").HasPrincipalKey(nameof(OrderFixedPrice.Id)),
+        j => j.HasKey("order_fixed_price_id", "product_id"));
+```
+
+---
+
+### **Step 5 — Apply Charset & Collation Globally**
 
 In `DownstairsDbContext.OnModelCreating`:
 
@@ -75,7 +119,7 @@ builder.HasCharSet(DatabaseConstants.CharSets.Utf8mb4);
 
 ---
 
-### **Step 5 — Store Configuration Files in Separate Files**
+### **Step 6 — Store Configuration Files in Separate Files**
 
 - Each class implementing `IEntityTypeConfiguration<T>` must be placed in its own file.
 - Suggested folder: `/EntityConfigurations/`.
@@ -89,16 +133,20 @@ builder.HasCharSet(DatabaseConstants.CharSets.Utf8mb4);
 
 ---
 
-### **Step 6 — Create Migration**
+### **Step 7 — Create Migration**
 After entities and configurations are ready:
 
 ```
 dotnet ef migrations add InitialCreate
 ```
 
+**IMPORTANT:** After creating the migration, manually verify and fix decimal columns to include `unsigned`:
+- Change `decimal(8,2)` to `decimal(8,2) unsigned` in migration file
+- EF Core may not generate the unsigned keyword correctly
+
 ---
 
-### **Step 7 — Apply `.editorconfig` Formatting**
+### **Step 8 — Apply `.editorconfig` Formatting**
 Run:
 
 ```
@@ -112,7 +160,7 @@ Ensure:
 
 ---
 
-### **Step 8 — Build Verification**
+### **Step 9 — Build Verification**
 - Run `dotnet build`
 - Ensure the solution compiles successfully and migrations work
 

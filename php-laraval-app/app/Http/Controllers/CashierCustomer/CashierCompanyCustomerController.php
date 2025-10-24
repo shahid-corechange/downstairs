@@ -6,15 +6,16 @@ use App\DTOs\User\UpdateUserCashierCompanyCustomerRequestDTO;
 use App\DTOs\User\UserCashierCompanyCustomerWizardRequestDTO;
 use App\Enums\Discount\CustomerDiscountTypeEnum;
 use App\Enums\MembershipTypeEnum;
-use App\Enums\User\UserNotificationMethodEnum;
 use App\Http\Controllers\User\BaseUserController;
 use App\Http\Traits\ResponseTrait;
 use App\Jobs\CreateFortnoxCustomerJob;
 use App\Jobs\UpdateFortnoxCustomerJob;
+use App\Models\Address;
 use App\Models\Customer;
 use App\Models\User;
 use App\Services\CashierCustomerService;
 use DB;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Str;
 
@@ -60,7 +61,6 @@ class CashierCompanyCustomerController extends BaseUserController
             $user->info()->create([
                 ...$data,
                 'marketing' => 0,
-                'notification_method' => UserNotificationMethodEnum::SMS(),
             ]);
 
             // create contact person
@@ -77,12 +77,12 @@ class CashierCompanyCustomerController extends BaseUserController
                     'identity_number' => isset($data['identity_number']) ?
                         $data['identity_number'] : '',
                     'password' => Str::random(12),
+                    'is_company_contact' => true,
                 ], ['Customer']);
 
                 $contact->info()->create([
                     ...$data,
                     'marketing' => 0,
-                    'notification_method' => UserNotificationMethodEnum::SMS(),
                 ]);
             } else {
                 $contact = null;
@@ -116,53 +116,91 @@ class CashierCompanyCustomerController extends BaseUserController
         $data = $request->toArray();
         $phones = explode(' ', $data['phone1']);
         $dialCode = str_replace('+', '', $phones[0]);
+        $user_phones = explode(' ', $data['cellphone']);
+        $user_dial_code = str_replace('+', '', $user_phones[0]);
         $customer = Customer::find($data['customer_id']);
 
-        $customer = DB::transaction(function () use ($user, $data, $phones, $dialCode, $customer) {
-            $user->update([
-                'first_name' => $data['name'],
-                'last_name' => '',
-                'email' => $data['email'],
-                'cellphone' => $dialCode.$phones[1],
-                'dial_code' => $dialCode,
-                'identity_number' => $data['identity_number'],
-            ]);
-
-            // update customer
-            $customer->update([
-                ...$data,
-                'phone1' => $dialCode.$phones[1],
-                'dial_code' => $dialCode,
-            ]);
-
-            // update, create or delete address
-            if ($customer->address && $data['email']) {
-                $customer->address->update($data);
-            } elseif (! $customer->address && $data['email']) {
-                $customer->address()->create($data);
-            } elseif ($customer->address && ! $data['email']) {
-                $customer->address()->delete();
+        $customer = DB::transaction(
+            function () use (
+                $user,
+                $data,
+                $phones,
+                $dialCode,
+                $customer,
+                $user_phones,
+                $user_dial_code
+            ) {
+                // update customer
                 $customer->update([
-                    'address_id' => null,
+                    ...$data,
+                    'phone1' => $dialCode.$phones[1],
+                    'dial_code' => $dialCode,
                 ]);
-            }
 
-            // update or create discount
-            if (isset($data['discount_id'])) {
-                $user->customerDiscounts()
-                    ->where('id', $data['discount_id'])
+                // update or create address
+                if ($customer->address && $data['city_id']) {
+                    $customer->address->update($data);
+                } elseif (! $customer->address_id && $data['city_id']) {
+                    $address = Address::create($data);
+                    $customer->update(['address_id' => $address->id]);
+                }
+
+                // Update other customers that reference this customer but different user
+                Customer::where('customer_ref_id', $customer->id)
+                    ->whereDoesntHave('users', function (Builder $query) use ($user) {
+                        $query->where('id', $user->id);
+                    })
                     ->update([
+                        'membership_type' => $data['membership_type'],
+                        'name' => $data['name'],
+                        'email' => $data['email'],
+                        'phone1' => $dialCode.$phones[1],
+                        'dial_code' => $dialCode,
+                    ]);
+
+                // Update other customers that share the same user
+                Customer::where('customer_ref_id', $customer->id)
+                    ->WhereHas('users', function (Builder $query) use ($user) {
+                        $query->where('id', $user->id);
+                    })
+                    ->update([
+                        'membership_type' => $data['membership_type'],
+                        'name' => $data['name'],
+                        'phone1' => $dialCode.$phones[1],
+                        'dial_code' => $dialCode,
+                    ]);
+
+                $user->update([
+                    'first_name' => $data['first_name'],
+                    'last_name' => '',
+                    'email' => $data['user_email'],
+                    'cellphone' => $user_dial_code.$user_phones[1],
+                    'dial_code' => $user_dial_code,
+                ]);
+
+                if ($user->info) {
+                    $user->info->update([
+                        'notification_method' => $data['notification_method'],
+                    ]);
+                }
+
+                // update or create discount
+                if (isset($data['discount_id'])) {
+                    $user->customerDiscounts()
+                        ->where('id', $data['discount_id'])
+                        ->update([
+                            'value' => $data['discount_percentage'],
+                        ]);
+                } elseif (isset($data['discount_percentage']) && $data['discount_percentage'] > 0) {
+                    $user->customerDiscounts()->create([
+                        'type' => CustomerDiscountTypeEnum::Laundry(),
                         'value' => $data['discount_percentage'],
                     ]);
-            } elseif (isset($data['discount_percentage']) && $data['discount_percentage'] > 0) {
-                $user->customerDiscounts()->create([
-                    'type' => CustomerDiscountTypeEnum::Laundry(),
-                    'value' => $data['discount_percentage'],
-                ]);
-            }
+                }
 
-            return $customer;
-        });
+                return $customer;
+            }
+        );
 
         UpdateFortnoxCustomerJob::dispatchAfterResponse($user, $customer);
 

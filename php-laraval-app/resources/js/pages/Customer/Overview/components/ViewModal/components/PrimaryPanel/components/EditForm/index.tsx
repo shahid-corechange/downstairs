@@ -1,4 +1,10 @@
 import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
   Button,
   Flex,
   Skeleton,
@@ -7,6 +13,7 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { router, usePage } from "@inertiajs/react";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -20,6 +27,9 @@ import PhoneInput from "@/components/PhoneInput";
 
 import { INVOICE_DUE_DAYS, INVOICE_METHODS } from "@/constants/invoice";
 import { DEFAULT_COUNTRY_NAME } from "@/constants/location";
+import { NOTIFICATION_METHOD_OPTIONS } from "@/constants/notification";
+
+import locales from "@/data/locales.json";
 
 import { useDebounce } from "@/hooks/debounce";
 
@@ -28,6 +38,7 @@ import { useGetCountries } from "@/services/country";
 import { useGetGeocodeService } from "@/services/geocode";
 
 import Customer from "@/types/customer";
+import User, { UserInfo } from "@/types/user";
 
 import { getTranslatedOptions } from "@/utils/autocomplete";
 import { validateEmail, validatePhone } from "@/utils/validation";
@@ -45,21 +56,51 @@ type FormValues = {
   postalCode: string;
   area: string;
   address2?: string;
+  // User info fields
+  firstName: string;
+  lastName: string;
+  userEmail: string;
+  cellphone: string;
+  language: string;
+  timezone: string;
+  notificationMethod: string;
+  status: string;
 };
 
 const panelFields: (keyof FormValues)[][] = [
   ["name", "identityNumber", "email", "dueDays", "invoiceMethod", "phone1"],
   ["country", "address", "address2", "postalCode", "cityId"],
+  [
+    "firstName",
+    "lastName",
+    "userEmail",
+    "cellphone",
+    "language",
+    "timezone",
+    "notificationMethod",
+    "status",
+  ],
 ];
 
 interface EditFormProps {
   userId: number;
+  userData: User;
   customer: Customer;
   onCancel: () => void;
   onRefetch: () => void;
+  onUserDataUpdate: (updatedUser: User) => void;
+  onTabChange?: (tabIndex: number) => void;
 }
 
-const EditForm = ({ userId, customer, onCancel, onRefetch }: EditFormProps) => {
+const EditForm = ({
+  userId,
+  userData,
+  customer,
+  onCancel,
+  onRefetch,
+  onUserDataUpdate,
+  onTabChange,
+}: EditFormProps) => {
   const { t } = useTranslation();
   const { errors: serverErrors } = usePage().props;
   const {
@@ -80,6 +121,15 @@ const EditForm = ({ userId, customer, onCancel, onRefetch }: EditFormProps) => {
       country: customer.address?.city?.countryId,
       cityId: customer.address?.cityId,
       postalCode: customer.address?.postalCode,
+      // User info defaults
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      userEmail: userData.email,
+      cellphone: userData.formattedCellphone,
+      language: userData.info?.language ?? "",
+      timezone: userData.info?.timezone ?? "",
+      notificationMethod: userData.info?.notificationMethod ?? "",
+      status: userData.status,
     },
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -94,10 +144,30 @@ const EditForm = ({ userId, customer, onCancel, onRefetch }: EditFormProps) => {
   const [tabIndex, setTabIndex] = useState(0);
 
   const isLocationUpdated = useRef(false);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  // Track initial values for confirmation check
+  const initialValuesRef = useRef({
+    address: customer.address?.address || "",
+    email: customer.email || "",
+    identityNumber: customer.identityNumber || "",
+  });
+
+  // Track if confirmation has been shown and accepted
+  const [hasConfirmed, setHasConfirmed] = useState(false);
+
+  // Confirmation dialog state
+  const {
+    isOpen: isConfirmOpen,
+    onOpen: onConfirmOpen,
+    onClose: onConfirmClose,
+  } = useDisclosure();
+  const cancelRef = useRef<HTMLButtonElement>(null);
 
   const countryId = watch("country");
   const postalCode = watch("postalCode");
   const address = watch("address");
+  const userEmail = watch("userEmail");
 
   const countries = useGetCountries({
     request: {
@@ -144,40 +214,125 @@ const EditForm = ({ userId, customer, onCancel, onRefetch }: EditFormProps) => {
 
   const invoiceMethodOptions = getTranslatedOptions(INVOICE_METHODS);
 
+  // exclude email notification method if email is not provided
+  const notificationMethodOptions = useMemo(
+    () =>
+      getTranslatedOptions(NOTIFICATION_METHOD_OPTIONS).filter((option) =>
+        !userEmail ? option.value !== "email" : true,
+      ),
+    [userEmail],
+  );
+
+  const statusOptions = useMemo(
+    () =>
+      getTranslatedOptions([
+        "active",
+        "inactive",
+        "suspended",
+        "pending",
+        "blocked",
+      ]),
+    [],
+  );
+
   const handleError = (errors: (keyof FormValues)[]) => {
     const field = errors[0];
     const index = panelFields.findIndex((fields) => fields.includes(field));
     setTabIndex(index);
   };
 
+  // Function to actually perform the submission
+  const performSubmit = (values: FormValues) => {
+    setIsSubmitting(true);
+
+    const payload = {
+      ...values,
+      membershipType: "private",
+      latitude,
+      longitude,
+      userEmail: values.userEmail ?? null,
+    };
+
+    router.patch(
+      `/customers/${userId}/addresses/${customer.id}/primary`,
+      payload,
+      {
+        preserveScroll: true,
+        onFinish: () => setIsSubmitting(false),
+        onSuccess: () => {
+          // Update the userData in the modal with the new values
+          const updatedUserData: User = {
+            ...userData,
+            firstName: values.firstName,
+            lastName: values.lastName,
+            email: values.userEmail,
+            formattedCellphone: values.cellphone,
+            status: values.status as User["status"],
+            info: {
+              ...userData.info,
+              language: values.language,
+              timezone: values.timezone,
+              notificationMethod: values.notificationMethod,
+              currency: userData.info?.currency ?? "",
+              twoFactorAuth: userData.info?.twoFactorAuth ?? "disabled",
+              marketing: userData.info?.marketing ?? 0,
+            } as UserInfo,
+          };
+
+          onUserDataUpdate(updatedUserData);
+          onCancel();
+          onRefetch();
+        },
+        onError: (errors) => {
+          handleError(Object.keys(errors) as (keyof FormValues)[]);
+        },
+      },
+    );
+  };
+
   const handleSubmit = formSubmitHandler(
     (values) => {
-      setIsSubmitting(true);
-
-      router.patch(
-        `/customers/${userId}/addresses/${customer.id}`,
-        {
-          membershipType: "private",
-          latitude,
-          longitude,
-          ...values,
-        },
-        {
-          onFinish: () => setIsSubmitting(false),
-          onSuccess: () => {
-            onCancel();
-            onRefetch();
-          },
-          onError: (errors) => {
-            handleError(Object.keys(errors) as (keyof FormValues)[]);
-          },
-        },
-      );
+      performSubmit(values);
     },
     (errors) => {
       handleError(Object.keys(errors) as (keyof FormValues)[]);
     },
   );
+
+  // Handle form submit button click - intercept before validation
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Check if any required fields were initially empty and user hasn't confirmed yet
+    const hasEmptyInitialFields =
+      !initialValuesRef.current.address ||
+      !initialValuesRef.current.email ||
+      !initialValuesRef.current.identityNumber;
+
+    if (hasEmptyInitialFields && !hasConfirmed) {
+      // Show confirmation dialog first, before validation
+      onConfirmOpen();
+    } else {
+      // Proceed with normal form validation and submission
+      handleSubmit(e);
+    }
+  };
+
+  // Handle confirmation dialog confirmation
+  const handleConfirmSubmit = () => {
+    setHasConfirmed(true);
+    onConfirmClose();
+
+    // Trigger form validation after confirmation
+    // Use setTimeout to ensure state is updated, then trigger submit programmatically
+    setTimeout(() => {
+      if (formRef.current) {
+        formRef.current.dispatchEvent(
+          new Event("submit", { cancelable: true, bubbles: true }),
+        );
+      }
+    }, 0);
+  };
 
   useEffect(() => {
     if (geocode.data) {
@@ -188,16 +343,24 @@ const EditForm = ({ userId, customer, onCancel, onRefetch }: EditFormProps) => {
 
   return (
     <Flex
+      ref={formRef}
       as="form"
       direction="column"
-      onSubmit={handleSubmit}
+      onSubmit={handleFormSubmit}
       autoComplete="off"
       noValidate
     >
-      <Tabs index={tabIndex} onChange={setTabIndex}>
+      <Tabs
+        index={tabIndex}
+        onChange={(index) => {
+          setTabIndex(index);
+          onTabChange?.(index);
+        }}
+      >
         <TabList>
           <Tab>{t("profile")}</Tab>
           <Tab>{t("address")}</Tab>
+          <Tab>{t("user info")}</Tab>
         </TabList>
         <TabPanels>
           <TabPanel display="flex" flexDirection="column" gap={4} py={6}>
@@ -361,6 +524,92 @@ const EditForm = ({ userId, customer, onCancel, onRefetch }: EditFormProps) => {
               />
             </Skeleton>
           </TabPanel>
+          <TabPanel display="flex" flexDirection="column" gap={4} py={6}>
+            <Flex gap={4}>
+              <Input
+                labelText={t("first name")}
+                errorText={errors.firstName?.message || serverErrors.firstName}
+                isRequired
+                {...register("firstName", {
+                  required: t("validation field required"),
+                })}
+              />
+              <Input
+                labelText={t("last name")}
+                errorText={errors.lastName?.message || serverErrors.lastName}
+                isRequired
+                {...register("lastName", {
+                  required: t("validation field required"),
+                })}
+              />
+            </Flex>
+
+            <Input
+              labelText={t("user email")}
+              errorText={errors.userEmail?.message || serverErrors.userEmail}
+              {...register("userEmail", {
+                required: t("validation field required"),
+              })}
+              type="email"
+              isRequired
+            />
+
+            <PhoneInput
+              labelText={t("user phone")}
+              errorText={errors.cellphone?.message || serverErrors.cellphone}
+              dialCodes={dialCodes}
+              value={watch("cellphone")}
+              {...register("cellphone", {
+                required: t("validation field required"),
+                validate: validatePhone,
+              })}
+              isRequired
+            />
+
+            <Flex gap={4}>
+              <Input
+                labelText={t("timezone")}
+                value={watch("timezone")}
+                isRequired
+                isDisabled
+              />
+              <Autocomplete
+                options={locales}
+                labelText={t("language")}
+                errorText={errors.language?.message || serverErrors.language}
+                value={watch("language")}
+                isRequired
+                {...register("language", {
+                  required: t("validation field required"),
+                })}
+              />
+            </Flex>
+
+            <Autocomplete
+              options={notificationMethodOptions}
+              labelText={t("notification method")}
+              errorText={
+                errors.notificationMethod?.message ||
+                serverErrors.notificationMethod
+              }
+              value={watch("notificationMethod")}
+              {...register("notificationMethod", {
+                required: t("validation field required"),
+              })}
+              isRequired
+            />
+
+            <Autocomplete
+              options={statusOptions}
+              labelText={t("status")}
+              errorText={errors.status?.message || serverErrors.status}
+              value={watch("status")}
+              {...register("status", {
+                required: t("validation field required"),
+              })}
+              isRequired
+            />
+          </TabPanel>
         </TabPanels>
       </Tabs>
       <Flex justify="right" mt={4} gap={4}>
@@ -376,6 +625,36 @@ const EditForm = ({ userId, customer, onCancel, onRefetch }: EditFormProps) => {
           {t("save")}
         </Button>
       </Flex>
+
+      <AlertDialog
+        isOpen={isConfirmOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onConfirmClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              {t("incomplete customer information")}
+            </AlertDialogHeader>
+
+            <AlertDialogBody>{t("this is laundry customer")}</AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onConfirmClose}>
+                {t("close")}
+              </Button>
+              <Button
+                colorScheme="blue"
+                onClick={handleConfirmSubmit}
+                ml={3}
+                isLoading={isSubmitting}
+              >
+                {t("okay")}
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </Flex>
   );
 };

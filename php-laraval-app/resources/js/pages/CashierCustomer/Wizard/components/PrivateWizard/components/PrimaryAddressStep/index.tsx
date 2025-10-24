@@ -57,11 +57,11 @@ const PrimaryAddressStep = () => {
   });
 
   const countryId = watch("country");
-  const postalCode = watch("postalCode");
   const address = watch("address");
+  const postalCode = watch("postalCode");
+  const cityId = watch("cityId");
   const latitude = watch("latitude", 0);
   const longitude = watch("longitude", 0);
-  const email = stepsValues[0].email;
 
   const debouncedAddress = useDebounce(
     { address, city: cityLabel, postalCode, country: countryLabel },
@@ -88,6 +88,11 @@ const PrimaryAddressStep = () => {
         ? cities.data.map((item) => ({ label: item.name, value: item.id }))
         : [],
     [cities.data],
+  );
+
+  const isRequired = useMemo(
+    () => !!(address || postalCode || cityId),
+    [address, postalCode, cityId],
   );
 
   const handleSubmit = formSubmitHandler(onValidateSuccess, onValidateError);
@@ -140,9 +145,9 @@ const PrimaryAddressStep = () => {
         labelText={t("address")}
         errorText={errors.address?.message || serverErrors.address}
         {...register("address", {
-          required: email ? t("validation field required") : false,
+          required: isRequired ? t("validation field required") : false,
         })}
-        isRequired={!!email}
+        isRequired={isRequired}
       />
       <Input
         labelText={t("address 2")}
@@ -156,21 +161,21 @@ const PrimaryAddressStep = () => {
           labelText={t("postal code")}
           errorText={errors.postalCode?.message || serverErrors.postalCode}
           {...register("postalCode", {
-            required: email ? t("validation field required") : false,
+            required: isRequired ? t("validation field required") : false,
             validate: {
               minLength: (value) => isValidMinLength(value, 1),
             },
           })}
-          isRequired={!!email}
+          isRequired={isRequired}
         />
         <Autocomplete
           options={cityOptions}
           labelText={t("postal locality")}
           errorText={errors.cityId?.message || serverErrors.cityId}
-          value={watch("cityId")}
+          value={cityId}
           {...register("cityId", {
             valueAsNumber: true,
-            required: email ? t("validation field required") : false,
+            required: isRequired ? t("validation field required") : false,
             onChange: (e) => {
               const element = e.target as HTMLInputElement;
               const label = element.getAttribute("data-label");
@@ -178,7 +183,7 @@ const PrimaryAddressStep = () => {
             },
           })}
           isLoading={cities.isLoading}
-          isRequired={!!email}
+          isRequired={isRequired}
         />
       </Flex>
       <Skeleton isLoaded={!geocode.isFetching} rounded="md">

@@ -25,7 +25,7 @@ CREATE TABLE `price_adjustments` (
   `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `price_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `price` decimal(8,2) NOT NULL,
+  `price` decimal(8,2) unsigned NOT NULL,
   `execution_date` date NOT NULL,
   `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
   `created_at` timestamp NULL DEFAULT NULL,

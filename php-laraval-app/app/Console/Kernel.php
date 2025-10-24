@@ -30,12 +30,6 @@ class Kernel extends ConsoleKernel
         Commands\CacheTableSchema::class,
         Commands\RunPriceAdjustment::class,
         Commands\UpdateInvoiceSummation::class,
-        Commands\MigrateSubscriptionCleaningDetails::class,
-        Commands\MigrateScheduleCleanings::class,
-        Commands\MigrateScheduleCleaningsByDate::class,
-        Commands\AddCashierRole::class,
-        Commands\AddStores::class,
-        Commands\AddProducts::class,
     ];
 
     /**

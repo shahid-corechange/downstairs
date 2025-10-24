@@ -42,6 +42,8 @@ class CompanyAccountController extends BaseUserController
         'email',
         'companyUser.id',
         'companyUser.fullname',
+        'companyUser.email',
+        'companyUser.formattedCellphone',
         'companyUser.info.notificationMethod',
         'formattedPhone1',
         'createdAt',
@@ -106,6 +108,7 @@ class CompanyAccountController extends BaseUserController
                 'dial_code' => $dialCode,
             ]);
             $company->companyUser->info->update($request->toArray());
+
             $company->update([
                 ...$request->toArray(),
                 'phone1' => $request->isNotOptional('phone1') ? $dialCode.$phones[1] : $company->phone1,

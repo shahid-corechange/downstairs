@@ -29,7 +29,7 @@ CREATE TABLE `unassign_subscriptions` (
   `end_at` date DEFAULT NULL,
   `is_fixed` tinyint(1) NOT NULL DEFAULT '0',
   `description` text COLLATE utf8mb4_unicode_ci,
-  `fixed_price` decimal(8,2) DEFAULT NULL,
+  `fixed_price` decimal(8,2) unsigned DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `addon_ids` json DEFAULT NULL,

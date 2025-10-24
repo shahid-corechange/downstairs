@@ -35,36 +35,38 @@ class UpdateFortnoxCustomerJob extends BaseJob
         FortnoxCustomerService $fortnoxService,
     ): void {
         $this->handleWrapper(function () use ($fortnoxService) {
-            $payload = $this->referenceFromPrimary ? [
-                'name' => $this->customer->name,
-                'email_invoice' => $this->customer->email,
-            ] : [
-                'name' => $this->customer->name,
-                'organisation_number' => $this->customer->identity_number,
-                'address1' => $this->customer->address->address,
-                'address2' => $this->customer->address->address_2,
-                'city' => $this->customer->address->city->name,
-                'currency' => $this->user->info->currency,
-                'country_code' => $this->customer->address->city->country->code,
-                'email' => $this->customer->email,
-                'phone1' => $this->customer->phone1,
-                'type' => Str::upper($this->customer->membership_type),
-                'zip_code' => $this->customer->address->postal_code,
-                'default_delivery_types' => [
-                    'invoice' => strtoupper($this->customer->invoice_method),
-                ],
-                'email_invoice' => $this->customer->email,
-            ];
+            if ($this->customer->fortnox_id) {
+                $payload = $this->referenceFromPrimary ? [
+                    'name' => $this->customer->name,
+                    'email_invoice' => $this->customer->email,
+                ] : [
+                    'name' => $this->customer->name,
+                    'organisation_number' => $this->customer->identity_number,
+                    'address1' => $this->customer->address->address,
+                    'address2' => $this->customer->address->address_2,
+                    'city' => $this->customer->address->city->name,
+                    'currency' => $this->user->info->currency,
+                    'country_code' => $this->customer->address->city->country->code,
+                    'email' => $this->customer->email,
+                    'phone1' => $this->customer->phone1,
+                    'type' => Str::upper($this->customer->membership_type),
+                    'zip_code' => $this->customer->address->postal_code,
+                    'default_delivery_types' => [
+                        'invoice' => strtoupper($this->customer->invoice_method),
+                    ],
+                    'email_invoice' => $this->customer->email,
+                ];
 
-            $response = $fortnoxService->updateCustomer(
-                $this->customer->fortnox_id,
-                UpdateFortnoxCustomerRequestDTO::from($payload)
-            );
+                $response = $fortnoxService->updateCustomer(
+                    $this->customer->fortnox_id,
+                    UpdateFortnoxCustomerRequestDTO::from($payload)
+                );
 
-            if ($response) {
-                $this->customer->update([
-                    'fortnox_id' => $response->customer_number,
-                ]);
+                if ($response) {
+                    $this->customer->update([
+                        'fortnox_id' => $response->customer_number,
+                    ]);
+                }
             }
         });
     }

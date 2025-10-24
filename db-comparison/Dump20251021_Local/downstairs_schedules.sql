@@ -34,7 +34,7 @@ CREATE TABLE `schedules` (
   `end_at` timestamp NOT NULL,
   `original_start_at` timestamp NULL DEFAULT NULL,
   `quarters` smallint NOT NULL,
-  `is_fixed` tinyint(1) NOT NULL,
+  `is_fixed` tinyint(1) NOT NULL DEFAULT '0',
   `key_information` text COLLATE utf8mb4_unicode_ci,
   `note` text COLLATE utf8mb4_unicode_ci,
   `cancelable_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,

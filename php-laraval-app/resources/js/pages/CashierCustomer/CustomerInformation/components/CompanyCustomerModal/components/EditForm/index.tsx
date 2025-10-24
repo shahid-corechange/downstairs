@@ -20,6 +20,8 @@ import PhoneInput from "@/components/PhoneInput";
 
 import { INVOICE_DUE_DAYS, INVOICE_METHODS } from "@/constants/invoice";
 import { DEFAULT_COUNTRY_ID, DEFAULT_COUNTRY_NAME } from "@/constants/location";
+import { NOTIFICATION_METHOD_OPTIONS } from "@/constants/notification";
+import { DEFAULT_NOTIFICATION_METHOD } from "@/constants/user";
 
 import { useDebounce } from "@/hooks/debounce";
 
@@ -49,11 +51,17 @@ type FormValues = {
   address2?: string;
   discountId?: number;
   discountPercentage?: number;
+  // company user
+  firstName: string;
+  cellphone: string;
+  userEmail: string;
+  notificationMethod: string;
 };
 
 const panelFields: (keyof FormValues)[][] = [
   ["name", "identityNumber", "email", "dueDays", "invoiceMethod", "phone1"],
   ["country", "address", "address2", "postalCode", "cityId"],
+  ["firstName", "cellphone", "userEmail", "notificationMethod"],
 ];
 
 interface EditFormProps {
@@ -94,8 +102,16 @@ const EditForm = ({
       postalCode: customer.address?.postalCode,
       discountId: discount?.id,
       discountPercentage: discount?.value,
+      // company user
+      firstName: customer.companyUser?.firstName,
+      cellphone: customer.companyUser?.formattedCellphone,
+      userEmail: customer.companyUser?.email,
+      notificationMethod:
+        customer.companyUser?.info?.notificationMethod ||
+        DEFAULT_NOTIFICATION_METHOD,
     },
   });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [countryLabel, setCountryLabel] = useState(
     customer.address?.city?.country?.name ?? DEFAULT_COUNTRY_NAME,
@@ -110,9 +126,23 @@ const EditForm = ({
   const isLocationUpdated = useRef(false);
 
   const countryId = watch("country");
-  const postalCode = watch("postalCode");
   const address = watch("address");
-  const email = watch("email");
+  const postalCode = watch("postalCode");
+  const cityId = watch("cityId");
+  const userEmail = watch("userEmail");
+
+  // exclude app notification method
+  // exclude email notification method if email is not provided
+  const notificationMethodOptions = useMemo(
+    () =>
+      getTranslatedOptions(NOTIFICATION_METHOD_OPTIONS).filter(
+        (option) =>
+          option.value !== "app" &&
+          (!userEmail ? option.value !== "email" : true),
+      ),
+    [userEmail],
+  );
+
   const countries = useGetCountries({
     request: {
       only: ["id", "name", "code", "dialCode"],
@@ -156,6 +186,12 @@ const EditForm = ({
     [cities.data],
   );
 
+  // to update address, needs to provide address, postal code, and city id
+  const isAddressRequired = useMemo(
+    () => !!(address || postalCode || cityId),
+    [address, postalCode, cityId],
+  );
+
   const invoiceMethodOptions = getTranslatedOptions(INVOICE_METHODS);
 
   const handleError = (errors: (keyof FormValues)[]) => {
@@ -168,25 +204,23 @@ const EditForm = ({
     (values) => {
       setIsSubmitting(true);
 
-      router.patch(
-        `/cashier/customers/${companyId}/company`,
-        {
-          membershipType: "company",
-          latitude,
-          longitude,
-          ...values,
+      const payload = {
+        ...values,
+        membershipType: "company",
+        latitude: latitude,
+        longitude: longitude,
+      };
+
+      router.patch(`/cashier/customers/${companyId}/company`, payload, {
+        onFinish: () => setIsSubmitting(false),
+        onSuccess: () => {
+          onCancel();
+          onRefetch();
         },
-        {
-          onFinish: () => setIsSubmitting(false),
-          onSuccess: () => {
-            onCancel();
-            onRefetch();
-          },
-          onError: (errors) => {
-            handleError(Object.keys(errors) as (keyof FormValues)[]);
-          },
+        onError: (errors) => {
+          handleError(Object.keys(errors) as (keyof FormValues)[]);
         },
-      );
+      });
     },
     (errors) => {
       handleError(Object.keys(errors) as (keyof FormValues)[]);
@@ -212,6 +246,7 @@ const EditForm = ({
         <TabList>
           <Tab>{t("profile")}</Tab>
           <Tab>{t("address")}</Tab>
+          <Tab>{t("user info")}</Tab>
         </TabList>
         <TabPanels>
           <TabPanel display="flex" flexDirection="column" gap={4} py={6}>
@@ -228,15 +263,20 @@ const EditForm = ({
               errorText={
                 errors.identityNumber?.message || serverErrors.identityNumber
               }
-              isRequired
               {...register("identityNumber", {
-                required: t("validation field required"),
+                required: customer.isFull
+                  ? t("validation field required")
+                  : false,
               })}
+              isRequired={customer.isFull}
             />
             <Input
               labelText={t("email")}
               errorText={errors.email?.message || serverErrors.email}
               {...register("email", {
+                required: customer.isFull
+                  ? t("validation field required")
+                  : false,
                 validate: {
                   email: (value) => {
                     if (!value) {
@@ -247,6 +287,7 @@ const EditForm = ({
                   },
                 },
               })}
+              isRequired={customer.isFull}
             />
             <Autocomplete
               options={INVOICE_DUE_DAYS}
@@ -329,12 +370,15 @@ const EditForm = ({
               labelText={t("address")}
               errorText={errors.address?.message || serverErrors.address}
               {...register("address", {
-                required: email ? t("validation field required") : false,
+                required:
+                  isAddressRequired || customer.isFull
+                    ? t("validation field required")
+                    : false,
                 onChange: () => {
                   isLocationUpdated.current = true;
                 },
               })}
-              isRequired={!!email}
+              isRequired={isAddressRequired || customer.isFull}
             />
             <Input
               labelText={t("address 2")}
@@ -349,7 +393,10 @@ const EditForm = ({
                   errors.postalCode?.message || serverErrors.postalCode
                 }
                 {...register("postalCode", {
-                  required: email ? t("validation field required") : false,
+                  required:
+                    isAddressRequired || customer.isFull
+                      ? t("validation field required")
+                      : false,
                   minLength: {
                     value: 1,
                     message: t("validation field min", { min: 1 }),
@@ -358,15 +405,18 @@ const EditForm = ({
                     isLocationUpdated.current = true;
                   },
                 })}
-                isRequired={!!email}
+                isRequired={isAddressRequired || customer.isFull}
               />
               <Autocomplete
                 options={cityOptions}
                 labelText={t("postal locality")}
                 errorText={errors.cityId?.message || serverErrors.cityId}
-                value={watch("cityId")}
+                value={cityId}
                 {...register("cityId", {
-                  required: email ? t("validation field required") : false,
+                  required:
+                    isAddressRequired || customer.isFull
+                      ? t("validation field required")
+                      : false,
                   valueAsNumber: true,
                   onChange: (e) => {
                     const element = e.target as HTMLInputElement;
@@ -376,7 +426,7 @@ const EditForm = ({
                   },
                 })}
                 isLoading={cities.isLoading}
-                isRequired={!!email}
+                isRequired={isAddressRequired || customer.isFull}
               />
             </Flex>
             <Skeleton isLoaded={!geocode.isFetching} rounded="md">
@@ -403,6 +453,61 @@ const EditForm = ({
                 }}
               />
             </Skeleton>
+          </TabPanel>
+          <TabPanel display="flex" flexDirection="column" gap={4} py={6}>
+            <Input
+              labelText={t("name")}
+              errorText={errors.firstName?.message || serverErrors.firstName}
+              isRequired
+              {...register("firstName", {
+                required: t("validation field required"),
+              })}
+            />
+            <Input
+              labelText={t("user email")}
+              errorText={errors.userEmail?.message || serverErrors.userEmail}
+              {...register("userEmail", {
+                required:
+                  customer.companyUser?.email || userEmail
+                    ? t("validation field required")
+                    : false,
+                validate: {
+                  email: (value) => {
+                    if (!value) {
+                      return true;
+                    }
+
+                    return validateEmail(value);
+                  },
+                },
+              })}
+              type="email"
+              isRequired={!!(customer.companyUser?.email || userEmail)}
+            />
+            <PhoneInput
+              labelText={t("user phone")}
+              errorText={errors.cellphone?.message || serverErrors.cellphone}
+              dialCodes={dialCodes}
+              value={watch("cellphone")}
+              {...register("cellphone", {
+                required: t("validation field required"),
+                validate: validatePhone,
+              })}
+              isRequired
+            />
+            <Autocomplete
+              options={notificationMethodOptions}
+              labelText={t("notification method")}
+              errorText={
+                errors.notificationMethod?.message ||
+                serverErrors.notificationMethod
+              }
+              value={watch("notificationMethod")}
+              {...register("notificationMethod", {
+                required: t("validation field required"),
+              })}
+              isRequired
+            />
           </TabPanel>
         </TabPanels>
       </Tabs>

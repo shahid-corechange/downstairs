@@ -20,7 +20,7 @@ export type AccountFormValues = {
   timezone: string;
   currency: string;
   twoFactorAuth: (typeof TWO_FACTOR_OPTIONS)[number];
-  discountPercentage: number;
+  notificationMethod?: string;
 };
 
 export type ContactFormValues = {

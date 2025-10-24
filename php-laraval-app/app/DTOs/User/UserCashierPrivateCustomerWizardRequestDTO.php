@@ -6,6 +6,7 @@ use App\DTOs\BaseData;
 use App\Enums\Invoice\InvoiceDueDaysEnum;
 use App\Enums\Invoice\InvoiceMethodEnum;
 use App\Enums\User\User2FAEnum;
+use App\Enums\User\UserNotificationMethodEnum;
 use App\Rules\MetaProperty;
 use App\Rules\MetaRule;
 use App\Rules\SwedishSocialSecurityNumber;
@@ -65,6 +66,8 @@ class UserCashierPrivateCustomerWizardRequestDTO extends BaseData
         public float|null|Optional $invoice_longitude,
         // discount
         public float|null|Optional $discount_percentage,
+        // notification
+        public string|null|Optional $notification_method,
     ) {
     }
 
@@ -77,23 +80,23 @@ class UserCashierPrivateCustomerWizardRequestDTO extends BaseData
             'cellphone' => ['required', 'string', 'max:16', new UserUniqueCellphone()],
             'identity_number' => ['nullable', 'string', new SwedishSocialSecurityNumber()],
             'due_days' => ['required', 'numeric', Rule::in(InvoiceDueDaysEnum::values())],
-            'invoice_method' => ['nullable', 'required_with:email', 'string', Rule::in(InvoiceMethodEnum::values())],
+            'invoice_method' => ['nullable', 'string', Rule::in(InvoiceMethodEnum::values())],
             'customer_meta' => [new MetaRule()],
             'customer_meta.*' => [new MetaProperty()],
             // address
-            'city_id' => 'nullable|required_with:email|numeric|exists:cities,id',
-            'address' => 'nullable|required_with:email|string',
+            'city_id' => 'nullable|numeric|exists:cities,id',
+            'address' => 'nullable|string',
             'address_2' => 'nullable|string',
             'area' => 'nullable|string',
-            'postal_code' => 'nullable|required_with:email|string',
-            'latitude' => 'nullable|required_with:email|numeric',
-            'longitude' => 'nullable|required_with:email|numeric',
+            'postal_code' => 'nullable|string',
+            'latitude' => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
             // info
             'avatar' => 'string',
-            'language' => 'required_with:email|string',
-            'timezone' => 'required_with:email|string',
-            'currency' => 'required_with:email|string',
-            'two_factor_auth' => ['required_with:email', 'string', Rule::in(User2FAEnum::values())],
+            'language' => 'string',
+            'timezone' => 'string',
+            'currency' => 'string',
+            'two_factor_auth' => ['string', Rule::in(User2FAEnum::values())],
             // address invoice
             'invoice_city_id' => 'nullable|numeric|exists:cities,id',
             'invoice_address' => 'nullable|string',
@@ -103,6 +106,8 @@ class UserCashierPrivateCustomerWizardRequestDTO extends BaseData
             'invoice_longitude' => 'nullable|numeric',
             // discount
             'discount_percentage' => 'nullable|numeric|min:0|max:100',
+            // notification
+            'notification_method' => ['required', 'string', Rule::in(UserNotificationMethodEnum::values())],
         ];
     }
 }

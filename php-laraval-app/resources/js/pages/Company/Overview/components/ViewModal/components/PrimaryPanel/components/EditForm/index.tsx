@@ -20,6 +20,7 @@ import PhoneInput from "@/components/PhoneInput";
 
 import { INVOICE_DUE_DAYS, INVOICE_METHODS } from "@/constants/invoice";
 import { DEFAULT_COUNTRY_NAME } from "@/constants/location";
+import { NOTIFICATION_METHOD_OPTIONS } from "@/constants/notification";
 
 import { useDebounce } from "@/hooks/debounce";
 
@@ -28,6 +29,7 @@ import { useGetCountries } from "@/services/country";
 import { useGetGeocodeService } from "@/services/geocode";
 
 import Customer from "@/types/customer";
+import User, { UserInfo } from "@/types/user";
 
 import { getTranslatedOptions } from "@/utils/autocomplete";
 import { validateEmail, validatePhone } from "@/utils/validation";
@@ -45,25 +47,37 @@ type FormValues = {
   postalCode: string;
   area: string;
   address2?: string;
+  // Company info fields
+  companyName: string;
+  companyEmail: string;
+  companyPhone: string;
+  notificationMethod: string;
 };
 
 const panelFields: (keyof FormValues)[][] = [
   ["name", "identityNumber", "email", "dueDays", "invoiceMethod", "phone1"],
   ["country", "address", "address2", "postalCode", "cityId"],
+  ["companyName", "companyEmail", "companyPhone", "notificationMethod"],
 ];
 
 interface EditFormProps {
   companyId: number;
+  userData: User;
   customer: Customer;
   onCancel: () => void;
   onRefetch: () => void;
+  onUserDataUpdate: (updatedUser: User) => void;
+  onTabChange?: (tabIndex: number) => void;
 }
 
 const EditForm = ({
   companyId,
+  userData,
   customer,
   onCancel,
   onRefetch,
+  onUserDataUpdate,
+  onTabChange,
 }: EditFormProps) => {
   const { t } = useTranslation();
   const { errors: serverErrors } = usePage().props;
@@ -85,6 +99,11 @@ const EditForm = ({
       country: customer.address?.city?.countryId,
       cityId: customer.address?.cityId,
       postalCode: customer.address?.postalCode,
+      // Company info defaults
+      companyName: userData.fullname,
+      companyEmail: userData.email,
+      companyPhone: userData.formattedCellphone,
+      notificationMethod: userData.info?.notificationMethod ?? "",
     },
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -103,6 +122,7 @@ const EditForm = ({
   const countryId = watch("country");
   const postalCode = watch("postalCode");
   const address = watch("address");
+  const email = watch("email");
 
   const countries = useGetCountries({
     request: {
@@ -149,6 +169,17 @@ const EditForm = ({
 
   const invoiceMethodOptions = getTranslatedOptions(INVOICE_METHODS);
 
+  // exclude app notification method
+  // exclude email notification method if email is not provided
+  const notificationMethodOptions = useMemo(
+    () =>
+      getTranslatedOptions(NOTIFICATION_METHOD_OPTIONS).filter(
+        (option) =>
+          option.value !== "app" && (!email ? option.value !== "email" : true),
+      ),
+    [email],
+  );
+
   const handleError = (errors: (keyof FormValues)[]) => {
     const field = errors[0];
     const index = panelFields.findIndex((fields) => fields.includes(field));
@@ -159,17 +190,47 @@ const EditForm = ({
     (values) => {
       setIsSubmitting(true);
 
+      const payload = {
+        ...values,
+        membershipType: "company",
+        latitude,
+        longitude,
+        // user info fields
+        firstName: values.companyName,
+        lastName: "",
+        userEmail: values.companyEmail ?? null,
+        cellphone: values.companyPhone,
+        language: userData.info?.language ?? "",
+        timezone: userData.info?.timezone ?? "",
+        notificationMethod: values.notificationMethod,
+      };
+
+      // Update customer address first
       router.patch(
-        `/companies/${companyId}/addresses/${customer.id}`,
+        `/companies/${companyId}/addresses/${customer.id}/primary`,
+        payload,
         {
-          membershipType: "company",
-          latitude,
-          longitude,
-          ...values,
-        },
-        {
+          preserveScroll: true,
           onFinish: () => setIsSubmitting(false),
           onSuccess: () => {
+            // Update the userData in the modal with the new values
+            const updatedUserData: User = {
+              ...userData,
+              fullname: values.companyName,
+              email: values.companyEmail,
+              formattedCellphone: values.companyPhone,
+              info: {
+                ...userData.info,
+                notificationMethod: values.notificationMethod,
+                language: userData.info?.language ?? "",
+                timezone: userData.info?.timezone ?? "",
+                currency: userData.info?.currency ?? "",
+                twoFactorAuth: userData.info?.twoFactorAuth ?? "disabled",
+                marketing: userData.info?.marketing ?? 0,
+              } as UserInfo,
+            };
+
+            onUserDataUpdate(updatedUserData);
             onCancel();
             onRefetch();
           },
@@ -199,10 +260,17 @@ const EditForm = ({
       autoComplete="off"
       noValidate
     >
-      <Tabs index={tabIndex} onChange={setTabIndex}>
+      <Tabs
+        index={tabIndex}
+        onChange={(index) => {
+          setTabIndex(index);
+          onTabChange?.(index);
+        }}
+      >
         <TabList>
           <Tab>{t("profile")}</Tab>
           <Tab>{t("address")}</Tab>
+          <Tab>{t("user info")}</Tab>
         </TabList>
         <TabPanels>
           <TabPanel display="flex" flexDirection="column" gap={4} py={6}>
@@ -365,6 +433,48 @@ const EditForm = ({
                 }}
               />
             </Skeleton>
+          </TabPanel>
+          <TabPanel display="flex" flexDirection="column" gap={4} py={6}>
+            <Input
+              labelText={t("name")}
+              errorText={errors.companyName?.message || serverErrors.name}
+              isRequired
+              {...register("companyName", {
+                required: t("validation field required"),
+              })}
+            />
+            <Input
+              type="email"
+              labelText={t("user email")}
+              errorText={errors.companyEmail?.message || serverErrors.email}
+              isRequired
+              {...register("companyEmail", {
+                required: t("validation field required"),
+                validate: { email: validateEmail },
+              })}
+            />
+            <PhoneInput
+              labelText={t("phone")}
+              errorText={errors.companyPhone?.message || serverErrors.phone1}
+              dialCodes={dialCodes}
+              value={watch("companyPhone")}
+              {...register("companyPhone", {
+                validate: validatePhone,
+              })}
+            />
+            <Autocomplete
+              options={notificationMethodOptions}
+              labelText={t("notification method")}
+              errorText={
+                errors.notificationMethod?.message ||
+                serverErrors.notificationMethod
+              }
+              value={watch("notificationMethod")}
+              {...register("notificationMethod", {
+                required: t("validation field required"),
+              })}
+              isRequired
+            />
           </TabPanel>
         </TabPanels>
       </Tabs>

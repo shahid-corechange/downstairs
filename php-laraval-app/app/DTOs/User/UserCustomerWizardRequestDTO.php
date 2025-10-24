@@ -7,6 +7,7 @@ use App\DTOs\Property\KeyInformationRequestDTO;
 use App\Enums\Invoice\InvoiceDueDaysEnum;
 use App\Enums\Invoice\InvoiceMethodEnum;
 use App\Enums\User\User2FAEnum;
+use App\Enums\User\UserNotificationMethodEnum;
 use App\Rules\MetaProperty;
 use App\Rules\MetaRule;
 use App\Rules\SwedishSocialSecurityNumber;
@@ -68,6 +69,8 @@ class UserCustomerWizardRequestDTO extends BaseData
         public string|null|Optional $invoice_postal_code,
         public float|null|Optional $invoice_latitude,
         public float|null|Optional $invoice_longitude,
+        // notification
+        public string|null|Optional $notification_method,
     ) {
     }
 
@@ -109,6 +112,8 @@ class UserCustomerWizardRequestDTO extends BaseData
             'invoice_postal_code' => 'nullable|string',
             'invoice_latitude' => 'nullable|numeric',
             'invoice_longitude' => 'nullable|numeric',
+            // notification
+            'notification_method' => ['required', 'string', Rule::in(UserNotificationMethodEnum::values())],
         ];
     }
 }

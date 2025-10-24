@@ -149,6 +149,7 @@ class CompanyWizardController extends BaseUserController
                     'identity_number' => isset($data['identity_number']) ?
                         $data['identity_number'] : '',
                     'password' => Str::random(12),
+                    'is_company_contact' => true,
                 ], ['Customer']);
 
                 $contact->info()->create([

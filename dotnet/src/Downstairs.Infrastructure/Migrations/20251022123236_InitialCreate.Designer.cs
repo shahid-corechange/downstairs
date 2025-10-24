@@ -9,10 +9,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Downstairs.Infrastructure.Persistence.Migrations
+namespace Downstairs.Infrastructure.Migrations
 {
     [DbContext(typeof(DownstairsDbContext))]
-    [Migration("20251021133808_InitialCreate")]
+    [Migration("20251022123236_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -2589,8 +2589,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("order_id");
 
                     b.Property<decimal>("Price")
-                        .HasPrecision(8, 2)
-                        .HasColumnType("decimal(8,2) unsigned")
+                        .HasColumnType("decimal(8,2)")
                         .HasColumnName("price");
 
                     b.Property<decimal>("Quantity")
@@ -3266,8 +3265,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .HasColumnName("end_at");
 
                     b.Property<bool>("IsFixed")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_fixed");
+                        .HasColumnName("is_fixed")
+                        .HasDefaultValueSql("'0'");
 
                     b.Property<string>("KeyInformation")
                         .HasColumnType("text")
@@ -5427,49 +5428,49 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
                 });
 
-            modelBuilder.Entity("FixedPriceProduct", b =>
+            modelBuilder.Entity("fixed_price_laundry_products", b =>
                 {
-                    b.Property<ulong>("FixedPricesId")
+                    b.Property<ulong>("fixed_price_id")
                         .HasColumnType("bigint unsigned");
 
-                    b.Property<ulong>("ProductsId")
+                    b.Property<ulong>("product_id")
                         .HasColumnType("bigint unsigned");
 
-                    b.HasKey("FixedPricesId", "ProductsId");
+                    b.HasKey("fixed_price_id", "product_id");
 
-                    b.HasIndex("ProductsId");
+                    b.HasIndex("product_id");
 
-                    b.ToTable("FixedPriceProduct");
+                    b.ToTable("fixed_price_laundry_products");
                 });
 
-            modelBuilder.Entity("OrderFixedPriceProduct", b =>
+            modelBuilder.Entity("order_fixed_price_laundry_products", b =>
                 {
-                    b.Property<ulong>("OrderFixedPricesId")
+                    b.Property<ulong>("order_fixed_price_id")
                         .HasColumnType("bigint unsigned");
 
-                    b.Property<ulong>("ProductsId")
+                    b.Property<ulong>("product_id")
                         .HasColumnType("bigint unsigned");
 
-                    b.HasKey("OrderFixedPricesId", "ProductsId");
+                    b.HasKey("order_fixed_price_id", "product_id");
 
-                    b.HasIndex("ProductsId");
+                    b.HasIndex("product_id");
 
-                    b.ToTable("OrderFixedPriceProduct");
+                    b.ToTable("order_fixed_price_laundry_products");
                 });
 
-            modelBuilder.Entity("PermissionRole", b =>
+            modelBuilder.Entity("role_has_permissions", b =>
                 {
-                    b.Property<ulong>("PermissionsId")
+                    b.Property<ulong>("role_id")
                         .HasColumnType("bigint unsigned");
 
-                    b.Property<ulong>("RolesId")
+                    b.Property<ulong>("permission_id")
                         .HasColumnType("bigint unsigned");
 
-                    b.HasKey("PermissionsId", "RolesId");
+                    b.HasKey("role_id", "permission_id");
 
-                    b.HasIndex("RolesId");
+                    b.HasIndex("permission_id");
 
-                    b.ToTable("PermissionRole");
+                    b.ToTable("role_has_permissions");
                 });
 
             modelBuilder.Entity("Downstairs.Infrastructure.Persistence.Models.Address", b =>
@@ -6602,7 +6603,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .WithMany("Subscriptions")
                         .HasForeignKey("FixedPriceId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .HasConstraintName("subscriptions_fixed_price_id_foreign");
+                        .HasConstraintName("subscriptions_fixed_price_id_foreign")
+                        .HasAnnotation("Relational:OnUpdate", "RESTRICT");
 
                     b.HasOne("Downstairs.Infrastructure.Persistence.Models.Property", "Property")
                         .WithMany("Subscriptions")
@@ -6866,47 +6868,47 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FixedPriceProduct", b =>
+            modelBuilder.Entity("fixed_price_laundry_products", b =>
                 {
                     b.HasOne("Downstairs.Infrastructure.Persistence.Models.FixedPrice", null)
                         .WithMany()
-                        .HasForeignKey("FixedPricesId")
+                        .HasForeignKey("fixed_price_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Downstairs.Infrastructure.Persistence.Models.Product", null)
                         .WithMany()
-                        .HasForeignKey("ProductsId")
+                        .HasForeignKey("product_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("OrderFixedPriceProduct", b =>
+            modelBuilder.Entity("order_fixed_price_laundry_products", b =>
                 {
                     b.HasOne("Downstairs.Infrastructure.Persistence.Models.OrderFixedPrice", null)
                         .WithMany()
-                        .HasForeignKey("OrderFixedPricesId")
+                        .HasForeignKey("order_fixed_price_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Downstairs.Infrastructure.Persistence.Models.Product", null)
                         .WithMany()
-                        .HasForeignKey("ProductsId")
+                        .HasForeignKey("product_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PermissionRole", b =>
+            modelBuilder.Entity("role_has_permissions", b =>
                 {
                     b.HasOne("Downstairs.Infrastructure.Persistence.Models.Permission", null)
                         .WithMany()
-                        .HasForeignKey("PermissionsId")
+                        .HasForeignKey("permission_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Downstairs.Infrastructure.Persistence.Models.Role", null)
                         .WithMany()
-                        .HasForeignKey("RolesId")
+                        .HasForeignKey("role_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

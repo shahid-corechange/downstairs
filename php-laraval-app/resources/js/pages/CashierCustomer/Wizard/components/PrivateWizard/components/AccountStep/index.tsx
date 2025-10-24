@@ -10,6 +10,7 @@ import PhoneInput from "@/components/PhoneInput";
 import { useWizard } from "@/components/Wizard/hooks";
 
 import { INVOICE_DUE_DAYS, INVOICE_METHODS } from "@/constants/invoice";
+import { NOTIFICATION_METHOD_OPTIONS } from "@/constants/notification";
 
 import locales from "@/data/locales.json";
 
@@ -60,10 +61,20 @@ const AccountStep = () => {
       twoFactorAuth: "disabled",
       dueDays: stepsValues[0].dueDays ?? dueDays,
       invoiceMethod: "print",
+      notificationMethod: stepsValues[0].notificationMethod ?? "sms",
     },
   });
 
   const email = watch("email");
+
+  // exclude email notification method if email is not provided
+  const notificationMethodOptions = useMemo(
+    () =>
+      getTranslatedOptions(NOTIFICATION_METHOD_OPTIONS).filter((option) =>
+        !email ? option.value !== "email" : true,
+      ),
+    [email],
+  );
 
   const countries = useGetCountries({
     request: {
@@ -215,6 +226,18 @@ const AccountStep = () => {
         defaultValue={t(watch("twoFactorAuth"))}
         isRequired
         isDisabled
+      />
+      <Autocomplete
+        options={notificationMethodOptions}
+        labelText={t("notification method")}
+        errorText={
+          errors.notificationMethod?.message || serverErrors.notificationMethod
+        }
+        value={watch("notificationMethod")}
+        {...register("notificationMethod", {
+          required: t("validation field required"),
+        })}
+        isRequired
       />
       <Button type="submit" opacity={0} visibility="hidden" />
     </Flex>

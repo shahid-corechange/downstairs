@@ -22,14 +22,14 @@ DROP TABLE IF EXISTS `order_fixed_prices`;
 CREATE TABLE `order_fixed_prices` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `fixed_price_id` bigint unsigned DEFAULT NULL,
-  `type` varchar(255) NOT NULL DEFAULT 'cleaning',
+  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'cleaning',
   `is_per_order` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `order_fixed_prices_fixed_price_id_foreign` FOREIGN KEY (`fixed_price_id`) REFERENCES `fixed_prices` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

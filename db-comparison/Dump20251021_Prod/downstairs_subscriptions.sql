@@ -44,7 +44,7 @@ CREATE TABLE `subscriptions` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `subscriptions_customer_id_foreign` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `subscriptions_fixed_price_id_foreign` FOREIGN KEY (`fixed_price_id`) REFERENCES `fixed_prices` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  CONSTRAINT `subscriptions_fixed_price_id_foreign` FOREIGN KEY (`fixed_price_id`) REFERENCES `fixed_prices` (`id`) ON DELETE CASCADE,
   CONSTRAINT `subscriptions_property_id_foreign` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE CASCADE,
   CONSTRAINT `subscriptions_service_id_foreign` FOREIGN KEY (`service_id`) REFERENCES `services` (`id`) ON DELETE CASCADE,
   CONSTRAINT `subscriptions_team_id_foreign` FOREIGN KEY (`team_id`) REFERENCES `teams` (`id`) ON DELETE CASCADE,

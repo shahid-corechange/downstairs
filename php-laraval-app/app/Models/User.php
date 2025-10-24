@@ -71,6 +71,7 @@ class User extends Model implements Authenticate, Authorize, CipherSweet, ResetP
         'cellphone_verified_at',
         'identity_number_verified_at',
         'last_seen',
+        'is_company_contact',
     ];
 
     /**
@@ -114,6 +115,7 @@ class User extends Model implements Authenticate, Authorize, CipherSweet, ResetP
         'email_verified_at' => 'datetime',
         'cellphone_verified_at' => 'datetime',
         'identity_number_verified_at' => 'datetime',
+        'is_company_contact' => 'boolean',
     ];
 
     /**
@@ -140,6 +142,7 @@ class User extends Model implements Authenticate, Authorize, CipherSweet, ResetP
      */
     protected array $accessorsRelations = [
         'total_credits' => ['active_credits' => ['remaining_amount']],
+        'is_company_contact' => ['primary_customer' => ['membership_type', 'identity_number']],
     ];
 
     /**

@@ -4,6 +4,7 @@ use App\Enums\CacheEnum;
 use App\Enums\PermissionsEnum;
 use App\Http\Controllers\Customer\CustomerAccountController;
 use App\Http\Controllers\Customer\CustomerAddressController;
+use App\Http\Controllers\Customer\CustomerPrimaryController;
 use App\Http\Controllers\Customer\CustomerRutCoApplicantController;
 use App\Http\Controllers\Customer\CustomerWizardController;
 
@@ -93,8 +94,16 @@ Route::prefix('customers')->name('customers.')->group(function () {
                 ->middleware(
                     middleware_tags(
                         'permission',
-                        PermissionsEnum::CustomersPrimaryAddressUpdate(),
                         PermissionsEnum::CustomerInvoiceAddressesUpdate()
+                    )
+                )
+                ->middleware('throttle:5,1');
+            Route::patch('{customer}/primary', [CustomerPrimaryController::class, 'update'])
+                ->name('update')
+                ->middleware(
+                    middleware_tags(
+                        'permission',
+                        PermissionsEnum::CustomersPrimaryAddressUpdate(),
                     )
                 )
                 ->middleware('throttle:5,1');

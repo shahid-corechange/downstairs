@@ -277,12 +277,34 @@ class ScheduleController extends Controller
     public function jsonIndex(): JsonResponse
     {
         $queries = $this->getQueries();
+        
+        // Collect debug info
+        $debugInfo = [
+            'request_params' => request()->all(),
+            'queries' => $queries,
+            'userId_filter' => request()->query('userId.eq'),
+            'memory_usage' => memory_get_usage(true) / 1024 / 1024 . ' MB',
+        ];
+        
+        // Log it first
+        \Log::warning('Schedule jsonIndex Debug', $debugInfo);
+        
+        // Force userId filtering for debugging
+        if (!isset($queries['filter']['userId.eq']) && request()->query('userId.eq')) {
+            $queries['filter']['userId.eq'] = request()->query('userId.eq');
+        }
+        
         $paginatedData = Schedule::applyFilterSortAndPaginate($queries);
 
-        return $this->successResponse(
+        $response = $this->successResponse(
             ScheduleResponseDTO::transformCollection($paginatedData->data),
             pagination: $paginatedData->pagination
         );
+        
+        // Add debug info to response in local environment
+        $response->additional(['debug' => $debugInfo]);
+        
+        return $response;
     }
 
     /**

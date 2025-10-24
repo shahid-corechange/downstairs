@@ -124,11 +124,37 @@ class CreditService
                 $material = get_material();
             }
 
+            // Comprehensive null checking for all potential null reference issues
+            $errors = [];
+            if (!$transport) {
+                $errors[] = 'Transport product is missing from database';
+            }
+            if (!$material) {
+                $errors[] = 'Material product is missing from database';
+            }
+            if (!$service) {
+                $errors[] = 'Service is missing for schedule';
+            }
+            if (!$fixedPrice || !isset($fixedPrice->total_price)) {
+                $errors[] = 'Fixed price or total_price is missing';
+            }
+            if (!$service || !isset($service->price)) {
+                $errors[] = 'Service price is missing';
+            }
+
+            if (!empty($errors)) {
+                throw new \Exception("CreditService calculation failed for schedule ID {$schedule->id}: " . implode(', ', $errors));
+            }
+
             $totalQuarters = (int) floor(
                 ($fixedPrice->total_price - $transport->price - $material->price) / $service->price
             );
             $amount = (int) floor($totalQuarters * 15 / $minutePerCredit);
         } else {
+            // Check if schedule quarters is available
+            if (!isset($schedule->quarters)) {
+                throw new \Exception("Schedule quarters is missing for schedule ID {$schedule->id}");
+            }
             $amount = (int) floor($schedule->quarters * 15 / $minutePerCredit);
         }
 

@@ -11,6 +11,7 @@ export default interface Customer {
   email: string;
   phone1: string;
   formattedPhone1: string;
+  isFull: boolean;
   dueDays: number;
   invoiceMethod: string;
   createdAt: string;

@@ -21,6 +21,7 @@ export type AccountFormValues = {
   language: string;
   currency: string;
   twoFactorAuth: (typeof TWO_FACTOR_OPTIONS)[number];
+  notificationMethod?: string;
 };
 
 export type PrimaryAddressFormValues = {

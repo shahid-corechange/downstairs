@@ -55,11 +55,11 @@ const PrimaryAddressStep = () => {
   });
 
   const countryId = watch("country");
-  const postalCode = watch("postalCode");
   const address = watch("address");
+  const postalCode = watch("postalCode");
+  const cityId = watch("cityId");
   const latitude = watch("latitude", 0);
   const longitude = watch("longitude", 0);
-  const companyEmail = stepsValues[0].companyEmail;
 
   const debouncedAddress = useDebounce(
     { address, city: cityLabel, postalCode, country: countryLabel },
@@ -86,6 +86,11 @@ const PrimaryAddressStep = () => {
         ? cities.data.map((item) => ({ label: item.name, value: item.id }))
         : [],
     [cities.data],
+  );
+
+  const isRequired = useMemo(
+    () => !!(address || postalCode || cityId),
+    [address, postalCode, cityId],
   );
 
   const handleSubmit = formSubmitHandler(onValidateSuccess, onValidateError);
@@ -136,9 +141,9 @@ const PrimaryAddressStep = () => {
         labelText={t("address")}
         errorText={errors.address?.message || serverErrors.address}
         {...register("address", {
-          required: companyEmail ? t("validation field required") : false,
+          required: isRequired ? t("validation field required") : false,
         })}
-        isRequired={!!companyEmail}
+        isRequired={isRequired}
       />
       <Input
         labelText={t("address 2")}
@@ -152,21 +157,21 @@ const PrimaryAddressStep = () => {
           labelText={t("postal code")}
           errorText={errors.postalCode?.message || serverErrors.postalCode}
           {...register("postalCode", {
-            required: companyEmail ? t("validation field required") : false,
+            required: isRequired ? t("validation field required") : false,
             minLength: {
               value: 1,
               message: t("validation field min", { min: 1 }),
             },
           })}
-          isRequired={!!companyEmail}
+          isRequired={isRequired}
         />
         <Autocomplete
           options={cityOptions}
           labelText={t("postal locality")}
           errorText={errors.cityId?.message || serverErrors.cityId}
-          value={watch("cityId")}
+          value={cityId}
           {...register("cityId", {
-            required: companyEmail ? t("validation field required") : false,
+            required: isRequired ? t("validation field required") : false,
             valueAsNumber: true,
             onChange: (e) => {
               const element = e.target as HTMLInputElement;
@@ -175,7 +180,7 @@ const PrimaryAddressStep = () => {
             },
           })}
           isLoading={cities.isLoading}
-          isRequired={!!companyEmail}
+          isRequired={isRequired}
         />
       </Flex>
       <Skeleton isLoaded={!geocode.isFetching} rounded="md">

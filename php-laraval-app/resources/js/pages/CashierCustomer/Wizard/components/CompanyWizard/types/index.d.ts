@@ -14,12 +14,14 @@ export type AccountFormValues = {
   orgNumber: string;
   companyEmail: string;
   companyPhone: string;
+  discountPercentage: number;
   dueDays: number;
   invoiceMethod: string;
   language: string;
   timezone: string;
   currency: string;
   twoFactorAuth: (typeof TWO_FACTOR_OPTIONS)[number];
+  notificationMethod?: string;
 };
 
 export type ContactFormValues = {

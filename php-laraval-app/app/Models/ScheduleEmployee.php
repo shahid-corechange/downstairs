@@ -151,24 +151,6 @@ class ScheduleEmployee extends Model
     }
 
     /**
-     * Scope a query to get from cleaning.
-     */
-    public function scopeFromCleaning(Builder $query, int $scheduleCleaningId)
-    {
-        return $query->where('scheduleable_type', ScheduleCleaning::class)
-            ->where('scheduleable_id', $scheduleCleaningId);
-    }
-
-    /**
-     * Scope a query to get from cleanings.
-     */
-    public function scopeFromCleanings(Builder $query, array $scheduleCleaningIds)
-    {
-        return $query->where('scheduleable_type', ScheduleCleaning::class)
-            ->whereIn('scheduleable_id', $scheduleCleaningIds);
-    }
-
-    /**
      * Scope a query to get active cleaning.
      */
     public function scopeActive(Builder $query)
