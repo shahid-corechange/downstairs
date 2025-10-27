@@ -6,11 +6,11 @@ public partial class ServiceQuarter
 
     public long ServiceId { get; set; }
 
-    public uint MinSquareMeters { get; set; }
+    public long MinSquareMeters { get; set; }
 
-    public uint MaxSquareMeters { get; set; }
+    public long MaxSquareMeters { get; set; }
 
-    public uint Quarters { get; set; }
+    public long Quarters { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 

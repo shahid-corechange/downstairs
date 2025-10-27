@@ -31,10 +31,6 @@ internal sealed class DeviationConfiguration : IEntityTypeConfiguration<Deviatio
             .HasColumnType("text")
             .HasColumnName("reason");
 
-        entity.Property(e => e.ScheduleCleaningId)
-            .HasColumnType("bigint unsigned")
-            .HasColumnName("schedule_cleaning_id");
-
         entity.Property(e => e.ScheduleId)
             .HasColumnType("bigint unsigned")
             .HasColumnName("schedule_id");
@@ -55,8 +51,6 @@ internal sealed class DeviationConfiguration : IEntityTypeConfiguration<Deviatio
         entity.HasKey(e => e.Id)
             .HasName("PRIMARY");
 
-        entity.HasIndex(e => e.ScheduleCleaningId, "deviations_schedule_cleaning_id_foreign");
-
         entity.HasIndex(e => e.UserId, "deviations_user_id_foreign");
 
         entity.HasIndex(e => e.Type, "deviations_type_index");
@@ -64,12 +58,6 @@ internal sealed class DeviationConfiguration : IEntityTypeConfiguration<Deviatio
         entity.HasIndex(e => e.ScheduleId, "deviations_schedule_id_foreign");
 
         entity.ToTable("deviations").UseCollation(DatabaseConstants.Collations.Unicode);
-
-        entity.HasOne(d => d.ScheduleCleaning)
-            .WithMany(p => p.Deviations)
-            .HasForeignKey(d => d.ScheduleCleaningId)
-            .OnDelete(DeleteBehavior.Cascade)
-            .HasConstraintName("deviations_schedule_cleaning_id_foreign");
 
         entity.HasOne(d => d.Schedule)
             .WithMany(p => p.Deviations)

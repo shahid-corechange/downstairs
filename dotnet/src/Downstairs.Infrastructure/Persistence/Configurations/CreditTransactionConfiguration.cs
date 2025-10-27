@@ -27,10 +27,6 @@ internal sealed class CreditTransactionConfiguration : IEntityTypeConfiguration<
             .HasColumnType("bigint unsigned")
             .HasColumnName("issuer_id");
 
-        entity.Property(e => e.ScheduleCleaningId)
-            .HasColumnType("bigint unsigned")
-            .HasColumnName("schedule_cleaning_id");
-
         entity.Property(e => e.ScheduleId)
             .HasColumnType("bigint unsigned")
             .HasColumnName("schedule_id");
@@ -56,8 +52,6 @@ internal sealed class CreditTransactionConfiguration : IEntityTypeConfiguration<
         entity.HasKey(e => e.Id)
             .HasName("PRIMARY");
 
-        entity.HasIndex(e => e.ScheduleCleaningId, "credit_transactions_schedule_cleaning_id_foreign");
-
         entity.HasIndex(e => e.UserId, "credit_transactions_user_id_foreign");
 
         entity.HasIndex(e => e.IssuerId, "credit_transactions_issuer_id_foreign");
@@ -71,12 +65,6 @@ internal sealed class CreditTransactionConfiguration : IEntityTypeConfiguration<
             .HasForeignKey(d => d.IssuerId)
             .OnDelete(DeleteBehavior.Cascade)
             .HasConstraintName("credit_transactions_issuer_id_foreign");
-
-        entity.HasOne(d => d.ScheduleCleaning)
-            .WithMany(p => p.CreditTransactions)
-            .HasForeignKey(d => d.ScheduleCleaningId)
-            .OnDelete(DeleteBehavior.Cascade)
-            .HasConstraintName("credit_transactions_schedule_cleaning_id_foreign");
 
         entity.HasOne(d => d.Schedule)
             .WithMany(p => p.CreditTransactions)

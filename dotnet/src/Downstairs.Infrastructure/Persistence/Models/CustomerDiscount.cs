@@ -14,7 +14,7 @@ public partial class CustomerDiscount
 
     public DateOnly? EndDate { get; set; }
 
-    public uint? UsageLimit { get; set; }
+    public long? UsageLimit { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 

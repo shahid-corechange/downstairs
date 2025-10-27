@@ -2,7 +2,7 @@ namespace Downstairs.Infrastructure.Persistence.Models;
 
 public partial class Metum
 {
-    public uint Id { get; set; }
+    public long Id { get; set; }
 
     public string MetableType { get; set; } = null!;
 

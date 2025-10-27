@@ -14,10 +14,6 @@ internal sealed class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasColumnType("bigint unsigned")
             .HasColumnName("id");
 
-        entity.Property(e => e.AddonId)
-            .HasColumnType("bigint unsigned")
-            .HasColumnName("addon_id");
-
         entity.Property(e => e.Color)
             .IsRequired()
             .ValueGeneratedOnAdd()

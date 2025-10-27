@@ -24,8 +24,6 @@ public partial class Team
 
     public virtual ICollection<LaundryOrder> LaundryOrderPickupTeams { get; set; } = new List<LaundryOrder>();
 
-    public virtual ICollection<ScheduleCleaning> ScheduleCleanings { get; set; } = new List<ScheduleCleaning>();
-
     public virtual ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();
 
     public virtual ICollection<SubscriptionCleaningDetail> SubscriptionCleaningDetails { get; set; } = new List<SubscriptionCleaningDetail>();
@@ -33,8 +31,6 @@ public partial class Team
     public virtual ICollection<SubscriptionLaundryDetail> SubscriptionLaundryDetailDeliveryTeams { get; set; } = new List<SubscriptionLaundryDetail>();
 
     public virtual ICollection<SubscriptionLaundryDetail> SubscriptionLaundryDetailPickupTeams { get; set; } = new List<SubscriptionLaundryDetail>();
-
-    public virtual ICollection<Subscription> Subscriptions { get; set; } = new List<Subscription>();
 
     public virtual ICollection<TeamUser> TeamUsers { get; set; } = new List<TeamUser>();
 }

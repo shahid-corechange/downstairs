@@ -4,13 +4,9 @@ public partial class ScheduleEmployee
 {
     public long Id { get; set; }
 
-    public long? ScheduleId { get; set; }
+    public long ScheduleId { get; set; }
 
     public long UserId { get; set; }
-
-    public string? ScheduleableType { get; set; }
-
-    public long? ScheduleableId { get; set; }
 
     public long? WorkHourId { get; set; }
 
@@ -40,7 +36,7 @@ public partial class ScheduleEmployee
 
     public DateTime? DeletedAt { get; set; }
 
-    public virtual Schedule? Schedule { get; set; }
+    public virtual Schedule Schedule { get; set; } = null!;
 
     public virtual ICollection<Task> Tasks { get; set; } = new List<Task>();
 

@@ -4,9 +4,7 @@ public partial class Deviation
 {
     public long Id { get; set; }
 
-    public long? ScheduleId { get; set; }
-
-    public long? ScheduleCleaningId { get; set; }
+    public long ScheduleId { get; set; }
 
     public long UserId { get; set; }
 
@@ -22,9 +20,7 @@ public partial class Deviation
 
     public DateTime? DeletedAt { get; set; }
 
-    public virtual Schedule? Schedule { get; set; }
-
-    public virtual ScheduleCleaning? ScheduleCleaning { get; set; }
+    public virtual Schedule Schedule { get; set; } = null!;
 
     public virtual User User { get; set; } = null!;
 }

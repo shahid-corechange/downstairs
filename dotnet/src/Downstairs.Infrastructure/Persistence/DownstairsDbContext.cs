@@ -139,14 +139,6 @@ public partial class DownstairsDbContext : DbContext
 
     public virtual DbSet<ScheduleCleaning> ScheduleCleanings { get; set; }
 
-    public virtual DbSet<ScheduleCleaningChangeRequest> ScheduleCleaningChangeRequests { get; set; }
-
-    public virtual DbSet<ScheduleCleaningDeviation> ScheduleCleaningDeviations { get; set; }
-
-    public virtual DbSet<ScheduleCleaningProduct> ScheduleCleaningProducts { get; set; }
-
-    public virtual DbSet<ScheduleCleaningTask> ScheduleCleaningTasks { get; set; }
-
     public virtual DbSet<ScheduleDeviation> ScheduleDeviations { get; set; }
 
     public virtual DbSet<ScheduleEmployee> ScheduleEmployees { get; set; }

@@ -8,7 +8,7 @@ public partial class FixedPriceRow
 
     public string Type { get; set; } = null!;
 
-    public uint Quantity { get; set; }
+    public long Quantity { get; set; }
 
     public decimal Price { get; set; }
 

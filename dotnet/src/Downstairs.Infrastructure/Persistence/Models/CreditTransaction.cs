@@ -6,8 +6,6 @@ public partial class CreditTransaction
 
     public long UserId { get; set; }
 
-    public long? ScheduleCleaningId { get; set; }
-
     public long? ScheduleId { get; set; }
 
     public long? IssuerId { get; set; }
@@ -27,8 +25,6 @@ public partial class CreditTransaction
     public virtual User? Issuer { get; set; }
 
     public virtual Schedule? Schedule { get; set; }
-
-    public virtual ScheduleCleaning? ScheduleCleaning { get; set; }
 
     public virtual User User { get; set; } = null!;
 }

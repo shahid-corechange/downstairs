@@ -26,13 +26,9 @@ public partial class Product
 
     public DateTime? DeletedAt { get; set; }
 
-    public long? AddonId { get; set; }
-
     public virtual ICollection<LaundryOrderProduct> LaundryOrderProducts { get; set; } = new List<LaundryOrderProduct>();
 
     public virtual ICollection<Productable> Productables { get; set; } = new List<Productable>();
-
-    public virtual ICollection<ScheduleCleaningProduct> ScheduleCleaningProducts { get; set; } = new List<ScheduleCleaningProduct>();
 
     public virtual ICollection<StoreProduct> StoreProducts { get; set; } = new List<StoreProduct>();
 

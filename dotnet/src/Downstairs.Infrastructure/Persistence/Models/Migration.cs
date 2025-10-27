@@ -2,7 +2,7 @@ namespace Downstairs.Infrastructure.Persistence.Models;
 
 public partial class Migration
 {
-    public uint Id { get; set; }
+    public long Id { get; set; }
 
     public string Migration1 { get; set; } = null!;
 

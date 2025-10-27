@@ -8,10 +8,6 @@ public partial class Subscription
 
     public long? CustomerId { get; set; }
 
-    public long? TeamId { get; set; }
-
-    public long? PropertyId { get; set; }
-
     public long ServiceId { get; set; }
 
     public long? FixedPriceId { get; set; }
@@ -25,14 +21,6 @@ public partial class Subscription
     public DateOnly StartAt { get; set; }
 
     public DateOnly? EndAt { get; set; }
-
-    public DateTime? StartTimeAt { get; set; }
-
-    public DateTime? EndTimeAt { get; set; }
-
-    public short? Quarters { get; set; }
-
-    public short? RefillSequence { get; set; }
 
     public bool IsPaused { get; set; }
 
@@ -54,10 +42,6 @@ public partial class Subscription
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
-    public virtual Property? Property { get; set; }
-
-    public virtual ICollection<ScheduleCleaning> ScheduleCleanings { get; set; } = new List<ScheduleCleaning>();
-
     public virtual ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();
 
     public virtual Service Service { get; set; } = null!;
@@ -65,8 +49,6 @@ public partial class Subscription
     public virtual ICollection<SubscriptionItem> SubscriptionItems { get; set; } = new List<SubscriptionItem>();
 
     public virtual ICollection<SubscriptionStaffDetail> SubscriptionStaffDetails { get; set; } = new List<SubscriptionStaffDetail>();
-
-    public virtual Team? Team { get; set; }
 
     public virtual User User { get; set; } = null!;
 }

@@ -49,14 +49,6 @@ internal sealed class ScheduleEmployeeConfiguration : IEntityTypeConfiguration<S
             .HasColumnType("bigint unsigned")
             .HasColumnName("schedule_id");
 
-        entity.Property(e => e.ScheduleableId)
-            .HasColumnType("bigint unsigned")
-            .HasColumnName("scheduleable_id");
-
-        entity.Property(e => e.ScheduleableType)
-            .HasColumnType("varchar(255)")
-            .HasColumnName("scheduleable_type");
-
         entity.Property(e => e.StartAt)
             .HasColumnType("timestamp")
             .HasColumnName("start_at");
@@ -97,8 +89,6 @@ internal sealed class ScheduleEmployeeConfiguration : IEntityTypeConfiguration<S
 
         entity.HasKey(e => e.Id)
             .HasName("PRIMARY");
-
-        entity.HasIndex(e => new { e.ScheduleableType, e.ScheduleableId }, "schedule_employeeableable_index");
 
         entity.HasIndex(e => e.ScheduleId, "schedule_employees_schedule_id_foreign");
 

@@ -20,6 +20,8 @@ public partial class User
 
     public string? IdentityNumber { get; set; }
 
+    public bool IsCompanyContact { get; set; }
+
     public DateTime? IdentityNumberVerifiedAt { get; set; }
 
     public string Password { get; set; } = null!;
@@ -79,8 +81,6 @@ public partial class User
     public virtual ICollection<RutCoApplicant> RutCoApplicants { get; set; } = new List<RutCoApplicant>();
 
     public virtual ICollection<ScheduleChangeRequest> ScheduleChangeRequests { get; set; } = new List<ScheduleChangeRequest>();
-
-    public virtual ICollection<ScheduleCleaningChangeRequest> ScheduleCleaningChangeRequests { get; set; } = new List<ScheduleCleaningChangeRequest>();
 
     public virtual ICollection<ScheduleEmployee> ScheduleEmployees { get; set; } = new List<ScheduleEmployee>();
 
