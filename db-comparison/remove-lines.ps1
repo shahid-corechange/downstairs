@@ -18,7 +18,6 @@ $textReplacements = @{
     "varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci" = "varchar(255) COLLATE utf8mb4_unicode_ci"
     "text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci" = "text COLLATE utf8mb4_unicode_ci"
     "AUTO_INCREMENT ," = "AUTO_INCREMENT,"
-    "text CHARACTER COLLATE utf8mb4_unicode_ci" = "text COLLATE utf8mb4_unicode_ci"
 }
 
 # Define regex patterns to replace within lines
@@ -28,9 +27,9 @@ $regexReplacements = @{
 
 # Get all SQL files in both directories
 $sqlFiles = @()
-$sqlFiles += Get-ChildItem -Path "Dump20251021_Prod" -Filter "*.sql" -File
+$sqlFiles += Get-ChildItem -Path "Dump_Prod_Structure" -Filter "*.sql" -File
 $sqlFiles += Get-ChildItem -Path "Dump20251021_STAGE" -Filter "*.sql" -File
-$sqlFiles += Get-ChildItem -Path "Dump20251021_Local" -Filter "*.sql" -File
+$sqlFiles += Get-ChildItem -Path "Dump_Local_Structure" -Filter "*.sql" -File
 
 Write-Host "Found $($sqlFiles.Count) SQL files to process" -ForegroundColor Yellow
 

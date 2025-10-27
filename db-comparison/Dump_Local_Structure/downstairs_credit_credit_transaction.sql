@@ -34,15 +34,6 @@ CREATE TABLE `credit_credit_transaction` (
   CONSTRAINT `credit_credit_transaction_credit_transaction_id_foreign` FOREIGN KEY (`credit_transaction_id`) REFERENCES `credit_transactions` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `credit_credit_transaction`
---
-
-LOCK TABLES `credit_credit_transaction` WRITE;
-/*!40000 ALTER TABLE `credit_credit_transaction` DISABLE KEYS */;
-/*!40000 ALTER TABLE `credit_credit_transaction` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -53,4 +44,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-27  7:59:25
+-- Dump completed on 2025-10-27  8:30:28

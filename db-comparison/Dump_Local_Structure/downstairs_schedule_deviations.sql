@@ -36,15 +36,6 @@ CREATE TABLE `schedule_deviations` (
   CONSTRAINT `schedule_deviations_schedule_id_foreign` FOREIGN KEY (`schedule_id`) REFERENCES `schedules` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `schedule_deviations`
---
-
-LOCK TABLES `schedule_deviations` WRITE;
-/*!40000 ALTER TABLE `schedule_deviations` DISABLE KEYS */;
-/*!40000 ALTER TABLE `schedule_deviations` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -55,4 +46,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-27  7:59:31
+-- Dump completed on 2025-10-27  8:30:34

@@ -39,15 +39,6 @@ CREATE TABLE `price_adjustments` (
   CONSTRAINT `price_adjustments_causer_id_foreign` FOREIGN KEY (`causer_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `price_adjustments`
---
-
-LOCK TABLES `price_adjustments` WRITE;
-/*!40000 ALTER TABLE `price_adjustments` DISABLE KEYS */;
-/*!40000 ALTER TABLE `price_adjustments` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -58,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-27  7:59:24
+-- Dump completed on 2025-10-27  8:30:27

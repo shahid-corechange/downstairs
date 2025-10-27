@@ -38,15 +38,6 @@ CREATE TABLE `subscription_cleaning_details` (
   CONSTRAINT `subscription_cleaning_details_team_id_foreign` FOREIGN KEY (`team_id`) REFERENCES `teams` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `subscription_cleaning_details`
---
-
-LOCK TABLES `subscription_cleaning_details` WRITE;
-/*!40000 ALTER TABLE `subscription_cleaning_details` DISABLE KEYS */;
-/*!40000 ALTER TABLE `subscription_cleaning_details` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -57,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-27  7:59:29
+-- Dump completed on 2025-10-27  8:30:33

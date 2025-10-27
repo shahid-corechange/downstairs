@@ -31,15 +31,6 @@ CREATE TABLE `order_fixed_price_laundry_products` (
   CONSTRAINT `FK_order_fixed_price_laundry_products_products_product_id` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `order_fixed_price_laundry_products`
---
-
-LOCK TABLES `order_fixed_price_laundry_products` WRITE;
-/*!40000 ALTER TABLE `order_fixed_price_laundry_products` DISABLE KEYS */;
-/*!40000 ALTER TABLE `order_fixed_price_laundry_products` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -50,4 +41,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-27  7:59:33
+-- Dump completed on 2025-10-27  8:30:37

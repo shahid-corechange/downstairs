@@ -37,15 +37,6 @@ CREATE TABLE `oauth_remote_tokens` (
   UNIQUE KEY `oauth_remote_tokens_app_name_unique` (`app_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `oauth_remote_tokens`
---
-
-LOCK TABLES `oauth_remote_tokens` WRITE;
-/*!40000 ALTER TABLE `oauth_remote_tokens` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oauth_remote_tokens` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -56,4 +47,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-27  7:59:32
+-- Dump completed on 2025-10-27  8:30:36
