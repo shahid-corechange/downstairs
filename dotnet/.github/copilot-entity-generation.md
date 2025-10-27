@@ -78,9 +78,9 @@ builder.Property(x => x.Price).HasColumnType("decimal(8,2) unsigned");
 
 ---
 
-### **Step 5 — Configure Many-to-Many Table Names**
+### **Step 5 — Configure Many-to-Many Join Tables**
 
-**CRITICAL:** EF Core generates incorrect table names for many-to-many relationships. Always configure them explicitly:
+**CRITICAL:** EF Core scaffolding uses anonymous join entities, so you must force the correct table names, keys, and constraint names. Always call `.UsingEntity<Dictionary<string, object>>` and configure the join metadata explicitly:
 
 #### **Required Many-to-Many Configurations:**
 
@@ -89,11 +89,21 @@ builder.Property(x => x.Price).HasColumnType("decimal(8,2) unsigned");
 // In PermissionConfiguration.cs
 entity.HasMany(p => p.Roles)
     .WithMany(r => r.Permissions)
-    .UsingEntity(
+    .UsingEntity<Dictionary<string, object>>(
         "role_has_permissions",
-        l => l.HasOne(typeof(Role)).WithMany().HasForeignKey("role_id").HasPrincipalKey(nameof(Role.Id)),
-        r => r.HasOne(typeof(Permission)).WithMany().HasForeignKey("permission_id").HasPrincipalKey(nameof(Permission.Id)),
-        j => j.HasKey("role_id", "permission_id"));
+        l => l.HasOne(typeof(Role)).WithMany()
+            .HasForeignKey("role_id")
+            .HasPrincipalKey(nameof(Role.Id))
+            .HasConstraintName("role_has_permissions_role_id_foreign"),
+        r => r.HasOne(typeof(Permission)).WithMany()
+            .HasForeignKey("permission_id")
+            .HasPrincipalKey(nameof(Permission.Id))
+            .HasConstraintName("role_has_permissions_permission_id_foreign"),
+        j =>
+        {
+            j.ToTable("role_has_permissions");
+            j.HasKey("role_id", "permission_id");
+        });
 ```
 
 **FixedPrice ↔ Product:** Table name must be `fixed_price_laundry_products`
@@ -101,11 +111,21 @@ entity.HasMany(p => p.Roles)
 // In FixedPriceConfiguration.cs
 entity.HasMany(f => f.Products)
     .WithMany(p => p.FixedPrices)
-    .UsingEntity(
+    .UsingEntity<Dictionary<string, object>>(
         "fixed_price_laundry_products",
-        l => l.HasOne(typeof(Product)).WithMany().HasForeignKey("product_id").HasPrincipalKey(nameof(Product.Id)),
-        r => r.HasOne(typeof(FixedPrice)).WithMany().HasForeignKey("fixed_price_id").HasPrincipalKey(nameof(FixedPrice.Id)),
-        j => j.HasKey("fixed_price_id", "product_id"));
+        l => l.HasOne(typeof(Product)).WithMany()
+            .HasForeignKey("product_id")
+            .HasPrincipalKey(nameof(Product.Id))
+            .HasConstraintName("fixed_price_laundry_products_product_id_foreign"),
+        r => r.HasOne(typeof(FixedPrice)).WithMany()
+            .HasForeignKey("fixed_price_id")
+            .HasPrincipalKey(nameof(FixedPrice.Id))
+            .HasConstraintName("fixed_price_laundry_products_fixed_price_id_foreign"),
+        j =>
+        {
+            j.ToTable("fixed_price_laundry_products");
+            j.HasKey("fixed_price_id", "product_id");
+        });
 ```
 
 **OrderFixedPrice ↔ Product:** Table name must be `order_fixed_price_laundry_products`
@@ -113,16 +133,48 @@ entity.HasMany(f => f.Products)
 // In OrderFixedPriceConfiguration.cs
 entity.HasMany(o => o.Products)
     .WithMany(p => p.OrderFixedPrices)
-    .UsingEntity(
+    .UsingEntity<Dictionary<string, object>>(
         "order_fixed_price_laundry_products",
-        l => l.HasOne(typeof(Product)).WithMany().HasForeignKey("product_id").HasPrincipalKey(nameof(Product.Id)),
-        r => r.HasOne(typeof(OrderFixedPrice)).WithMany().HasForeignKey("order_fixed_price_id").HasPrincipalKey(nameof(OrderFixedPrice.Id)),
-        j => j.HasKey("order_fixed_price_id", "product_id"));
+        l => l.HasOne(typeof(Product)).WithMany()
+            .HasForeignKey("product_id")
+            .HasPrincipalKey(nameof(Product.Id))
+            .HasConstraintName("order_fixed_price_laundry_products_product_id_foreign"),
+        r => r.HasOne(typeof(OrderFixedPrice)).WithMany()
+            .HasForeignKey("order_fixed_price_id")
+            .HasPrincipalKey(nameof(OrderFixedPrice.Id))
+            .HasConstraintName("order_fixed_price_laundry_products_order_fixed_price_id_foreign"),
+        j =>
+        {
+            j.ToTable("order_fixed_price_laundry_products");
+            j.HasKey("order_fixed_price_id", "product_id");
+        });
 ```
+
+> ✅ Double-check every scaffold run to ensure the dictionary join type, table name, key, and constraint names survive regeneration.
 
 ---
 
-### **Step 6 — Apply Charset & Collation Globally**
+### **Step 6 — Fix Subscription & User Mappings**
+
+Keep the subscription and user entities aligned with Laravel defaults:
+
+- `dotnet/src/Downstairs.Infrastructure/Persistence/Models/Subscription.cs`
+  - Ensure `EndAt` is typed as `DateOnly?` so both subscription boundary dates use the MySQL `date` type.
+  - Leave navigation properties intact; EF mappings are driven by the configuration class.
+- `dotnet/src/Downstairs.Infrastructure/Persistence/Configurations/SubscriptionConfiguration.cs`
+  - Map `start_at` and `end_at` with `.HasColumnType("date")`.
+  - Configure `HasOne(d => d.Customer)` / `HasForeignKey(d => d.CustomerId)` with `.OnDelete(DeleteBehavior.Cascade)` and `.HasConstraintName("subscriptions_customer_id_foreign")` so the FK matches Laravel migration output.
+  - Restore indexes (`subscriptions_customer_id_foreign`, `subscriptions_fixed_price_id_foreign`, `subscriptions_service_id_foreign`, `subscriptions_user_id_foreign`) after scaffolding.
+- `dotnet/src/Downstairs.Infrastructure/Persistence/Models/User.cs`
+  - Keep the `IsCompanyContact` boolean property; application logic depends on it.
+- `dotnet/src/Downstairs.Infrastructure/Persistence/Configurations/UserConfiguration.cs`
+  - Use `.HasColumnName("is_company_contact")`, `.HasColumnType("tinyint(1)")`, and `.HasDefaultValueSql("'0'")` so the column stays lowercase with the correct default.
+
+> 🔁 Re-apply these adjustments immediately after scaffolding to avoid losing hand-crafted behavior.
+
+---
+
+### **Step 7 — Apply Charset & Collation Globally**
 
 In `DownstairsDbContext.OnModelCreating`:
 
@@ -136,7 +188,7 @@ Do **not** duplicate the charset/collation calls inside individual configuration
 
 ---
 
-### **Step 7 — Store Configuration Files in Separate Files**
+### **Step 8 — Store Configuration Files in Separate Files**
 
 - Keep one `IEntityTypeConfiguration<T>` per file under `dotnet\src\Downstairs.Infrastructure\Persistence\Configurations`.
 - Remove any configuration (and matching repository) that no longer has a corresponding model after the scaffold sweep.
@@ -144,7 +196,7 @@ Do **not** duplicate the charset/collation calls inside individual configuration
 
 ---
 
-### **Step 8 — Create Migration**
+### **Step 9 — Create Migration**
 After entities and configurations are ready:
 
 1. Run a build so the EF tooling can locate `Downstairs.Infrastructure.dll`:
@@ -164,7 +216,7 @@ After entities and configurations are ready:
 
 ---
 
-### **Step 9 — Apply `.editorconfig` Formatting**
+### **Step 10 — Apply `.editorconfig` Formatting**
 Run `dotnet format dotnet\Downstairs.sln` to align with the repository formatting rules.
 
 Ensure:
@@ -174,7 +226,7 @@ Ensure:
 
 ---
 
-### **Step 10 — Build Verification**
+### **Step 11 — Build Verification**
 - Run `dotnet build dotnet\Downstairs.sln`
 - Ensure the solution compiles successfully and migrations work
 - Execute a targeted test run if possible (`dotnet test dotnet\tests\Downstairs.UnitTests\Downstairs.UnitTests.csproj`)

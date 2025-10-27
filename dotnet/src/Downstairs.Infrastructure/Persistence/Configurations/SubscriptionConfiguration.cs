@@ -18,6 +18,18 @@ internal sealed class SubscriptionConfiguration : IEntityTypeConfiguration<Subsc
             .HasColumnType("timestamp")
             .HasColumnName("created_at");
 
+        entity.Property(e => e.CustomerId)
+            .HasColumnType("bigint unsigned")
+            .HasColumnName("customer_id");
+
+        entity.Property(e => e.DeletedAt)
+            .HasColumnType("timestamp")
+            .HasColumnName("deleted_at");
+
+        entity.Property(e => e.Description)
+            .HasColumnType("text")
+            .HasColumnName("description");
+
         entity.Property(e => e.FixedPriceId)
             .HasColumnType("bigint unsigned")
             .HasColumnName("fixed_price_id");
@@ -30,6 +42,10 @@ internal sealed class SubscriptionConfiguration : IEntityTypeConfiguration<Subsc
             .HasColumnType("tinyint(1)")
             .HasColumnName("is_fixed")
             .HasDefaultValueSql("'0'");
+
+        entity.Property(e => e.EndAt)
+            .HasColumnType("date")
+            .HasColumnName("end_at");
 
         entity.Property(e => e.IsPaused)
             .HasColumnType("tinyint(1)")
@@ -64,6 +80,8 @@ internal sealed class SubscriptionConfiguration : IEntityTypeConfiguration<Subsc
         entity.HasKey(e => e.Id)
             .HasName("PRIMARY");
 
+        entity.HasIndex(e => e.CustomerId, "subscriptions_customer_id_foreign");
+
         entity.HasIndex(e => e.FixedPriceId, "subscriptions_fixed_price_id_foreign");
 
         entity.HasIndex(e => e.ServiceId, "subscriptions_service_id_foreign");
@@ -80,6 +98,12 @@ internal sealed class SubscriptionConfiguration : IEntityTypeConfiguration<Subsc
             .OnDelete(DeleteBehavior.Cascade)
             .HasConstraintName("subscriptions_fixed_price_id_foreign")
             .HasAnnotation("Relational:OnUpdate", "RESTRICT");
+
+        entity.HasOne(d => d.Customer)
+            .WithMany(p => p.Subscriptions)
+            .HasForeignKey(d => d.CustomerId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .HasConstraintName("subscriptions_customer_id_foreign");
 
         entity.HasOne(d => d.Service)
             .WithMany(p => p.Subscriptions)

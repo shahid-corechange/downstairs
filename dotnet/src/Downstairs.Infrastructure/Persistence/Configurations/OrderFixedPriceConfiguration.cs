@@ -59,10 +59,24 @@ internal sealed class OrderFixedPriceConfiguration : IEntityTypeConfiguration<Or
         // Configure many-to-many relationship with Product using correct table name
         entity.HasMany(o => o.Products)
             .WithMany(p => p.OrderFixedPrices)
-            .UsingEntity(
+            .UsingEntity<System.Collections.Generic.Dictionary<string, object>>(
                 "order_fixed_price_laundry_products",
-                l => l.HasOne(typeof(Product)).WithMany().HasForeignKey("product_id").HasPrincipalKey(nameof(Product.Id)),
-                r => r.HasOne(typeof(OrderFixedPrice)).WithMany().HasForeignKey("order_fixed_price_id").HasPrincipalKey(nameof(OrderFixedPrice.Id)),
-                j => j.HasKey("order_fixed_price_id", "product_id"));
+                l => l.HasOne<Product>()
+                    .WithMany()
+                    .HasForeignKey("product_id")
+                    .HasPrincipalKey(nameof(Product.Id))
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("order_fixed_price_laundry_products_product_id_foreign"),
+                r => r.HasOne<OrderFixedPrice>()
+                    .WithMany()
+                    .HasForeignKey("order_fixed_price_id")
+                    .HasPrincipalKey(nameof(OrderFixedPrice.Id))
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("order_fixed_price_laundry_products_order_fixed_price_id_foreign"),
+                j =>
+                {
+                    j.ToTable("order_fixed_price_laundry_products");
+                    j.HasKey("order_fixed_price_id", "product_id");
+                });
     }
 }

@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
+﻿-- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
 --
 -- Host: mysql-production-downstairs.mysql.database.azure.com    Database: downstairs
 -- ------------------------------------------------------
@@ -42,4 +42,3 @@ CREATE TABLE `custom_tasks` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-27  8:07:34

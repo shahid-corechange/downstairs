@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
+﻿-- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
 --
 -- Host: mysql-staging-downstairs.mysql.database.azure.com    Database: downstairs
 -- ------------------------------------------------------
@@ -45,4 +45,3 @@ CREATE TABLE `service_quarters` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-27  8:18:19

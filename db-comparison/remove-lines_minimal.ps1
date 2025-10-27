@@ -4,31 +4,15 @@ Write-Host "Starting to remove specific lines from MySQL dump files..." -Foregro
 
 # Define the patterns to remove (entire lines)
 $linePatterns = @(
-    "-- Host: .* Database: downstairs",
-    "-- Server version",
-    "-- Dump completed on 2025-10",
-    "MySQL dump 10.13  Distrib 8.0.43",
-    "  KEY "
+    "-- Dump completed on"
 )
 
 # Define the text patterns to replace within lines
 $textReplacements = @{
-    " ROW_FORMAT=DYNAMIC" = ""
-    "/*!80023 INVISIBLE */" = ""
-    "varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci" = "varchar(255) COLLATE utf8mb4_unicode_ci"
-    "text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci" = "text COLLATE utf8mb4_unicode_ci"
-    "NULL AUTO_INCREMENT ," = "NULL AUTO_INCREMENT,"
-    "AUTO_INCREMENT ," = "AUTO_INCREMENT,"
-    "CHARACTER SET utf8mb4 COLLATE utf8mb4_swedish_ci" = "COLLATE utf8mb4_unicode_ci"
-    "varchar(255) COLLATE utf8mb4_unicode_ci" = "varchar(255)"
-    "DEFAULT CHARSET=utf8mb3" = "DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci"
-    " ON UPDATE RESTRICT" = "" # May be add when OnUpdate support come in efcore
-    "decimal(8,2) unsigned" = "decimal(8,2)" # May be add when efcore support it
 }
 
 # Define regex patterns to replace within lines
 $regexReplacements = @{
-    " AUTO_INCREMENT=\d+ " = " "
 }
 
 # Get all SQL files in both directories

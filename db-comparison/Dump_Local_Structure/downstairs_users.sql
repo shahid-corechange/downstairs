@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
+﻿-- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: downstairs
 -- ------------------------------------------------------
@@ -32,7 +32,7 @@ CREATE TABLE `users` (
   `dial_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `cellphone_verified_at` timestamp NULL DEFAULT NULL,
   `identity_number` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `IsCompanyContact` tinyint(1) NOT NULL,
+  `is_company_contact` tinyint(1) NOT NULL DEFAULT '0',
   `identity_number_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -56,4 +56,3 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-27  8:30:24

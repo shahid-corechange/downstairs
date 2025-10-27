@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
+﻿-- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: downstairs
 -- ------------------------------------------------------
@@ -27,8 +27,8 @@ CREATE TABLE `price_adjustment_rows` (
   `price_adjustment_id` bigint unsigned NOT NULL,
   `adjustable_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `adjustable_id` bigint unsigned NOT NULL,
-  `previous_price` decimal(8,2) NOT NULL,
-  `price` decimal(8,2) NOT NULL,
+  `previous_price` decimal(8,2) unsigned NOT NULL,
+  `price` decimal(8,2) unsigned NOT NULL,
   `vat_group` tinyint unsigned NOT NULL DEFAULT '25',
   `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -49,4 +49,3 @@ CREATE TABLE `price_adjustment_rows` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-27  8:30:30

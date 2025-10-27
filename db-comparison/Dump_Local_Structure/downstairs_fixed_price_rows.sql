@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
+﻿-- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: downstairs
 -- ------------------------------------------------------
@@ -27,7 +27,7 @@ CREATE TABLE `fixed_price_rows` (
   `fixed_price_id` bigint unsigned NOT NULL,
   `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `quantity` int unsigned NOT NULL,
-  `price` decimal(8,2) NOT NULL,
+  `price` decimal(8,2) unsigned NOT NULL,
   `vat_group` tinyint unsigned NOT NULL DEFAULT '25',
   `has_rut` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -48,4 +48,3 @@ CREATE TABLE `fixed_price_rows` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-27  8:30:22

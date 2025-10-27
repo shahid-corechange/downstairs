@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
+﻿-- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: downstairs
 -- ------------------------------------------------------
@@ -27,8 +27,8 @@ CREATE TABLE `fixed_price_laundry_products` (
   `product_id` bigint unsigned NOT NULL,
   PRIMARY KEY (`fixed_price_id`,`product_id`),
   KEY `IX_fixed_price_laundry_products_product_id` (`product_id`),
-  CONSTRAINT `FK_fixed_price_laundry_products_fixed_prices_fixed_price_id` FOREIGN KEY (`fixed_price_id`) REFERENCES `fixed_prices` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `FK_fixed_price_laundry_products_products_product_id` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE
+  CONSTRAINT `fixed_price_laundry_products_fixed_price_id_foreign` FOREIGN KEY (`fixed_price_id`) REFERENCES `fixed_prices` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fixed_price_laundry_products_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -41,4 +41,3 @@ CREATE TABLE `fixed_price_laundry_products` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-27  8:30:32

@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
+﻿-- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: downstairs
 -- ------------------------------------------------------
@@ -25,27 +25,27 @@ DROP TABLE IF EXISTS `subscriptions`;
 CREATE TABLE `subscriptions` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint unsigned NOT NULL,
-  `CustomerId` bigint unsigned DEFAULT NULL,
+  `customer_id` bigint unsigned DEFAULT NULL,
   `service_id` bigint unsigned NOT NULL,
   `fixed_price_id` bigint unsigned DEFAULT NULL,
   `subscribable_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `subscribable_id` bigint unsigned NOT NULL,
   `frequency` smallint NOT NULL,
   `start_at` date NOT NULL,
-  `EndAt` date DEFAULT NULL,
+  `end_at` date DEFAULT NULL,
   `is_paused` tinyint(1) NOT NULL DEFAULT '0',
   `is_fixed` tinyint(1) NOT NULL DEFAULT '0',
-  `Description` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `DeletedAt` datetime(6) DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `IX_subscriptions_CustomerId` (`CustomerId`),
+  KEY `subscriptions_customer_id_foreign` (`customer_id`),
   KEY `subscriptions_fixed_price_id_foreign` (`fixed_price_id`),
   KEY `subscriptions_service_id_foreign` (`service_id`),
   KEY `subscriptions_subscribable_id_subscribable_type_index` (`subscribable_id`,`subscribable_type`),
   KEY `subscriptions_user_id_foreign` (`user_id`),
-  CONSTRAINT `FK_subscriptions_customers_CustomerId` FOREIGN KEY (`CustomerId`) REFERENCES `customers` (`id`),
+  CONSTRAINT `subscriptions_customer_id_foreign` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE,
   CONSTRAINT `subscriptions_fixed_price_id_foreign` FOREIGN KEY (`fixed_price_id`) REFERENCES `fixed_prices` (`id`) ON DELETE CASCADE,
   CONSTRAINT `subscriptions_service_id_foreign` FOREIGN KEY (`service_id`) REFERENCES `services` (`id`) ON DELETE CASCADE,
   CONSTRAINT `subscriptions_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
@@ -61,4 +61,3 @@ CREATE TABLE `subscriptions` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-27  8:30:29

@@ -1,4 +1,3 @@
-﻿using System;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
@@ -57,7 +56,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     unit = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
+                    price = table.Column<decimal>(type: "decimal(8,2) unsigned", nullable: false),
                     credit_price = table.Column<ushort>(type: "smallint unsigned", nullable: false),
                     vat_group = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'25'"),
                     has_rut = table.Column<bool>(type: "tinyint(1)", nullable: false),
@@ -282,8 +281,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 {
                     id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    price = table.Column<decimal>(type: "decimal(8,2)", nullable: false, defaultValueSql: "'0.00'"),
-                    percentage = table.Column<decimal>(type: "decimal(8,2)", nullable: false, defaultValueSql: "'0.00'"),
+                    price = table.Column<decimal>(type: "decimal(8,2) unsigned", nullable: false, defaultValueSql: "'0.00'"),
+                    percentage = table.Column<decimal>(type: "decimal(8,2) unsigned", nullable: false, defaultValueSql: "'0.00'"),
                     vat_group = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'25'"),
                     hours = table.Column<ushort>(type: "smallint unsigned", nullable: false),
                     include_holidays = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'0'"),
@@ -460,7 +459,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     unit = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
+                    price = table.Column<decimal>(type: "decimal(8,2) unsigned", nullable: false),
                     credit_price = table.Column<ushort>(type: "smallint unsigned", nullable: true),
                     vat_group = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'25'"),
                     has_rut = table.Column<bool>(type: "tinyint(1)", nullable: false),
@@ -527,7 +526,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     membership_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
+                    price = table.Column<decimal>(type: "decimal(8,2) unsigned", nullable: false),
                     vat_group = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'25'"),
                     has_rut = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     thumbnail_image = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
@@ -670,7 +669,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     cellphone_verified_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     identity_number = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    IsCompanyContact = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    is_company_contact = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'0'"),
                     identity_number_verified_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     password = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -811,20 +810,20 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 name: "role_has_permissions",
                 columns: table => new
                 {
-                    role_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
-                    permission_id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
+                    permission_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    role_id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_role_has_permissions", x => new { x.role_id, x.permission_id });
+                    table.PrimaryKey("PK_role_has_permissions", x => new { x.permission_id, x.role_id });
                     table.ForeignKey(
-                        name: "FK_role_has_permissions_permissions_permission_id",
+                        name: "role_has_permissions_permission_id_foreign",
                         column: x => x.permission_id,
                         principalTable: "permissions",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_role_has_permissions_roles_role_id",
+                        name: "role_has_permissions_role_id_foreign",
                         column: x => x.role_id,
                         principalTable: "roles",
                         principalColumn: "id",
@@ -991,7 +990,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     price_type = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    price = table.Column<decimal>(type: "decimal(8,2)", precision: 8, scale: 2, nullable: false),
+                    price = table.Column<decimal>(type: "decimal(8,2) unsigned", precision: 8, scale: 2, nullable: false),
                     execution_date = table.Column<DateOnly>(type: "date", nullable: false),
                     status = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'pending'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -1180,13 +1179,13 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_fixed_price_laundry_products", x => new { x.fixed_price_id, x.product_id });
                     table.ForeignKey(
-                        name: "FK_fixed_price_laundry_products_fixed_prices_fixed_price_id",
+                        name: "fixed_price_laundry_products_fixed_price_id_foreign",
                         column: x => x.fixed_price_id,
                         principalTable: "fixed_prices",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_fixed_price_laundry_products_products_product_id",
+                        name: "fixed_price_laundry_products_product_id_foreign",
                         column: x => x.product_id,
                         principalTable: "products",
                         principalColumn: "id",
@@ -1205,7 +1204,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     quantity = table.Column<uint>(type: "int unsigned", nullable: false),
-                    price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
+                    price = table.Column<decimal>(type: "decimal(8,2) unsigned", nullable: false),
                     vat_group = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'25'"),
                     has_rut = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
@@ -1261,8 +1260,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     adjustable_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     adjustable_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
-                    previous_price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
-                    price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
+                    previous_price = table.Column<decimal>(type: "decimal(8,2) unsigned", nullable: false),
+                    price = table.Column<decimal>(type: "decimal(8,2) unsigned", nullable: false),
                     vat_group = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'25'"),
                     status = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'pending'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -1388,7 +1387,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     property_type_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     membership_type = table.Column<string>(type: "varchar(255)", nullable: false, defaultValueSql: "'private'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    square_meter = table.Column<decimal>(type: "decimal(8,2)", precision: 8, scale: 2, nullable: false),
+                    square_meter = table.Column<decimal>(type: "decimal(8,2) unsigned", precision: 8, scale: 2, nullable: false),
                     status = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'active'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     key_information = table.Column<string>(type: "json", nullable: true, collation: "utf8mb4_unicode_ci")
@@ -1461,13 +1460,13 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_order_fixed_price_laundry_products", x => new { x.order_fixed_price_id, x.product_id });
                     table.ForeignKey(
-                        name: "FK_order_fixed_price_laundry_products_order_fixed_prices_order_~",
+                        name: "order_fixed_price_laundry_products_order_fixed_price_id_foreign",
                         column: x => x.order_fixed_price_id,
                         principalTable: "order_fixed_prices",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_order_fixed_price_laundry_products_products_product_id",
+                        name: "order_fixed_price_laundry_products_product_id_foreign",
                         column: x => x.product_id,
                         principalTable: "products",
                         principalColumn: "id",
@@ -1488,7 +1487,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     description = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     quantity = table.Column<uint>(type: "int unsigned", nullable: false),
-                    price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
+                    price = table.Column<decimal>(type: "decimal(8,2) unsigned", nullable: false),
                     vat_group = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'25'"),
                     has_rut = table.Column<sbyte>(type: "tinyint", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
@@ -1613,7 +1612,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     id = table.Column<ulong>(type: "bigint unsigned", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     user_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
-                    CustomerId = table.Column<ulong>(type: "bigint unsigned", nullable: true),
+                    customer_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
                     service_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     fixed_price_id = table.Column<ulong>(type: "bigint unsigned", nullable: true),
                     subscribable_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
@@ -1621,23 +1620,24 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     subscribable_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
                     frequency = table.Column<short>(type: "smallint", nullable: false),
                     start_at = table.Column<DateOnly>(type: "date", nullable: false),
-                    EndAt = table.Column<DateOnly>(type: "date", nullable: true),
+                    end_at = table.Column<DateOnly>(type: "date", nullable: true),
                     is_paused = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'0'"),
                     is_fixed = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'0'"),
-                    Description = table.Column<string>(type: "longtext", nullable: true, collation: "utf8mb4_unicode_ci")
+                    description = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                    deleted_at = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PRIMARY", x => x.id);
                     table.ForeignKey(
-                        name: "FK_subscriptions_customers_CustomerId",
-                        column: x => x.CustomerId,
+                        name: "subscriptions_customer_id_foreign",
+                        column: x => x.customer_id,
                         principalTable: "customers",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "subscriptions_fixed_price_id_foreign",
                         column: x => x.fixed_price_id,
@@ -1675,7 +1675,7 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     is_fixed = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "'0'"),
                     description = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    fixed_price = table.Column<decimal>(type: "decimal(8,2)", nullable: true),
+                    fixed_price = table.Column<decimal>(type: "decimal(8,2) unsigned", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     addon_ids = table.Column<string>(type: "json", nullable: true, collation: "utf8mb4_unicode_ci")
@@ -2374,9 +2374,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     note = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     quantity = table.Column<byte>(type: "tinyint unsigned", nullable: false),
-                    price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
+                    price = table.Column<decimal>(type: "decimal(8,2) unsigned", nullable: false),
                     vat_group = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'25'"),
-                    discount = table.Column<decimal>(type: "decimal(8,2)", nullable: false, defaultValueSql: "'0.00'"),
+                    discount = table.Column<decimal>(type: "decimal(8,2) unsigned", nullable: false, defaultValueSql: "'0.00'"),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
                 },
@@ -2447,9 +2447,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     note = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     quantity = table.Column<byte>(type: "tinyint unsigned", nullable: false),
-                    price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
+                    price = table.Column<decimal>(type: "decimal(8,2) unsigned", nullable: false),
                     vat_group = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'25'"),
-                    discount = table.Column<decimal>(type: "decimal(8,2)", nullable: false, defaultValueSql: "'0.00'"),
+                    discount = table.Column<decimal>(type: "decimal(8,2) unsigned", nullable: false, defaultValueSql: "'0.00'"),
                     has_rut = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: true),
                     updated_at = table.Column<DateTime>(type: "timestamp", nullable: true)
@@ -2534,10 +2534,10 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     description = table.Column<string>(type: "text", nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    quantity = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
+                    quantity = table.Column<decimal>(type: "decimal(8,2) unsigned", nullable: false),
                     unit = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
+                    price = table.Column<decimal>(type: "decimal(8,2) unsigned", nullable: false),
                     discount_percentage = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'0'"),
                     vat = table.Column<short>(type: "smallint", nullable: false, defaultValueSql: "'25'"),
                     has_rut = table.Column<bool>(type: "tinyint(1)", nullable: false),
@@ -2809,8 +2809,8 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                     itemable_type = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     itemable_id = table.Column<ulong>(type: "bigint unsigned", nullable: false),
-                    price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
-                    quantity = table.Column<decimal>(type: "decimal(8,2)", nullable: false, defaultValueSql: "'1.00'"),
+                    price = table.Column<decimal>(type: "decimal(8,2) unsigned", nullable: false),
+                    quantity = table.Column<decimal>(type: "decimal(8,2) unsigned", nullable: false, defaultValueSql: "'1.00'"),
                     discount_percentage = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValueSql: "'0'"),
                     payment_method = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, defaultValueSql: "'invoice'", collation: "utf8mb4_unicode_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -3506,9 +3506,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_role_has_permissions_permission_id",
+                name: "IX_role_has_permissions_role_id",
                 table: "role_has_permissions",
-                column: "permission_id");
+                column: "role_id");
 
             migrationBuilder.CreateIndex(
                 name: "roles_name_guard_name_unique",
@@ -3777,9 +3777,9 @@ namespace Downstairs.Infrastructure.Persistence.Migrations
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_subscriptions_CustomerId",
+                name: "subscriptions_customer_id_foreign",
                 table: "subscriptions",
-                column: "CustomerId");
+                column: "customer_id");
 
             migrationBuilder.CreateIndex(
                 name: "subscriptions_fixed_price_id_foreign",

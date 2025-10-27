@@ -53,6 +53,11 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
             .HasColumnType("text")
             .HasColumnName("identity_number");
 
+        entity.Property(e => e.IsCompanyContact)
+            .HasColumnType("tinyint(1)")
+            .HasColumnName("is_company_contact")
+            .HasDefaultValueSql("'0'");
+
         entity.Property(e => e.IdentityNumberVerifiedAt)
             .HasColumnType("timestamp")
             .HasColumnName("identity_number_verified_at");

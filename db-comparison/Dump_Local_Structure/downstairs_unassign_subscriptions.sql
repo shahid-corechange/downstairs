@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
+﻿-- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: downstairs
 -- ------------------------------------------------------
@@ -32,7 +32,7 @@ CREATE TABLE `unassign_subscriptions` (
   `end_at` date DEFAULT NULL,
   `is_fixed` tinyint(1) NOT NULL DEFAULT '0',
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `fixed_price` decimal(8,2) DEFAULT NULL,
+  `fixed_price` decimal(8,2) unsigned DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `addon_ids` json DEFAULT NULL,
@@ -58,4 +58,3 @@ CREATE TABLE `unassign_subscriptions` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-27  8:30:33

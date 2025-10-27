@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
+﻿-- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: downstairs
 -- ------------------------------------------------------
@@ -24,8 +24,8 @@ DROP TABLE IF EXISTS `laundry_preferences`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `laundry_preferences` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `price` decimal(8,2) NOT NULL DEFAULT '0.00',
-  `percentage` decimal(8,2) NOT NULL DEFAULT '0.00',
+  `price` decimal(8,2) unsigned NOT NULL DEFAULT '0.00',
+  `percentage` decimal(8,2) unsigned NOT NULL DEFAULT '0.00',
   `vat_group` tinyint unsigned NOT NULL DEFAULT '25',
   `hours` smallint unsigned NOT NULL,
   `include_holidays` tinyint(1) NOT NULL DEFAULT '0',
@@ -45,4 +45,3 @@ CREATE TABLE `laundry_preferences` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-27  8:30:22
