@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.30.2](https://dev.azure.com/downstairs-service/application/_git/laravel-app/compare/v1.30.1...v1.30.2) (2025-10-27)
+
+
+### Bug Fixes
+
+* false schedule references ([cb4623e](https://dev.azure.com/downstairs-service/application/_git/laravel-app/commit/cb4623ec84eaacd52df06633fb8b90a1dfeb3f39)), closes [#801](https://dev.azure.com/downstairs-service/application/_git/laravel-app/issues/801)
+
+## [1.30.1](https://dev.azure.com/downstairs-service/application/_git/laravel-app/compare/v1.30.0...v1.30.1) (2025-10-24)
+
+
+### Bug Fixes
+
+* change schedule cleaning references in WorkHour model ([c930a7a](https://dev.azure.com/downstairs-service/application/_git/laravel-app/commit/c930a7a10e16edf2bf4526afc913ea53f068bc3b))
+
 ## [1.30.0](https://dev.azure.com/downstairs-service/application/_git/laravel-app/compare/v1.29.0...v1.30.0) (2025-10-24)
 
 

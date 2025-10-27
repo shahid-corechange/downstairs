@@ -1,0 +1,38 @@
+#! /bin/bash
+
+sudo chown -R vscode:vscode /var/run/docker.sock
+git config --global --add safe.directory $PWD
+yarn
+composer install
+echo "alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'" > ~/.bash_aliases
+source ~/.bash_aliases
+
+if [[ -f .env ]]; then
+  line=0
+  while read -r var; do
+    ((line++))
+
+    if [[ -z $var ]]; then
+      continue
+    fi
+
+    key=$(echo $var | cut -d '=' -f1)
+    value=$(echo $var | cut -d '=' -f2)
+
+    if [[ (-z $value || ${value,,} = "null") && -n $(cat .env | grep -Fo "$key=") ]]; then
+      continue
+    else
+      if [[ -z $(cat .env | grep -Fo "$key=") ]]; then
+        sed -i "${line}i$key=$value" .env
+      fi
+    fi
+  done <<< "$(cat .env.example)"
+else
+  cp .env.example .env
+fi
+
+php artisan key:generate
+php artisan ide-helper:generate
+php artisan permissions:sync
+
+npx prettier --write resources/js/constants/permission.ts

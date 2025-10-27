@@ -157,8 +157,8 @@ class Addon extends Model
         return $this->morphToMany(Subscription::class, 'itemable', 'subscription_items');
     }
 
-    public function scheduleCleanings(): MorphToMany
+    public function schedules(): MorphToMany
     {
-        return $this->morphToMany(ScheduleCleaning::class, 'itemable', 'schedule_cleaning_items');
+        return $this->morphToMany(Schedule::class, 'itemable', 'schedule_items');
     }
 }

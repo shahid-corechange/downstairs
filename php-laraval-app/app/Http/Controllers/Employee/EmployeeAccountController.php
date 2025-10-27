@@ -10,9 +10,8 @@ use App\Enums\PermissionsEnum;
 use App\Enums\User\UserStatusEnum;
 use App\Http\Controllers\User\BaseUserController;
 use App\Http\Traits\ResponseTrait;
-use App\Models\Employee;
 use App\Models\Role;
-use App\Models\ScheduleCleaning;
+use App\Models\Schedule;
 use App\Models\SubscriptionStaffDetails;
 use App\Models\User;
 use App\Services\Fortnox\FortnoxEmployeeService;
@@ -207,7 +206,7 @@ class EmployeeAccountController extends BaseUserController
             $user->employee->delete();
             SubscriptionStaffDetails::where('user_id', $user->id)->delete();
 
-            $schedules = ScheduleCleaning::with('scheduleEmployees')
+            $schedules = Schedule::with('scheduleEmployees')
                 ->whereHas('scheduleEmployees', function (Builder $query) use ($user) {
                     $query->where('user_id', $user->id)
                         ->where('status', 'pending');

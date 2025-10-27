@@ -2,7 +2,6 @@
 
 namespace App\Rules;
 
-use App\Models\ScheduleCleaning;
 use App\Models\ScheduleEmployee;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -19,8 +18,7 @@ class WorkerNotAssignToSchedule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $scheduleEmployee = ScheduleEmployee::where('scheduleable_type', ScheduleCleaning::class)
-            ->where('scheduleable_id', $this->schedule_id)
+        $scheduleEmployee = ScheduleEmployee::where('schedule_id', $this->schedule_id)
             ->where('user_id', $value)
             ->first();
 

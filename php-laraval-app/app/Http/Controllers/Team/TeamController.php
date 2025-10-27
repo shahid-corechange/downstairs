@@ -10,7 +10,7 @@ use App\DTOs\Team\UpdateTeamRequestDTO;
 use App\DTOs\User\UserResponseDTO;
 use App\Enums\Azure\BlobStorage\BlobStorageContainerEnum;
 use App\Enums\Azure\BlobStorage\BlobStorageUploadSourceEnum;
-use App\Enums\ScheduleCleaning\ScheduleCleaningStatusEnum;
+use App\Enums\ScheduleEmployee\ScheduleEmployeeStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Subscription;
 use App\Models\Team;
@@ -238,7 +238,7 @@ class TeamController extends Controller
                         array_map(function ($item) {
                             return [
                                 'user_id' => $item,
-                                'status' => ScheduleCleaningStatusEnum::Pending(),
+                                'status' => ScheduleEmployeeStatusEnum::Pending(),
                             ];
                         }, $modifiedSchedules[$schedule->id]['new_user_ids'])
                     );

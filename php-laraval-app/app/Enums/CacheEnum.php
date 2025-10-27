@@ -34,7 +34,6 @@ enum CacheEnum: string
     case CustomerProperties = 'customer-properties';
     case CustomerAddresses = 'customer-addresses';
     case Deviations = 'deviations';
-    case ScheduleCleaningDeviations = 'schedule-cleaning-deviations';
     case Geocodes = 'geocodes';
     case Roles = 'roles';
     case Subscriptions = 'subscriptions';

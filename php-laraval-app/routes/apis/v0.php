@@ -159,7 +159,6 @@ Route::middleware(['localization', 'timezone'])->group(function () {
                             CacheEnum::ScheduleEmployees(),
                             CacheEnum::Notifications(),
                             CacheEnum::Deviations(),
-                            CacheEnum::ScheduleCleaningDeviations(),
                         ))
                         ->middleware('throttle:1,5');
                     Route::post('{schedule}/end', [ScheduleEmployeeController::class, 'end'])
@@ -170,7 +169,6 @@ Route::middleware(['localization', 'timezone'])->group(function () {
                             CacheEnum::Notifications(),
                             CacheEnum::WorkHours(),
                             CacheEnum::Deviations(),
-                            CacheEnum::ScheduleCleaningDeviations(),
                             CacheEnum::Invoices(),
                         ))
                         ->middleware('throttle:1,5');
@@ -180,7 +178,6 @@ Route::middleware(['localization', 'timezone'])->group(function () {
                             CacheEnum::ScheduleCleanings(),
                             CacheEnum::ScheduleEmployees(),
                             CacheEnum::Deviations(),
-                            CacheEnum::ScheduleCleaningDeviations(),
                         ))
                         ->middleware('throttle:1,5');
                 });

@@ -535,7 +535,8 @@ class Schedule extends Model
                 'quantity',
                 'discount_percentage',
                 'payment_method',
-            ]);
+            ])
+            ->withTimestamps();
     }
 
     public function products(): MorphToMany
@@ -546,7 +547,8 @@ class Schedule extends Model
                 'quantity',
                 'discount_percentage',
                 'payment_method',
-            ]);
+            ])
+            ->withTimestamps();
     }
 
     /**

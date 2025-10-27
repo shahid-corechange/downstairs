@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\ScheduleCleaning\ScheduleCleaningStatusEnum;
+use App\Enums\Schedule\ScheduleStatusEnum;
 use App\Enums\WorkHour\WorkHourTypeEnum;
 use App\Services\WorkHourService;
 use Illuminate\Database\Eloquent\Builder;
@@ -139,8 +139,8 @@ class WorkHour extends Model
             ->shiftTimezone('Europe/Stockholm')
             ->utc();
 
-        $totalScheduleDeviations = ScheduleCleaningDeviation::unhandled()
-            ->whereHas('scheduleCleaning', function (Builder $query) use ($startAt, $endAt) {
+        $totalScheduleDeviations = ScheduleDeviation::unhandled()
+            ->whereHas('schedule', function (Builder $query) use ($startAt, $endAt) {
                 $query->where('start_at', '>=', $startAt)
                     ->where('end_at', '<=', $endAt)
                     ->whereHas('scheduleEmployees', function (Builder $query) {
@@ -155,7 +155,7 @@ class WorkHour extends Model
 
         $totalEmployeeDeviations = Deviation::unhandled()
             ->where('user_id', $this->user_id)
-            ->whereHas('scheduleCleaning', function (Builder $query) use ($startAt, $endAt) {
+            ->whereHas('schedule', function (Builder $query) use ($startAt, $endAt) {
                 $query->where('start_at', '>=', $startAt)
                     ->where('end_at', '<=', $endAt);
             })
@@ -200,12 +200,12 @@ class WorkHour extends Model
             ->setTimeFromTimeString($this->end_time)
             ->utc();
 
-        $schedules = ScheduleCleaning::whereHas('scheduleEmployees', function (Builder $query) {
+        $schedules = Schedule::whereHas('scheduleEmployees', function (Builder $query) {
             $query->where('user_id', $this->user_id)
                 ->whereNull('work_hour_id')
                 ->whereIn(
                     'status',
-                    [ScheduleCleaningStatusEnum::Done(), ScheduleCleaningStatusEnum::Progress()]
+                    [ScheduleStatusEnum::Done(), ScheduleStatusEnum::Progress()]
                 );
         })
             ->where(function (Builder $query) use ($startOfDay, $startWorkHour, $endWorkHour, $endOfDay) {

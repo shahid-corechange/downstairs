@@ -1,0 +1,138 @@
+{
+  "name": "Downstairs Laravel App",
+  "build": {
+    "context": "..",
+    "dockerfile": "Dockerfile"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "mikestead.dotenv",
+        "amiralizadeh9480.laravel-extra-intellisense",
+        "ryannaddy.laravel-artisan",
+        "onecentlin.laravel5-snippets",
+        "onecentlin.laravel-blade",
+        "esbenp.prettier-vscode",
+        "ms-azuretools.vscode-docker",
+        "eamodio.gitlens",
+        "redhat.vscode-yaml",
+        "bmewburn.vscode-intelephense-client",
+        "MehediDracula.php-namespace-resolver",
+        "mohamedbenhida.laravel-intellisense",
+        "mhutchie.git-graph",
+        "GitHub.copilot"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.indentSize": 2,
+        "editor.detectIndentation": false,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.codeActionsOnSave": {
+          "source.organizeImports": "explicit"
+        },
+        "php.suggest.basic": false,
+        "[php]": {
+          "editor.indentSize": 4,
+          "editor.snippetSuggestions": "bottom"
+        },
+        "intelephense.stubs": [
+          "apache",
+          "bcmath",
+          "bz2",
+          "calendar",
+          "com_dotnet",
+          "Core",
+          "ctype",
+          "curl",
+          "date",
+          "dba",
+          "dom",
+          "enchant",
+          "exif",
+          "FFI",
+          "fileinfo",
+          "filter",
+          "fpm",
+          "ftp",
+          "gd",
+          "gettext",
+          "gmp",
+          "hash",
+          "iconv",
+          "imap",
+          "intl",
+          "json",
+          "ldap",
+          "libxml",
+          "mbstring",
+          "meta",
+          "mysqli",
+          "oci8",
+          "odbc",
+          "openssl",
+          "pcntl",
+          "pcre",
+          "PDO",
+          "pdo_ibm",
+          "pdo_mysql",
+          "pdo_pgsql",
+          "pdo_sqlite",
+          "pgsql",
+          "Phar",
+          "posix",
+          "pspell",
+          "random",
+          "readline",
+          "redis",
+          "Reflection",
+          "session",
+          "shmop",
+          "SimpleXML",
+          "snmp",
+          "soap",
+          "sockets",
+          "sodium",
+          "SPL",
+          "sqlite3",
+          "standard",
+          "superglobals",
+          "sysvmsg",
+          "sysvsem",
+          "sysvshm",
+          "tidy",
+          "tokenizer",
+          "xml",
+          "xmlreader",
+          "xmlrpc",
+          "xmlwriter",
+          "xsl",
+          "Zend OPcache",
+          "zip",
+          "zlib"
+        ],
+        "typescript.preferences.importModuleSpecifier": "shortest",
+        "yaml.schemas": {
+          "https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json": [
+            ".azure-pipelines/**/*.yaml"
+          ]
+        }
+      }
+    }
+  },
+  "mounts": [
+    "type=volume,target=/var/lib/docker",
+    "type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock"
+  ],
+  "postAttachCommand": "/bin/bash .devcontainer/post-attach",
+  "remoteEnv": {
+    "HOST_PROJECT_PATH": "${localWorkspaceFolder}"
+  },
+  "runArgs": [
+    "-e",
+    "GIT_EDITOR=code --wait",
+    "--privileged",
+    "--sysctl=net.ipv6.conf.all.disable_ipv6=1"
+  ],
+  "workspaceMount": "type=bind,source=${localWorkspaceFolder},target=/workspaces/app/",
+  "workspaceFolder": "/workspaces/app/"
+}

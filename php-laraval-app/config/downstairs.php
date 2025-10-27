@@ -6,7 +6,7 @@ use App\Enums\SettingTypeEnum;
 return [
     'apiVersions' => [
         'v0' => '0.21.0',
-        'v1' => '1.30.0',
+        'v1' => '1.30.2',
         'v2' => '2.0.0',
     ],
     'cache' => [

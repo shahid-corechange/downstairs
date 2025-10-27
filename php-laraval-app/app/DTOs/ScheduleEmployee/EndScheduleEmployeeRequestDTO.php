@@ -29,7 +29,7 @@ class EndScheduleEmployeeRequestDTO extends BaseData
             'end_longitude' => 'required|numeric',
             'end_ip' => 'required|string',
             'completed_task_ids' => 'array',
-            'completed_task_ids.*' => 'numeric|exists:schedule_cleaning_tasks,id',
+            'completed_task_ids.*' => 'numeric|exists:schedule_tasks,id',
             'description' => 'string',
         ];
     }

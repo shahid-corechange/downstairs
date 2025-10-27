@@ -15,7 +15,7 @@ use App\Http\Traits\GlobalSettingTrait;
 use App\Http\Traits\ResponseTrait;
 use App\Jobs\BroadcastNotificationJob;
 use App\Models\GlobalSetting;
-use App\Models\ScheduleCleaning;
+use App\Models\Schedule;
 use App\Models\Team;
 use Cache;
 use DB;
@@ -165,7 +165,7 @@ class SystemSettingController extends Controller
             if ($request->value !== $value) {
                 $days = weeks_to_days($request->value);
 
-                ScheduleCleaning::withTrashed()
+                Schedule::withTrashed()
                     ->where('start_at', '>', now()->addDays($days))
                     ->forceDelete();
             }

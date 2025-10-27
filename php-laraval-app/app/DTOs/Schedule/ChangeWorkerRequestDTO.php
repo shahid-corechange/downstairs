@@ -14,7 +14,7 @@ class ChangeWorkerRequestDTO extends BaseData
     public function __construct(
         #[Rule(['required', 'numeric', 'exists:users,id', new Worker()])]
         public int $user_id,
-        #[Rule('required|numeric|exists:schedule_cleanings,id')]
+        #[Rule('required|numeric|exists:schedules,id')]
         public int $schedule_id,
         #[Rule('required|numeric|exists:schedule_employees,id')]
         public int $schedule_employee_id
